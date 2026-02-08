@@ -5,7 +5,7 @@
 <title>E-SPES Login</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="{{ asset('css/login.css') }}">
+<link rel="stylesheet" href="{{ asset('css/forgotpassverify.css') }}">
 
 </head>
 <body>
@@ -23,42 +23,24 @@
 <!-- maincon -->
 <div class="main">
   <div class="login-card">
-    <h2>Sign In</h2>
-    <p>Enter your credentials to access the system</p>
+    <h2>Forgot your password?</h2>
+    <p>Enter your registered email address. We'll send you a 6-digit verification code</p>
 
     <div class="input-group">
-      <label>Username or ID</label>
+      <label>Registered Email</label>
       <div class="input-wrapper">
-        <i class="fa-solid fa-user"></i>
-        <input type="text" placeholder="Enter your username or ID">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="text" placeholder="Enter your registered email">
       </div>
     </div>
 
-    <div class="input-group">
-      <label>Password</label>
-      <div class="input-wrapper">
-        <i class="fa-solid fa-lock"></i>
-        <input 
-          type="password" 
-          id="password"
-          class="password-input"
-          placeholder="Enter your password"
-        >
-        <i 
-          class="fa-solid fa-eye eye"
-          id="togglePassword"
-          onclick="togglePassword()"
-        ></i>
-      </div>
-    </div>
-
-    <button class="login-btn" onclick="validateLogin()">LOGIN</button>
+    <button class="login-btn" onclick="validateLogin()">SEND VERIFICATION CODE</button>
 
     <!-- alert authen msg-->
     <div id="authMessage"></div>
 
     <div class="links">
-      <a href="{{ url('/forgot-password') }}">Forgot Password?</a>
+      <a href="{{ url('/login') }}">Back to Login</a>
       <a href="#">Need Help?</a>
     </div>
   </div>

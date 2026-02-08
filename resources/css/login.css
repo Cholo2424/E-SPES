@@ -1,0 +1,170 @@
+* {
+box-sizing: border-box;
+font-family: 'Inter', sans-serif;
+}
+
+body {
+margin: 0;
+background: #F6F6F6;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+}
+
+/* header */
+.header {
+background: #242242;
+color: white;
+padding: 15px 40px;
+display: flex;
+align-items: center;
+gap: 15px;
+}
+
+.header img {
+width: 45px;
+height: 45px;
+object-fit: contain;
+}
+
+.header-text h1 {
+margin: 0;
+font-size: 18px;
+}
+
+.header-text p {
+font-size: 12px;
+opacity: 0.9;
+}
+
+.subtitle {
+font-style: italic;
+}
+
+/* center */
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* login */
+.login-card {
+  background: #fff;
+  width: 505px;
+  padding: 40px;
+  border-radius: 17px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  text-align: center;
+}
+
+.login-card h2 {
+  margin-bottom: 2px;
+}
+
+.login-card p {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* input */
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  font-size: 13px;
+  color: #666;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  padding: 17px;
+  margin-top: 3px;
+}
+
+/*.input-wrapper i {
+  color: #555;
+  margin-right: 10px;
+} OLD*/
+
+.input-wrapper i {
+  color: #000;     
+  margin-right: 10px;
+  font-size: 20px;    /* icon size size */
+}
+
+.input-wrapper input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+}
+
+.eye {
+  cursor: pointer;
+  color: #777;
+}
+
+.password-input {
+  font-size: 16px;
+  color: #777;
+}
+
+/* button*/
+.login-btn {
+  width: 100%;
+  padding: 17px;
+  margin-top: 10px;
+  background: #242242;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: #2f256c;
+}
+
+/* links */
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+.links a {
+  text-decoration: none;
+  color: #3f51b5;
+}
+
+/* footer */
+.footer {
+  background: #242242;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 10px;
+}
+
+/* auth message */
+#authMessage {
+  display: none;
+  margin-top: 15px;
+  padding: 17px;
+  background-color: #8AFFAE;
+  color: #01782D;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: left;
+}
