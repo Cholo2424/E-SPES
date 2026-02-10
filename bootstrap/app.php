@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Register middleware alias
+        $middleware->alias([
+            'coordinator' => \App\Http\Middleware\EnsureUserIsCoordinator::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

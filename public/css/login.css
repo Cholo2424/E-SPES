@@ -160,11 +160,12 @@ font-style: italic;
 /* auth message */
 #authMessage {
   display: none;
-  margin-top: 15px;
-  padding: 17px;
+  margin-top: 20px;
+  padding: 15px;
   background-color: #8AFFAE;
   color: #01782D;
-  border-radius: 5px;
-  font-size: 14px;
-  text-align: left;
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: center;
+  font-weight: 500;
 }
