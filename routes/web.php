@@ -10,6 +10,6 @@ Route::get('/forgot-password', function () {
     return view('forgotpass'); // resources/views/forgotpass.blade.php
 });
 
-Route::get('/forgotpass-verifcode', function () {
-    return view('forgotpass-verifcode'); // resources/views/forgotpass-verifcode.blade.php
+Route::get('/forgotpassverifycode', function () {
+    return view('forgotpassverifycode');
 });

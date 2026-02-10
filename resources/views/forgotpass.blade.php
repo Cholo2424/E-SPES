@@ -41,9 +41,12 @@
 
     <div class="links">
       <a href="{{ url('/login') }}">Back to Login</a>
-      <a href="{{ url('/forgotpass-verifcode') }}">Need Help?</a>
+      <a href="{{ url('/forgotpassverifycode') }}">Need Help?</a>
     </div>
   </div>
+  <div class="lowerlink">
+<p>Remembered you password? <a href="{{ url('/login') }}">Back to login.</a></p>
+</div>
 </div>
 
 <!-- footer -->

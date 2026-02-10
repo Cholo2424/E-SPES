@@ -5,7 +5,7 @@
 <title>E-SPES Login</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="{{ asset('css/forgotpassverify.css') }}">
+<link rel="stylesheet" href="{{ asset('css/forgotpass-verifcode.css') }}">
 
 </head>
 <body>
@@ -27,21 +27,21 @@
     <p>Enter your registered email address. We'll send you a 6-digit verification code</p>
 
     <div class="input-group">
-      <label>Registered Email</label>
+      <label>Verification Code</label>
       <div class="input-wrapper">
-        <i class="fa-solid fa-envelope"></i>
-        <input type="text" placeholder="Enter your registered email">
+        <i class="fa-solid fa-question-circle"></i>
+        <input type="text" placeholder="Enter verification code">
       </div>
     </div>
 
-    <button class="login-btn" onclick="validateLogin()">SEND VERIFICATION CODE</button>
+    <button class="login-btn" onclick="validateLogin()">VERIFY CODE</button>
 
     <!-- alert authen msg-->
     <div id="authMessage"></div>
 
     <div class="links">
       <a href="{{ url('/login') }}">Back to Login</a>
-      <a href="#">Need Help?</a>
+      <a href="{{ url('/forgotpass-verifcode') }}">Need Help?</a>
     </div>
   </div>
 </div>

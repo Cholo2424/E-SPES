@@ -148,6 +148,18 @@ font-style: italic;
   color: #3f51b5;
 }
 
+.lowerlink {
+  text-align: center;  /* center the text */
+  margin-top: 20px;    /* space between login card and this link */
+  font-size: 12px;
+}
+
+.lowerlink a {
+  text-decoration: none;
+  color: #3f51b5;
+  margin-left: 5px;
+}
+
 /* footer */
 .footer {
   background: #242242;
