@@ -26,41 +26,79 @@
     <h2>Sign In</h2>
     <p>Enter your credentials to access the system</p>
 
-    <div class="input-group">
-      <label>Username or ID</label>
-      <div class="input-wrapper">
-        <i class="fa-solid fa-user"></i>
-        <input type="text" placeholder="Enter your username or ID">
+    <!-- Login Form -->
+    <form method="POST" action="{{ route('login.post') }}" id="loginForm">
+      @csrf
+
+      <div class="input-group">
+        <label>Email Address</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-envelope"></i>
+          <input 
+            type="email" 
+            name="email" 
+            value="{{ old('email') }}"
+            placeholder="Enter your email address"
+            required
+            autofocus
+          >
+        </div>
+        @error('email')
+        <span style="color: #AB1C4E; font-size: 12px; display: block; margin-top: 5px;">
+          {{ $message }}
+        </span>
+        @enderror
       </div>
-    </div>
 
-    <div class="input-group">
-      <label>Password</label>
-      <div class="input-wrapper">
-        <i class="fa-solid fa-lock"></i>
-        <input 
-          type="password" 
-          id="password"
-          class="password-input"
-          placeholder="Enter your password"
-        >
-        <i 
-          class="fa-solid fa-eye eye"
-          id="togglePassword"
-          onclick="togglePassword()"
-        ></i>
+      <div class="input-group">
+        <label>Password</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-lock"></i>
+          <input 
+            type="password" 
+            id="password"
+            name="password"
+            class="password-input"
+            placeholder="Enter your password"
+            required
+          >
+          <i 
+            class="fa-solid fa-eye eye"
+            id="togglePassword"
+            onclick="togglePassword()"
+          ></i>
+        </div>
+        @error('password')
+        <span style="color: #AB1C4E; font-size: 12px; display: block; margin-top: 5px;">
+          {{ $message }}
+        </span>
+        @enderror
       </div>
-    </div>
 
-    <button class="login-btn" onclick="validateLogin()">LOGIN</button>
-
-    <!-- alert authen msg-->
-    <div id="authMessage"></div>
+      <button type="submit" class="login-btn">LOGIN</button>
+    </form>
 
     <div class="links">
-      <a href="{{ url('/forgot-password') }}">Forgot Password?</a>
+      <a href="{{ route('password.request') }}">Forgot Password?</a>
       <a href="#">Need Help?</a>
     </div>
+
+    <!-- Display Success Messages -->
+    @if(session('success'))
+    <div style="padding: 15px; margin-top: 20px; background-color: #8AFFAE; color: #01782D; border-radius: 8px; font-size: 13px; text-align: center; font-weight: 500;">
+      {{ session('success') }}
+    </div>
+    @endif
+
+    <!-- Display Error Messages -->
+    @if(session('error'))
+    <div style="padding: 15px; margin-top: 20px; background-color: #FEE3E3; color: #AB1C4E; border-radius: 8px; font-size: 13px; text-align: center; font-weight: 500;">
+      {{ session('error') }}
+    </div>
+    @endif
+
+    <!-- Loading message container -->
+    <div id="authMessage"></div>
   </div>
 </div>
 
@@ -85,38 +123,22 @@ function togglePassword() {
   }
 }
 
-// alert
-function validateLogin() {
-  const username = document.querySelector('.input-wrapper input[type="text"]').value.trim();
-  const password = document.getElementById('password').value.trim();
+// Show loading message on form submit
+document.getElementById('loginForm')?.addEventListener('submit', function() {
   const authMessage = document.getElementById('authMessage');
-
-  if (username === "" || password === "") {
+  if (authMessage) {
     authMessage.style.display = "block";
-    authMessage.style.backgroundColor = "#FEE3E3"; 
-    authMessage.style.color = "#AB1C4E"; 
-    authMessage.textContent = "Please fill in both Username and Password.";
-    return false;
+    authMessage.style.backgroundColor = "#D4EDFF";
+    authMessage.style.color = "#0066CC";
+    authMessage.style.padding = "15px";
+    authMessage.style.borderRadius = "8px";
+    authMessage.style.marginTop = "20px";
+    authMessage.style.fontSize = "13px";
+    authMessage.style.textAlign = "center";
+    authMessage.style.fontWeight = "500";
+    authMessage.textContent = "Authenticating...";
   }
-
-  // Show authenticating message
-  authMessage.style.display = "block";
-  authMessage.style.backgroundColor = "#8AFFAE"; 
-  authMessage.style.color = "#01782D";
-  authMessage.textContent = "Authenticating...";
-
-  setTimeout(() => {
-    if (username === "admin" && password === "1234") {
-      authMessage.style.backgroundColor = "#8AFFAE";
-      authMessage.style.color = "#01782D";
-      authMessage.textContent = "Login Successful! Redirecting to the system…";
-    } else {
-      authMessage.style.backgroundColor = "#FEE3E3"; 
-      authMessage.style.color = "#AB1C4E";
-      authMessage.textContent = "Invalid credentials. Please try again.";
-    }
-  }, 2000);
-}
+});
 </script>
 
 </body>
