@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-SPES Create New Password</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #F6F6F6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 46px;
+}
+
+/* header */
+.header {
+  background: #242242;
+  color: white;
+  padding: 12px 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.header-text p {
+  margin: 2px 0 0;
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.subtitle {
+  font-style: italic;
+}
+
+/* center */
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* login */
+.login-card {
+  background: #fff;
+  width: 420px;
+  padding: 35px;
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.login-card h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  color: #242242;
+}
+
+.login-card p {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 20px 0;
+}
+
+/* input */
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  font-size: 13px;
+  color: #666;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  padding: 17px;
+  margin-top: 3px;
+}
+
+.input-wrapper i {
+  color: #000;
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.input-wrapper input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+}
+
+.eye {
+  cursor: pointer;
+  color: #777;
+}
+
+.password-input {
+  font-size: 16px;
+  color: #777;
+}
+
+/* button */
+.login-btn {
+  width: 100%;
+  padding: 17px;
+  margin-top: 10px;
+  background: #242242;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: #2f256c;
+}
+
+/* links */
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+.links a {
+  text-decoration: none;
+  color: #3f51b5;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* password strength & requirements */
+.info-box {
+  background: #f8f8f8;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.info-box-title {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #242242;
+}
+
+.info-box-list {
+  margin: 0;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.req-item {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 400;
+  transition: 0.2s;
+}
+
+.req-item-last {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 0;
+  font-weight: 400;
+  transition: 0.2s;
+}
+
+.strength-indicator {
+  margin-bottom: 20px;
+  display: none;
+  text-align: left;
+}
+
+.strength-bars {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.strength-bar {
+  height: 4px;
+  flex: 1;
+  background: #e0e0e0;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.strength-text {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+/* footer */
+.footer {
+  background: #242242;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 9px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 400;
+}
+
+/* auth message */
+#authMessage {
+  display: none;
+  margin-top: 20px;
+  padding: 12px 15px;
+  background-color: #8AFFAE;
+  color: #01782D;
+  border-radius: 6px;
+  border-left: 4px solid #01782D;
+  font-size: 13px;
+  text-align: left;
+  position: relative;
+  animation: slideIn 0.3s ease;
+}
+
+#authMessage .close-alert {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  color: #01782D;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+#authMessage .close-alert:hover {
+  opacity: 1;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* hide scrollbars */
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Need Help Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.18);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+  padding: 44px 56px 36px 56px;
+  min-width: 420px;
+  max-width: 98vw;
+  width: 540px;
+  position: relative;
+  text-align: left;
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 22px;
+  color: #222;
+  cursor: pointer;
+  font-weight: 600;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.modal-close:hover {
+  opacity: 1;
+}
+
+.modal-content h3 {
+  margin: 0 0 14px 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #242242;
+  letter-spacing: 0.5px;
+}
+
+.modal-content .modal-desc {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 22px;
+}
+
+.modal-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modal-links li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 13px;
+  font-size: 15px;
+}
+
+.modal-links li:last-child {
+  margin-bottom: 0;
+}
+
+.modal-links li i {
+  width: 22px;
+  color: #222;
+}
+
+.modal-links li a {
+  color: #222;
+  text-decoration: none;
+}
+
+/* mobile responsive */
+@media (max-width: 720px) {
+  .header {
+    padding: 10px 20px;
+    gap: 10px;
+  }
+
+  .header img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-text h1 {
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .header-text p {
+    font-size: 9px;
+  }
+
+  .main {
+    padding: 15px 12px;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 330px;
+    padding: 28px;
+    margin: 15px auto;
+  }
+
+  .login-card h2 {
+    font-size: 18px;
+    margin: 0 0 7px 0;
+  }
+
+  .login-card p {
+    font-size: 11px;
+    margin: 0 0 16px 0;
+  }
+
+  .input-group {
+    margin-bottom: 13px;
+  }
+
+  .input-group label {
+    font-size: 11px;
+  }
+
+  .input-wrapper {
+    padding: 14px;
+    margin-top: 3px;
+  }
+
+  .input-wrapper i {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+
+  .input-wrapper input {
+    font-size: 12px;
+  }
+
+  .login-btn {
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 12px;
+  }
+
+  .links {
+    margin-top: 13px;
+    font-size: 10px;
+  }
+
+  #authMessage {
+    padding: 10px 12px;
+    font-size: 11px;
+    margin-top: 16px;
+  }
+
+  .close-alert {
+    font-size: 14px;
+    right: 10px;
+  }
+
+  .footer {
+    padding: 8px;
+    font-size: 8px;
+  }
+
+  .modal-content {
+    min-width: unset;
+    width: 90vw;
+    padding: 30px 24px 24px 24px;
+  }
+
+  .modal-content h3 {
+    font-size: 18px;
+  }
+
+  .modal-links li {
+    font-size: 13px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!--header-->
+<div class="header">
+  <a href="login.html"><img src="spesLogo.png" alt="SPES Logo"></a>
+  <div class="header-text">
+    <h1>Special Program for the Employment of Students</h1>
+    <p class="subtitle">SPES Beneficiaries Management Information System</p>
+  </div>
+</div>
+
+<!-- maincon -->
+<div class="main">
+  <div class="login-card">
+    <h2>Create new password</h2>
+    <p>Enter your new password below.</p>
+
+    <!-- Password Requirements Guide -->
+    <div class="info-box">
+      <p class="info-box-title">Password Requirements:</p>
+      <ul class="info-box-list">
+        <li id="req-length" class="req-item">At least 8 characters long</li>
+        <li id="req-uppercase" class="req-item">Contains uppercase letter (A-Z)</li>
+        <li id="req-lowercase" class="req-item">Contains lowercase letter (a-z)</li>
+        <li id="req-number" class="req-item">Contains number (0-9)</li>
+        <li id="req-special" class="req-item-last">Contains special character (!@#$%^&*)</li>
+      </ul>
+    </div>
+
+    <div class="input-group">
+      <label>New Password</label>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-lock"></i>
+        <input 
+          type="password" 
+          id="newPassword"
+          class="password-input"
+          placeholder="Enter your new password"
+          oninput="checkPasswordStrength()"
+        >
+        <i 
+          class="fa-solid fa-eye eye"
+          id="toggleNewPassword"
+          onclick="togglePasswordVisibility('newPassword', 'toggleNewPassword')"
+        ></i>
+      </div>
+    </div>
+
+    <!-- Password Strength Indicator -->
+    <div id="strength-indicator" class="strength-indicator">
+      <div class="strength-bars">
+        <div id="strength-bar-1" class="strength-bar"></div>
+        <div id="strength-bar-2" class="strength-bar"></div>
+        <div id="strength-bar-3" class="strength-bar"></div>
+        <div id="strength-bar-4" class="strength-bar"></div>
+      </div>
+      <p id="strength-text" class="strength-text"></p>
+    </div>
+
+    <div class="input-group">
+      <label>Confirm Password</label>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-lock"></i>
+        <input 
+          type="password" 
+          id="confirmPassword"
+          class="password-input"
+          placeholder="Confirm your password"
+        >
+        <i 
+          class="fa-solid fa-eye eye"
+          id="toggleConfirmPassword"
+          onclick="togglePasswordVisibility('confirmPassword', 'toggleConfirmPassword')"
+        ></i>
+      </div>
+    </div>
+
+    <button class="login-btn" onclick="resetPassword()">RESET PASSWORD</button>
+
+    <!-- alert authen msg-->
+    <div id="authMessage">
+      <span id="authText"></span>
+      <span class="close-alert" onclick="closeAlert()">&times;</span>
+    </div>
+
+    <div class="links">
+      <a href="login.html">Back to login.</a>
+      <a href="#" onclick="openHelpModal(event)">Need Help?</a>
+    </div>
+  </div>
+</div>
+
+<!-- Need Help Modal -->
+<div id="helpModal" class="modal">
+  <div id="helpModalContent" class="modal-content">
+    <span class="modal-close" onclick="closeHelpModal()">&times;</span>
+    <h3>Need Help?</h3>
+    <div class="modal-desc">For assistance, please contact our support team:</div>
+    <ul class="modal-links">
+      <li>
+        <i class="fa-brands fa-facebook"></i>
+        <a href="https://facebook.com/espes.support" target="_blank">facebook.com/espes.support</a>
+      </li>
+      <li>
+        <i class="fa-solid fa-envelope"></i>
+        <a href="mailto:espes.support@ccc.edu.ph">espes.support@ccc.edu.ph</a>
+      </li>
+      <li>
+        <i class="fa-solid fa-phone"></i>
+        <a href="tel:+639123456789">+63 912 345 6789</a>
+      </li>
+      <li>
+        <i class="fa-solid fa-globe"></i>
+        <a href="https://www.ccc.edu.ph" target="_blank">www.ccc.edu.ph</a>
+      </li>
+      <li>
+        <i class="fa-solid fa-location-dot"></i>
+        <a href="https://maps.google.com/?q=District+Real,+Calamba+City,+Laguna" target="_blank">District Real, Calamba City, Laguna</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- footer -->
+<div class="footer">
+  Copyright &copy; 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<script>
+function togglePasswordVisibility(inputId, iconId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(iconId);
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+  } else {
+    input.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+  }
+}
+
+function closeAlert() {
+  document.getElementById("authMessage").style.display = "none";
+}
+
+const RESET_API_CANDIDATES = [
+  'http://127.0.0.1:8000',
+  'http://localhost:8000',
+  'http://127.0.0.1:8001',
+  'http://localhost:8001'
+];
+let ACTIVE_RESET_API_BASE = RESET_API_CANDIDATES[0];
+
+function resetApiPriority(){
+  return [ACTIVE_RESET_API_BASE].concat(RESET_API_CANDIDATES.filter(base => base !== ACTIVE_RESET_API_BASE));
+}
+
+async function fetchResetApi(path, options){
+  const opts = options || {};
+  let lastError = null;
+
+  for(const base of resetApiPriority()){
+    try {
+      const response = await fetch(`${base}${path}`, opts);
+      if(response.status === 404){
+        lastError = new Error(`API endpoint not found on ${base}`);
+        continue;
+      }
+      ACTIVE_RESET_API_BASE = base;
+      return response;
+    } catch(err){
+      lastError = err;
+    }
+  }
+
+  throw lastError || new Error('Cannot connect to backend');
+}
+
+function resetPassword() {
+  const newPassword = document.getElementById('newPassword').value.trim();
+  const confirmPassword = document.getElementById('confirmPassword').value.trim();
+  const authMessage = document.getElementById('authMessage');
+  const authText = document.getElementById('authText');
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get('email') || sessionStorage.getItem('reset_email') || '';
+  const resetToken = params.get('token') || sessionStorage.getItem('reset_token') || '';
+
+  if (newPassword === "" || confirmPassword === "") {
+    authMessage.style.display = "block";
+    authMessage.style.backgroundColor = "#FEE3E3";
+    authMessage.style.color = "#AB1C4E";
+    authMessage.style.borderLeftColor = "#AB1C4E";
+    authText.textContent = "Please fill in both password fields.";
+    return false;
+  }
+
+  if (newPassword.length < 8) {
+    authMessage.style.display = "block";
+    authMessage.style.backgroundColor = "#FEE3E3";
+    authMessage.style.color = "#AB1C4E";
+    authMessage.style.borderLeftColor = "#AB1C4E";
+    authText.textContent = "Password must be at least 8 characters long.";
+    return false;
+  }
+
+  const hasUppercase = /[A-Z]/.test(newPassword);
+  const hasLowercase = /[a-z]/.test(newPassword);
+  const hasNumber = /[0-9]/.test(newPassword);
+  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
+  if (!hasUppercase || !hasLowercase || !hasNumber || !hasSpecial) {
+    authMessage.style.display = "block";
+    authMessage.style.backgroundColor = "#FEE3E3";
+    authMessage.style.color = "#AB1C4E";
+    authMessage.style.borderLeftColor = "#AB1C4E";
+    authText.textContent = "Password must contain uppercase, lowercase, number, and special character.";
+    return false;
+  }
+
+  if (newPassword !== confirmPassword) {
+    authMessage.style.display = "block";
+    authMessage.style.backgroundColor = "#FEE3E3";
+    authMessage.style.color = "#AB1C4E";
+    authMessage.style.borderLeftColor = "#AB1C4E";
+    authText.textContent = "Passwords do not match.";
+    return false;
+  }
+
+  authMessage.style.display = "block";
+  authMessage.style.backgroundColor = "#8AFFAE";
+  authMessage.style.color = "#01782D";
+  authMessage.style.borderLeftColor = "#01782D";
+  authText.textContent = "Resetting password...";
+
+  if (email === "" || resetToken === "") {
+    authMessage.style.backgroundColor = "#FEE3E3";
+    authMessage.style.color = "#AB1C4E";
+    authMessage.style.borderLeftColor = "#AB1C4E";
+    authText.textContent = "Reset session expired. Please restart forgot password.";
+    return false;
+  }
+
+  fetchResetApi('/api/forgot-password/reset', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      email,
+      reset_token: resetToken,
+      password: newPassword,
+      password_confirmation: confirmPassword
+    })
+  })
+    .then(async response => {
+      const payload = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(payload.message || 'Password reset failed');
+      }
+
+      sessionStorage.removeItem('reset_token');
+      sessionStorage.removeItem('reset_email');
+
+      authMessage.style.backgroundColor = "#8AFFAE";
+      authMessage.style.color = "#01782D";
+      authMessage.style.borderLeftColor = "#01782D";
+      authText.textContent = payload.message || "Password reset successful";
+
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 1200);
+    })
+    .catch(error => {
+      authMessage.style.backgroundColor = "#FEE3E3";
+      authMessage.style.color = "#AB1C4E";
+      authMessage.style.borderLeftColor = "#AB1C4E";
+      authText.textContent = error.message || 'Password reset failed';
+    });
+}
+
+function checkPasswordStrength() {
+  const password = document.getElementById('newPassword').value;
+  const strengthIndicator = document.getElementById('strength-indicator');
+  const strengthBars = [
+    document.getElementById('strength-bar-1'),
+    document.getElementById('strength-bar-2'),
+    document.getElementById('strength-bar-3'),
+    document.getElementById('strength-bar-4')
+  ];
+  const strengthText = document.getElementById('strength-text');
+
+  const reqLength = document.getElementById('req-length');
+  const reqUppercase = document.getElementById('req-uppercase');
+  const reqLowercase = document.getElementById('req-lowercase');
+  const reqNumber = document.getElementById('req-number');
+  const reqSpecial = document.getElementById('req-special');
+
+  strengthBars.forEach(bar => {
+    bar.style.background = '#e0e0e0';
+  });
+
+  if (password.length === 0) {
+    strengthIndicator.style.display = 'none';
+    strengthText.textContent = '';
+    resetRequirements();
+    return;
+  }
+
+  strengthIndicator.style.display = 'block';
+
+  const hasLength = password.length >= 8;
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasLowercase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  updateRequirement(reqLength, hasLength);
+  updateRequirement(reqUppercase, hasUppercase);
+  updateRequirement(reqLowercase, hasLowercase);
+  updateRequirement(reqNumber, hasNumber);
+  updateRequirement(reqSpecial, hasSpecial);
+
+  let strength = 0;
+  if (hasLength) strength++;
+  if (hasUppercase) strength++;
+  if (hasLowercase) strength++;
+  if (hasNumber) strength++;
+  if (hasSpecial) strength++;
+
+  if (strength === 1) {
+    strengthBars[0].style.background = '#ff4444';
+    strengthText.textContent = 'Very Weak';
+    strengthText.style.color = '#ff4444';
+  } else if (strength === 2) {
+    strengthBars[0].style.background = '#ff8c00';
+    strengthBars[1].style.background = '#ff8c00';
+    strengthText.textContent = 'Weak';
+    strengthText.style.color = '#ff8c00';
+  } else if (strength === 3) {
+    strengthBars[0].style.background = '#ffd700';
+    strengthBars[1].style.background = '#ffd700';
+    strengthBars[2].style.background = '#ffd700';
+    strengthText.textContent = 'Medium';
+    strengthText.style.color = '#ffd700';
+  } else if (strength === 4) {
+    strengthBars[0].style.background = '#4caf50';
+    strengthBars[1].style.background = '#4caf50';
+    strengthBars[2].style.background = '#4caf50';
+    strengthBars[3].style.background = '#4caf50';
+    strengthText.textContent = 'Strong';
+    strengthText.style.color = '#4caf50';
+  } else if (strength === 5) {
+    strengthBars[0].style.background = '#00c853';
+    strengthBars[1].style.background = '#00c853';
+    strengthBars[2].style.background = '#00c853';
+    strengthBars[3].style.background = '#00c853';
+    strengthText.textContent = 'Very Strong';
+    strengthText.style.color = '#00c853';
+  }
+}
+
+function updateRequirement(element, isMet) {
+  if (isMet) {
+    element.style.color = '#4caf50';
+    element.style.fontWeight = '600';
+  } else {
+    element.style.color = '#666';
+    element.style.fontWeight = '400';
+  }
+}
+
+function resetRequirements() {
+  const requirements = [
+    document.getElementById('req-length'),
+    document.getElementById('req-uppercase'),
+    document.getElementById('req-lowercase'),
+    document.getElementById('req-number'),
+    document.getElementById('req-special')
+  ];
+
+  requirements.forEach(req => {
+    req.style.color = '#666';
+    req.style.fontWeight = '400';
+  });
+}
+
+function openHelpModal(e) {
+  e.preventDefault();
+  const modal = document.getElementById('helpModal');
+  modal.style.display = 'flex';
+  setTimeout(() => {
+    modal.addEventListener('mousedown', handleOutsideClick);
+  }, 0);
+}
+
+function closeHelpModal() {
+  const modal = document.getElementById('helpModal');
+  modal.style.display = 'none';
+  modal.removeEventListener('mousedown', handleOutsideClick);
+}
+
+function handleOutsideClick(e) {
+  const content = document.getElementById('helpModalContent');
+  if (content && !content.contains(e.target)) {
+    closeHelpModal();
+  }
+}
+</script>
+
+</body>
+</html>

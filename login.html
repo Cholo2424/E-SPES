@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-SPES Login</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #F6F6F6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 46px;
+}
+
+/* header */
+.header {
+  background: #242242;
+  color: white;
+  padding: 12px 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.header-text p {
+  margin: 2px 0 0;
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.subtitle {
+  font-style: italic;
+}
+
+/* center */
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* login */
+.login-card {
+  background: #fff;
+  width: 420px;
+  padding: 35px;
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.login-card h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  color: #242242;
+}
+
+.login-card p {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 20px 0;
+}
+
+/* input */
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  font-size: 13px;
+  color: #666;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  padding: 17px;
+  margin-top: 3px;
+}
+
+.input-wrapper i {
+  color: #000;
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.input-wrapper input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+}
+
+.eye {
+  cursor: pointer;
+  color: #777;
+}
+
+.password-input {
+  font-size: 16px;
+  color: #777;
+}
+
+/* button */
+.login-btn {
+  width: 100%;
+  padding: 17px;
+  margin-top: 10px;
+  background: #242242;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: #2f256c;
+}
+
+/* links */
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+.links a {
+  text-decoration: none;
+  color: #3f51b5;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* footer */
+.footer {
+  background: #242242;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 9px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 400;
+}
+
+/* auth message */
+#authMessage {
+  display: none;
+  margin-top: 20px;
+  padding: 12px 15px;
+  background-color: #8AFFAE;
+  color: #01782D;
+  border-radius: 6px;
+  border-left: 4px solid #01782D;
+  font-size: 13px;
+  text-align: left;
+  position: relative;
+  animation: slideIn 0.3s ease;
+}
+
+#authMessage .close-alert {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  color: #01782D;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+#authMessage .close-alert:hover {
+  opacity: 1;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* hide scrollbars */
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Need Help Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.18);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+  padding: 44px 56px 36px 56px;
+  min-width: 420px;
+  max-width: 98vw;
+  width: 540px;
+  position: relative;
+  text-align: left;
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 22px;
+  color: #222;
+  cursor: pointer;
+  font-weight: 600;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.modal-close:hover {
+  opacity: 1;
+}
+
+.modal-content h3 {
+  margin: 0 0 14px 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #242242;
+  letter-spacing: 0.5px;
+}
+
+.modal-content .modal-desc {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 22px;
+}
+
+.modal-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modal-links li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 13px;
+  font-size: 15px;
+}
+
+.modal-links li:last-child {
+  margin-bottom: 0;
+}
+
+.modal-links li i {
+  width: 22px;
+  color: #222;
+}
+
+.modal-links li a {
+  color: #222;
+  text-decoration: none;
+}
+
+/* mobile responsive */
+@media (max-width: 720px) {
+  .header {
+    padding: 10px 20px;
+    gap: 10px;
+  }
+
+  .header img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-text h1 {
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .header-text p {
+    font-size: 9px;
+  }
+
+  .main {
+    padding: 15px 12px;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 330px;
+    padding: 28px;
+    margin: 15px auto;
+  }
+
+  .login-card h2 {
+    font-size: 18px;
+    margin: 0 0 7px 0;
+  }
+
+  .login-card p {
+    font-size: 11px;
+    margin: 0 0 16px 0;
+  }
+
+  .input-group {
+    margin-bottom: 13px;
+  }
+
+  .input-group label {
+    font-size: 11px;
+  }
+
+  .input-wrapper {
+    padding: 14px;
+    margin-top: 3px;
+  }
+
+  .input-wrapper i {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+
+  .input-wrapper input {
+    font-size: 12px;
+  }
+
+  .login-btn {
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 12px;
+  }
+
+  .links {
+    margin-top: 13px;
+    font-size: 10px;
+  }
+
+  #authMessage {
+    padding: 10px 12px;
+    font-size: 11px;
+    margin-top: 16px;
+  }
+
+  .close-alert {
+    font-size: 14px;
+    right: 10px;
+  }
+
+  .footer {
+    padding: 8px;
+    font-size: 8px;
+  }
+
+  .modal-content {
+    min-width: unset;
+    width: 90vw;
+    padding: 30px 24px 24px 24px;
+  }
+
+  .modal-content h3 {
+    font-size: 18px;
+  }
+
+  .modal-links li {
+    font-size: 13px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!--header-->
+<div class="header">
+  <a href="login.html"><img src="spesLogo.png" alt="SPES Logo"></a>
+  <div class="header-text">
+    <h1>Special Program for the Employment of Students</h1>
+    <p class="subtitle">SPES Beneficiaries Management Information System</p>
+  </div>
+</div>
+
+<!-- maincon -->
+<div class="main">
+  <div class="login-card">
+    <h2>Sign In</h2>
+    <p>Enter your credentials to access the system</p>
+
+    <div class="input-group">
+      <label>Username or Email</label>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-user"></i>
+        <input type="text" placeholder="Enter your username or email">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-lock"></i>
+        <input 
+          type="password" 
+          id="password"
+          class="password-input"
+          placeholder="Enter your password"
+        >
+        <i 
+          class="fa-solid fa-eye eye"
+          id="togglePassword"
+          onclick="togglePassword()"
+        ></i>
+      </div>
+    </div>
+
+    <button type="button" class="login-btn" onclick="validateLogin()">LOGIN</button>
+
+    <!-- alert authen msg-->
+    <div id="authMessage">
+      <span id="authText"></span>
+      <span class="close-alert" onclick="closeAlert()">&times;</span>
+    </div>
+
+    <div class="links">
+      <a href="forgotPass.html">Forgot Password?</a>
+      <a href="#" onclick="openHelpModal(event)">Need Help?</a>
+    </div>
+  </div>
+</div>
+
+<!-- Need Help Modal -->
+<div id="helpModal" class="modal">
+  <div id="helpModalContent" class="modal-content">
+    <span class="modal-close" onclick="closeHelpModal()">&times;</span>
+    <h3>Need Help?</h3>
+    <div class="modal-desc">For assistance, please contact our support team:</div>
+    <ul class="modal-links">
+      <li>
+        <i class="fa-brands fa-facebook"></i>
+        <a href="https://facebook.com/espes.support" target="_blank">facebook.com/espes.support</a>
+      </li>
+      <li>
+        <i class="fa-solid fa-envelope"></i>
+        <a href="mailto:espes.support@ccc.edu.ph">espes.support@ccc.edu.ph</a>
+      </li>
+      <li>
+        <i class="fa-solid fa-phone"></i>
+        <a href="tel:+639123456789">+63 912 345 6789</a>
+      </li>
+      <li>
+        <i class="fa-solid fa-globe"></i>
+        <a href="https://www.ccc.edu.ph" target="_blank">www.ccc.edu.ph</a>
+      </li>
+      <li>
+        <i class="fa-solid fa-location-dot"></i>
+        <a href="https://maps.google.com/?q=District+Real,+Calamba+City,+Laguna" target="_blank">District Real, Calamba City, Laguna</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- footer -->
+<div class="footer">
+  Copyright &copy; 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<script>
+function togglePassword() {
+  const password = document.getElementById("password");
+  const icon = document.getElementById("togglePassword");
+
+  if (password.type === "password") {
+    password.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+  } else {
+    password.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+  }
+}
+
+function closeAlert() {
+  document.getElementById("authMessage").style.display = "none";
+}
+
+function validateLogin() {
+  const username = document.querySelector('.input-wrapper input[type="text"]').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const loginBtn = document.querySelector('.login-btn');
+  const authMessage = document.getElementById('authMessage');
+  const authText = document.getElementById('authText');
+  const apiCandidates = [
+    'http://127.0.0.1:8001/api/login',
+    'http://localhost:8001/api/login',
+    'http://127.0.0.1:8000/api/login',
+    'http://localhost:8000/api/login'
+  ];
+
+  function fallbackRedirectByRole(role){
+    if(role === 'admin') return 'Coordinator/cDashboard.html';
+    if(role === 'employee') return 'Employee/eDashboard.html';
+    return 'Student/sbDashboard.html';
+  }
+
+  function isLikelyApiJson(response, payload){
+    const contentType = String(response.headers.get('content-type') || '').toLowerCase();
+    if(contentType.includes('application/json')) return true;
+    return payload && typeof payload === 'object' && ('role' in payload || 'redirect' in payload || 'message' in payload);
+  }
+
+  function resolveRedirect(payload){
+    const role = String((payload && payload.role) || '').toLowerCase();
+    const fromApi = String((payload && payload.redirect) || '').trim();
+    const safePath = fromApi !== '' && !/login\.html$/i.test(fromApi) ? fromApi : fallbackRedirectByRole(role);
+    return safePath || 'Student/sbDashboard.html';
+  }
+
+  function toAbsoluteTarget(path){
+    try {
+      return new URL(path, window.location.href).href;
+    } catch (_err) {
+      return path;
+    }
+  }
+
+  function normalizeDashboardTarget(payload){
+    const role = String((payload && payload.role) || '').toLowerCase();
+    const preferred = resolveRedirect(payload);
+    const preferredAbs = toAbsoluteTarget(preferred);
+
+    if (/\/login\.html(?:\?|#|$)/i.test(preferredAbs)) {
+      return toAbsoluteTarget(fallbackRedirectByRole(role));
+    }
+
+    if (preferredAbs === window.location.href) {
+      return toAbsoluteTarget(fallbackRedirectByRole(role));
+    }
+
+    return preferredAbs;
+  }
+
+  async function findReachableDashboardUrl(payload){
+    const baseTarget = normalizeDashboardTarget(payload);
+    const role = String((payload && payload.role) || '').toLowerCase();
+    const roleTarget = toAbsoluteTarget(fallbackRedirectByRole(role));
+    const pathname = window.location.pathname || '/login.html';
+    const pathParts = pathname.split('/').filter(Boolean);
+
+    const prefixCandidates = [''];
+    for (let i = 1; i < pathParts.length; i++) {
+      const prefix = '/' + pathParts.slice(0, i).join('/') + '/';
+      if (!prefixCandidates.includes(prefix)) {
+        prefixCandidates.push(prefix);
+      }
+    }
+
+    try {
+      const ref = document.referrer ? new URL(document.referrer) : null;
+      if (ref && ref.origin === window.location.origin) {
+        const refParts = (ref.pathname || '/').split('/').filter(Boolean);
+        if (refParts.length > 0) {
+          const refPrefix = '/' + refParts[0] + '/';
+          if (!prefixCandidates.includes(refPrefix)) {
+            prefixCandidates.push(refPrefix);
+          }
+        }
+      }
+    } catch (_err) {
+      // ignore malformed referrer
+    }
+
+    const remembered = String(localStorage.getItem('espes_base_prefix') || '').trim();
+    if (remembered !== '' && !prefixCandidates.includes(remembered)) {
+      prefixCandidates.push(remembered);
+    }
+
+    const relTargets = [
+      String(resolveRedirect(payload) || ''),
+      String(fallbackRedirectByRole(role) || ''),
+    ].filter(Boolean);
+
+    const urlCandidates = [baseTarget, roleTarget];
+    relTargets.forEach((rel) => {
+      prefixCandidates.forEach((prefix) => {
+        const cleanPrefix = prefix.endsWith('/') ? prefix : (prefix + '/');
+        const cleanRel = rel.startsWith('/') ? rel.slice(1) : rel;
+        const candidate = window.location.origin + cleanPrefix + cleanRel;
+        if (!urlCandidates.includes(candidate)) {
+          urlCandidates.push(candidate);
+        }
+      });
+    });
+
+    for (const candidate of urlCandidates) {
+      try {
+        const response = await fetch(candidate, { method: 'GET', cache: 'no-store' });
+        if (!response.ok) continue;
+
+        const text = await response.text();
+        const looksLikeLogin = /<h2>\s*Sign In\s*<\/h2>/i.test(text) || /<title>\s*E-SPES Login\s*<\/title>/i.test(text);
+        if (!looksLikeLogin) {
+          try {
+            const u = new URL(candidate);
+            const cp = u.pathname.split('/').filter(Boolean);
+            if (cp.length > 0) {
+              localStorage.setItem('espes_base_prefix', '/' + cp[0] + '/');
+            }
+          } catch (_err2) {
+            // no-op
+          }
+          return candidate;
+        }
+      } catch (_err) {
+        // try next candidate
+      }
+    }
+
+    return baseTarget;
+  }
+
+  if (username === "" || password === "") {
+    authMessage.style.display = "block";
+    authMessage.style.backgroundColor = "#FEE3E3";
+    authMessage.style.color = "#AB1C4E";
+    authMessage.style.borderLeftColor = "#AB1C4E";
+    authText.textContent = "Please fill in both Username and Password.";
+    return false;
+  }
+
+  authMessage.style.display = "block";
+  authMessage.style.backgroundColor = "#8AFFAE";
+  authMessage.style.color = "#01782D";
+  authMessage.style.borderLeftColor = "#01782D";
+  authText.textContent = "Authenticating...";
+  if (loginBtn) loginBtn.disabled = true;
+
+  (async () => {
+    let lastError = null;
+
+    for (const apiUrl of apiCandidates) {
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            email: username,
+            password: password
+          })
+        });
+
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          const msg = payload.message || 'Invalid email or password';
+          if (response.status === 404) {
+            lastError = new Error('Login API not found on ' + apiUrl);
+            continue;
+          }
+          throw new Error(msg);
+        }
+
+        if (!isLikelyApiJson(response, payload)) {
+          lastError = new Error('Invalid login response from ' + apiUrl);
+          continue;
+        }
+
+        authMessage.style.backgroundColor = "#8AFFAE";
+        authMessage.style.color = "#01782D";
+        authMessage.style.borderLeftColor = "#01782D";
+        authText.textContent = "Login successful! Redirecting to dashboard...";
+
+        setTimeout(async () => {
+          authText.textContent = "Login successful! Preparing dashboard...";
+          const target = await findReachableDashboardUrl(payload);
+          localStorage.setItem('espes_last_role', String((payload && payload.role) || 'student'));
+          localStorage.setItem('espes_last_redirect', target);
+          window.location.replace(target);
+        }, 1200);
+        return;
+      } catch (err) {
+        lastError = err;
+      }
+    }
+
+    authMessage.style.backgroundColor = "#FEE3E3";
+    authMessage.style.color = "#AB1C4E";
+    authMessage.style.borderLeftColor = "#AB1C4E";
+    authText.textContent = (lastError && lastError.message) ? lastError.message : "Failed to fetch";
+    if (loginBtn) loginBtn.disabled = false;
+  })();
+}
+
+function openHelpModal(e) {
+  e.preventDefault();
+  const modal = document.getElementById('helpModal');
+  modal.style.display = 'flex';
+  setTimeout(() => {
+    modal.addEventListener('mousedown', handleOutsideClick);
+  }, 0);
+}
+
+function closeHelpModal() {
+  const modal = document.getElementById('helpModal');
+  modal.style.display = 'none';
+  modal.removeEventListener('mousedown', handleOutsideClick);
+}
+
+function handleOutsideClick(e) {
+  const content = document.getElementById('helpModalContent');
+  if (content && !content.contains(e.target)) {
+    closeHelpModal();
+  }
+}
+</script>
+
+</body>
+</html>

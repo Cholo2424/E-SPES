@@ -1,0 +1,4423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-SPES | New SPES</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+body{
+  margin:0;
+  background:#ffffff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-bottom:46px;
+}
+
+/* header */
+.header{
+  background:#242242;
+  color:white;
+  padding:12px 30px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+}
+
+.burger-btn{
+  border:none;
+  background:transparent;
+  color:#ffffff;
+  font-size:20px;
+  width:38px;
+  height:38px;
+  border-radius:6px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.burger-btn:hover{
+  background:rgba(255,255,255,0.12);
+}
+
+.header-text h1{
+  margin:0;
+  font-size:16px;
+}
+
+.header-text p{
+  margin:2px 0 0;
+  font-size:11px;
+  opacity:0.9;
+  font-style:italic;
+}
+
+.header-text{
+  flex:1 1 auto;
+}
+
+/* right side header */
+.header-right{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-info{
+  text-align:right;
+  font-size:12px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.user-info:hover{
+  opacity:0.8;
+}
+
+.avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e5e5e5;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.avatar:hover{
+  background:#d0d0d0;
+}
+
+/* profile dropdown */
+.profile-menu{
+  position:relative;
+}
+
+.profile-dropdown{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:8px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  min-width:150px;
+  display:none;
+  z-index:100;
+}
+
+.profile-dropdown.show{
+  display:block;
+}
+
+.profile-item{
+  padding:12px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+  border:none;
+  background:none;
+  width:100%;
+  text-align:left;
+}
+
+.profile-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.profile-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main wrapper */
+.main-wrapper{
+  flex:1;
+  padding:30px 120px 60px 120px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* breadcrumb */
+.breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:#666;
+  cursor:pointer;
+  margin-bottom:15px;
+}
+
+.breadcrumb i{
+  font-size:12px;
+}
+
+/* top bar with breadcrumb and menu */
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+/* 3-dot menu */
+.menu-dots{
+  position:relative;
+  margin-left:auto;
+}
+
+.dots-btn{
+  background:transparent;
+  border:none;
+  border-radius:4px;
+  padding:6px 12px;
+  cursor:pointer;
+  font-size:18px;
+  color:#666;
+  transition:.2s;
+}
+
+.dots-btn:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-menu{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:5px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  min-width:160px;
+  display:none;
+  z-index:100;
+}
+
+.dropdown-menu.show{
+  display:block;
+}
+
+.dropdown-item{
+  padding:10px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+}
+
+.dropdown-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main*/
+.main{
+  display:flex;
+  gap:11px;
+  flex:1;
+  overflow:hidden;
+}
+
+/* sidebar */
+.sidebar{
+  width:235px; 
+  background:#f3f3f3;
+  border-radius:5px;
+  padding:0px;
+  border:1px solid #d0d0d0;
+  flex-shrink:0;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+  max-height:calc(100vh - 160px);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-profile{
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:16px 14px;
+  border-bottom:1px solid #e1e1e1;
+  background:#ededed;
+}
+
+.sidebar-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#d9d9d9;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+  flex-shrink:0;
+}
+
+.sidebar-user h4{
+  margin:0;
+  font-size:13px;
+  color:#222;
+  font-weight:700;
+}
+
+.sidebar-user p{
+  margin:2px 0 0;
+  font-size:11px;
+  color:#666;
+  font-weight:500;
+}
+
+/* menu */
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:34px 14px;
+  border-radius:6px;
+  font-size:14.5px;
+  color:#666;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.menu-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.menu-item i{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+/* hover */
+.menu-item:hover{
+  background:#e6e6e6;
+}
+
+.menu-item:hover .fa-chevron-right{
+  background:#bfc3c9;
+  color:#666666;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+}
+
+/* keep parent highlighted when hovering submenu */
+.submenu-wrapper > .menu-item:hover{
+  background:#e6e6e6;
+}
+
+/* sidebar menu container */
+.sidebar-menu{
+  flex:1;
+  overflow-y:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+.sidebar-menu::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+
+/* logout menu item */
+.menu-item-logout{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px 20px;
+  border-radius:8px;
+  font-size:15.5px;
+  color:#222;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  text-decoration:none;
+  background:#e4e6eb;
+  border:1px solid #ced0d4;
+  width:calc(100% - 28px);
+  text-align:center;
+  margin-top:30px;
+  margin-bottom:70px;
+  margin-left:14px;
+  margin-right:14px;
+  font-weight:700;
+}
+
+.menu-item-logout:hover{
+  background:#d8dadf;
+  border-color:#bcc0c4;
+}
+
+.menu-item-logout i{
+  width:18px;
+  text-align:center;
+}
+
+/* active */
+.menu-item.active{
+  background:#ffffff;
+  color:rgb(40, 32, 32);
+  border-radius: 0px;
+}
+
+.menu-item.active i{
+  color:rgb(32, 30, 30);
+}
+
+/* arrow rotate for active */
+.menu-item.active .fa-chevron-right{
+  background:#1a1a1a;
+  color:#ffffff;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+  transform:rotate(0deg);
+}
+
+/* arrow down for active SPES Management */
+.menu-item.active.menu-submenu .fa-chevron-right{
+  transform:rotate(90deg);
+}
+
+/* arrow down when hovering SPES Management or submenu */
+.submenu-wrapper > .menu-item:hover .fa-chevron-right{
+  transform:rotate(90deg);
+}
+
+/* submenu styles */
+.submenu-wrapper{
+  position:relative;
+}
+
+.submenu{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.3s ease;
+  background:#e8e8e8;
+}
+
+.submenu-wrapper:hover .submenu{
+  max-height:300px;
+}
+
+.submenu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 14px 18px 45px;
+  font-size:12.5px;
+  color:#555;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  border-left:3px solid transparent;
+}
+
+.submenu-item:hover{
+  background:#d8d8d8;
+}
+
+.submenu-item.active{
+  background:#ffffff;
+  color:#242242;
+  border-left-color:#242242;
+  font-weight:500;
+}
+
+.submenu-item i{
+  font-size:8px;
+  color:#999;
+}
+
+.submenu-item.active i{
+  color:#242242;
+}
+
+/* main content*/
+.content{
+  flex:1;
+  background:#ffffff;
+  border-radius:4px;
+  padding:14px;
+  border:1px solid #d0d0d0;
+  position:relative;
+  overflow-y:hidden;
+  overflow-x:hidden;
+  max-height:calc(100vh - 160px);
+}
+
+.loading-bar{
+  position:absolute;
+  top:44px;
+  left:0;
+  right:0;
+  width:0;
+  height:2px;
+  background:#3b82f6;
+  transition:width 0.8s ease;
+  z-index:5;
+}
+
+.loading-bar.active{
+  width:100%;
+}
+
+/* toolbar */
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+  position:sticky;
+  top:0;
+  z-index:6;
+  background:#ffffff;
+  padding-bottom:10px;
+}
+
+.search-box{
+  flex:1;
+  min-width:250px;
+  position:relative;
+}
+
+.search-box input{
+  width:100%;
+  padding:10px 40px 10px 15px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+}
+
+.search-box i{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#888;
+  cursor:pointer;
+}
+
+.filter-select{
+  padding:10px 35px 10px 15px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  background:#fff;
+  cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+}
+
+.btn-primary{
+  padding:10px 20px;
+  background:#242242;
+  color:white;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:600;
+  transition:.2s;
+  box-shadow:0 1px 3px rgba(0,0,0,0.12);
+}
+
+.btn-primary:hover{
+  background:#363454;
+  box-shadow:0 2px 6px rgba(0,0,0,0.16);
+}
+
+.btn-reject{
+  padding:11px 24px;
+  background:#d32f2f;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:14px;
+  cursor:pointer;
+  font-weight:600;
+  transition:.2s;
+  display:none;
+  letter-spacing:0.3px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.12);
+}
+
+.btn-reject:hover{
+  background:#c62828;
+  box-shadow:0 4px 12px rgba(0,0,0,0.16);
+}
+
+.btn-reject.show{
+  display:block;
+}
+
+.btn-auto-approve{
+  padding:11px 24px;
+  background:#2e7d32;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:14px;
+  cursor:pointer;
+  font-weight:600;
+  transition:.2s;
+  letter-spacing:0.3px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.12);
+}
+
+.btn-auto-approve:hover{
+  background:#1b5e20;
+  box-shadow:0 4px 12px rgba(0,0,0,0.16);
+}
+
+/* slot settings modal */
+.slot-modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  z-index:1100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s;
+}
+.slot-modal-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+.slot-modal-panel{
+  background:#fff;
+  border-radius:8px;
+  width:min(520px,92vw);
+  max-height:85vh;
+  overflow-y:auto;
+  box-shadow:0 8px 30px rgba(0,0,0,0.18);
+  transform:translateY(12px);
+  transition:transform .2s;
+}
+.slot-modal-overlay.show .slot-modal-panel{
+  transform:translateY(0);
+}
+.slot-modal-head{
+  padding:18px 22px;
+  border-bottom:1px solid #eee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.slot-modal-title{
+  margin:0;
+  font-size:16px;
+  font-weight:600;
+  color:#333;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.slot-modal-title i{
+  color:#666;
+}
+.slot-modal-close{
+  width:30px;
+  height:30px;
+  border:none;
+  background:none;
+  cursor:pointer;
+  border-radius:4px;
+  color:#999;
+  font-size:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.15s;
+}
+.slot-modal-close:hover{
+  background:#f0f0f0;
+  color:#333;
+}
+.slot-modal-body{
+  padding:22px;
+}
+.slot-modal-footer{
+  padding:14px 22px;
+  border-top:1px solid #eee;
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+}
+.slot-form-group{
+  margin-bottom:18px;
+}
+.slot-form-group:last-child{
+  margin-bottom:0;
+}
+.slot-form-label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  color:#555;
+  margin-bottom:6px;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+}
+.slot-form-input{
+  width:100%;
+  padding:11px 14px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:14px;
+  font-family:inherit;
+  outline:none;
+  box-sizing:border-box;
+}
+.slot-form-input:focus{
+  border-color:#242242;
+}
+.slot-form-select{
+  width:100%;
+  padding:11px 14px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  background:#fff;
+  color:#333;
+  cursor:pointer;
+  font-family:inherit;
+  box-sizing:border-box;
+}
+.slot-form-select:focus{
+  outline:none;
+  border-color:#242242;
+}
+.slot-form-hint{
+  font-size:11px;
+  color:#999;
+  margin-top:4px;
+  line-height:1.4;
+}
+.slot-summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:18px;
+}
+.slot-summary-card{
+  border:1px solid #e0e0e0;
+  border-radius:6px;
+  padding:12px 14px;
+  background:#f9f9f9;
+  text-align:center;
+}
+.slot-summary-val{
+  font-size:20px;
+  font-weight:700;
+  color:#333;
+}
+.slot-summary-lbl{
+  font-size:10px;
+  color:#888;
+  margin-top:2px;
+  text-transform:uppercase;
+}
+.slot-summary-card.full .slot-summary-val{
+  color:#c62828;
+}
+.slot-toggle-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 14px;
+  border:1px solid #e0e0e0;
+  border-radius:6px;
+  background:#fafafa;
+  margin-bottom:12px;
+}
+.slot-toggle-info{
+  flex:1;
+}
+.slot-toggle-title{
+  font-size:13px;
+  font-weight:600;
+  color:#333;
+  margin-bottom:2px;
+}
+.slot-toggle-desc{
+  font-size:11px;
+  color:#888;
+  line-height:1.4;
+}
+.slot-toggle-switch{
+  position:relative;
+  width:44px;
+  height:24px;
+  flex-shrink:0;
+  margin-left:12px;
+}
+.slot-toggle-switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+.slot-toggle-slider{
+  position:absolute;
+  inset:0;
+  background:#ccc;
+  border-radius:24px;
+  cursor:pointer;
+  transition:.2s;
+}
+.slot-toggle-slider::before{
+  content:'';
+  position:absolute;
+  width:18px;
+  height:18px;
+  left:3px;
+  bottom:3px;
+  background:#fff;
+  border-radius:50%;
+  transition:.2s;
+}
+.slot-toggle-switch input:checked + .slot-toggle-slider{
+  background:#2e7d32;
+}
+.slot-toggle-switch input:checked + .slot-toggle-slider::before{
+  transform:translateX(20px);
+}
+.slot-divider{
+  border:none;
+  border-top:1px solid #eee;
+  margin:18px 0;
+}
+.slot-info-box{
+  padding:12px 14px;
+  background:#f0f7ff;
+  border:1px solid #d0dff0;
+  border-radius:6px;
+  font-size:12px;
+  color:#1565c0;
+  line-height:1.5;
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+}
+.slot-info-box i{
+  margin-top:2px;
+  flex-shrink:0;
+}
+.slot-btn-save{
+  padding:10px 24px;
+  background:#242242;
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+.slot-btn-save:hover{
+  background:#363454;
+}
+.slot-btn-cancel{
+  padding:10px 20px;
+  background:#fff;
+  color:#555;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  transition:.15s;
+}
+.slot-btn-cancel:hover{
+  background:#f5f5f5;
+}
+.slot-criteria-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:8px;
+}
+.slot-criteria-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border:1px solid #e0e0e0;
+  border-radius:4px;
+  background:#fff;
+  font-size:12px;
+  color:#333;
+}
+.slot-criteria-item i{
+  color:#2e7d32;
+  font-size:13px;
+  flex-shrink:0;
+}
+.slot-criteria-item.disabled{
+  opacity:.5;
+  background:#f5f5f5;
+}
+.slot-criteria-item.disabled i{
+  color:#999;
+}
+
+/* slot info */
+.slot-info{
+  padding:8px 12px;
+  background:#ffffff;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:600;
+  color:#333;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.slot-info i{
+  color:#666;
+  font-size:13px;
+}
+
+.refresh-btn{
+  padding:10px 12px;
+  border:1px solid #d0d0d0;
+  background:white;
+  border-radius:4px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.refresh-btn:hover{
+  background:#f5f5f5;
+}
+
+.refresh-btn:active{
+  transform:scale(0.95);
+}
+
+/* table */
+.table-container{
+  overflow:auto;
+  margin-bottom:20px;
+  position:relative;
+  max-height:calc(100vh - 340px);
+}
+
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
+.data-table th{
+  background:#f8f8f8;
+  padding:12px 10px;
+  text-align:left;
+  font-weight:600;
+  color:#555;
+  border-bottom:2px solid #d0d0d0;
+  white-space:nowrap;
+  position:sticky;
+  top:0;
+  z-index:3;
+}
+
+.data-table th.checkbox-column,
+.data-table td.checkbox-column{
+  width:40px;
+  text-align:center;
+  padding:12px 8px;
+}
+
+.select-checkbox{
+  width:16px;
+  height:16px;
+  cursor:pointer;
+  accent-color:#242242;
+}
+
+.select-all-label{
+  font-size:10px;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  line-height:1.2;
+}
+
+.data-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #f0f0f0;
+}
+
+.data-table tbody tr:hover{
+  background:#fafafa;
+}
+
+.applicant-name{
+  font-weight:500;
+  color:#333;
+  display:block;
+  margin-bottom:2px;
+}
+
+.applicant-name.flagged {
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+.row-flagged {
+  background: #ffebee !important;
+}
+
+.row-flagged:hover {
+  background: #ffcdd2 !important;
+}
+
+.flag-icon {
+  color: #d32f2f;
+  font-size: 11px;
+  margin-left: 6px;
+  animation: flagPulse 2s infinite;
+}
+
+@keyframes flagPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.applicant-email{
+  color:#888;
+  font-size:11px;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:3px;
+  font-size:11px;
+  font-weight:500;
+}
+
+.badge-online{
+  background:#e8f4f8;
+  color:#0288d1;
+}
+
+.badge-walkin{
+  background:#fff3e0;
+  color:#f57c00;
+}
+
+.badge-pending{
+  background:#f5f5f5;
+  color:#666;
+}
+
+.badge-approved{
+  background:#000;
+  color:#fff;
+}
+
+.badge-rejected{
+  background:#ffebee;
+  color:#c62828;
+}
+
+.stats-card {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 140px;
+}
+
+.stats-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.stats-icon.pending {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.stats-icon.approved {
+  background: #000;
+  color: #fff;
+}
+
+.stats-icon.rejected {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.stats-icon.flagged {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.stats-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-label {
+  font-size: 11px;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stats-count {
+  font-size: 20px;
+  font-weight: 700;
+  color: #242242;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.action-btn{
+  width:28px;
+  height:28px;
+  border-radius:4px;
+  border:1px solid #d0d0d0;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.action-btn:hover{
+  background:#f0f0f0;
+}
+
+.action-btn:disabled{
+  opacity:0.4;
+  cursor:not-allowed;
+  background:#f8f8f8;
+}
+
+.action-btn:disabled:hover{
+  background:#f8f8f8;
+}
+
+.action-btn i{
+  font-size:11px;
+  color:#666;
+}
+
+.status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#4caf50;
+  display:inline-block;
+}
+
+/* Add Applicant Dropdown Styles */
+.add-applicant-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.add-applicant-wrapper .btn-primary {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 24px;
+  background: #363454;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(36, 34, 66, 0.1);
+}
+
+.add-applicant-wrapper .btn-primary:hover {
+  background: #242242;
+  box-shadow: 0 4px 12px rgba(36, 34, 66, 0.15);
+}
+
+.add-applicant-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #d8dade;
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgba(36, 34, 66, 0.14);
+  z-index: 200;
+  overflow: hidden;
+}
+
+.add-applicant-dropdown.show {
+  display: block;
+  animation: dropdownFadeIn 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-header-applicant {
+  background: #363454;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e8e9eb;
+  letter-spacing: 0.3px;
+}
+
+.dropdown-item-applicant {
+  padding: 14px 20px;
+  font-size: 14px;
+  color: #4a4a4a;
+  font-weight: 500;
+  background: #fff;
+  cursor: pointer;
+  border-bottom: 1px solid #f2f3f5;
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown-item-applicant:last-child {
+  border-bottom: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.dropdown-item-applicant:hover {
+  background: #e8e9eb;
+  color: #242242;
+}
+
+.dropdown-item-applicant i {
+  width: 18px;
+  font-size: 14px;
+  color: #666;
+}
+
+.dropdown-item-applicant:hover i {
+  color: #242242;
+}
+
+/* Camera Modal Styles */
+.camera-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.camera-modal-backdrop.show {
+  display: flex;
+}
+
+.camera-container {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 90%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.camera-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.camera-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.camera-close-btn {
+  background: #f5f5f5;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s;
+}
+
+.camera-close-btn:hover {
+  background: #e0e0e0;
+}
+
+.camera-preview {
+  position: relative;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#cameraVideo {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  display: block;
+}
+
+#cameraCanvas {
+  display: none;
+}
+
+.camera-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.camera-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.camera-btn-capture {
+  background: #242242;
+  color: white;
+}
+
+.camera-btn-capture:hover {
+  background: #363454;
+}
+
+.camera-btn-retake {
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #d0d0d0;
+}
+
+.camera-btn-retake:hover {
+  background: #e8e8e8;
+}
+
+.camera-btn-use {
+  background: #4caf50;
+  color: white;
+}
+
+.camera-btn-use:hover {
+  background: #45a049;
+}
+
+/* Modal Styles */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-backdrop.show {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background: white;
+  z-index: 1;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f5f5f5;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s;
+}
+
+.modal-close:hover {
+  background: #e0e0e0;
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-section {
+  margin-bottom: 28px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #fcfcfc;
+  padding: 20px;
+}
+
+.modal-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #242242;
+  margin: 0 0 18px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e8e8e8;
+}
+
+.modal-form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.modal-form-row.single {
+  gap: 0;
+}
+
+.modal-input-group {
+  flex: 1;
+}
+
+.modal-input-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.modal-input-group input,
+.modal-input-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.modal-input-group input:focus,
+.modal-input-group select:focus {
+  outline: none;
+  border-color: #242242;
+}
+
+.modal-input-uppercase {
+  text-transform: uppercase;
+}
+
+.modal-searchable-select {
+  position: relative;
+}
+
+.modal-searchable-options {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 1200;
+}
+
+.modal-searchable-options.hidden {
+  display: none;
+}
+
+.modal-searchable-option {
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+}
+
+.modal-searchable-option:hover {
+  background: #f5f7ff;
+}
+
+.modal-searchable-option-empty {
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #888;
+}
+
+.modal-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.modal-upload-row label {
+  font-size: 13px;
+  color: #555;
+  font-weight: 500;
+  min-width: 220px;
+}
+
+.modal-upload-row input[type="file"] {
+  flex: 1;
+  font-size: 12px;
+  padding: 8px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+}
+
+.modal-note {
+  background: #fff8e1;
+  border-left: 4px solid #ffc107;
+  padding: 12px 16px;
+  margin: 18px 0;
+  font-size: 12px;
+  color: #666;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.5;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  background: white;
+}
+
+.btn-secondary {
+  padding: 10px 20px;
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: .2s;
+}
+
+.btn-secondary:hover {
+  background: #e8e8e8;
+  color: #333;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.modal-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+/* Application Details View Modal */
+.details-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.details-modal-backdrop.show {
+  display: flex;
+}
+
+.details-modal-content {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.details-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background: white;
+}
+
+.details-modal-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 0.5px;
+}
+
+.details-modal-close {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s;
+  font-size: 18px;
+  color: #666;
+}
+
+.details-modal-close:hover {
+  color: #333;
+}
+
+.details-modal-body {
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.details-section {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.details-section:last-child {
+  border-bottom: none;
+}
+
+.details-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #666;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.details-row {
+  display: flex;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.details-row:last-child {
+  margin-bottom: 0;
+}
+
+.details-label {
+  font-size: 12px;
+  color: #666;
+  min-width: 120px;
+  font-weight: 500;
+}
+
+.details-value {
+  font-size: 12px;
+  color: #333;
+  font-weight: 600;
+  flex: 1;
+  word-break: break-word;
+}
+
+.details-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f8f8f8;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: .2s;
+  text-decoration: none;
+}
+
+.details-file:hover {
+  background: #e8e8e8;
+  transform: translateX(2px);
+}
+
+.details-file:last-child {
+  margin-bottom: 0;
+}
+
+.details-file i {
+  color: #e53935;
+  font-size: 14px;
+}
+
+.details-file-icon {
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+}
+
+.details-modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  background: white;
+}
+
+.btn-close-details {
+  padding: 10px 32px;
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-close-details:hover {
+  background: #e8e8e8;
+  color: #333;
+}
+
+.details-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.details-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.details-modal-body::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+.details-modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.details-modal-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+/* Flag Warning Section */
+.flag-warning-section {
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  padding: 16px 20px;
+  margin: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.flag-warning-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e65100;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flag-warning-title i {
+  font-size: 14px;
+}
+
+.flag-item {
+  font-size: 12px;
+  color: #bf360c;
+  margin-bottom: 8px;
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.flag-item:last-child {
+  margin-bottom: 0;
+}
+
+.flag-item:before {
+  content: "•";
+  position: absolute;
+  left: 4px;
+  font-weight: 700;
+}
+
+/* pagination */
+.pagination{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  margin-top:12px;
+  gap:15px;
+  font-size:13px;
+  color:#666;
+}
+
+.pagination-controls{
+  display:flex;
+  gap:5px;
+}
+
+.page-btn{
+  width:32px;
+  height:32px;
+  border:1px solid #d0d0d0;
+  background:white;
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
+}
+
+.page-btn:hover{
+  background:#f0f0f0;
+}
+
+.page-btn.active{
+  background:#242242;
+  color:white;
+  border-color:#242242;
+}
+
+/* footer*/
+.footer{
+  background:#242242;
+  color:white;
+  text-align:center;
+  padding:10px;
+  font-size:9px;
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:400;
+}
+
+@media (max-width: 1024px){
+  .main-wrapper{
+    padding:24px 32px 60px 32px;
+  }
+
+  .main{
+    gap:8px;
+  }
+
+  .sidebar{
+    width:220px;
+  }
+
+  .content{
+    padding:14px;
+  }
+
+  .top-bar{
+    gap:8px;
+  }
+}
+
+@media (max-width: 720px){
+  .header{
+    padding:10px 20px;
+    gap:10px;
+    flex-wrap:nowrap;
+  }
+
+  .header img{
+    width:32px;
+    height:32px;
+  }
+
+  .header-text{
+    flex:1 1 auto;
+  }
+
+  .header-text h1{
+    font-size:13px;
+    line-height:1.2;
+  }
+
+  .header-text p{
+    font-size:9px;
+  }
+
+  .header-right{
+    display:none;
+  }
+
+  .burger-btn{
+    display:flex;
+  }
+
+  .main-wrapper{
+    padding:20px 16px 40px 16px;
+    overflow:visible;
+  }
+
+  .main{
+    position:relative;
+    overflow:visible;
+  }
+
+  .content{
+    max-height:none;
+  }
+
+  .sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    width:min(320px,90vw);
+    background:#f3f3f3;
+    transform:translateX(-110%);
+    transition:transform 0.25s ease;
+    z-index:500;
+    border-radius:0;
+    border:none;
+    max-height:100vh;
+  }
+
+  .sidebar-profile{
+    display:flex;
+    flex-shrink:0;
+  }
+
+  .sidebar-menu{
+    flex:1;
+    overflow-y:auto;
+    padding-bottom:0;
+  }
+
+  .menu-item-logout{
+    display:flex;
+    margin-bottom:20px;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .sidebar-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:450;
+  }
+
+  .sidebar-overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .footer{
+    padding:8px;
+    font-size:9px;
+  }
+}
+
+/* Hide scrollbars globally */
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Show custom scrollbar for content area */
+.content::-webkit-scrollbar {
+  width: 1px;
+  display: block;
+}
+
+.content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 5px;
+  max-height: 12px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+  width: 3px;
+  cursor: pointer;
+}
+
+.content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.05) transparent;
+}
+
+/* Show custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 1px;
+  display: block;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 5px;
+  max-height: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+  width: 2px;
+  cursor: pointer;
+}
+
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.04) transparent;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+  display: block;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
+  min-height: 5px;
+  min-width: 5px;
+  max-height: 12px;
+  max-width: 12px;
+  transition: all 0.2s ease;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.table-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.05) transparent;
+}
+
+.sidebar{
+  scrollbar-width:none !important;
+  -ms-overflow-style:none;
+}
+
+.sidebar::-webkit-scrollbar{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+}
+
+.icon-spacing{
+  margin-right:6px;
+}
+
+.ml-16{
+  margin-left:16px;
+}
+
+.h-8{
+  height:8px;
+}
+
+.hidden{
+  display:none;
+}
+
+/* ═══ Confirm Modal ═══ */
+.confirm-panel{ width:min(420px,90vw); background:#fff; border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,0.2); text-align:center; padding:30px 24px 24px; border:1px solid #d0d0d0; }
+.confirm-icon{ width:56px; height:56px; border-radius:50%; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:24px; }
+.confirm-icon.danger{ background:#fce4ec; color:#c62828; }
+.confirm-icon.info{ background:#e3f2fd; color:#1565c0; }
+.confirm-icon.success{ background:#e8f5e9; color:#2e7d32; }
+.confirm-icon.warning{ background:#fff3e0; color:#e65100; }
+#confirmTitle{ margin:0 0 8px; font-size:16px; color:#333; }
+#confirmText{ margin:0 0 20px; font-size:13px; color:#666; line-height:1.6; white-space:pre-line; }
+.confirm-actions{ display:flex; gap:10px; justify-content:center; }
+.btn-cancel{ padding:10px 20px; background:#f5f5f5; color:#555; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; cursor:pointer; font-weight:500; transition:.2s; }
+.btn-cancel:hover{ background:#eee; }
+
+/* ═══ Toast Notifications ═══ */
+.toast-container{ position:fixed; bottom:20px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
+.toast{ min-width:300px; max-width:450px; padding:14px 18px; border-radius:8px; background:#fff; box-shadow:0 4px 16px rgba(0,0,0,0.15); display:flex; align-items:flex-start; gap:10px; font-size:13px; border-left:4px solid #333; animation:toastIn .3s ease; line-height:1.5; }
+.toast.success{ border-left-color:#2e7d32; }
+.toast.success i{ color:#2e7d32; }
+.toast.error{ border-left-color:#c62828; }
+.toast.error i{ color:#c62828; }
+.toast.info{ border-left-color:#1565c0; }
+.toast.info i{ color:#1565c0; }
+.toast.warning{ border-left-color:#e65100; }
+.toast.warning i{ color:#e65100; }
+.toast i{ margin-top:2px; flex-shrink:0; font-size:16px; }
+.toast span{ flex:1; }
+.toast-close{ background:none; border:none; color:#aaa; cursor:pointer; font-size:14px; padding:0; margin-left:8px; transition:.2s; flex-shrink:0; }
+.toast-close:hover{ color:#333; }
+@keyframes toastIn{ from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+@media(max-width:720px){.breadcrumb{display:none;}}
+
+/* Hide icons in alert/notification UI */
+.toast i, .confirm-icon i, .notification i { display:none !important; }
+
+.notif-badge{display:inline-block;min-width:18px;padding:1px 6px;margin-left:6px;border-radius:999px;background:#d32f2f;color:#fff;font-size:11px;line-height:16px;text-align:center;font-weight:700;vertical-align:middle;}
+</style>
+</head>
+
+<body>
+<!-- header -->
+<div class="header">
+
+<button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="spesLogo.png" alt="SPES Logo">
+
+<div class="header-text">
+<h1>Special Program for the Employment of Students</h1>
+<p>SPES Beneficiaries Management Information System</p>
+</div>
+
+<div class="header-right">
+  <div class="user-info" id="userInfo">
+    <strong>Louraine A. Pecayo</strong><br>
+    Coordinator
+  </div>
+  <div class="profile-menu">
+    <div class="avatar" id="profileBtn">LP</div>
+    <div class="profile-dropdown" id="profileDropdown">
+      <button class="profile-item" onclick="goToSettings()">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+      </button>
+      <button class="profile-item" onclick="confirmLogout()">
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- main wrapper -->
+<div class="main-wrapper">
+
+<!-- top bar -->
+<div class="top-bar">
+  <!-- breadcrumb -->
+  <div class="breadcrumb">
+    <i class="fa-solid fa-house"></i>
+    <span>Back ></span>
+  </div>
+  
+  <!-- 3-dot menu -->
+  <div class="menu-dots">
+    <button class="dots-btn" id="menuDotsBtn">
+      <i class="fa-solid fa-ellipsis"></i>
+    </button>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="dropdown-item" onclick="openSlotSettings()">
+        <i class="fa-solid fa-sliders"></i>
+        Slot Settings
+      </div>
+      <div class="dropdown-item" onclick="importExcel()">
+        <i class="fa-solid fa-file-import"></i>
+        Import Excel
+      </div>
+      <div class="dropdown-item" onclick="exportExcel()">
+        <i class="fa-solid fa-file-export"></i>
+        Export to Excel
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- main -->
+<div class="main">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- sidebar -->
+<div class="sidebar">
+
+  <div class="sidebar-profile">
+    <div class="sidebar-avatar">LP</div>
+    <div class="sidebar-user">
+      <h4>Louraine A. Pecayo</h4>
+      <p>Coordinator</p>
+    </div>
+  </div>
+
+<div class="sidebar-menu">
+
+<a href="eDashboard.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-house"></i>
+    Dashboard
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="eNewSPES.html" class="menu-item active">
+  <div class="menu-left">
+    <i class="fa-solid fa-user-plus"></i>
+    New SPES
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<div class="submenu-wrapper">
+  <a href="eSpesRegistration.html" class="menu-item menu-submenu">
+    <div class="menu-left">
+      <i class="fa-solid fa-briefcase"></i>
+      SPES Management
+    </div>
+    <i class="fa-solid fa-chevron-right"></i>
+  </a>
+  
+  <div class="submenu">
+    <a href="eSpesRegistration.html" class="submenu-item">
+      <span>SPES Registration</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="eSpesBene.html" class="submenu-item">
+      <span>SPES Beneficiaries</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="eSpesAccounts.html" class="submenu-item">
+      <span>SPES Accounts</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="eSpesAR.html" class="submenu-item">
+      <span>Accomplishment Report</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+  </div>
+</div>
+
+<a href="eDeployment.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-check-square"></i>
+    Deployment
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="eAnnouncements.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-bullhorn"></i>
+    Announcements
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="eDemographic.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-chart-pie"></i>
+    Demographic Data
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="eTeamAcc.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-users"></i>
+    Team Accounts
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="eSettings.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-gear"></i>
+    Settings
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<button class="menu-item-logout" onclick="confirmLogout()">
+  Log Out
+</button>
+
+</div>
+
+</div>
+
+<!-- main content -->
+<div class="content">
+
+<!-- toolbar -->
+<div class="toolbar">
+  <div class="search-box">
+    <input type="text" placeholder="Search here..." id="searchInput">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  
+  <button class="refresh-btn" id="refreshBtn">
+    <i class="fa-solid fa-rotate-right"></i>
+  </button>
+  
+  <div class="slot-info" id="slotInfo" title="Approved slots / Total slots">
+    <i class="fa-solid fa-users"></i>
+    <span id="slotDisplay">0/0</span>
+  </div>
+  
+  <select class="filter-select">
+    <option>All Source</option>
+    <option>Online</option>
+    <option>Walk-in</option>
+  </select>
+  
+  <select class="filter-select" id="statusFilter">
+    <option value="all">All Status</option>
+    <option value="pending">Pending</option>
+    <option value="approved">Approved</option>
+    <option value="rejected">Rejected</option>
+    <option value="flagged">Flagged</option>
+  </select>
+  
+  <select id="pageSizeSelect" class="filter-select" title="Page size">
+    <option value="10">10</option>
+    <option value="25">25</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+    <option value="300" selected>300</option>
+    <option value="all">All</option>
+  </select>
+
+  <div class="add-applicant-wrapper">
+    <button class="btn-primary" id="addApplicantBtn">
+      <i class="fa-solid fa-plus icon-spacing"></i>
+      Add Applicant
+    </button>
+    <div class="add-applicant-dropdown" id="addApplicantDropdown">
+      <div class="dropdown-item-applicant" onclick="addManually()">
+        <i class="fa-solid fa-user-plus"></i>
+        Add Applicants Manually
+      </div>
+      <div class="dropdown-item-applicant" onclick="scanDocument()">
+        <i class="fa-solid fa-camera"></i>
+        Scan Document
+      </div>
+      <div class="dropdown-item-applicant" onclick="uploadDocument()">
+        <i class="fa-solid fa-upload"></i>
+        Upload Document
+      </div>
+    </div>
+  </div>
+  
+  <button class="btn-reject" id="rejectSelectedBtn" onclick="rejectSelected()">
+    <i class="fa-solid fa-xmark icon-spacing"></i>
+    Reject Selected
+  </button>
+  
+  <button class="btn-auto-approve" onclick="autoApprove()">
+    <i class="fa-solid fa-circle-check icon-spacing"></i>
+    Auto Approve
+  </button>
+</div>
+
+<!-- table -->
+<div class="table-container">
+  <div class="loading-bar" id="loadingBar"></div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th class="checkbox-column">
+          <label class="select-all-label" title="Select all flagged applicants (for rejection only)">
+            <input type="checkbox" id="selectAllFlagged" class="select-checkbox" onchange="toggleSelectAllFlagged()">
+          </label>
+        </th>
+        <th>NAME</th>
+        <th>AGE</th>
+        <th>SEX</th>
+        <th>BARANGGAY</th>
+        <th>SCHOOL</th>
+        <th>COURSE/PROGRAM</th>
+        <th>DATE</th>
+        <th>SOURCE</th>
+        <th>STATUS</th>
+        <th>ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody id="applicantsTbody">
+      <!-- Rows will be generated via JavaScript -->
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+</div>
+
+<!-- pagination -->
+<div class="pagination">
+  <div id="resultsInfo">Showing results 0 - 0</div>
+  <div class="pagination-controls" id="paginationControls">
+    <!-- pagination buttons injected here -->
+  </div>
+  <div class="ml-16">
+    <select id="pageSizeSelectBottom" class="filter-select" title="Page size (bottom)">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="300" selected>300</option>
+      <option value="all">All</option>
+    </select>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<!-- Camera Scan Modal -->
+<div class="camera-modal-backdrop" id="cameraModal">
+  <div class="camera-container">
+    <div class="camera-header">
+      <h3>Scan Document</h3>
+      <button class="camera-close-btn" onclick="closeCameraModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="camera-preview">
+      <video id="cameraVideo" autoplay playsinline></video>
+      <canvas id="cameraCanvas"></canvas>
+    </div>
+    <div class="camera-controls">
+      <button class="camera-btn camera-btn-capture" id="captureBtn" onclick="capturePhoto()">
+        <i class="fa-solid fa-camera"></i>
+        Capture Photo
+      </button>
+      <button class="camera-btn camera-btn-retake hidden" id="retakeBtn" onclick="retakePhoto()">
+        <i class="fa-solid fa-rotate-left"></i>
+        Retake
+      </button>
+      <button class="camera-btn camera-btn-use hidden" id="usePhotoBtn" onclick="usePhoto()">
+        <i class="fa-solid fa-check"></i>
+        Use Photo
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Applicant Modal -->
+<div class="modal-backdrop" id="addApplicantModal" onclick="closeAddApplicantModalOnBackdrop(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>ADD NEW SPES APPLICANT</h3>
+      <button class="modal-close" onclick="closeAddApplicantModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form id="addApplicantForm">
+        <!-- Basic Information -->
+        <div class="modal-section">
+          <div class="modal-section-title">Basic Information</div>
+          <div class="modal-form-row">
+            <div class="modal-input-group">
+              <label>Last Name</label>
+              <input type="text" name="lastName" class="modal-input-uppercase" placeholder="Last Name" required>
+            </div>
+            <div class="modal-input-group">
+              <label>First Name</label>
+              <input type="text" name="firstName" class="modal-input-uppercase" placeholder="First Name" required>
+            </div>
+            <div class="modal-input-group">
+              <label>Middle Name</label>
+              <input type="text" name="middleName" class="modal-input-uppercase" placeholder="Middle Name">
+            </div>
+          </div>
+          <div class="modal-form-row single">
+            <div class="modal-input-group">
+              <label>Street / House No.</label>
+              <input type="text" id="modalStreetInput" class="modal-input-uppercase" placeholder="Street / House No." required>
+            </div>
+          </div>
+          <div class="modal-form-row">
+            <div class="modal-input-group">
+              <label>District (Calamba)</label>
+              <div class="modal-searchable-select">
+                <input type="text" id="modalDistrictInput" placeholder="Type to search district" autocomplete="off" required>
+                <div id="modalDistrictOptions" class="modal-searchable-options hidden"></div>
+              </div>
+            </div>
+            <div class="modal-input-group">
+              <label>City / Municipality</label>
+              <input type="text" id="modalCityInput" value="Calamba City" readonly>
+            </div>
+            <div class="modal-input-group">
+              <label>Province</label>
+              <input type="text" id="modalProvinceInput" value="Laguna" readonly>
+              <input type="hidden" name="address" id="modalFullAddress">
+            </div>
+          </div>
+          <div class="modal-form-row">
+            <div class="modal-input-group">
+              <label>Date of Birth</label>
+              <input type="date" name="dob" id="modalDob" required>
+            </div>
+            <div class="modal-input-group">
+              <label>Age</label>
+              <input type="number" name="age" id="modalAge" placeholder="Age" readonly>
+            </div>
+            <div class="modal-input-group">
+              <label>Sex</label>
+              <select name="sex" required>
+                <option value="">-- Select --</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-form-row single">
+            <div class="modal-input-group">
+              <label>Place of Birth</label>
+              <input type="text" name="placeOfBirth" class="modal-input-uppercase" placeholder="Place of Birth" required>
+            </div>
+          </div>
+          <div class="modal-form-row">
+            <div class="modal-input-group">
+              <label>Email Address</label>
+              <input type="email" name="email" placeholder="Email Address" required>
+            </div>
+            <div class="modal-input-group">
+              <label>Contact Number</label>
+              <input type="text" name="contactNumber" placeholder="Contact Number" required>
+            </div>
+          </div>
+          <div class="modal-form-row single">
+            <div class="modal-input-group">
+              <label>FB Account</label>
+              <input type="text" name="fbAccount" placeholder="Facebook Account">
+            </div>
+          </div>
+          <div class="modal-form-row">
+            <div class="modal-input-group">
+              <label>Are you a Scholar?</label>
+              <select name="isScholar">
+                <option value="">-- Select --</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="modal-input-group">
+              <label>Scholarship Name (if applicable)</label>
+              <input type="text" name="scholarshipName" placeholder="Specify scholarship name">
+            </div>
+          </div>
+          <div class="modal-form-row">
+            <div class="modal-input-group">
+              <label>Are you a 4Ps beneficiary?</label>
+              <select name="is4ps">
+                <option value="">-- Select --</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="modal-input-group">
+              <label>Are you a PWD?</label>
+              <select name="isPwd">
+                <option value="">-- Select --</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education Information -->
+        <div class="modal-section">
+          <div class="modal-section-title">Education Information</div>
+          <div class="modal-form-row single">
+            <div class="modal-input-group">
+              <label>Elementary School</label>
+              <input type="text" name="elemSchool" placeholder="Name of Elementary School">
+            </div>
+          </div>
+          <div class="modal-form-row single">
+            <div class="modal-input-group">
+              <label>Junior High School</label>
+              <input type="text" name="jhsSchool" placeholder="Name of Junior High School">
+            </div>
+          </div>
+          <div class="modal-form-row">
+            <div class="modal-input-group">
+              <label>Senior High School</label>
+              <input type="text" name="shsSchool" placeholder="Name of Senior High School">
+            </div>
+            <div class="modal-input-group">
+              <label>SHS Track/Strand</label>
+              <input type="text" name="shsTrack" placeholder="Track/Strand">
+            </div>
+          </div>
+          <div class="modal-form-row">
+            <div class="modal-input-group">
+              <label>College/University</label>
+              <input type="text" name="collegeSchool" placeholder="Name of College/University" required>
+            </div>
+            <div class="modal-input-group">
+              <label>Course/Program</label>
+              <input type="text" name="collegeCourse" placeholder="Course/Program" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Family Information -->
+        <div class="modal-section">
+          <div class="modal-section-title">Family Information</div>
+          <div class="modal-form-row single">
+            <div class="modal-input-group">
+              <label>Father's Name</label>
+              <input type="text" name="fatherName" class="modal-input-uppercase" placeholder="Father's Full Name">
+            </div>
+          </div>
+          <div class="modal-form-row">
+            <div class="modal-input-group">
+              <label>Father's Age</label>
+              <input type="number" name="fatherAge" placeholder="Age">
+            </div>
+            <div class="modal-input-group">
+              <label>Father's Occupation</label>
+              <input type="text" name="fatherOccupation" placeholder="Occupation">
+            </div>
+            <div class="modal-input-group">
+              <label>Remarks</label>
+              <input type="text" name="fatherRemarks" placeholder="Remarks">
+            </div>
+          </div>
+          <div class="modal-form-row single">
+            <div class="modal-input-group">
+              <label>Mother's Name</label>
+              <input type="text" name="motherName" class="modal-input-uppercase" placeholder="Mother's Full Name">
+            </div>
+          </div>
+          <div class="modal-form-row">
+            <div class="modal-input-group">
+              <label>Mother's Age</label>
+              <input type="number" name="motherAge" placeholder="Age">
+            </div>
+            <div class="modal-input-group">
+              <label>Mother's Occupation</label>
+              <input type="text" name="motherOccupation" placeholder="Occupation">
+            </div>
+            <div class="modal-input-group">
+              <label>Remarks</label>
+              <input type="text" name="motherRemarks" placeholder="Remarks">
+            </div>
+          </div>
+        </div>
+
+        <!-- Required Documents -->
+        <div class="modal-section">
+          <div class="modal-section-title">Required Documents (PDF)</div>
+          <div class="modal-upload-row">
+            <label>Birth Certificate</label>
+            <input type="file" name="birthCert" accept=".pdf">
+          </div>
+          <div class="modal-upload-row">
+            <label>School Registration / COR</label>
+            <input type="file" name="schoolReg" accept=".pdf">
+          </div>
+          <div class="modal-upload-row">
+            <label>Latest Grade / Report Card</label>
+            <input type="file" name="latestGrade1" accept=".pdf">
+          </div>
+          <div class="modal-upload-row">
+            <label>Latest Grade / Report Card (2)</label>
+            <input type="file" name="latestGrade2" accept=".pdf">
+          </div>
+        </div>
+
+        <div class="modal-note">
+          <strong>Note:</strong> All uploaded documents will be reviewed by the SPES coordinator before approval.
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeAddApplicantModal()">CANCEL</button>
+      <button class="btn-primary" onclick="submitApplicant()">ADD APPLICANT</button>
+    </div>
+  </div>
+</div>
+
+<!-- Application Details View Modal -->
+<div class="details-modal-backdrop" id="detailsModal" onclick="closeDetailsModalOnBackdrop(event)">
+  <div class="details-modal-content" onclick="event.stopPropagation()">
+    <div class="details-modal-header">
+      <h3>APPLICATION DETAILS</h3>
+      <button class="details-modal-close" onclick="closeDetailsModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="details-modal-body" id="detailsModalBody">
+      <!-- Content will be dynamically populated -->
+    </div>
+    <div class="details-modal-footer">
+      <button class="btn-close-details" onclick="closeDetailsModal()">CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+<div class="footer">
+Copyright © 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<!-- ══════ Slot Settings Modal ══════ -->
+<div class="slot-modal-overlay" id="slotSettingsModal">
+  <div class="slot-modal-panel">
+    <div class="slot-modal-head">
+      <h3 class="slot-modal-title"><i class="fa-solid fa-sliders"></i> Slot Settings</h3>
+      <button class="slot-modal-close" onclick="closeSlotSettings()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="slot-modal-body">
+
+      <!-- Current Summary -->
+      <div class="slot-summary">
+        <div class="slot-summary-card">
+          <div class="slot-summary-val" id="slotSummaryTotal">0</div>
+          <div class="slot-summary-lbl">Total Slots</div>
+        </div>
+        <div class="slot-summary-card">
+          <div class="slot-summary-val" id="slotSummaryApproved">0</div>
+          <div class="slot-summary-lbl">Approved</div>
+        </div>
+        <div class="slot-summary-card" id="slotSummaryAvailCard">
+          <div class="slot-summary-val" id="slotSummaryAvailable">0</div>
+          <div class="slot-summary-lbl">Available</div>
+        </div>
+      </div>
+
+      <!-- Slot Limit -->
+      <div class="slot-form-group">
+        <label class="slot-form-label">Maximum SPES Slots</label>
+        <input type="number" class="slot-form-input" id="slotLimitInput" min="1" placeholder="e.g. 500">
+        <p class="slot-form-hint">Total number of beneficiaries allowed to be accepted as SPES.</p>
+      </div>
+
+      <hr class="slot-divider">
+
+      <!-- Auto Approve Toggle -->
+      <div class="slot-toggle-row">
+        <div class="slot-toggle-info">
+          <div class="slot-toggle-title">Auto-Approve Applicants</div>
+          <div class="slot-toggle-desc">Automatically approve qualified applicants based on first-come-first-served until slots are full.</div>
+        </div>
+        <label class="slot-toggle-switch">
+          <input type="checkbox" id="slotAutoApproveToggle">
+          <span class="slot-toggle-slider"></span>
+        </label>
+      </div>
+
+      <!-- Auto Approve Criteria -->
+      <div id="slotAutoApproveOptions" style="display:none">
+        <div class="slot-form-group">
+          <label class="slot-form-label">Approval Priority</label>
+          <select class="slot-form-select" id="slotPrioritySelect">
+            <option value="fcfs">First Come, First Served (by application date)</option>
+            <option value="random">Random Selection</option>
+          </select>
+          <p class="slot-form-hint">Determines which qualified applicants get approved first.</p>
+        </div>
+
+        <div class="slot-form-group">
+          <label class="slot-form-label">Requirements Check</label>
+          <div class="slot-criteria-list" id="slotCriteriaList">
+            <div class="slot-criteria-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Complete personal information (no missing fields)</span>
+            </div>
+            <div class="slot-criteria-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>No flagged / incomplete documents</span>
+            </div>
+            <div class="slot-criteria-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Valid school enrollment / registration</span>
+            </div>
+            <div class="slot-criteria-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Birth certificate uploaded</span>
+            </div>
+            <div class="slot-criteria-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Income eligibility met (ITR / Certificate of Indigency)</span>
+            </div>
+          </div>
+          <p class="slot-form-hint">Applicants must pass ALL checked requirements to be auto-approved.</p>
+        </div>
+
+        <div class="slot-info-box">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>When enabled, new applicants who meet all requirements will be <strong>automatically approved</strong> in order of application date until the slot limit is reached. Flagged applicants will remain pending for manual review.</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="slot-modal-footer">
+      <button class="slot-btn-cancel" onclick="closeSlotSettings()">Cancel</button>
+      <button class="slot-btn-save" onclick="saveSlotSettings()">SAVE SETTINGS</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Highlight active menu dynamically
+const items = document.querySelectorAll('.menu-item');
+const spesManagementParentMenu = document.querySelector('.menu-item.menu-submenu');
+
+function syncSpesManagementActiveState(){
+  if(!spesManagementParentMenu) return;
+  if(document.querySelector('.submenu-item.active')){
+    spesManagementParentMenu.classList.add('active');
+  }
+}
+
+items.forEach(item=>{
+  item.addEventListener('click',()=>{
+    items.forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+syncSpesManagementActiveState();
+
+// Refresh button loading animation
+const refreshBtn = document.getElementById('refreshBtn');
+const loadingBar = document.getElementById('loadingBar');
+
+refreshBtn.addEventListener('click', () => {
+  if(typeof window.loadApplicants === 'function'){
+    window.loadApplicants({ preservePage: true });
+    return;
+  }
+
+  loadingBar.classList.add('active');
+  setTimeout(() => {
+    loadingBar.classList.remove('active');
+  }, 800);
+});
+
+// Mobile sidebar toggle
+const burgerBtn = document.getElementById('burgerBtn');
+const sidebar = document.querySelector('.sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+if(burgerBtn && sidebar && sidebarOverlay){
+  burgerBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('show');
+  });
+
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('show');
+  });
+}
+</script>
+
+<script>
+// Slot Management - must be before IIFE that calls updateSlotDisplay()
+let totalSlots = parseInt(localStorage.getItem('spes_totalSlots')) || 100;
+const API_BASE_CANDIDATES = [
+  'http://127.0.0.1:8000',
+  'http://localhost:8000',
+  'http://127.0.0.1:8001',
+  'http://localhost:8001'
+];
+let ACTIVE_API_BASE = API_BASE_CANDIDATES[0];
+
+function apiBasePriority(){
+  return [ACTIVE_API_BASE].concat(API_BASE_CANDIDATES.filter(base => base !== ACTIVE_API_BASE));
+}
+
+async function fetchWithApiBase(path, options){
+  const opts = options || {};
+  let lastError = null;
+
+  for(const base of apiBasePriority()){
+    try {
+      const response = await fetch(`${base}${path}`, opts);
+      if(response.status === 404){
+        lastError = new Error(`API endpoint not found on ${base}`);
+        continue;
+      }
+
+      ACTIVE_API_BASE = base;
+      return response;
+    } catch(err){
+      if(err && err.name === 'AbortError') throw err;
+      lastError = err;
+    }
+  }
+
+  throw lastError || new Error('Cannot connect to backend');
+}
+
+function titleCase(value){
+  return String(value || '')
+    .toLowerCase()
+    .replace(/\b\w/g, c => c.toUpperCase())
+    .trim();
+}
+
+// Pagination and data generation for New SPES table
+(function(){
+  const applicants = [];
+
+  function mapApplicant(apiRow){
+    const first = titleCase(apiRow.first_name || '');
+    const last = titleCase(apiRow.last_name || '');
+    const middle = String(apiRow.middle_name || '').trim();
+    const middleInitial = middle ? ` ${middle.charAt(0).toUpperCase()}.` : '';
+    const displayName = `${last}, ${first}${middleInitial}`.replace(/,\s*$/, '').trim() || 'N/A';
+    const statusRaw = String(apiRow.status || 'Pending').toLowerCase();
+    const status = statusRaw.charAt(0).toUpperCase() + statusRaw.slice(1);
+    const createdAt = String(apiRow.created_at || '').slice(0, 10);
+    const sourceRaw = String(apiRow.source || 'Walk-in').toLowerCase();
+    const source = sourceRaw === 'online' ? 'Online' : 'Walk-in';
+    const reason = String(apiRow.flag_reason || '').trim();
+
+    return {
+      id: Number(apiRow.id || 0),
+      name: displayName,
+      email: String(apiRow.email || '').trim(),
+      age: apiRow.age || '-',
+      sex: String(apiRow.sex || '').trim() || '-',
+      barangay: String(apiRow.district || '').trim() || '-',
+      school: String(apiRow.college_school || '').trim() || '-',
+      course: String(apiRow.college_course || '').trim() || '-',
+      date: createdAt || '-',
+      source,
+      status,
+      flags: Number(apiRow.flagged || 0) === 1 && reason ? [reason] : [],
+      raw: apiRow,
+    };
+  }
+
+  // Elements
+  const tbody = document.getElementById('applicantsTbody');
+  const pageSizeSelect = document.getElementById('pageSizeSelect');
+  const pageSizeSelectBottom = document.getElementById('pageSizeSelectBottom');
+  const resultsInfo = document.getElementById('resultsInfo');
+  const paginationControls = document.getElementById('paginationControls');
+  const statusFilter = document.getElementById('statusFilter');
+
+  let currentPage = 1;
+  let currentStatusFilter = 'all';
+  let applicantsLoadController = null;
+  // Load saved page size from localStorage (remember user's last choice)
+  const savedPageSize = localStorage.getItem('newspes_pageSize') || '300';
+  let pageSize = savedPageSize;
+
+  // Get filtered applicants based on status
+  function getFilteredApplicants(){
+    if(currentStatusFilter === 'all') return applicants;
+    if(currentStatusFilter === 'flagged') return applicants.filter(a => a.status !== 'Approved' && a.flags && a.flags.length > 0);
+    return applicants.filter(a => a.status.toLowerCase() === currentStatusFilter);
+  }
+
+  async function loadApplicants(options){
+    const opts = options || {};
+    const preservePage = opts.preservePage === true;
+    const previousPage = currentPage;
+
+    if(applicantsLoadController){
+      applicantsLoadController.abort();
+    }
+    applicantsLoadController = new AbortController();
+
+    if(loadingBar){
+      loadingBar.classList.add('active');
+    }
+
+    try {
+      const response = await fetchWithApiBase('/api/spes-management/applicants?per_page=1000&fields=summary', {
+        headers: { 'Accept': 'application/json' },
+        signal: applicantsLoadController.signal,
+      });
+      const payload = await response.json().catch(() => ({}));
+
+      if(!response.ok){
+        throw new Error((payload && (payload.message || payload.error)) || 'Unable to load applicants');
+      }
+
+      const rows = Array.isArray(payload.data) ? payload.data : [];
+      applicants.length = 0;
+      rows.forEach(row => applicants.push(mapApplicant(row)));
+      window.applicantsData = applicants;
+
+      currentPage = preservePage ? previousPage : 1;
+      renderTable();
+    } catch(err){
+      if(err && err.name === 'AbortError') return;
+      showToast((err && err.message) ? err.message : 'Unable to load applicants.', 'error');
+      renderTable();
+    } finally {
+      if(loadingBar){
+        loadingBar.classList.remove('active');
+      }
+    }
+  }
+
+  function updateStats(){
+    const pending = applicants.filter(a => a.status === 'Pending').length;
+    const approved = applicants.filter(a => a.status === 'Approved').length;
+    const rejected = applicants.filter(a => a.status === 'Rejected').length;
+    const flagged = applicants.filter(a => a.status !== 'Approved' && a.flags && a.flags.length > 0).length;
+    
+    // Update dropdown options with counts
+    if(statusFilter){
+      const allOption = statusFilter.querySelector('option[value="all"]');
+      const pendingOption = statusFilter.querySelector('option[value="pending"]');
+      const approvedOption = statusFilter.querySelector('option[value="approved"]');
+      const rejectedOption = statusFilter.querySelector('option[value="rejected"]');
+      const flaggedOption = statusFilter.querySelector('option[value="flagged"]');
+      
+      if(allOption) allOption.textContent = `All Status (${applicants.length})`;
+      if(pendingOption) pendingOption.textContent = `Pending (${pending})`;
+      if(approvedOption) approvedOption.textContent = `Approved (${approved})`;
+      if(rejectedOption) rejectedOption.textContent = `Rejected (${rejected})`;
+      if(flaggedOption) flaggedOption.textContent = `Flagged (${flagged})`;
+    }
+  }
+
+  function renderTable(){
+    pageSize = pageSizeSelect.value;
+    const filteredApplicants = getFilteredApplicants();
+    const effectiveSize = (pageSize === 'all') ? filteredApplicants.length : parseInt(pageSize,10);
+    const totalPages = Math.max(1, Math.ceil(filteredApplicants.length / effectiveSize));
+    if(currentPage > totalPages) currentPage = totalPages;
+
+    const start = (currentPage - 1) * effectiveSize;
+    const end = (pageSize === 'all') ? filteredApplicants.length : Math.min(start + effectiveSize, filteredApplicants.length);
+    const slice = filteredApplicants.slice(start, end);
+
+    // render rows
+    let html = '';
+    for(const a of slice){
+      const isFlagged = a.status !== 'Approved' && a.flags && a.flags.length > 0;
+      const rowClass = isFlagged ? 'row-flagged' : '';
+      const nameClass = isFlagged ? 'flagged' : '';
+      const flagIcon = isFlagged ? '<i class="fa-solid fa-flag flag-icon"></i>' : '';
+      const checkboxHtml = isFlagged ? `<input type="checkbox" class="select-checkbox applicant-checkbox" data-id="${a.id}" onchange="updateRejectButton()" title="Select for rejection (cannot be approved)">` : '';
+      
+      html += `<tr class="${rowClass}">
+        <td class="checkbox-column">${checkboxHtml}</td>
+        <td>
+          <span class="applicant-name ${nameClass}">${a.name}${flagIcon}</span>
+          <span class="applicant-email">${a.email}</span>
+        </td>
+        <td>${a.age}</td>
+        <td>${a.sex}</td>
+        <td>${a.barangay}</td>
+        <td>${a.school}</td>
+        <td>${a.course}</td>
+        <td>${a.date}</td>
+        <td><span class="badge ${a.source === 'Online' ? 'badge-online' : 'badge-walkin'}">${a.source}</span></td>
+        <td><span class="badge ${a.status === 'Pending' ? 'badge-pending' : a.status === 'Approved' ? 'badge-approved' : 'badge-rejected'}">${a.status}</span></td>
+        <td>
+          <div class="actions">
+            <button class="action-btn" onclick="viewApplicantDetails(${a.id})"><i class="fa-solid fa-eye"></i></button>
+            <button class="action-btn" title="Reject" onclick="rejectApplicant(${a.id})"><i class="fa-solid fa-xmark"></i></button>
+            <button class="action-btn" ${isFlagged ? 'disabled title="Cannot approve flagged applicant"' : 'title="Approve" onclick="approveApplicant(' + a.id + ')"'}><i class="fa-solid fa-check"></i></button>
+          </div>
+        </td>
+      </tr>`;
+    }
+    tbody.innerHTML = html;
+    
+    // Store applicants data globally for access
+    window.applicantsData = applicants;
+
+    // update results text
+    const total = filteredApplicants.length;
+    const displayFrom = total === 0 ? 0 : start + 1;
+    const displayTo = total === 0 ? 0 : end;
+    resultsInfo.textContent = `Showing results ${displayFrom} - ${displayTo} of ${total}`;
+
+    // Update stats
+    updateStats();
+
+    renderPagination(totalPages);
+  }
+
+  function createBtn(label, disabled, onClick, isActive){
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (isActive ? ' active' : '');
+    if(disabled) btn.disabled = true;
+    btn.innerHTML = label;
+    btn.addEventListener('click', onClick);
+    return btn;
+  }
+
+  function renderPagination(totalPages){
+    paginationControls.innerHTML = '';
+
+    // Prev
+    const prev = createBtn('<i class="fa-solid fa-chevron-left"></i>', currentPage===1, ()=>{ if(currentPage>1){ currentPage--; renderTable(); } });
+    paginationControls.appendChild(prev);
+
+    // Page numbers (compact)
+    if(totalPages <= 10){
+      for(let p=1;p<=totalPages;p++){
+        const btn = createBtn(p, false, ()=>{ currentPage = p; renderTable(); }, p===currentPage);
+        paginationControls.appendChild(btn);
+      }
+    } else {
+      const addPage = (p)=>{ const btn = createBtn(p, false, ()=>{ currentPage = p; renderTable(); }, p===currentPage); paginationControls.appendChild(btn); };
+
+      addPage(1);
+      if(currentPage > 4) {
+        const ell = document.createElement('span'); ell.style.padding = '6px 8px'; ell.textContent = '...'; paginationControls.appendChild(ell);
+      }
+
+      const start = Math.max(2, currentPage - 2);
+      const finish = Math.min(totalPages-1, currentPage + 2);
+      for(let p=start; p<=finish; p++) addPage(p);
+
+      if(currentPage < totalPages - 3){
+        const ell2 = document.createElement('span'); ell2.style.padding = '6px 8px'; ell2.textContent = '...'; paginationControls.appendChild(ell2);
+      }
+
+      addPage(totalPages);
+    }
+
+    // Next
+    const next = createBtn('<i class="fa-solid fa-chevron-right"></i>', currentPage===totalPages, ()=>{ if(currentPage<totalPages){ currentPage++; renderTable(); } });
+    paginationControls.appendChild(next);
+  }
+
+  // Sync top/bottom page-size selectors and handle changes
+  function setPageSizeValue(val){
+    if(pageSizeSelect) pageSizeSelect.value = val;
+    if(pageSizeSelectBottom) pageSizeSelectBottom.value = val;
+    localStorage.setItem('newspes_pageSize', val);
+    pageSize = val;
+  }
+
+  if(pageSizeSelect){
+    pageSizeSelect.addEventListener('change', ()=>{ currentPage = 1; setPageSizeValue(pageSizeSelect.value); renderTable(); });
+  }
+
+  if(pageSizeSelectBottom){
+    pageSizeSelectBottom.addEventListener('change', ()=>{ currentPage = 1; setPageSizeValue(pageSizeSelectBottom.value); renderTable(); });
+  }
+
+  // Status filter change handler
+  if(statusFilter){
+    statusFilter.addEventListener('change', ()=>{
+      currentStatusFilter = statusFilter.value;
+      currentPage = 1;
+      renderTable();
+    });
+  }
+
+  // Apply saved value to both selectors before initial render
+  setPageSizeValue(savedPageSize);
+
+  // Expose renderTable globally
+  window.renderTable = renderTable;
+  window.loadApplicants = loadApplicants;
+
+  // Initial render
+  loadApplicants({ preservePage: false });
+  updateSlotDisplay();
+
+})();
+
+function updateSlotDisplay(){
+  if(!window.applicantsData) return;
+  
+  const approved = window.applicantsData.filter(a => a.status === 'Approved').length;
+  const slotDisplay = document.getElementById('slotDisplay');
+  const slotInfo = document.getElementById('slotInfo');
+  
+  if(slotDisplay){
+    slotDisplay.textContent = `${approved}/${totalSlots}`;
+  }
+  
+  // Change background if slots are full
+  if(slotInfo){
+    if(approved >= totalSlots){
+      slotInfo.style.background = '#ffebee';
+      slotInfo.style.borderColor = '#ef5350';
+    } else {
+      slotInfo.style.background = '#f5f5f5';
+      slotInfo.style.borderColor = '#d0d0d0';
+    }
+  }
+}
+
+function openSlotSettings(){
+  // Populate current values
+  document.getElementById('slotLimitInput').value = totalSlots;
+  document.getElementById('slotAutoApproveToggle').checked = localStorage.getItem('spes_autoApprove') === 'true';
+  document.getElementById('slotPrioritySelect').value = localStorage.getItem('spes_priority') || 'fcfs';
+  toggleAutoApproveOptions();
+  updateSlotSummary();
+  document.getElementById('slotSettingsModal').classList.add('show');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  if(dropdownMenu) dropdownMenu.classList.remove('show');
+}
+
+function closeSlotSettings(){
+  document.getElementById('slotSettingsModal').classList.remove('show');
+}
+
+function toggleAutoApproveOptions(){
+  const on = document.getElementById('slotAutoApproveToggle').checked;
+  document.getElementById('slotAutoApproveOptions').style.display = on ? 'block' : 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  const toggle = document.getElementById('slotAutoApproveToggle');
+  if(toggle) toggle.addEventListener('change', toggleAutoApproveOptions);
+  // Close modal on overlay click
+  const overlay = document.getElementById('slotSettingsModal');
+  if(overlay) overlay.addEventListener('click', function(e){ if(e.target === overlay) closeSlotSettings(); });
+});
+
+function updateSlotSummary(){
+  if(!window.applicantsData) return;
+  const approved = window.applicantsData.filter(a => a.status === 'Approved').length;
+  const avail = Math.max(0, totalSlots - approved);
+  document.getElementById('slotSummaryTotal').textContent = totalSlots;
+  document.getElementById('slotSummaryApproved').textContent = approved;
+  document.getElementById('slotSummaryAvailable').textContent = avail;
+  const card = document.getElementById('slotSummaryAvailCard');
+  if(card){
+    card.classList.toggle('full', avail === 0);
+  }
+}
+
+function saveSlotSettings(){
+  const newSlots = parseInt(document.getElementById('slotLimitInput').value);
+  if(isNaN(newSlots) || newSlots < 1){
+    showToast('Please enter a valid number (minimum 1).', 'warning');
+    return;
+  }
+  const isAutoApproveOn = document.getElementById('slotAutoApproveToggle').checked;
+  const priority = document.getElementById('slotPrioritySelect').value;
+
+  totalSlots = newSlots;
+  localStorage.setItem('spes_totalSlots', totalSlots);
+  localStorage.setItem('spes_autoApprove', isAutoApproveOn);
+  localStorage.setItem('spes_priority', priority);
+
+  updateSlotDisplay();
+  updateSlotSummary();
+
+  // If auto-approve is ON, run auto-approval now
+  if(isAutoApproveOn && window.applicantsData){
+    const approved = window.applicantsData.filter(a => a.status === 'Approved').length;
+    const availableSlots = totalSlots - approved;
+    if(availableSlots > 0){
+      let pendingApplicants = window.applicantsData.filter(a => a.status === 'Pending' && (!a.flags || a.flags.length === 0));
+      if(priority === 'fcfs'){
+        pendingApplicants.sort((a,b) => new Date(a.dateApplied || a.date || 0) - new Date(b.dateApplied || b.date || 0));
+      } else {
+        for(let i = pendingApplicants.length - 1; i > 0; i--){
+          const j = Math.floor(Math.random() * (i + 1));
+          [pendingApplicants[i], pendingApplicants[j]] = [pendingApplicants[j], pendingApplicants[i]];
+        }
+      }
+      const toApprove = Math.min(availableSlots, pendingApplicants.length);
+      if(toApprove > 0){
+        (async function(){
+          const successCount = await autoApproveByList(pendingApplicants, toApprove);
+          if(successCount > 0){
+            const newApproved = (window.applicantsData || []).filter(a => a.status === 'Approved').length;
+            showToast('Settings saved! ' + successCount + ' applicant(s) auto-approved (' + (priority === 'fcfs' ? 'first-come-first-served' : 'random') + '). Slot usage: ' + newApproved + '/' + totalSlots, 'success');
+          } else {
+            showToast('Slot settings saved successfully!', 'success');
+          }
+          closeSlotSettings();
+        })();
+        return;
+      }
+    }
+  }
+
+  showToast('Slot settings saved successfully!', 'success');
+  closeSlotSettings();
+}
+
+// Select All Flagged
+function toggleSelectAllFlagged(){
+  const selectAll = document.getElementById('selectAllFlagged');
+  const checkboxes = document.querySelectorAll('.applicant-checkbox');
+  checkboxes.forEach(cb => {
+    cb.checked = selectAll.checked;
+  });
+  updateRejectButton();
+}
+
+// Update Reject Button Visibility
+function updateRejectButton(){
+  const checkboxes = document.querySelectorAll('.applicant-checkbox:checked');
+  const rejectBtn = document.getElementById('rejectSelectedBtn');
+  if(rejectBtn){
+    if(checkboxes.length > 0){
+      rejectBtn.classList.add('show');
+      rejectBtn.innerHTML = `<i class="fa-solid fa-xmark icon-spacing"></i>Reject Selected (${checkboxes.length})`;
+    } else {
+      rejectBtn.classList.remove('show');
+    }
+  }
+}
+
+async function performPendingAction(applicantId, action){
+  const response = await fetchWithApiBase(`/api/pending-applicants/${applicantId}/${action}`, {
+    method: 'POST',
+    headers: { 'Accept': 'application/json' },
+  });
+
+  const payload = await response.json().catch(() => ({}));
+  if(!response.ok){
+    throw new Error((payload && (payload.message || payload.error)) || `Unable to ${action} applicant`);
+  }
+
+  return payload;
+}
+
+async function reloadApplicantsAfterAction(){
+  if(typeof window.loadApplicants === 'function'){
+    await window.loadApplicants({ preservePage: true });
+  }
+  updateSlotDisplay();
+  updateSlotSummary();
+}
+
+function rejectApplicant(applicantId){
+  showConfirm(
+    'Reject Applicant',
+    'Are you sure you want to reject this applicant?\n\nThis will permanently remove it from the pending list.',
+    'danger',
+    'Reject',
+    'btn-primary',
+    function(){
+      (async function(){
+        try {
+          await performPendingAction(applicantId, 'reject');
+          await reloadApplicantsAfterAction();
+          showToast('Applicant rejected successfully.', 'success');
+        } catch(err){
+          showToast((err && err.message) ? err.message : 'Failed to reject applicant.', 'error');
+        }
+      })();
+    }
+  );
+}
+
+function approveApplicant(applicantId){
+  showConfirm(
+    'Approve Applicant',
+    'Approve this applicant and move to SPES Management and Deployment?',
+    'success',
+    'Approve',
+    'btn-primary',
+    function(){
+      (async function(){
+        try {
+          await performPendingAction(applicantId, 'approve');
+          await reloadApplicantsAfterAction();
+          showToast('Applicant approved and transferred successfully.', 'success');
+        } catch(err){
+          showToast((err && err.message) ? err.message : 'Failed to approve applicant.', 'error');
+        }
+      })();
+    }
+  );
+}
+
+async function autoApproveByList(pendingApplicants, toApprove){
+  let successCount = 0;
+  for(let i = 0; i < toApprove; i++){
+    const target = pendingApplicants[i];
+    if(!target || !target.id) continue;
+    try {
+      await performPendingAction(target.id, 'approve');
+      successCount++;
+    } catch(err){
+      showToast((err && err.message) ? err.message : `Failed to approve applicant #${target.id}`, 'error');
+    }
+  }
+  await reloadApplicantsAfterAction();
+  return successCount;
+}
+
+// Reject Selected Flagged Applicants
+function rejectSelected(){
+  const checkboxes = document.querySelectorAll('.applicant-checkbox:checked');
+  if(checkboxes.length === 0){
+    showToast('No applicants selected.', 'warning');
+    return;
+  }
+  
+  if(!window.applicantsData){
+    showToast('Data not available.', 'error');
+    return;
+  }
+  
+  showConfirm(
+    'Reject Applicants',
+    'Are you sure you want to reject ' + checkboxes.length + ' selected flagged applicant(s)?',
+    'danger',
+    'Reject',
+    'btn-primary',
+    function(){
+      (async function(){
+        let successCount = 0;
+        for(const cb of checkboxes){
+          const id = parseInt(cb.dataset.id, 10);
+          if(!id) continue;
+          try {
+            await performPendingAction(id, 'reject');
+            successCount++;
+          } catch(err){
+            showToast((err && err.message) ? err.message : `Failed to reject applicant #${id}`, 'error');
+          }
+        }
+
+        const selectAll = document.getElementById('selectAllFlagged');
+        if(selectAll) selectAll.checked = false;
+
+        await reloadApplicantsAfterAction();
+
+        if(successCount > 0){
+          showToast(successCount + ' applicant(s) rejected successfully.', 'success');
+        }
+      })();
+    }
+  );
+}
+
+// Auto Approve Based on Available Slots
+function autoApprove(){
+  if(!window.applicantsData){
+    showToast('Data not available.', 'error');
+    return;
+  }
+  
+  const approved = window.applicantsData.filter(a => a.status === 'Approved').length;
+  const availableSlots = totalSlots - approved;
+  
+  if(availableSlots <= 0){
+    showToast('No available slots. Current: ' + approved + '/' + totalSlots + '. Please increase slot limit in Slot Settings.', 'warning');
+    return;
+  }
+  
+  let pendingApplicants = window.applicantsData.filter(a => a.status === 'Pending' && (!a.flags || a.flags.length === 0));
+  
+  if(pendingApplicants.length === 0){
+    showToast('No pending applicants without flags available for auto-approval.', 'warning');
+    return;
+  }
+
+  const priority = localStorage.getItem('spes_priority') || 'fcfs';
+  if(priority === 'fcfs'){
+    pendingApplicants.sort((a,b) => new Date(a.dateApplied || a.date || 0) - new Date(b.dateApplied || b.date || 0));
+  } else {
+    for(let i = pendingApplicants.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [pendingApplicants[i], pendingApplicants[j]] = [pendingApplicants[j], pendingApplicants[i]];
+    }
+  }
+  
+  const toApprove = Math.min(availableSlots, pendingApplicants.length);
+  const priorityLabel = priority === 'fcfs' ? 'First Come, First Served' : 'Random Selection';
+  
+  showConfirm(
+    'Auto-Approve Applicants',
+    'Approve ' + toApprove + ' applicant(s)?\n\nPriority: ' + priorityLabel + '\nAvailable slots: ' + availableSlots + '\nPending without flags: ' + pendingApplicants.length + '\n\nOnly applicants WITHOUT flags will be approved.',
+    'success',
+    'Approve',
+    'btn-primary',
+    function(){
+      (async function(){
+        const successCount = await autoApproveByList(pendingApplicants, toApprove);
+        if(successCount > 0){
+          const newApproved = (window.applicantsData || []).filter(a => a.status === 'Approved').length;
+          showToast(successCount + ' applicant(s) auto-approved (' + priorityLabel + '). Slot usage: ' + newApproved + '/' + totalSlots, 'success');
+        }
+      })();
+    }
+  );
+}
+</script>
+
+<script>
+// 3-dot menu toggle
+const menuDotsBtn = document.getElementById('menuDotsBtn');
+const dropdownMenu = document.getElementById('dropdownMenu');
+
+if(menuDotsBtn){
+  menuDotsBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    dropdownMenu.classList.toggle('show');
+  });
+}
+
+// Profile dropdown toggle
+const profileBtn = document.getElementById('profileBtn');
+const userInfo = document.getElementById('userInfo');
+const profileDropdown = document.getElementById('profileDropdown');
+
+if(profileBtn && profileDropdown){
+  profileBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    profileDropdown.classList.toggle('show');
+  });
+}
+
+if(userInfo && profileDropdown){
+  userInfo.addEventListener('click', function(e){
+    e.stopPropagation();
+    profileDropdown.classList.toggle('show');
+  });
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(){
+  if(dropdownMenu){
+    dropdownMenu.classList.remove('show');
+  }
+  if(profileDropdown){
+    profileDropdown.classList.remove('show');
+  }
+});
+
+// Add Applicant Dropdown
+const addApplicantBtn = document.getElementById('addApplicantBtn');
+const addApplicantDropdown = document.getElementById('addApplicantDropdown');
+
+if(addApplicantBtn && addApplicantDropdown){
+  addApplicantBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    addApplicantDropdown.classList.toggle('show');
+    // Close other dropdowns
+    if(dropdownMenu) dropdownMenu.classList.remove('show');
+    if(profileDropdown) profileDropdown.classList.remove('show');
+  });
+  
+  // Close when clicking outside
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.add-applicant-wrapper')){
+      addApplicantDropdown.classList.remove('show');
+    }
+  });
+}
+
+// Dropdown action functions
+function addManually(){
+  addApplicantDropdown.classList.remove('show');
+  openAddApplicantModal();
+}
+
+const modalCalambaDistricts = [
+  'Bagong Kalsada', 'Banadero', 'Banlic', 'Barandal', 'District 1', 'District 2', 'District 3', 'District 4', 'District 5', 'District 6', 'District 7',
+  'Batino', 'Bubuyan', 'Bucal', 'Bunggo', 'Burol', 'Camaligan', 'Canlubang', 'Halang', 'Hornalan', 'Kay-Anlog', 'La Mesa', 'Laguerta', 'Lawa', 'Lecheria',
+  'Lingga', 'Looc', 'Mabato', 'Majada Labas', 'Makiling', 'Mapagong', 'Masili', 'Maunong', 'Mayapa', 'Milagrosa', 'Paciano Rizal', 'Palingon', 'Palo-Alto',
+  'Pansol', 'Parian', 'Prinza', 'Punta', 'Puting Lupa', 'Real', 'Saimsim', 'Sampiruhan', 'San Cristobal', 'San Jose', 'San Juan', 'Sirang Lupa', 'Sucol',
+  'Turbina', 'Ulango', 'Uwisan'
+];
+
+function updateModalFullAddress(){
+  const street = (document.getElementById('modalStreetInput') || {}).value || '';
+  const barangay = (document.getElementById('modalDistrictInput') || {}).value || '';
+  const fullAddress = [street, barangay ? 'District ' + barangay : '', 'Calamba City', 'Laguna']
+    .filter(function(part){ return part && part.trim(); })
+    .join(', ');
+  const fullAddressInput = document.getElementById('modalFullAddress');
+  if(fullAddressInput) fullAddressInput.value = fullAddress;
+}
+
+function wireModalAddressPicker(){
+  const streetInput = document.getElementById('modalStreetInput');
+  const barangayInput = document.getElementById('modalDistrictInput');
+  const options = document.getElementById('modalDistrictOptions');
+  const cityInput = document.getElementById('modalCityInput');
+  const provinceInput = document.getElementById('modalProvinceInput');
+  if(!streetInput || !barangayInput || !options || !cityInput || !provinceInput) return;
+
+  cityInput.value = 'Calamba City';
+  provinceInput.value = 'Laguna';
+
+  function showOptions(items){
+    if(!items.length){
+      options.innerHTML = '<div class="modal-searchable-option-empty">No matching district</div>';
+      options.classList.remove('hidden');
+      return;
+    }
+    options.innerHTML = items.map(function(item){
+      return '<div class="modal-searchable-option" data-value="' + item + '">' + item + '</div>';
+    }).join('');
+    options.classList.remove('hidden');
+  }
+
+  function filterOptions(){
+    const q = barangayInput.value.trim().toLowerCase();
+    const filtered = modalCalambaDistricts.filter(function(name){
+      return name.toLowerCase().indexOf(q) !== -1;
+    });
+    showOptions(filtered);
+  }
+
+  function applySelection(value){
+    if(!value) return;
+    barangayInput.value = value;
+    options.classList.add('hidden');
+    updateModalFullAddress();
+  }
+
+  barangayInput.addEventListener('focus', filterOptions);
+  barangayInput.addEventListener('input', function(){
+    filterOptions();
+    updateModalFullAddress();
+  });
+  barangayInput.addEventListener('keydown', function(e){
+    if(e.key !== 'Enter') return;
+    const firstMatch = options.querySelector('.modal-searchable-option');
+    if(!firstMatch) return;
+    e.preventDefault();
+    applySelection(firstMatch.getAttribute('data-value') || '');
+  });
+  barangayInput.addEventListener('blur', function(){
+    setTimeout(function(){ options.classList.add('hidden'); }, 120);
+  });
+
+  options.addEventListener('click', function(e){
+    const target = e.target.closest('.modal-searchable-option');
+    if(!target) return;
+    applySelection(target.getAttribute('data-value') || '');
+  });
+  options.addEventListener('mousedown', function(e){
+    const target = e.target.closest('.modal-searchable-option');
+    if(!target) return;
+    e.preventDefault();
+    applySelection(target.getAttribute('data-value') || '');
+  });
+  options.addEventListener('touchstart', function(e){
+    const target = e.target.closest('.modal-searchable-option');
+    if(!target) return;
+    applySelection(target.getAttribute('data-value') || '');
+  });
+
+  streetInput.addEventListener('input', updateModalFullAddress);
+  updateModalFullAddress();
+}
+
+// Modal functions
+function openAddApplicantModal(){
+  const modal = document.getElementById('addApplicantModal');
+  if(modal) modal.classList.add('show');
+  wireModalAddressPicker();
+  updateModalFullAddress();
+}
+
+function closeAddApplicantModal(){
+  const modal = document.getElementById('addApplicantModal');
+  if(modal) modal.classList.remove('show');
+  document.getElementById('addApplicantForm').reset();
+  updateModalFullAddress();
+}
+
+function closeAddApplicantModalOnBackdrop(event){
+  if(event.target.id === 'addApplicantModal'){
+    closeAddApplicantModal();
+  }
+}
+
+// Application Details View Functions
+function viewApplicantDetails(applicantId){
+  // Get applicant data
+  const applicant = window.applicantsData?.find(a => a.id === applicantId);
+  
+  if(!applicant){
+    showToast('Applicant data not found.', 'error');
+    return;
+  }
+  
+  // Generate data based on source (Walk-in or Online)
+  const isOnline = applicant.source === 'Online';
+  const sourceLabel = isOnline ? 'ONLINE APPLICATION' : 'WALK-IN APPLICATION';
+  
+  // Basic Information (same for both walk-in and online)
+  const lastName = applicant.name.split(' ')[0] || '';
+  const firstName = applicant.name.split(' ')[1] || '';
+  const middleName = applicant.name.split(' ')[2] || '';
+  const fullAddress = '1234 DISTRICT ' + applicant.barangay + ', CALAMBA CITY, LAGUNA';
+  const dob = 'JULY 29, 2005';
+  const placeOfBirth = 'CALAMBA CITY, LAGUNA';
+  const age = applicant.age;
+  const email = applicant.email;
+  const fbAccount = 'facebook.com/' + firstName.toLowerCase() + lastName.toLowerCase();
+  const contactNumber = '09123456789';
+  const isScholar = 'NO';
+  const scholarshipName = 'N/A';
+  const is4ps = 'NO';
+  const isPwd = 'NO';
+  
+  // Education Information
+  const elemSchool = 'CALAMBA ELEMENTARY SCHOOL';
+  const jhsSchool = 'CALAMBA NATIONAL HIGH SCHOOL';
+  const shsSchool = 'CALAMBA SENIOR HIGH SCHOOL';
+  const shsTrack = 'ACADEMIC TRACK - STEM';
+  const collegeSchool = applicant.school;
+  const collegeCourse = applicant.course;
+  
+  // Family Information
+  const fatherName = 'JUAN DELA CRUZ';
+  const fatherAge = '52';
+  const fatherOccupation = 'FARMER';
+  const fatherRemarks = 'LIVING';
+  const motherName = 'MARIA DELA CRUZ';
+  const motherAge = '48';
+  const motherOccupation = 'HOUSEWIFE';
+  const motherRemarks = 'LIVING';
+  
+  // Build modal content
+  const modalBody = document.getElementById('detailsModalBody');
+  
+  // Check if applicant has flags
+  let flagSection = '';
+  if(applicant.flags && applicant.flags.length > 0){
+    flagSection = `
+      <div class="flag-warning-section">
+        <div class="flag-warning-title">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          QUALIFICATION FLAGS
+        </div>
+        ${applicant.flags.map(flag => `<div class="flag-item">${flag}</div>`).join('')}
+      </div>
+    `;
+  }
+  
+  modalBody.innerHTML = flagSection + `
+    <div class="details-section">
+      <div class="details-section-title">Basic Information</div>
+      <div class="details-row">
+        <div class="details-label">Last Name:</div>
+        <div class="details-value">${lastName}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">First Name:</div>
+        <div class="details-value">${firstName}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Middle Name:</div>
+        <div class="details-value">${middleName}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Address:</div>
+        <div class="details-value">${fullAddress}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Date of Birth:</div>
+        <div class="details-value">${dob}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Place of Birth:</div>
+        <div class="details-value">${placeOfBirth}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Age:</div>
+        <div class="details-value">${age}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Email Address:</div>
+        <div class="details-value">${email}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">FB Account:</div>
+        <div class="details-value">${fbAccount}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Contact Number:</div>
+        <div class="details-value">${contactNumber}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Are you a Scholar?</div>
+        <div class="details-value">${isScholar}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Scholarship Name:</div>
+        <div class="details-value">${scholarshipName}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">4Ps Beneficiary?</div>
+        <div class="details-value">${is4ps}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">PWD?</div>
+        <div class="details-value">${isPwd}</div>
+      </div>
+    </div>
+    
+    <div class="details-section">
+      <div class="details-section-title">Education Information</div>
+      <div class="details-row">
+        <div class="details-label">Elementary:</div>
+        <div class="details-value">${elemSchool}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Junior High School:</div>
+        <div class="details-value">${jhsSchool}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Senior High School:</div>
+        <div class="details-value">${shsSchool}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">SHS Track/Strand:</div>
+        <div class="details-value">${shsTrack}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">College/University:</div>
+        <div class="details-value">${collegeSchool}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Course/Program:</div>
+        <div class="details-value">${collegeCourse}</div>
+      </div>
+    </div>
+    
+    <div class="details-section">
+      <div class="details-section-title">Family Information</div>
+      <div class="details-row">
+        <div class="details-label">Father's Name:</div>
+        <div class="details-value">${fatherName}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Father's Age:</div>
+        <div class="details-value">${fatherAge}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Father's Occupation:</div>
+        <div class="details-value">${fatherOccupation}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Father's Remarks:</div>
+        <div class="details-value">${fatherRemarks}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Mother's Name:</div>
+        <div class="details-value">${motherName}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Mother's Age:</div>
+        <div class="details-value">${motherAge}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Mother's Occupation:</div>
+        <div class="details-value">${motherOccupation}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Mother's Remarks:</div>
+        <div class="details-value">${motherRemarks}</div>
+      </div>
+    </div>
+    
+    <div class="details-section">
+      <div class="details-section-title">Submitted Requirements</div>
+      <div class="details-file" onclick="viewPDF('Birth Certificate')">
+        <div class="details-file-icon">
+          <i class="fa-solid fa-file-pdf"></i>
+        </div>
+        <span>Birth Certificate (PDF)</span>
+      </div>
+      <div class="h-8"></div>
+      <div class="details-file" onclick="viewPDF('School Registration / COR')">
+        <div class="details-file-icon">
+          <i class="fa-solid fa-file-pdf"></i>
+        </div>
+        <span>School Registration / COR (PDF)</span>
+      </div>
+      <div class="h-8"></div>
+      <div class="details-file" onclick="viewPDF('Latest Grade / Report Card (1)')">
+        <div class="details-file-icon">
+          <i class="fa-solid fa-file-pdf"></i>
+        </div>
+        <span>Latest Grade / Report Card (PDF)</span>
+      </div>
+      <div class="h-8"></div>
+      <div class="details-file" onclick="viewPDF('Latest Grade / Report Card (2)')">
+        <div class="details-file-icon">
+          <i class="fa-solid fa-file-pdf"></i>
+        </div>
+        <span>Latest Grade / Report Card (PDF)</span>
+      </div>
+    </div>
+  `;
+  
+  // Show modal
+  const modal = document.getElementById('detailsModal');
+  if(modal) modal.classList.add('show');
+}
+
+function closeDetailsModal(){
+  const modal = document.getElementById('detailsModal');
+  if(modal) modal.classList.remove('show');
+}
+
+function closeDetailsModalOnBackdrop(event){
+  if(event.target.id === 'detailsModal'){
+    closeDetailsModal();
+  }
+}
+
+// View PDF function
+function viewPDF(fileName){
+  // In a real application, this would open the actual PDF file
+  // For now, we'll show an alert and you can replace this with actual PDF viewing logic
+  
+  showToast('Opening: ' + fileName, 'info');
+  
+  // Example of opening in new window (when you have actual PDF URLs):
+  // window.open(pdfUrl, '_blank');
+  
+  // Or you could implement an inline PDF viewer using iframe or PDF.js
+}
+
+// Auto-calculate age from date of birth in modal
+const modalDob = document.getElementById('modalDob');
+const modalAge = document.getElementById('modalAge');
+if(modalDob && modalAge){
+  modalDob.addEventListener('change', function(){
+    if(!this.value){
+      modalAge.value = '';
+      return;
+    }
+    const dob = new Date(this.value);
+    if(!isNaN(dob.getTime())){
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const m = today.getMonth() - dob.getMonth();
+      if(m < 0 || (m === 0 && today.getDate() < dob.getDate())){
+        age--;
+      }
+      modalAge.value = age >= 0 ? age : '';
+    } else {
+      modalAge.value = '';
+    }
+  });
+}
+
+function submitApplicant(){
+  const form = document.getElementById('addApplicantForm');
+  if(!form.checkValidity()){
+    form.reportValidity();
+    return;
+  }
+
+  const selectedDistrict = (document.getElementById('modalDistrictInput') || {}).value || '';
+  if(!modalCalambaDistricts.includes(selectedDistrict)){
+    showToast('Please select a valid Calamba district.', 'warning');
+    return;
+  }
+  updateModalFullAddress();
+  
+  const formData = new FormData(form);
+
+  fetchWithApiBase('/api/add-applicant', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  })
+    .then(async response => {
+      const payload = await response.json().catch(() => ({}));
+      if(!response.ok){
+        throw new Error(payload.message || payload.error || 'Failed to add applicant');
+      }
+      showToast(payload.message || 'Applicant added successfully!', 'success');
+      closeAddApplicantModal();
+      if(window.loadApplicants){
+        window.loadApplicants({ preservePage: false });
+      }
+    })
+    .catch(error => {
+      showToast(error.message || 'Failed to add applicant.', 'error');
+    });
+}
+
+// Camera functionality
+let cameraStream = null;
+let capturedImageData = null;
+
+function scanDocument(){
+  addApplicantDropdown.classList.remove('show');
+  openCameraModal();
+}
+
+function openCameraModal(){
+  const modal = document.getElementById('cameraModal');
+  const video = document.getElementById('cameraVideo');
+  
+  if(modal){
+    modal.classList.add('show');
+    
+    // Request camera access
+    navigator.mediaDevices.getUserMedia({ 
+      video: { 
+        facingMode: 'environment',
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      } 
+    })
+    .then(function(stream){
+      cameraStream = stream;
+      video.srcObject = stream;
+      video.style.display = 'block';
+    })
+    .catch(function(err){
+      console.error('Camera error:', err);
+      showToast('Unable to access camera. Please check your camera permissions.', 'error');
+      closeCameraModal();
+    });
+  }
+}
+
+function closeCameraModal(){
+  const modal = document.getElementById('cameraModal');
+  const video = document.getElementById('cameraVideo');
+  const canvas = document.getElementById('cameraCanvas');
+  
+  // Stop camera stream
+  if(cameraStream){
+    cameraStream.getTracks().forEach(track => track.stop());
+    cameraStream = null;
+  }
+  
+  // Reset UI
+  video.style.display = 'block';
+  canvas.style.display = 'none';
+  document.getElementById('captureBtn').style.display = 'flex';
+  document.getElementById('retakeBtn').style.display = 'none';
+  document.getElementById('usePhotoBtn').style.display = 'none';
+  
+  capturedImageData = null;
+  
+  if(modal) modal.classList.remove('show');
+}
+
+function capturePhoto(){
+  const video = document.getElementById('cameraVideo');
+  const canvas = document.getElementById('cameraCanvas');
+  const context = canvas.getContext('2d');
+  
+  // Set canvas dimensions to match video
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  
+  // Draw video frame to canvas
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+  // Store image data
+  capturedImageData = canvas.toDataURL('image/jpeg', 0.9);
+  
+  // Show captured image
+  video.style.display = 'none';
+  canvas.style.display = 'block';
+  
+  // Update buttons
+  document.getElementById('captureBtn').style.display = 'none';
+  document.getElementById('retakeBtn').style.display = 'flex';
+  document.getElementById('usePhotoBtn').style.display = 'flex';
+}
+
+function retakePhoto(){
+  const video = document.getElementById('cameraVideo');
+  const canvas = document.getElementById('cameraCanvas');
+  
+  // Show video again
+  video.style.display = 'block';
+  canvas.style.display = 'none';
+  
+  // Update buttons
+  document.getElementById('captureBtn').style.display = 'flex';
+  document.getElementById('retakeBtn').style.display = 'none';
+  document.getElementById('usePhotoBtn').style.display = 'none';
+  
+  capturedImageData = null;
+}
+
+function usePhoto(){
+  if(capturedImageData){
+    // Close camera modal
+    closeCameraModal();
+    
+    // Show success message
+    showToast('Document captured successfully! Please complete the application form.', 'success');
+    
+    // Open the application form
+    openAddApplicantModal();
+  }
+}
+
+function uploadDocument(){
+  addApplicantDropdown.classList.remove('show');
+  
+  // Create file input for document upload
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.pdf, .doc, .docx, .jpg, .jpeg, .png';
+  input.multiple = true;
+  input.onchange = function(e){
+    const files = e.target.files;
+    if(files && files.length > 0){
+      let fileList = '';
+      for(let i = 0; i < files.length; i++){
+        fileList += '• ' + files[i].name + '\n';
+      }
+      
+      showConfirm(
+        'Documents Selected (' + files.length + ')',
+        fileList + '\nContinue with the application form?',
+        'info',
+        'Continue',
+        'btn-primary',
+        function(){ openAddApplicantModal(); }
+      );
+    }
+  };
+  input.click();
+}
+
+// Settings function
+function goToSettings(){
+  window.location.href = 'cSettings.html';
+}
+
+// Logout confirmation
+function confirmLogout(){
+  showConfirm(
+    'Logout',
+    'Are you sure you want to logout?',
+    'warning',
+    'Logout',
+    'btn-primary',
+    function(){ window.location.href = '../login.html'; }
+  );
+}
+
+// Import Excel function
+function importExcel(){
+  // Create file input
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.xlsx, .xls, .csv';
+  input.onchange = function(e){
+    const file = e.target.files[0];
+    if(file){
+      showToast('File selected: ' + file.name + '\nImport functionality to be implemented.', 'info');
+      // Add your import logic here
+    }
+  };
+  input.click();
+  dropdownMenu.classList.remove('show');
+}
+
+// Export Excel function
+function exportExcel(){
+  const table = document.querySelector('.data-table');
+  if(!table){
+    showToast('No table data to export.', 'warning');
+    return;
+  }
+  
+  // Simple CSV export
+  let csv = [];
+  const rows = table.querySelectorAll('tr');
+  
+  for(let row of rows){
+    let cols = row.querySelectorAll('th, td');
+    let csvRow = [];
+    for(let col of cols){
+      csvRow.push('"' + col.innerText.replace(/"/g, '""') + '"');
+    }
+    csv.push(csvRow.join(','));
+  }
+  
+  // Download
+  const csvContent = csv.join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'spes_data_' + new Date().getTime() + '.csv';
+  a.click();
+  window.URL.revokeObjectURL(url);
+  
+  dropdownMenu.classList.remove('show');
+}
+</script>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Confirm Modal -->
+<div class="modal-backdrop" id="confirmModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon info" id="confirmIcon"><i class="fa-solid fa-question"></i></div>
+    <h3 id="confirmTitle">Confirm</h3>
+    <p id="confirmText">Are you sure?</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" onclick="closeConfirmModal()">Cancel</button>
+      <button class="btn-primary" id="confirmActionBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// TOAST NOTIFICATIONS 
+function showToast(msg, type){
+  const container = document.getElementById('toastContainer');
+  const icons = { success:'fa-circle-check', error:'fa-circle-xmark', info:'fa-circle-info', warning:'fa-triangle-exclamation' };
+  const icon = icons[type] || icons.info;
+  const t = document.createElement('div');
+  t.className = 'toast ' + (type||'info');
+  t.innerHTML = '<i class="fa-solid '+icon+'"></i><span>'+msg+'</span><button class="toast-close" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>';
+  container.appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(),300); }, 4000);
+}
+
+// ═══ CONFIRM MODAL ═══
+function openConfirmModal(){ document.getElementById('confirmModal').classList.add('show'); }
+function closeConfirmModal(){ document.getElementById('confirmModal').classList.remove('show'); }
+document.getElementById('confirmModal').addEventListener('click', function(e){ if(e.target===this) closeConfirmModal(); });
+
+function showConfirm(title, text, iconClass, btnText, btnClass, onConfirm){
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmText').textContent = text;
+  document.getElementById('confirmIcon').className = 'confirm-icon ' + iconClass;
+  const actionBtn = document.getElementById('confirmActionBtn');
+  actionBtn.textContent = btnText;
+  actionBtn.className = btnClass || 'btn-primary';
+  actionBtn.onclick = ()=>{ closeConfirmModal(); onConfirm(); };
+  openConfirmModal();
+}
+</script>
+
+<script>
+// eSPES logout alert override
+function confirmLogout(){
+  const onConfirm = function(){ window.location.href = '../login.html'; };
+  if(typeof showConfirm === 'function'){
+    try {
+      showConfirm('Logout', 'Are you sure you want to logout?', 'warning', 'Logout', 'btn-primary', onConfirm);
+      return;
+    } catch(_err){
+      try {
+        showConfirm('Logout', 'Are you sure you want to logout?', 'warning', onConfirm);
+        return;
+      } catch(_err2){ }
+    }
+  }
+  if(confirm('Are you sure you want to logout?')) onConfirm();
+}
+</script>
+</body>
+</html>
+
+

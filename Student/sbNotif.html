@@ -1,0 +1,1374 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-SPES | Notifications</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+body{
+  margin:0;
+  background:#ffffff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-bottom:46px;
+}
+
+/*  Header  */
+.header{
+  background:#242242;
+  color:white;
+  padding:12px 30px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+}
+
+.burger-btn{
+  border:none;
+  background:transparent;
+  color:#ffffff;
+  font-size:20px;
+  width:38px;
+  height:38px;
+  border-radius:6px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.burger-btn:hover{
+  background:rgba(255,255,255,0.12);
+}
+
+.header-text h1{
+  margin:0;
+  font-size:16px;
+}
+
+.header-text{
+  flex:1 1 auto;
+}
+
+.header-right{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-info{
+  text-align:right;
+  font-size:12px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.user-info:hover{
+  opacity:0.8;
+}
+
+.avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e5e5e5;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.avatar:hover{
+  background:#d0d0d0;
+}
+
+/*  Profile dropdown  */
+.profile-menu{
+  position:relative;
+}
+
+.profile-dropdown{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:8px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  min-width:150px;
+  display:none;
+  z-index:100;
+}
+
+.profile-dropdown.show{
+  display:block;
+}
+
+.profile-item{
+  padding:12px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+  border:none;
+  background:none;
+  width:100%;
+  text-align:left;
+}
+
+.profile-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.profile-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/*  Main wrapper  */
+.main-wrapper{
+  flex:1;
+  padding:30px 120px 60px 120px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+.breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:#666;
+  cursor:pointer;
+  margin-bottom:15px;
+}
+
+.breadcrumb i{
+  font-size:12px;
+}
+
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+/*  Main layout  */
+.main{
+  display:flex;
+  gap:11px;
+  flex:1;
+  overflow:hidden;
+}
+
+/*  Sidebar  */
+.sidebar{
+  width:235px;
+  background:#f3f3f3;
+  border-radius:5px;
+  padding:0;
+  border:1px solid #d0d0d0;
+  flex-shrink:0;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+  max-height:calc(100vh - 160px);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-profile{
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:16px 14px;
+  border-bottom:1px solid #e1e1e1;
+  background:#ededed;
+}
+
+.sidebar-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#d9d9d9;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+  flex-shrink:0;
+}
+
+.sidebar-user h4{
+  margin:0;
+  font-size:13px;
+  color:#222;
+  font-weight:700;
+}
+
+.sidebar-user p{
+  margin:2px 0 0;
+  font-size:11px;
+  color:#666;
+  font-weight:500;
+}
+
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:34px 14px;
+  border-radius:6px;
+  font-size:14.5px;
+  color:#666;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.menu-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.menu-item i{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+.menu-item:hover{
+  background:#e6e6e6;
+}
+
+.menu-item:hover .fa-chevron-right{
+  background:#bfc3c9;
+  color:#666666;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+}
+
+.sidebar-menu{
+  flex:1;
+  overflow-y:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+.sidebar-menu::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+
+.menu-item-logout{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px 20px;
+  border-radius:8px;
+  font-size:15.5px;
+  color:#222;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  text-decoration:none;
+  background:#e4e6eb;
+  border:1px solid #ced0d4;
+  width:calc(100% - 28px);
+  text-align:center;
+  margin-top:30px;
+  margin-bottom:70px;
+  margin-left:14px;
+  margin-right:14px;
+  font-weight:700;
+}
+
+.menu-item-logout:hover{
+  background:#d8dadf;
+  border-color:#bcc0c4;
+}
+
+.menu-item.active{
+  background:#ffffff;
+  color:rgb(40,32,32);
+  border-radius:0;
+}
+
+.menu-item.active i{
+  color:rgb(32,30,30);
+}
+
+.menu-item.active .fa-chevron-right{
+  background:#1a1a1a;
+  color:#ffffff;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+}
+
+/* Notif badge */
+.notif-badge{
+  background:#e53935;
+  color:#fff;
+  font-size:9px;
+  font-weight:700;
+  min-width:18px;
+  height:18px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 4px;
+  margin-left:4px;
+}
+
+/*  Content  */
+.content{
+  flex:1;
+  background:#ffffff;
+  border-radius:4px;
+  padding:20px;
+  border:1px solid #d0d0d0;
+  position:relative;
+  overflow-y:auto;
+  overflow-x:hidden;
+  max-height:calc(100vh - 160px);
+}
+
+/* -- Announcements header -- */
+.announce-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+  padding-bottom:12px;
+  border-bottom:1px solid #f0f0f0;
+}
+
+.announce-header h3{
+  margin:0;
+  font-size:16px;
+  color:#222;
+  font-weight:700;
+}
+
+.refresh-btn{
+  width:32px;
+  height:32px;
+  border:1px solid #d0d0d0;
+  background:#fff;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.2s;
+  color:#666;
+  font-size:14px;
+}
+
+.refresh-btn:hover{
+  background:#f5f5f5;
+  color:#333;
+}
+
+.refresh-btn:active{
+  transform:rotate(180deg);
+}
+
+.loading-bar{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  width:0;
+  height:2px;
+  background:#3b82f6;
+  transition:width 0.8s ease;
+  z-index:5;
+}
+
+.loading-bar.active{
+  width:100%;
+}
+
+/* -- Announcement cards -- */
+.announce-list{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+
+.announce-card{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:18px 16px;
+  border:1px solid #e8ecf1;
+  border-bottom:none;
+  background:#fff;
+  transition:.2s;
+  cursor:pointer;
+}
+
+.announce-card:first-child{
+  border-radius:8px 8px 0 0;
+}
+
+.announce-card:last-child{
+  border-bottom:1px solid #e8ecf1;
+  border-radius:0 0 8px 8px;
+}
+
+.announce-card:only-child{
+  border-radius:8px;
+  border-bottom:1px solid #e8ecf1;
+}
+
+.announce-card:hover{
+  background:#fafbfc;
+}
+
+.announce-card.unread{
+  border-left:3px solid #242242;
+}
+
+.announce-icon{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#f0f0f0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  color:#666;
+  font-size:16px;
+}
+
+.announce-card.unread .announce-icon{
+  background:#242242;
+  color:#fff;
+}
+
+.announce-body{
+  flex:1;
+  min-width:0;
+}
+
+.announce-title{
+  font-size:13px;
+  font-weight:700;
+  color:#1a1d2e;
+  margin-bottom:3px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.announce-title .new-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#e53935;
+  flex-shrink:0;
+}
+
+.announce-desc{
+  font-size:11px;
+  color:#888;
+  line-height:1.4;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+.announce-meta{
+  font-size:10px;
+  color:#bbb;
+  margin-top:4px;
+}
+
+.announce-actions{
+  display:flex;
+  gap:8px;
+  flex-shrink:0;
+}
+
+.btn-submit-notif{
+  padding:7px 16px;
+  background:#242242;
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  font-size:11px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+  white-space:nowrap;
+}
+
+.btn-submit-notif:hover{
+  background:#363454;
+}
+
+.btn-view-notif{
+  padding:7px 16px;
+  background:#fff;
+  color:#333;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:11px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+  white-space:nowrap;
+}
+
+.btn-view-notif:hover{
+  background:#f5f5f5;
+  border-color:#999;
+}
+
+/* -- Empty state -- */
+.empty-state{
+  text-align:center;
+  padding:60px 20px;
+  color:#bbb;
+}
+
+.empty-state i{
+  font-size:48px;
+  margin-bottom:16px;
+  opacity:0.3;
+}
+
+.empty-state p{
+  margin:0;
+  font-size:14px;
+}
+
+/* -- Preview Modal -- */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:900;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.2s ease;
+}
+
+.modal-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.modal-box{
+  background:#fff;
+  border-radius:8px;
+  width:min(540px,92vw);
+  max-height:85vh;
+  box-shadow:0 10px 40px rgba(0,0,0,0.2);
+  overflow:hidden;
+  transform:translateY(-12px);
+  transition:transform 0.2s ease;
+  display:flex;
+  flex-direction:column;
+}
+
+.modal-overlay.show .modal-box{
+  transform:translateY(0);
+}
+
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px;
+  border-bottom:1px solid #e8e8e8;
+  flex-shrink:0;
+}
+
+.modal-title{
+  font-size:14px;
+  font-weight:700;
+  color:#1a1d2e;
+}
+
+.modal-close{
+  width:28px;
+  height:28px;
+  border:none;
+  background:transparent;
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#888;
+  font-size:15px;
+  transition:.2s;
+}
+
+.modal-close:hover{
+  background:#f0f0f0;
+  color:#333;
+}
+
+.modal-body{
+  padding:20px;
+  overflow-y:auto;
+  flex:1;
+}
+
+.modal-body::-webkit-scrollbar{width:3px;display:block;}
+.modal-body::-webkit-scrollbar-track{background:transparent;}
+.modal-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.1);border-radius:2px;}
+
+.preview-meta{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid #f0f0f0;
+}
+
+.preview-meta-icon{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#242242;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  flex-shrink:0;
+}
+
+.preview-meta-info{
+  flex:1;
+}
+
+.preview-from{
+  font-size:12px;
+  font-weight:700;
+  color:#333;
+}
+
+.preview-date{
+  font-size:10px;
+  color:#999;
+  margin-top:1px;
+}
+
+.preview-subject{
+  font-size:16px;
+  font-weight:700;
+  color:#1a1d2e;
+  margin-bottom:14px;
+}
+
+.preview-content{
+  font-size:13px;
+  color:#444;
+  line-height:1.7;
+}
+
+.preview-content p{
+  margin:0 0 12px;
+}
+
+.preview-content ul{
+  margin:8px 0 12px;
+  padding-left:20px;
+}
+
+.preview-content li{
+  margin-bottom:6px;
+}
+
+.preview-content .highlight-box{
+  background:#f8f9fa;
+  border-left:3px solid #242242;
+  padding:12px 16px;
+  margin:14px 0;
+  border-radius:0 6px 6px 0;
+  font-size:12px;
+  color:#555;
+  line-height:1.6;
+}
+
+.preview-attachments{
+  margin-top:18px;
+  padding-top:14px;
+  border-top:1px solid #f0f0f0;
+}
+
+.preview-attachments h4{
+  margin:0 0 10px;
+  font-size:12px;
+  font-weight:700;
+  color:#666;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+
+.attachment-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  background:#f8f8f8;
+  border-radius:6px;
+  margin-bottom:6px;
+  transition:.2s;
+  cursor:pointer;
+}
+
+.attachment-item:hover{
+  background:#f0f0f0;
+}
+
+.attachment-item i{
+  font-size:18px;
+  color:#e53935;
+}
+
+.attachment-name{
+  flex:1;
+  font-size:12px;
+  font-weight:600;
+  color:#333;
+}
+
+.attachment-size{
+  font-size:10px;
+  color:#999;
+}
+
+.modal-footer{
+  padding:14px 20px;
+  border-top:1px solid #f0f0f0;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  flex-shrink:0;
+}
+
+.btn-cancel{
+  padding:9px 28px;
+  background:#f0f0f0;
+  color:#444;
+  border:none;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.btn-cancel:hover{
+  background:#e2e2e2;
+}
+
+/*  Footer  */
+.footer{
+  background:#242242;
+  color:white;
+  text-align:center;
+  padding:10px;
+  font-size:9px;
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:400;
+}
+
+/*  Scrollbars  */
+::-webkit-scrollbar{display:none;}
+html{-ms-overflow-style:none;scrollbar-width:none;}
+
+.content::-webkit-scrollbar{width:1px;display:block;}
+.content::-webkit-scrollbar-track{background:transparent;}
+.content::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.05);border-radius:1px;min-height:5px;max-height:12px;}
+.content::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.3);}
+.content{scrollbar-width:thin;scrollbar-color:rgba(0,0,0,0.05) transparent;}
+
+.sidebar{scrollbar-width:none !important;-ms-overflow-style:none;}
+.sidebar::-webkit-scrollbar{display:none !important;width:0 !important;}
+
+/*  Responsive  */
+@media(max-width:1024px){
+  .main-wrapper{padding:24px 32px 60px 32px;}
+  .main{gap:8px;}
+  .sidebar{width:220px;}
+  .content{padding:14px;}
+}
+
+@media(max-width:720px){
+  .header{padding:10px 20px;gap:10px;flex-wrap:nowrap;}
+  .header img{width:32px;height:32px;}
+  .header-text{flex:1 1 auto;}
+  .header-text h1{font-size:13px;line-height:1.2;}
+  .header-right{display:none;}
+  .burger-btn{display:flex;}
+  .main-wrapper{padding:20px 16px 40px 16px;overflow:visible;}
+  .main{position:relative;overflow:visible;}
+  .content{max-height:none;padding:12px;border:none;}
+  .breadcrumb{display:none;}
+
+  /* Announcements content */
+  .announce-header{margin-bottom:14px;padding-bottom:10px;}
+  .announce-header h3{font-size:15px;}
+  .refresh-btn{width:30px;height:30px;font-size:13px;}
+
+  .announce-card{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+    padding:14px 12px;
+  }
+
+  .announce-icon{width:34px;height:34px;font-size:14px;}
+  .announce-title{font-size:12.5px;}
+  .announce-desc{font-size:10.5px;-webkit-line-clamp:2;}
+  .announce-meta{font-size:9px;}
+
+  .announce-actions{
+    width:100%;
+    justify-content:flex-end;
+  }
+
+  .btn-submit-notif,.btn-view-notif{
+    padding:8px 18px;
+    font-size:11px;
+  }
+
+  /* Modal mobile */
+  .modal-box{
+    width:96vw;
+    max-height:90vh;
+    border-radius:10px;
+    margin:0 2vw;
+  }
+  .modal-header{padding:14px 16px;}
+  .modal-title{font-size:13px;}
+  .modal-body{padding:16px;}
+  .preview-subject{font-size:14px;}
+  .preview-content{font-size:12px;line-height:1.6;}
+  .preview-content .highlight-box{padding:10px 12px;font-size:11px;}
+  .preview-meta-icon{width:32px;height:32px;font-size:12px;}
+  .preview-from{font-size:11px;}
+  .preview-date{font-size:9px;}
+  .modal-footer{padding:12px 16px;}
+  .btn-cancel{padding:8px 22px;font-size:11px;}
+
+  .attachment-item{padding:8px 10px;gap:8px;}
+  .attachment-name{font-size:11px;}
+  .attachment-size{font-size:9px;}
+
+  .sidebar{
+    position:fixed;top:0;left:0;height:100vh;
+    width:min(320px,90vw);background:#f3f3f3;
+    transform:translateX(-110%);transition:transform 0.25s ease;
+    z-index:500;border-radius:0;border:none;max-height:100vh;
+  }
+  .sidebar-profile{display:flex;flex-shrink:0;}
+  .sidebar-menu{flex:1;overflow-y:auto;padding-bottom:0;}
+  .menu-item-logout{display:flex;margin-bottom:20px;}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.35);
+    opacity:0;pointer-events:none;transition:opacity 0.2s ease;z-index:450;
+  }
+  .sidebar-overlay.show{opacity:1;pointer-events:auto;}
+  .footer{padding:8px;font-size:9px;}
+}
+
+@media(max-width:480px){
+  .main-wrapper{padding:12px 8px 50px 8px;}
+  .content{padding:10px;border-radius:0;}
+
+  /* Announcements content */
+  .announce-header{margin-bottom:10px;padding-bottom:8px;}
+  .announce-header h3{font-size:13.5px;}
+  .refresh-btn{width:28px;height:28px;font-size:12px;}
+
+  .announce-card{
+    padding:12px 10px;
+    gap:6px;
+  }
+  .announce-icon{width:30px;height:30px;font-size:12px;}
+  .announce-title{font-size:12px;gap:5px;}
+  .announce-title .new-dot{width:6px;height:6px;}
+  .announce-desc{font-size:10px;-webkit-line-clamp:2;}
+  .announce-meta{font-size:8.5px;margin-top:3px;}
+
+  .announce-actions{gap:6px;}
+  .btn-submit-notif,.btn-view-notif{
+    padding:7px 14px;
+    font-size:10px;
+  }
+
+  /* Modal extra small */
+  .modal-box{
+    width:98vw;
+    max-height:92vh;
+    border-radius:8px;
+    margin:0 1vw;
+  }
+  .modal-header{padding:12px 14px;}
+  .modal-title{font-size:12px;}
+  .modal-close{width:26px;height:26px;font-size:14px;}
+  .modal-body{padding:14px;}
+  .preview-meta{gap:10px;margin-bottom:12px;padding-bottom:10px;}
+  .preview-meta-icon{width:28px;height:28px;font-size:11px;}
+  .preview-from{font-size:10.5px;}
+  .preview-date{font-size:8.5px;}
+  .preview-subject{font-size:13px;margin-bottom:10px;}
+  .preview-content{font-size:11.5px;line-height:1.55;}
+  .preview-content p{margin:0 0 8px;}
+  .preview-content ul{padding-left:16px;margin:6px 0 10px;}
+  .preview-content li{margin-bottom:4px;font-size:11px;}
+  .preview-content .highlight-box{padding:8px 10px;font-size:10.5px;line-height:1.5;}
+  .preview-attachments{margin-top:14px;padding-top:10px;}
+  .preview-attachments h4{font-size:10px;margin-bottom:8px;}
+  .attachment-item{padding:7px 8px;border-radius:5px;}
+  .attachment-item i{font-size:15px;}
+  .attachment-name{font-size:10px;}
+  .attachment-size{font-size:8px;}
+  .modal-footer{padding:10px 14px;}
+  .btn-cancel{padding:7px 20px;font-size:10px;}
+}
+
+@media(max-width:360px){
+  .main-wrapper{padding:8px 4px 40px 4px;}
+  .content{padding:8px;}
+
+  /* Announcements content */
+  .announce-header h3{font-size:12.5px;}
+  .announce-card{padding:10px 8px;gap:5px;}
+  .announce-icon{width:28px;height:28px;font-size:11px;}
+  .announce-title{font-size:11px;}
+  .announce-desc{font-size:9.5px;-webkit-line-clamp:1;}
+  .announce-meta{font-size:8px;}
+  .btn-submit-notif,.btn-view-notif{padding:6px 12px;font-size:9.5px;}
+
+  /* Modal bottom sheet */
+  .modal-box{width:100vw;max-height:95vh;border-radius:6px 6px 0 0;margin:0;align-self:flex-end;}
+  .modal-body{padding:12px;}
+  .preview-subject{font-size:12px;}
+  .preview-content{font-size:11px;}
+  .preview-content .highlight-box{font-size:10px;padding:6px 8px;}
+}
+
+/* Force-hide icons in alert/notif UI for consistency */
+.toast i, .confirm-icon i, .notification i{ display:none !important; }
+</style>
+</head>
+
+<body>
+
+<!-- header -->
+<div class="header">
+  <button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <img src="spesLogo.png" alt="SPES Logo">
+  <div class="header-text">
+    <h1>Special Program for the Employment of Students</h1>
+  </div>
+  <div class="header-right">
+    <div class="user-info" id="userInfo">
+      <strong>Andrie N. Bangcat</strong><br>
+      SPES Beneficiary
+    </div>
+    <div class="profile-menu">
+      <div class="avatar" id="profileBtn">AB</div>
+      <div class="profile-dropdown" id="profileDropdown">
+        <button class="profile-item" onclick="goToSettings()"><i class="fa-solid fa-gear"></i> Settings</button>
+        <button class="profile-item" onclick="confirmLogout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- main wrapper -->
+<div class="main-wrapper">
+
+  <!-- top bar -->
+  <div class="top-bar">
+    <div class="breadcrumb" onclick="history.back()">
+      <i class="fa-solid fa-house"></i>
+      <span>Back ></span>
+    </div>
+  </div>
+
+  <!-- main -->
+  <div class="main">
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-profile">
+        <div class="sidebar-avatar">AB</div>
+        <div class="sidebar-user"><h4>Andrie N. Bangcat</h4><p>SPES Beneficiary</p></div>
+      </div>
+
+      <div class="sidebar-menu">
+        <a href="sbDashboard.html" class="menu-item">
+          <div class="menu-left"><i class="fa-solid fa-house"></i> Dashboard</div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+        <a href="sbAssignment.html" class="menu-item">
+          <div class="menu-left"><i class="fa-solid fa-clipboard-list"></i> Assignment</div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+        <a href="sbAR.html" class="menu-item">
+          <div class="menu-left"><i class="fa-solid fa-file-alt"></i> Accomplishment Report</div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+        <a href="sbHistory.html" class="menu-item">
+          <div class="menu-left"><i class="fa-solid fa-history"></i> SPES History</div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+        <a href="sbNotif.html" class="menu-item active">
+          <div class="menu-left"><i class="fa-solid fa-bell"></i> Notification <span class="notif-badge">3</span></div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+        <a href="sbSettings.html" class="menu-item">
+          <div class="menu-left"><i class="fa-solid fa-gear"></i> Settings</div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+        <button class="menu-item-logout" onclick="confirmLogout()">Log Out</button>
+      </div>
+    </div>
+
+    <!-- content -->
+    <div class="content">
+
+      <!-- Announcements header -->
+      <div class="announce-header">
+        <h3>Announcements</h3>
+        <button class="refresh-btn" onclick="refreshAnnouncements()" title="Refresh"><i class="fa-solid fa-arrows-rotate"></i></button>
+      </div>
+
+      <div style="position:relative;">
+        <div class="loading-bar" id="loadingBar"></div>
+
+        <!-- Announcement list -->
+        <div class="announce-list" id="announceList">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal-overlay" id="previewModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">Announcement</span>
+      <button class="modal-close" onclick="closePreview()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="preview-meta">
+        <div class="preview-meta-icon"><i class="fa-solid fa-bullhorn"></i></div>
+        <div class="preview-meta-info">
+          <div class="preview-from" id="previewFrom">PESO Calamba</div>
+          <div class="preview-date" id="previewDate">January 25, 2026, 9:00 AM</div>
+        </div>
+      </div>
+      <div class="preview-subject" id="previewSubject">Announcement Title</div>
+      <div class="preview-content" id="previewContent">
+        <!-- filled by JS -->
+      </div>
+      <div class="preview-attachments" id="previewAttachments" style="display:none;">
+        <h4>Attachments</h4>
+        <div id="attachmentList"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closePreview()">CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+<div class="footer">
+  Copyright &copy; 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<script>
+// Sidebar toggle
+var burgerBtn = document.getElementById('burgerBtn');
+var sidebar = document.querySelector('.sidebar');
+var sidebarOverlay = document.getElementById('sidebarOverlay');
+
+if(burgerBtn && sidebar && sidebarOverlay){
+  burgerBtn.addEventListener('click', function(){
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('show');
+  });
+  sidebarOverlay.addEventListener('click', function(){
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('show');
+  });
+}
+
+// Profile dropdown
+var profileBtn = document.getElementById('profileBtn');
+var userInfo = document.getElementById('userInfo');
+var profileDropdown = document.getElementById('profileDropdown');
+
+if(profileBtn) profileBtn.addEventListener('click', function(e){ e.stopPropagation(); profileDropdown.classList.toggle('show'); });
+if(userInfo) userInfo.addEventListener('click', function(e){ e.stopPropagation(); profileDropdown.classList.toggle('show'); });
+document.addEventListener('click', function(){ if(profileDropdown) profileDropdown.classList.remove('show'); });
+
+function goToSettings(){ window.location.href = 'sbSettings.html'; }
+function showStyledLogoutConfirm(onConfirm){
+  const existing = document.getElementById('logoutConfirmOverlay');
+  if(existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'logoutConfirmOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:10000;';
+  overlay.innerHTML = `
+    <div style="width:min(420px,90vw);background:#fff;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,0.2);text-align:center;padding:30px 24px 24px;border:1px solid #d0d0d0;">
+      <div style="width:56px;height:56px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:24px;background:#fff3e0;color:#e65100;">!</div>
+      <h3 style="margin:0 0 8px;font-size:16px;color:#333;">Logout</h3>
+      <p style="margin:0 0 20px;font-size:13px;color:#666;line-height:1.6;">Are you sure you want to logout?</p>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button type="button" id="logoutConfirmCancel" class="btn-cancel">Cancel</button>
+        <button type="button" id="logoutConfirmAction" class="btn-primary">Logout</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const close = () => overlay.remove();
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) close(); });
+  document.getElementById('logoutConfirmCancel').addEventListener('click', close);
+  document.getElementById('logoutConfirmAction').addEventListener('click', function(){
+    close();
+    if(typeof onConfirm === 'function') onConfirm();
+  });
+}
+
+function confirmLogout(){
+  showStyledLogoutConfirm(function(){
+    window.location.href = '../login.html';
+  });
+}
+
+// Sample announcements data
+var announcements = [
+  {
+    id: 1,
+    title: 'SPES 2026 Orientation Schedule',
+    desc: 'All SPES 2026 beneficiaries are required to attend the orientation on March 15, 2026 at the City Hall Auditorium. 9:00 AM.',
+    from: 'PESO Calamba',
+    date: 'March 10, 2026, 8:00 AM',
+    unread: true,
+    hasSubmit: false,
+    content: '<p>Good day, SPES Beneficiaries!</p><p>You are hereby informed that the <strong>SPES 2026 Orientation</strong> will be held on the following schedule:</p><div class="highlight-box"><strong>Date:</strong> March 15, 2026 (Saturday)<br><strong>Time:</strong> 9:00 AM - 12:00 NN<br><strong>Venue:</strong> City Hall Auditorium, Calamba City</div><p>Please bring the following:</p><ul><li>Valid ID (School ID or any government-issued ID)</li><li>Pen and notebook</li><li>Printed copy of your SPES application form</li></ul><p>Attendance is <strong>mandatory</strong>. Failure to attend may affect your deployment schedule.</p><p>For inquiries, please contact the PESO Office at (049) 545-1234.</p>',
+    attachments: [{name:'SPES_2026_Orientation_Schedule.pdf', size:'245 KB'}, {name:'Application_Form_Template.docx', size:'120 KB'}]
+  },
+  {
+    id: 2,
+    title: 'SPES 2026 Deployment Update',
+    desc: 'Please be advised that deployment for Batch 3 will commence on March 20, 2026. Check your assignment page for details.',
+    from: 'PESO Calamba',
+    date: 'March 8, 2026, 2:30 PM',
+    unread: true,
+    hasSubmit: false,
+    content: '<p>Dear SPES Beneficiaries,</p><p>We are pleased to inform you that the <strong>deployment for Batch 3</strong> will officially begin on <strong>March 20, 2026</strong>.</p><div class="highlight-box"><strong>Batch 3 Deployment Date:</strong> March 20, 2026<br><strong>Reporting Time:</strong> 8:00 AM<br><strong>Report to:</strong> Your assigned department (see Assignment page)</div><p>Please ensure you have the following ready:</p><ul><li>Complete set of required documents</li><li>Proper attire (semi-formal or business casual)</li><li>Your SPES ID</li></ul><p>Check your <strong>Assignment</strong> page for your specific department and supervisor details.</p>',
+    attachments: [{name:'Batch3_Deployment_List.pdf', size:'180 KB'}]
+  },
+  {
+    id: 3,
+    title: 'Daily Accomplishment Report Reminder',
+    desc: 'This is a reminder to submit your Daily Accomplishment Report before 5:00 PM every working day.',
+    from: 'PESO Calamba',
+    date: 'March 7, 2026, 10:00 AM',
+    unread: true,
+    hasSubmit: true,
+    content: '<p>Good day!</p><p>This is a friendly reminder that all SPES beneficiaries are required to submit their <strong>Daily Accomplishment Report (AR)</strong> before <strong>5:00 PM</strong> every working day.</p><div class="highlight-box"><strong>Submission Deadline:</strong> 5:00 PM daily<br><strong>How to Submit:</strong> Go to Accomplishment Report page and upload your AR<br><strong>Required:</strong> At least one (1) photo with activity description</div><p>Failure to submit your AR on time may result in:</p><ul><li>Deduction from your daily attendance</li><li>Unsatisfactory performance rating</li><li>Possible suspension from the program</li></ul><p>If you encounter any issues with submission, please contact your supervisor immediately.</p>',
+    attachments: []
+  },
+  {
+    id: 4,
+    title: 'SPES 2026 Document Submission Deadline',
+    desc: 'All required documents must be submitted on or before March 12, 2026. Incomplete documents may result in delayed deployment.',
+    from: 'PESO Calamba',
+    date: 'March 5, 2026, 4:00 PM',
+    unread: false,
+    hasSubmit: false,
+    content: '<p>Dear SPES Applicants,</p><p>Please be reminded that the deadline for submission of all required documents is on <strong>March 12, 2026</strong>.</p><p>Required documents include:</p><ul><li>Birth Certificate (PSA)</li><li>School Registration / Certificate of Registration</li><li>Latest Grades (1st and 2nd Semester)</li><li>2x2 ID Photo (white background)</li><li>District Clearance</li></ul><div class="highlight-box"><strong>Deadline:</strong> March 12, 2026 (Wednesday)<br><strong>Submit to:</strong> PESO Office, 2nd Floor, City Hall<br><strong>Office Hours:</strong> 8:00 AM - 5:00 PM</div><p>Incomplete documents may result in <strong>delayed deployment</strong> or <strong>disqualification</strong> from the program.</p>',
+    attachments: [{name:'Document_Checklist.pdf', size:'95 KB'}]
+  },
+  {
+    id: 5,
+    title: 'SPES 2025 Certificate of Completion',
+    desc: 'Certificates of Completion for SPES 2025 are now available for pickup at the PESO Office.',
+    from: 'PESO Calamba',
+    date: 'February 28, 2026, 9:00 AM',
+    unread: false,
+    hasSubmit: false,
+    content: '<p>To all SPES 2025 beneficiaries,</p><p>We are happy to announce that your <strong>Certificates of Completion</strong> are now available for pickup.</p><div class="highlight-box"><strong>Where:</strong> PESO Office, 2nd Floor, City Hall<br><strong>When:</strong> Monday to Friday, 8:00 AM - 5:00 PM<br><strong>Bring:</strong> Valid ID for verification</div><p>Please claim your certificate within <strong>30 days</strong>. Unclaimed certificates will be forwarded to the Records Office.</p>',
+    attachments: []
+  }
+];
+
+function renderAnnouncements(){
+  var list = document.getElementById('announceList');
+  if(!announcements.length){
+    list.innerHTML = '<div class="empty-state"><i class="fa-solid fa-bell-slash"></i><p>No announcements yet</p></div>';
+    return;
+  }
+
+  var html = '';
+  announcements.forEach(function(a){
+    var unreadClass = a.unread ? ' unread' : '';
+    var newDot = a.unread ? '<span class="new-dot"></span>' : '';
+    var submitBtn = a.hasSubmit ? '<button class="btn-submit-notif" onclick="event.stopPropagation(); window.location.href=\'sbAR.html\'">Submit</button>' : '';
+
+    html += '<div class="announce-card' + unreadClass + '" onclick="openPreview(' + a.id + ')">' +
+      '<div class="announce-icon"><i class="fa-solid fa-bullhorn"></i></div>' +
+      '<div class="announce-body">' +
+        '<div class="announce-title">' + a.title + ' ' + newDot + '</div>' +
+        '<div class="announce-desc">' + a.desc + '</div>' +
+        '<div class="announce-meta"><i class="fa-regular fa-clock"></i> ' + a.date + '</div>' +
+      '</div>' +
+      '<div class="announce-actions">' +
+        submitBtn +
+        '<button class="btn-view-notif" onclick="event.stopPropagation(); openPreview(' + a.id + ')">View</button>' +
+      '</div>' +
+    '</div>';
+  });
+
+  list.innerHTML = html;
+}
+
+function openPreview(id){
+  var a = announcements.find(function(x){ return x.id === id; });
+  if(!a) return;
+
+  // Mark as read
+  a.unread = false;
+  renderAnnouncements();
+  updateBadge();
+
+  document.getElementById('previewFrom').textContent = a.from;
+  document.getElementById('previewDate').textContent = a.date;
+  document.getElementById('previewSubject').textContent = a.title;
+  document.getElementById('previewContent').innerHTML = a.content;
+
+  var attachSection = document.getElementById('previewAttachments');
+  var attachList = document.getElementById('attachmentList');
+  if(a.attachments && a.attachments.length){
+    attachSection.style.display = '';
+    attachList.innerHTML = '';
+    a.attachments.forEach(function(att){
+      attachList.innerHTML += '<div class="attachment-item"><i class="fa-solid fa-file-pdf"></i><span class="attachment-name">' + att.name + '</span><span class="attachment-size">' + att.size + '</span></div>';
+    });
+  } else {
+    attachSection.style.display = 'none';
+  }
+
+  document.getElementById('previewModal').classList.add('show');
+}
+
+function closePreview(){
+  document.getElementById('previewModal').classList.remove('show');
+}
+
+function updateBadge(){
+  var count = announcements.filter(function(a){ return a.unread; }).length;
+  var badges = document.querySelectorAll('.notif-badge');
+  badges.forEach(function(b){
+    b.textContent = count;
+    b.style.display = count > 0 ? '' : 'none';
+  });
+}
+
+function refreshAnnouncements(){
+  var bar = document.getElementById('loadingBar');
+  bar.classList.add('active');
+  setTimeout(function(){
+    bar.classList.remove('active');
+    renderAnnouncements();
+  }, 800);
+}
+
+// Modal close handlers
+document.getElementById('previewModal').addEventListener('click', function(e){
+  if(e.target === this) closePreview();
+});
+
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closePreview();
+});
+
+// Initialize
+renderAnnouncements();
+updateBadge();
+</script>
+
+</body>
+</html>
+
+

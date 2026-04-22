@@ -1,0 +1,2118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>E-SPES | SPES Applicants Registration</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 46px;
+}
+
+/* header */
+.header {
+  background: #242242;
+  color: white;
+  padding: 12px 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.header-text p {
+  margin: 2px 0 0;
+  font-size: 11px;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+/* main wrapper */
+.main-wrapper {
+  flex: 1;
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* progress bar */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 28px;
+  padding: 0 20px;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.step-circle.active {
+  background: #242242;
+  color: #fff;
+  cursor: pointer;
+}
+
+.step-circle.done {
+  background: #388e3c;
+  color: #fff;
+  cursor: pointer;
+}
+
+.step-circle.done:hover {
+  background: #2e7d32;
+  transform: scale(1.05);
+}
+
+.step-label {
+  font-size: 11px;
+  color: #999;
+  margin-left: 8px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.step-label.active {
+  color: #242242;
+  font-weight: 600;
+}
+
+.step-line {
+  width: 50px;
+  height: 2px;
+  background: #e0e0e0;
+  margin: 0 10px;
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+.step-line.done {
+  background: #388e3c;
+}
+
+/* registration card */
+.registration-card {
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  padding: 36px;
+  margin: 0 auto;
+  border: 1px solid #e8ecf1;
+}
+
+.registration-card h2 {
+  color: #242242;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  text-align: center;
+}
+
+.reg-subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 28px;
+}
+
+/* sections */
+.section {
+  margin-bottom: 28px;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  background: #ffffff;
+  padding: 22px 20px 16px 20px;
+  display: none;
+}
+
+.section.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.final-section {
+  animation: fadeIn 0.3s ease;
+}
+
+/* scholarship field highlight */
+#scholarNameGroup {
+  background: #e3e9f9;
+  padding: 14px;
+  border-radius: 3px;
+  border: 1px dashed #242242;
+  margin-top: -4px;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #242242;
+  margin: 0 0 18px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i {
+  font-size: 14px;
+  color: #242242;
+  opacity: 0.5;
+}
+
+/* form rows */
+.form-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.form-row.single {
+  gap: 0;
+}
+
+/* input group */
+.input-group {
+  flex: 1;
+}
+
+.input-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.input-group .required::after {
+  content: ' *';
+  color: #e53935;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+  font-size: 13px;
+  transition: all 0.2s, border-color 0.3s;
+  background: #ffffff;
+  box-sizing: border-box;
+  height: 42px;
+  color: #333;
+}
+
+.input-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: #242242;
+  box-shadow: 0 0 0 3px rgba(36,34,66,0.06);
+}
+
+.input-group input[type="date"] {
+  color: #666;
+  font-family: 'Inter', sans-serif;
+}
+
+.input-group input::placeholder {
+  opacity: 0.5;
+  font-size: 12px;
+}
+
+.input-group input[readonly] {
+  background: #f5f5f5;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.searchable-select {
+  position: relative;
+}
+
+.searchable-options {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 900;
+}
+
+.searchable-options.hidden {
+  display: none;
+}
+
+.searchable-option {
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+}
+
+.searchable-option:hover {
+  background: #f5f7ff;
+}
+
+.searchable-option-empty {
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #888;
+}
+
+/* upload section */
+.upload-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.upload-item {
+  border: 2px dashed #d0d0d0;
+  border-radius: 3px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fff;
+  position: relative;
+}
+
+.upload-item:hover {
+  border-color: #242242;
+  background: #f8f8ff;
+}
+
+.upload-item.has-file {
+  border-color: #388e3c;
+  border-style: solid;
+  background: #f1f8f1;
+}
+
+.upload-item input[type="file"] {
+  display: none;
+}
+
+.upload-icon {
+  font-size: 24px;
+  color: #ccc;
+  margin-bottom: 8px;
+  transition: color 0.2s;
+}
+
+.upload-item:hover .upload-icon {
+  color: #242242;
+}
+
+.upload-item.has-file .upload-icon {
+  color: #388e3c;
+}
+
+.upload-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.upload-hint {
+  font-size: 10px;
+  color: #aaa;
+}
+
+.upload-filename {
+  font-size: 11px;
+  color: #388e3c;
+  font-weight: 500;
+  margin-top: 6px;
+  word-break: break-all;
+  display: none;
+}
+
+.upload-item.has-file .upload-filename {
+  display: block;
+}
+
+.upload-item.has-file .upload-hint {
+  display: none;
+}
+
+.upload-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #e53935;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 10;
+}
+
+.upload-remove:hover {
+  background: #c62828;
+}
+
+.upload-item.has-file .upload-remove {
+  display: flex;
+}
+
+/* note */
+.note {
+  background: #fdf8e8;
+  border: 1px solid #f0d860;
+  padding: 14px 18px;
+  margin: 0 0 20px 0;
+  font-size: 12px;
+  color: #7a6a00;
+  border-radius: 3px;
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.note i {
+  font-size: 16px;
+  color: #d4a800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* buttons */
+.btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.submit-btn {
+  flex: 1;
+  padding: 14px;
+  background: #242242;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submit-btn:hover {
+  background: #363454;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(36,34,66,0.2);
+}
+
+.reset-btn {
+  padding: 14px 28px;
+  background: #fff;
+  color: #666;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.reset-btn:hover {
+  background: #f5f5f5;
+  border-color: #bbb;
+}
+
+/* navigation buttons */
+.nav-btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: space-between;
+}
+
+.prev-btn, .next-btn {
+  padding: 14px 28px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prev-btn {
+  background: #fff;
+  color: #666;
+  border: 1px solid #d0d0d0;
+}
+
+.prev-btn:hover {
+  background: #f5f5f5;
+  border-color: #bbb;
+}
+
+.prev-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.next-btn {
+  background: #242242;
+  color: white;
+  border: none;
+  margin-left: auto;
+}
+
+.next-btn:hover {
+  background: #363454;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(36,34,66,0.2);
+}
+
+/* footer */
+.footer{
+  background:#242242;
+  color:rgba(255,255,255,0.4);
+  text-align:center;
+  padding:12px 16px;
+  font-size:9px;
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:400;
+  letter-spacing:0.3px;
+}
+
+/* modals */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  padding: 20px;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.confirm-panel {
+  width: min(400px, 90vw);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  border: 1px solid #d0d0d0;
+  text-align: center;
+  padding: 28px 24px 20px;
+}
+
+.confirm-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.confirm-icon.warn {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.confirm-icon.danger {
+  background: #fce4ec;
+  color: #c62828;
+}
+
+.confirm-icon.info {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.confirm-icon.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.confirm-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #242242;
+  margin: 0 0 6px;
+}
+
+.confirm-text {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.btn-cancel {
+  padding: 9px 20px;
+  background: #f5f5f5;
+  color: #555;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: .2s;
+}
+
+.btn-cancel:hover {
+  background: #eee;
+}
+
+.btn-danger {
+  padding: 9px 20px;
+  background: #c62828;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: .2s;
+}
+
+.btn-danger:hover {
+  background: #b71c1c;
+}
+
+.btn-success {
+  padding: 9px 20px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: .2s;
+}
+
+.btn-success:hover {
+  background: #1b5e20;
+}
+
+.btn-primary {
+  padding: 9px 20px;
+  background: #242242;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: .2s;
+}
+
+.btn-primary:hover {
+  background: #363454;
+}
+
+/* utility classes */
+.hidden {
+  display: none !important;
+}
+
+.no-scroll {
+  overflow: hidden !important;
+}
+
+.field-error {
+  border-color: #e53935 !important;
+}
+
+.required-mark {
+  color: #e74c3c;
+}
+
+/* loading */
+.loading-spinner {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.submit-btn.loading .loading-spinner {
+  display: block;
+}
+
+.submit-btn.loading .btn-text {
+  display: none;
+}
+
+/* responsive */
+@media (max-width: 720px) {
+  body {
+    padding-bottom: 50px;
+  }
+
+  .header {
+    padding: 10px 20px;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+
+  .header-text {
+    flex: 1 1 auto;
+  }
+
+  .header img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-text h1 {
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .header-text p {
+    font-size: 9px;
+  }
+
+  .main-wrapper {
+    padding: 30px 12px;
+  }
+
+  .registration-card {
+    padding: 20px 16px;
+    border-radius: 3px;
+  }
+
+  .registration-card h2 {
+    font-size: 17px;
+  }
+
+  .reg-subtitle {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section {
+    padding: 16px 12px 12px 12px;
+    border-radius: 3px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    margin: 0 0 12px 0;
+  }
+
+  .section-title i {
+    font-size: 12px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .form-row.single {
+    flex-direction: column;
+  }
+
+  .input-group label {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  .input-group input,
+  .input-group select {
+    padding: 11px 12px;
+    font-size: 14px;
+    height: 44px;
+    border-radius: 3px;
+  }
+
+  .input-group input::placeholder {
+    font-size: 13px;
+  }
+
+  .upload-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .upload-item {
+    padding: 18px 14px;
+  }
+
+  .upload-remove {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    top: 6px;
+    right: 6px;
+  }
+
+  .upload-label {
+    font-size: 11px;
+  }
+
+  .upload-hint {
+    font-size: 9px;
+  }
+
+  .note {
+    padding: 10px 12px;
+    font-size: 10px;
+    margin-bottom: 16px;
+  }
+
+  .note i {
+    font-size: 14px;
+  }
+
+  .btn-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .submit-btn,
+  .reset-btn {
+    width: 100%;
+    padding: 13px;
+    font-size: 13px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .nav-btn-row {
+    gap: 10px;
+  }
+
+  .prev-btn,
+  .next-btn {
+    padding: 12px 20px;
+    font-size: 13px;
+  }
+
+  .progress-bar {
+    padding: 0 8px;
+    margin-bottom: 18px;
+  }
+
+  .step-label {
+    display: none;
+  }
+
+  .step-line {
+    width: 25px;
+    margin: 0 6px;
+  }
+
+  .step-circle {
+    width: 30px;
+    height: 30px;
+    font-size: 11px;
+  }
+  
+  .modal-overlay {
+    padding: 16px;
+  }
+
+  .confirm-panel {
+    padding: 24px 20px 18px 20px;
+  }
+  
+  .confirm-icon {
+    width: 46px;
+    height: 46px;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  
+  .confirm-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .confirm-text {
+    font-size: 12px;
+    margin-bottom: 18px;
+  }
+  
+  .confirm-actions {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+  
+  .btn-cancel,
+  .btn-danger,
+  .btn-success,
+  .btn-primary {
+    width: 100%;
+    justify-content: center;
+    font-size: 13px;
+    padding: 10px 20px;
+  }
+
+  #scholarNameGroup {
+    padding: 12px;
+    margin-top: -2px;
+  }
+
+  .footer {
+    font-size: 8px;
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  .main-wrapper {
+    padding: 25px 10px;
+  }
+
+  .registration-card {
+    padding: 16px 12px;
+    border-radius: 3px;
+  }
+
+  .registration-card h2 {
+    font-size: 16px;
+  }
+
+  .reg-subtitle {
+    font-size: 11px;
+  }
+
+  .section {
+    padding: 14px 10px 10px 10px;
+  }
+
+  .section-title {
+    font-size: 12px;
+    margin: 0 0 10px 0;
+  }
+
+  .input-group label {
+    font-size: 11px;
+  }
+
+  .input-group input,
+  .input-group select {
+    padding: 12px 10px;
+    font-size: 14px;
+    height: 46px;
+  }
+
+  .input-group input::placeholder {
+    font-size: 13px;
+  }
+
+  .upload-item {
+    padding: 16px 12px;
+  }
+
+  .upload-remove {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+    top: 6px;
+    right: 6px;
+  }
+
+  .upload-icon {
+    font-size: 20px;
+  }
+
+  .upload-label {
+    font-size: 11px;
+  }
+
+  .note {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+
+  .submit-btn,
+  .reset-btn {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .prev-btn,
+  .next-btn {
+    padding: 11px 16px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .progress-bar {
+    padding: 0 6px;
+    margin-bottom: 16px;
+  }
+
+  .step-line {
+    width: 20px;
+    margin: 0 4px;
+  }
+
+  .step-circle {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+  }
+
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .confirm-panel {
+    padding: 22px 16px 16px 16px;
+  }
+  
+  .confirm-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .confirm-title {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .confirm-text {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .btn-cancel,
+  .btn-danger,
+  .btn-success,
+  .btn-primary {
+    padding: 10px 18px;
+    font-size: 12px;
+  }
+
+  #scholarNameGroup {
+    padding: 10px;
+  }
+
+  .footer {
+    font-size: 7px;
+    padding: 8px 10px;
+  }
+}
+
+/* Landscape mode for small devices */
+@media (max-width: 768px) and (orientation: landscape) {
+  .main-wrapper {
+    padding: 25px 12px;
+  }
+
+  .registration-card {
+    padding: 16px;
+  }
+
+  .section {
+    padding: 14px 12px;
+  }
+
+  .progress-bar {
+    margin-bottom: 12px;
+  }
+
+  .step-circle {
+    width: 26px;
+    height: 26px;
+    font-size: 10px;
+  }
+
+  .step-line {
+    width: 20px;
+  }
+
+  .confirm-panel {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* hide scrollbars globally */
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.input-uppercase {
+  text-transform: uppercase;
+}
+
+/* Mobile touch improvements */
+@media (hover: none) and (pointer: coarse) {
+  .submit-btn:hover,
+  .reset-btn:hover,
+  .prev-btn:hover,
+  .next-btn:hover,
+  .btn-cancel:hover,
+  .btn-danger:hover,
+  .btn-success:hover,
+  .btn-primary:hover {
+    transform: none;
+  }
+
+  .submit-btn:active,
+  .reset-btn:active,
+  .prev-btn:active,
+  .next-btn:active,
+  .btn-cancel:active,
+  .btn-danger:active,
+  .btn-success:active,
+  .btn-primary:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+
+  .input-group input:focus,
+  .input-group select:focus {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .upload-item:active {
+    transform: scale(0.98);
+  }
+
+  button,
+  select,
+  input[type="submit"],
+  input[type="button"] {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+
+  * {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  input,
+  textarea,
+  select {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+}
+
+/* Hide icons in alert/notification UI */
+.toast i, .confirm-icon i, .notification i { display:none !important; }
+</style>
+</head>
+
+<body>
+
+<!-- header -->
+<div class="header">
+  <img src="spesLogo.png" alt="SPES Logo">
+  <div class="header-text">
+    <h1>Special Program for the Employment of Students</h1>
+    <p>SPES Beneficiaries Management Information System</p>
+  </div>
+</div>
+
+<!-- main content -->
+<div class="main-wrapper">
+
+  <!-- progress -->
+  <div class="progress-bar">
+    <div class="progress-step">
+      <div class="step-circle active">1</div>
+      <span class="step-label active">Personal Info</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="progress-step">
+      <div class="step-circle">2</div>
+      <span class="step-label">Education</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="progress-step">
+      <div class="step-circle">3</div>
+      <span class="step-label">Family</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="progress-step">
+      <div class="step-circle">4</div>
+      <span class="step-label">Documents</span>
+    </div>
+  </div>
+
+  <div class="registration-card">
+    <h2>SPES Applicants Registration</h2>
+    <p class="reg-subtitle">Fill out all required fields to submit your SPES application.</p>
+
+    <form id="spesForm" onsubmit="return handleSubmit(event)">
+
+      <!-- Basic Information -->
+      <div class="section active" data-step="1">
+        <div class="section-title"><i class="fa-solid fa-user"></i> Basic Information</div>
+        <div class="form-row">
+          <div class="input-group">
+            <label class="required">Last Name</label>
+            <input type="text" name="lastName" placeholder="Enter your last name" required>
+          </div>
+          <div class="input-group">
+            <label class="required">First Name</label>
+            <input type="text" name="firstName" placeholder="Enter your first name" required>
+          </div>
+          <div class="input-group">
+            <label>Middle Name</label>
+            <input type="text" name="middleName" placeholder="Enter your middle name">
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="input-group">
+            <label class="required">Street / House No.</label>
+            <input type="text" id="streetInput" placeholder="Enter street and house number" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label class="required">District (Search Selection)</label>
+            <div class="searchable-select">
+              <input type="text" name="barangay" id="barangayInput" placeholder="Type to search district" autocomplete="off" required>
+              <div id="barangayOptions" class="searchable-options hidden"></div>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="required">City / Municipality</label>
+            <input type="text" name="city" id="cityInput" value="Calamba City" readonly required>
+          </div>
+          <div class="input-group">
+            <label class="required">Province</label>
+            <input type="text" name="province" id="provinceInput" value="Laguna" readonly required>
+            <input type="hidden" name="address" id="fullAddress">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label class="required">Date of Birth</label>
+            <input type="date" name="dob" placeholder="Select your date of birth" required>
+          </div>
+          <div class="input-group">
+            <label>Age</label>
+            <input type="number" name="age" placeholder="Your age (auto-calculated)" readonly>
+          </div>
+          <div class="input-group">
+            <label class="required">Sex</label>
+            <select name="sex" required>
+              <option value="">-- Select --</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="input-group">
+            <label class="required">Place of Birth</label>
+            <input type="text" name="placeOfBirth" placeholder="Enter your place of birth" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label class="required">Email Address</label>
+            <input type="email" name="email" placeholder="Enter your email address" required>
+          </div>
+          <div class="input-group">
+            <label class="required">Contact Number</label>
+            <input type="text" name="contactNumber" placeholder="Enter your contact number" required>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="input-group">
+            <label class="required">FB Account</label>
+            <input type="text" name="fbAccount" placeholder="Enter your Facebook profile link" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label class="required">Are you a Scholar?</label>
+            <select name="isScholar" id="isScholar" onchange="toggleScholarField()" required>
+              <option value="">-- Select --</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="required">Are you a 4Ps beneficiary?</label>
+            <select name="is4ps" required>
+              <option value="">-- Select --</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="required">Are you a PWD?</label>
+            <select name="isPwd" required>
+              <option value="">-- Select --</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row single hidden" id="scholarNameGroup">
+          <div class="input-group">
+            <label class="required">Scholarship Name</label>
+            <input type="text" name="scholarshipName" id="scholarshipName" placeholder="Enter your scholarship name">
+          </div>
+        </div>
+        <!-- Step 1 Navigation -->
+        <div class="nav-btn-row">
+          <button type="button" class="prev-btn" disabled><i class="fa-solid fa-arrow-left"></i> Previous</button>
+          <button type="button" class="next-btn" onclick="nextStep(1)">Next <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Education Information -->
+      <div class="section" data-step="2">
+        <div class="section-title"><i class="fa-solid fa-graduation-cap"></i> Education Information</div>
+        <div class="form-row single">
+          <div class="input-group">
+            <label class="required">Elementary</label>
+            <input type="text" name="elemSchool" placeholder="Enter your elementary school name" required>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="input-group">
+            <label class="required">Junior High School</label>
+            <input type="text" name="jhsSchool" placeholder="Enter your junior high school name" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label class="required">Senior High School</label>
+            <input type="text" name="shsSchool" placeholder="Enter your senior high school name" required>
+          </div>
+          <div class="input-group">
+            <label class="required">Course / Track</label>
+            <input type="text" name="shsTrack" placeholder="Enter your SHS track or strand" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label class="required">College</label>
+            <input type="text" name="collegeSchool" placeholder="Enter your college or university name" required>
+          </div>
+          <div class="input-group">
+            <label class="required">Course / Program</label>
+            <input type="text" name="collegeCourse" placeholder="Enter your college course or program" required>
+          </div>
+        </div>
+        <!-- Step 2 Navigation -->
+        <div class="nav-btn-row">
+          <button type="button" class="prev-btn" onclick="prevStep(2)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+          <button type="button" class="next-btn" onclick="nextStep(2)">Next <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Family Information -->
+      <div class="section" data-step="3">
+        <div class="section-title"><i class="fa-solid fa-people-roof"></i> Family Information</div>
+        <div class="form-row single">
+          <div class="input-group">
+            <label class="required">Father's Name</label>
+            <input type="text" name="fatherName" placeholder="Enter your father's full name" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label class="required">Age</label>
+            <input type="number" name="fatherAge" placeholder="Enter age" required>
+          </div>
+          <div class="input-group">
+            <label class="required">Occupation</label>
+            <input type="text" name="fatherOccupation" placeholder="Enter occupation" required>
+          </div>
+          <div class="input-group">
+            <label class="required">Remarks</label>
+            <input type="text" name="fatherRemarks" placeholder="Enter remarks (e.g. Deceased, N/A)" required>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="input-group">
+            <label class="required">Mother's Name</label>
+            <input type="text" name="motherName" placeholder="Enter your mother's full name" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label class="required">Age</label>
+            <input type="number" name="motherAge" placeholder="Enter age" required>
+          </div>
+          <div class="input-group">
+            <label class="required">Occupation</label>
+            <input type="text" name="motherOccupation" placeholder="Enter occupation" required>
+          </div>
+          <div class="input-group">
+            <label class="required">Remarks</label>
+            <input type="text" name="motherRemarks" placeholder="Enter remarks (e.g. Deceased, N/A)" required>
+          </div>
+        </div>
+        <!-- Step 3 Navigation -->
+        <div class="nav-btn-row">
+          <button type="button" class="prev-btn" onclick="prevStep(3)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+          <button type="button" class="next-btn" onclick="nextStep(3)">Next <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Required Documents -->
+      <div class="section" data-step="4">
+        <div class="section-title"><i class="fa-solid fa-file-arrow-up"></i> Required Documents (PDF)</div>
+
+        <div class="upload-grid">
+          <div class="upload-item" onclick="document.getElementById('birthCert').click()">
+            <button type="button" class="upload-remove" onclick="removeFile(event, 'birthCert')" title="Remove file"><i class="fa-solid fa-xmark"></i></button>
+            <div class="upload-icon"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="upload-label">Birth Certificate <span class="required-mark">*</span></div>
+            <div class="upload-hint">Click to upload PDF</div>
+            <div class="upload-filename" id="birthCert-name"></div>
+            <input type="file" id="birthCert" accept=".pdf" onchange="handleFileSelect(this, 'birthCert-name')" required>
+          </div>
+
+          <div class="upload-item" onclick="document.getElementById('schoolReg').click()">
+            <button type="button" class="upload-remove" onclick="removeFile(event, 'schoolReg')" title="Remove file"><i class="fa-solid fa-xmark"></i></button>
+            <div class="upload-icon"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="upload-label">School Registration / COR <span class="required-mark">*</span></div>
+            <div class="upload-hint">Click to upload PDF</div>
+            <div class="upload-filename" id="schoolReg-name"></div>
+            <input type="file" id="schoolReg" accept=".pdf" onchange="handleFileSelect(this, 'schoolReg-name')" required>
+          </div>
+
+          <div class="upload-item" onclick="document.getElementById('latestGrade1').click()">
+            <button type="button" class="upload-remove" onclick="removeFile(event, 'latestGrade1')" title="Remove file"><i class="fa-solid fa-xmark"></i></button>
+            <div class="upload-icon"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="upload-label">Latest Grade / Report Card <span class="required-mark">*</span></div>
+            <div class="upload-hint">Click to upload PDF</div>
+            <div class="upload-filename" id="latestGrade1-name"></div>
+            <input type="file" id="latestGrade1" accept=".pdf" onchange="handleFileSelect(this, 'latestGrade1-name')" required>
+          </div>
+
+          <div class="upload-item" onclick="document.getElementById('latestGrade2').click()">
+            <button type="button" class="upload-remove" onclick="removeFile(event, 'latestGrade2')" title="Remove file"><i class="fa-solid fa-xmark"></i></button>
+            <div class="upload-icon"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="upload-label">Latest Grade / Report Card 2 <span class="required-mark">*</span></div>
+            <div class="upload-hint">Click to upload PDF</div>
+            <div class="upload-filename" id="latestGrade2-name"></div>
+            <input type="file" id="latestGrade2" accept=".pdf" onchange="handleFileSelect(this, 'latestGrade2-name')" required>
+          </div>
+        </div>
+
+        <!-- Step 4 Navigation -->
+        <div class="nav-btn-row">
+          <button type="button" class="prev-btn" onclick="prevStep(4)"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+        </div>
+      </div>
+
+      <!-- Note & Submit (Step 4 only) -->
+      <div class="final-section hidden" id="finalSection">
+        <div class="note">
+          <i class="fa-solid fa-circle-info"></i>
+          <div><strong>Note:</strong> Uploaded documents will be analyzed by the system before portal access is granted. Make sure all files are in PDF format and clearly readable.</div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-row">
+          <button type="button" class="reset-btn" onclick="confirmReset()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+          <button type="submit" class="submit-btn" id="submitBtn">
+            <span class="btn-text">Submit Application</span>
+            <div class="loading-spinner"></div>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Confirm Submit Modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon warn"><i class="fa-solid fa-question"></i></div>
+    <h4 class="confirm-title">Confirm Application Submission</h4>
+    <p class="confirm-text">Are you sure you want to submit your SPES application? Please review all information carefully before proceeding.</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn-primary" onclick="submitForm()">Submit Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="successModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon success"><i class="fa-solid fa-check"></i></div>
+    <h4 class="confirm-title">Application Submitted!</h4>
+    <p class="confirm-text">Your SPES application has been received. The IIPES office will review your documents and notify you via email. Thank you!</p>
+    <div class="confirm-actions">
+      <button class="btn-primary" onclick="window.location.href='landingPage.html'">Return to Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Error Modal -->
+<div class="modal-overlay" id="errorModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon danger"><i class="fa-solid fa-exclamation"></i></div>
+    <h4 class="confirm-title">Action Required</h4>
+    <p class="confirm-text" id="errorMessage">Please fill in all required fields before submitting.</p>
+    <div class="confirm-actions">
+      <button class="btn-primary" onclick="closeModal('errorModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reset Confirm Modal -->
+<div class="modal-overlay" id="resetModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <h4 class="confirm-title">Reset Form</h4>
+    <p class="confirm-text">This will clear all fields and uploaded documents. Are you sure you want to continue?</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" onclick="closeModal('resetModal')">Cancel</button>
+      <button class="btn-danger" onclick="resetForm()">Yes, Reset All</button>
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+<div class="footer">
+  Copyright &copy; 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<script>
+// Auto-calculate age
+document.addEventListener('DOMContentLoaded', function() {
+  const dobInput = document.querySelector('input[name="dob"]');
+  const ageInput = document.querySelector('input[name="age"]');
+
+  if (dobInput && ageInput) {
+    dobInput.addEventListener('change', function() {
+      if (!this.value) { ageInput.value = ''; return; }
+      const dob = new Date(this.value);
+      if (!isNaN(dob.getTime())) {
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const m = today.getMonth() - dob.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+        ageInput.value = age >= 0 ? age : '';
+      } else {
+        ageInput.value = '';
+      }
+    });
+  }
+
+  // Remove uppercase enforcement
+});
+
+// Scholar field toggle
+function toggleScholarField() {
+  const sel = document.getElementById('isScholar');
+  const group = document.getElementById('scholarNameGroup');
+  const input = document.getElementById('scholarshipName');
+  
+  if (sel.value === 'yes') {
+    group.classList.remove('hidden');
+    group.style.animation = 'fadeIn 0.3s ease';
+    input.setAttribute('required', 'required');
+  } else {
+    group.classList.add('hidden');
+    input.removeAttribute('required');
+    input.value = '';
+  }
+}
+
+// Searchable location selection (Calamba-only intake)
+const CALAMBA_CITY = 'Calamba City';
+const CALAMBA_PROVINCE = 'Laguna';
+const calambaDistricts = [
+  'Bagong Kalsada', 'Banadero', 'Banlic', 'Barandal', 'District 1', 'District 2', 'District 3', 'District 4', 'District 5', 'District 6', 'District 7',
+  'Batino', 'Bubuyan', 'Bucal', 'Bunggo', 'Burol', 'Camaligan', 'Canlubang', 'Halang', 'Hornalan', 'Kay-Anlog', 'La Mesa', 'Laguerta', 'Lawa', 'Lecheria',
+  'Lingga', 'Looc', 'Mabato', 'Majada Labas', 'Makiling', 'Mapagong', 'Masili', 'Maunong', 'Mayapa', 'Milagrosa', 'Paciano Rizal', 'Palingon', 'Palo-Alto',
+  'Pansol', 'Parian', 'Prinza', 'Punta', 'Puting Lupa', 'Real', 'Saimsim', 'Sampiruhan', 'San Cristobal', 'San Jose', 'San Juan', 'Sirang Lupa', 'Sucol',
+  'Turbina', 'Ulango', 'Uwisan'
+];
+
+function updateFullAddress() {
+  const street = (document.getElementById('streetInput') || {}).value || '';
+  const barangay = (document.getElementById('barangayInput') || {}).value || '';
+  const city = CALAMBA_CITY;
+  const province = CALAMBA_PROVINCE;
+  const fullAddress = [street, barangay ? 'District ' + barangay : '', city, province]
+    .filter(function(part) { return part && part.trim(); })
+    .join(', ');
+  const hiddenAddress = document.getElementById('fullAddress');
+  if (hiddenAddress) hiddenAddress.value = fullAddress;
+}
+
+function wireSearchableLocationFields() {
+  const streetInput = document.getElementById('streetInput');
+  const barangayInput = document.getElementById('barangayInput');
+  const barangayOptions = document.getElementById('barangayOptions');
+  const cityInput = document.getElementById('cityInput');
+  const provinceInput = document.getElementById('provinceInput');
+  if (!streetInput || !barangayInput || !barangayOptions || !cityInput || !provinceInput) return;
+
+  cityInput.value = CALAMBA_CITY;
+  provinceInput.value = CALAMBA_PROVINCE;
+
+  function showOptions(items) {
+    if (!items.length) {
+      barangayOptions.innerHTML = '<div class="searchable-option-empty">No matching district</div>';
+      barangayOptions.classList.remove('hidden');
+      return;
+    }
+
+    barangayOptions.innerHTML = items.map(function(item) {
+      return '<div class="searchable-option" data-value="' + item + '">' + item + '</div>';
+    }).join('');
+    barangayOptions.classList.remove('hidden');
+  }
+
+  function filterOptions() {
+    const q = barangayInput.value.trim().toLowerCase();
+    const filtered = calambaDistricts.filter(function(name) {
+      return name.toLowerCase().indexOf(q) !== -1;
+    });
+    showOptions(filtered);
+  }
+
+  function applyDistrictSelection(value) {
+    if (!value) return;
+    barangayInput.value = value;
+    barangayOptions.classList.add('hidden');
+    updateFullAddress();
+  }
+
+  barangayInput.addEventListener('focus', filterOptions);
+  barangayInput.addEventListener('input', function() {
+    filterOptions();
+    updateFullAddress();
+  });
+
+  barangayInput.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter') return;
+    const firstMatch = barangayOptions.querySelector('.searchable-option');
+    if (!firstMatch) return;
+    e.preventDefault();
+    applyDistrictSelection(firstMatch.getAttribute('data-value') || '');
+  });
+
+  barangayInput.addEventListener('blur', function() {
+    setTimeout(function() {
+      barangayOptions.classList.add('hidden');
+    }, 120);
+  });
+
+  barangayOptions.addEventListener('click', function(e) {
+    const target = e.target.closest('.searchable-option');
+    if (!target) return;
+    applyDistrictSelection(target.getAttribute('data-value') || '');
+  });
+
+  // Handle tap/click before blur closes the menu (mobile-friendly)
+  barangayOptions.addEventListener('mousedown', function(e) {
+    const target = e.target.closest('.searchable-option');
+    if (!target) return;
+    e.preventDefault();
+    applyDistrictSelection(target.getAttribute('data-value') || '');
+  });
+
+  barangayOptions.addEventListener('touchstart', function(e) {
+    const target = e.target.closest('.searchable-option');
+    if (!target) return;
+    applyDistrictSelection(target.getAttribute('data-value') || '');
+  });
+
+  streetInput.addEventListener('input', updateFullAddress);
+  updateFullAddress();
+}
+
+// File upload handling
+function handleFileSelect(input, nameId) {
+  const item = input.closest('.upload-item');
+  const nameEl = document.getElementById(nameId);
+
+  if (input.files.length > 0) {
+    const file = input.files[0];
+    
+    // Validate file type
+    if (file.type !== 'application/pdf') {
+      showModal('errorModal', 'Invalid file format. Please upload PDF files only.');
+      input.value = '';
+      return;
+    }
+    
+    // Validate file size (10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      showModal('errorModal', 'File size exceeds 10MB. Please upload a smaller file.');
+      input.value = '';
+      return;
+    }
+    
+    // Success
+    nameEl.textContent = file.name;
+    item.classList.add('has-file');
+  }
+}
+
+function removeFile(event, inputId) {
+  event.stopPropagation();
+  const input = document.getElementById(inputId);
+  const item = input.closest('.upload-item');
+  const nameEl = document.getElementById(inputId + '-name');
+  input.value = '';
+  nameEl.textContent = '';
+  item.classList.remove('has-file');
+}
+
+// Form submission
+function handleSubmit(event) {
+  event.preventDefault();
+  const form = document.getElementById('spesForm');
+  const requiredFields = form.querySelectorAll('[required]');
+  let valid = true;
+  let missingFields = [];
+
+  requiredFields.forEach(function(field) {
+    if (!field.value.trim()) {
+      valid = false;
+      field.classList.add('field-error');
+      field.style.animation = 'shake 0.4s';
+      
+      // Get field label
+      const label = field.closest('.input-group')?.querySelector('label');
+      if (label) {
+        missingFields.push(label.textContent.replace(' *', '').trim());
+      }
+      
+      setTimeout(() => {
+        field.style.animation = '';
+      }, 400);
+    } else {
+      field.classList.remove('field-error');
+    }
+  });
+
+  if (!valid) {
+    const message = missingFields.length > 0 
+      ? `Please complete the following required fields: ${missingFields.join(', ')}`
+      : 'Please fill in all required fields marked with * before submitting.';
+    showModal('errorModal', message);
+    
+    // Scroll to first invalid field
+    const firstInvalid = form.querySelector('input[style*="border-color: rgb(229, 57, 53)"], select[style*="border-color: rgb(229, 57, 53)"]');
+    if (firstInvalid) {
+      firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    return false;
+  }
+
+  document.getElementById('confirmModal').classList.add('show');
+  document.body.classList.add('no-scroll');
+  return false;
+}
+
+function submitForm() {
+  closeModal('confirmModal');
+
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  // Update progress steps to done
+  const circles = document.querySelectorAll('.step-circle');
+  const lines = document.querySelectorAll('.step-line');
+  circles.forEach(c => { c.classList.remove('active'); c.classList.add('done'); });
+  lines.forEach(l => l.classList.add('done'));
+
+  // Simulate submission
+  setTimeout(function() {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    document.getElementById('successModal').classList.add('show');
+  }, 1800);
+}
+
+// Modals with smooth animations
+function showModal(id, message) {
+  const modal = document.getElementById(id);
+  
+  if (message && id === 'errorModal') {
+    document.getElementById('errorMessage').textContent = message;
+  }
+  
+  modal.classList.add('show');
+  document.body.classList.add('no-scroll');
+}
+
+function closeModal(id) {
+  const modal = document.getElementById(id);
+  modal.classList.remove('show');
+  document.body.classList.remove('no-scroll');
+}
+
+// Reset
+function confirmReset() {
+  document.getElementById('resetModal').classList.add('show');
+}
+
+function resetForm() {
+  closeModal('resetModal');
+  document.getElementById('spesForm').reset();
+
+  // Clear file uploads
+  document.querySelectorAll('.upload-item').forEach(function(item) {
+    item.classList.remove('has-file');
+  });
+  document.querySelectorAll('.upload-filename').forEach(function(el) {
+    el.textContent = '';
+  });
+
+  // Reset border colors
+  document.querySelectorAll('input, select').forEach(function(el) {
+    el.classList.remove('field-error');
+  });
+
+  // Hide scholar field and remove required
+  const scholarGroup = document.getElementById('scholarNameGroup');
+  scholarGroup.classList.add('hidden');
+  const scholarInput = document.getElementById('scholarshipName');
+  if (scholarInput) {
+    scholarInput.removeAttribute('required');
+    scholarInput.value = '';
+  }
+
+  // Go back to step 1
+  currentStep = 1;
+  showStep(1);
+  updateFullAddress();
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) {
+      const modalId = overlay.id;
+      closeModal(modalId);
+    }
+  });
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const openModal = document.querySelector('.modal-overlay.show');
+    if (openModal) {
+      closeModal(openModal.id);
+    }
+  }
+});
+
+// Clickable progress steps
+document.querySelectorAll('.step-circle').forEach((circle, idx) => {
+  circle.addEventListener('click', function() {
+    // Can only click on completed steps or the current step
+    if (this.classList.contains('done') || this.classList.contains('active')) {
+      currentStep = idx + 1;
+      showStep(currentStep);
+    }
+  });
+});
+
+// Multi-step navigation
+let currentStep = 1;
+const totalSteps = 4;
+
+function updateProgressBar(step) {
+  const circles = document.querySelectorAll('.step-circle');
+  const labels = document.querySelectorAll('.step-label');
+  const lines = document.querySelectorAll('.step-line');
+
+  circles.forEach((c, i) => {
+    c.classList.remove('active', 'done');
+    if (i + 1 < step) {
+      c.classList.add('done');
+    } else if (i + 1 === step) {
+      c.classList.add('active');
+    }
+  });
+
+  labels.forEach((l, i) => {
+    l.classList.toggle('active', i + 1 === step);
+  });
+
+  lines.forEach((l, i) => {
+    l.classList.toggle('done', i + 1 < step);
+  });
+}
+
+function showStep(step) {
+  const sections = document.querySelectorAll('.section[data-step]');
+  sections.forEach(sec => {
+    sec.classList.remove('active');
+    if (parseInt(sec.dataset.step) === step) {
+      sec.classList.add('active');
+    }
+  });
+  
+  // Show/hide final section (Note & Submit) on step 4
+  const finalSection = document.getElementById('finalSection');
+  if (finalSection) {
+    if (step === 4) {
+      finalSection.classList.remove('hidden');
+    } else {
+      finalSection.classList.add('hidden');
+    }
+  }
+  
+  updateProgressBar(step);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validateStep(step) {
+  const section = document.querySelector(`.section[data-step="${step}"]`);
+  const requiredFields = section.querySelectorAll('[required]');
+  let valid = true;
+  let missingFields = [];
+
+  requiredFields.forEach(field => {
+    let isEmpty = false;
+    
+    // Check for file inputs
+    if (field.type === 'file') {
+      isEmpty = !field.files || field.files.length === 0;
+      
+      if (isEmpty) {
+        valid = false;
+        const uploadItem = field.closest('.upload-item');
+        if (uploadItem) {
+          uploadItem.classList.add('field-error');
+          uploadItem.style.animation = 'shake 0.4s';
+          
+          // Get upload label
+          const label = uploadItem.querySelector('.upload-label');
+          if (label) {
+            missingFields.push(label.textContent.replace(' *', '').trim());
+          }
+          
+          setTimeout(() => {
+            uploadItem.style.animation = '';
+          }, 400);
+        }
+      } else {
+        const uploadItem = field.closest('.upload-item');
+        if (uploadItem) {
+          uploadItem.classList.remove('field-error');
+        }
+      }
+    } else {
+      // Check for regular text inputs
+      isEmpty = !field.value.trim();
+      
+      if (isEmpty) {
+        valid = false;
+        field.classList.add('field-error');
+        field.style.animation = 'shake 0.4s';
+        
+        // Get field label
+        const label = field.closest('.input-group').querySelector('label');
+        if (label) {
+          missingFields.push(label.textContent.replace(' *', '').trim());
+        }
+        
+        setTimeout(() => {
+          field.style.animation = '';
+        }, 400);
+      } else {
+        field.classList.remove('field-error');
+      }
+    }
+  });
+
+  if (step === 1) {
+    const barangayInput = document.getElementById('barangayInput');
+    if (barangayInput && barangayInput.value && !calambaDistricts.includes(barangayInput.value)) {
+      valid = false;
+      barangayInput.classList.add('field-error');
+      missingFields.push('Valid Calamba district');
+    }
+  }
+
+  return { valid, missingFields };
+}
+
+function nextStep(fromStep) {
+  const validation = validateStep(fromStep);
+
+  // Age validation only on step 1 next
+  if (fromStep === 1) {
+    const dobInput = document.querySelector('input[name="dob"]');
+    const ageInput = document.querySelector('input[name="age"]');
+    if (dobInput && ageInput && dobInput.value) {
+      const dob = new Date(dobInput.value);
+      if (!isNaN(dob.getTime())) {
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const m = today.getMonth() - dob.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+        if (age < 17 || age > 30) {
+          showModal('errorModal', 'Applicants must be between 17 and 30 years old to continue.');
+          dobInput.value = '';
+          ageInput.value = '';
+          return;
+        }
+      }
+    }
+  }
+
+  if (!validation.valid) {
+    const stepNames = ['Basic Information', 'Education Information', 'Family Information', 'Documents'];
+    const message = `Please complete the following fields in ${stepNames[fromStep - 1]}: ${validation.missingFields.join(', ')}`;
+    showModal('errorModal', message);
+    return;
+  }
+
+  if (fromStep < totalSteps) {
+    currentStep = fromStep + 1;
+    showStep(currentStep);
+  }
+}
+
+function prevStep(fromStep) {
+  if (fromStep > 1) {
+    currentStep = fromStep - 1;
+    showStep(currentStep);
+  }
+}
+
+// Initialize first step
+document.addEventListener('DOMContentLoaded', function() {
+  showStep(1);
+  wireSearchableLocationFields();
+});
+</script>
+
+</body>
+</html>
+
+

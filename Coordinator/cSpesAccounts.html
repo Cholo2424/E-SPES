@@ -1,0 +1,2805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-SPES | SPES Accounts</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+/* Hide scrollbars globally */
+*{
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+*::-webkit-scrollbar{
+  width:0;
+  height:0;
+}
+
+/* Show custom scrollbar for content area */
+.content::-webkit-scrollbar {
+  width: 1px;
+  display: block;
+}
+
+.content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 5px;
+  max-height: 12px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+  width: 3px;
+  cursor: pointer;
+}
+
+.content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.05) transparent;
+}
+
+/* Show custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 1px;
+  display: block;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 5px;
+  max-height: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+  width: 2px;
+  cursor: pointer;
+}
+
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.04) transparent;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+  display: block;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
+  min-height: 5px;
+  min-width: 5px;
+  max-height: 12px;
+  max-width: 12px;
+  transition: all 0.2s ease;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.table-container {
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.05) transparent;
+}
+
+/* Hide sidebar scrollbar */
+.sidebar{
+  scrollbar-width:none !important;
+  -ms-overflow-style:none;
+}
+
+.sidebar::-webkit-scrollbar{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+}
+
+body{
+  margin:0;
+  background:#ffffff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-bottom:46px;
+}
+
+/* header */
+.header{
+  background:#242242;
+  color:white;
+  padding:12px 30px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+}
+
+.burger-btn{
+  border:none;
+  background:transparent;
+  color:#ffffff;
+  font-size:20px;
+  width:38px;
+  height:38px;
+  border-radius:6px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.burger-btn:hover{
+  background:rgba(255,255,255,0.12);
+}
+
+.header-text h1{
+  margin:0;
+  font-size:16px;
+}
+
+.header-text p{
+  margin:2px 0 0;
+  font-size:11px;
+  opacity:0.9;
+  font-style:italic;
+}
+
+.header-text{
+  flex:1 1 auto;
+}
+
+/* right side header */
+.header-right{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-info{
+  text-align:right;
+  font-size:12px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.user-info:hover{
+  opacity:0.8;
+}
+
+.avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e5e5e5;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.avatar:hover{
+  background:#d0d0d0;
+}
+
+/* profile dropdown */
+.profile-menu{
+  position:relative;
+}
+
+.profile-dropdown{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:8px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  min-width:150px;
+  display:none;
+  z-index:100;
+}
+
+.profile-dropdown.show{
+  display:block;
+}
+
+.profile-item{
+  padding:12px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+  border:none;
+  background:none;
+  width:100%;
+  text-align:left;
+}
+
+.profile-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.profile-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main wrapper */
+.main-wrapper{
+  flex:1;
+  padding:30px 120px 60px 120px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* breadcrumb */
+.breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:#666;
+  cursor:pointer;
+  margin-bottom:15px;
+}
+
+.breadcrumb i{
+  font-size:12px;
+}
+
+/* top bar with breadcrumb and menu */
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+/* 3-dot menu */
+.menu-dots{
+  position:relative;
+  margin-left:auto;
+}
+
+.dots-btn{
+  background:transparent;
+  border:none;
+  border-radius:4px;
+  padding:6px 12px;
+  cursor:pointer;
+  font-size:18px;
+  color:#666;
+  transition:.2s;
+}
+
+.dots-btn:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-menu{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:5px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  min-width:160px;
+  display:none;
+  z-index:100;
+}
+
+.dropdown-menu.show{
+  display:block;
+}
+
+.dropdown-item{
+  padding:10px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+}
+
+.dropdown-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main*/
+.main{
+  display:flex;
+  gap:11px;
+  flex:1;
+  overflow:hidden;
+}
+
+/* sidebar */
+.sidebar{
+  width:235px;
+  background:#f3f3f3;
+  border-radius:5px;
+  padding:0px;
+  border:1px solid #d0d0d0;
+  flex-shrink:0;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+  max-height:calc(100vh - 160px);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-profile{
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:16px 14px;
+  border-bottom:1px solid #e1e1e1;
+  background:#ededed;
+}
+
+.sidebar-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#d9d9d9;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+  flex-shrink:0;
+}
+
+.sidebar-user h4{
+  margin:0;
+  font-size:13px;
+  color:#222;
+  font-weight:700;
+}
+
+.sidebar-user p{
+  margin:2px 0 0;
+  font-size:11px;
+  color:#666;
+  font-weight:500;
+}
+
+/* menu */
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:34px 14px;
+  border-radius:6px;
+  font-size:14.5px;
+  color:#666;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.menu-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.menu-item i{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+.menu-item:hover{
+  background:#e6e6e6;
+}
+
+.menu-item:hover .fa-chevron-right{
+  background:#bfc3c9;
+  color:#666666;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+}
+
+.submenu-wrapper > .menu-item:not(.active):hover{
+  background:#e6e6e6;
+}
+
+.sidebar-menu{
+  flex:1;
+  overflow-y:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+.sidebar-menu::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+
+.menu-item-logout{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px 20px;
+  border-radius:8px;
+  font-size:15.5px;
+  color:#222;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  text-decoration:none;
+  background:#e4e6eb;
+  border:1px solid #ced0d4;
+  width:calc(100% - 28px);
+  text-align:center;
+  margin-top:30px;
+  margin-bottom:70px;
+  margin-left:14px;
+  margin-right:14px;
+  font-weight:700;
+}
+
+.menu-item-logout:hover{
+  background:#d8dadf;
+  border-color:#bcc0c4;
+}
+
+.menu-item-logout i{
+  width:18px;
+  text-align:center;
+}
+
+.menu-item.active{
+  background:#ffffff;
+  color:rgb(40, 32, 32);
+  border-radius:0px;
+}
+
+.menu-item.active i{
+  color:rgb(32, 30, 30);
+}
+
+.menu-item.active .fa-chevron-right{
+  background:#1a1a1a;
+  color:#ffffff;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+  transform:rotate(0deg);
+}
+
+.menu-item.active.menu-submenu .fa-chevron-right{
+  transform:rotate(90deg);
+  transition:transform 0.3s ease;
+}
+
+.submenu-wrapper > .menu-item:hover .fa-chevron-right{
+  transform:rotate(90deg) !important;
+}
+
+.submenu-wrapper{
+  position:relative;
+}
+
+.submenu{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.3s ease;
+  background:#e8e8e8;
+}
+
+.submenu.show{
+  max-height:300px;
+}
+
+.submenu-wrapper:hover .submenu{
+  max-height:300px;
+}
+
+.submenu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 14px 18px 45px;
+  font-size:12.5px;
+  color:#555;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  border-left:3px solid transparent;
+}
+
+.submenu-item:hover{
+  background:#d8d8d8;
+}
+
+.submenu-item.active{
+  background:#ffffff;
+  color:#242242;
+  border-left-color:#242242;
+  font-weight:500;
+}
+
+.submenu-item i{
+  font-size:8px;
+  color:#999;
+}
+
+.submenu-item.active i{
+  color:#242242;
+}
+
+/* main content */
+.content{
+  flex:1;
+  background:#ffffff;
+  border-radius:4px;
+  padding:14px;
+  border:1px solid #d0d0d0;
+  position:relative;
+  overflow-y:hidden;
+  overflow-x:hidden;
+  max-height:calc(100vh - 160px);
+}
+
+.loading-bar{
+  position:absolute;
+  top:0;
+  left:0;
+  width:0;
+  height:2px;
+  background:#3b82f6;
+  transition:width 0.8s ease;
+  z-index:10;
+}
+
+.loading-bar.active{
+  width:100%;
+}
+
+/* toolbar */
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+  position:sticky;
+  top:0;
+  z-index:6;
+  background:#ffffff;
+  padding-bottom:10px;
+}
+
+.search-box{
+  flex:1;
+  min-width:250px;
+  position:relative;
+}
+
+.search-box input{
+  width:100%;
+  padding:10px 40px 10px 15px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+}
+
+.search-box i{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#888;
+  cursor:pointer;
+}
+
+.filter-select{
+  padding:10px 35px 10px 15px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  background:#fff;
+  cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+}
+
+.btn-primary{
+  padding:10px 20px;
+  background:#242242;
+  color:white;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:500;
+  transition:.2s;
+}
+
+.btn-primary:hover{
+  background:#363454;
+}
+
+.btn-secondary{
+  padding:10px 20px;
+  background:#6c757d;
+  color:white;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:500;
+  transition:.2s;
+}
+
+.btn-secondary:hover{
+  background:#5a6268;
+}
+
+.refresh-btn{
+  padding:10px 12px;
+  border:1px solid #d0d0d0;
+  background:white;
+  border-radius:4px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.refresh-btn:hover{
+  background:#f5f5f5;
+}
+
+.refresh-btn:active{
+  transform:scale(0.95);
+}
+
+/* table */
+.table-container{
+  overflow:auto;
+  margin-bottom:20px;
+  position:relative;
+  max-height:calc(100vh - 340px);
+}
+
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
+.data-table th{
+  background:#f8f8f8;
+  padding:12px 10px;
+  text-align:left;
+  font-weight:600;
+  color:#555;
+  border-bottom:2px solid #d0d0d0;
+  white-space:nowrap;
+  position:sticky;
+  top:0;
+  z-index:3;
+}
+
+.data-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #f0f0f0;
+}
+
+.data-table tbody tr:hover{
+  background:#fafafa;
+}
+
+.profile-cell{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.profile-avatar{
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:#e0e0e0;
+  color:#555;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  font-size:12px;
+  flex-shrink:0;
+}
+
+.applicant-name{
+  font-weight:500;
+  color:#333;
+  display:block;
+  margin-bottom:2px;
+}
+
+.applicant-email{
+  color:#888;
+  font-size:11px;
+}
+
+.remarks-input{
+  width:100%;
+  min-width:100px;
+  padding:6px 8px;
+  border:1px solid #e0e0e0;
+  border-radius:3px;
+  font-size:11px;
+  font-family:inherit;
+  background:#fafafa;
+  transition:.2s;
+}
+
+.remarks-input:disabled{
+  color:#666;
+  background:#f3f3f3;
+}
+
+.remarks-input:focus{
+  outline:none;
+  border-color:#0288d1;
+  background:#fff;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:3px;
+  font-size:11px;
+  font-weight:500;
+}
+
+.badge-online{
+  background:#e8f4f8;
+  color:#0288d1;
+}
+
+.badge-walkin{
+  background:#fff3e0;
+  color:#f57c00;
+}
+
+.badge-pending{
+  background:#f5f5f5;
+  color:#666;
+}
+
+.badge-approved{
+  background:#000;
+  color:#fff;
+}
+
+.badge-locked{
+  background:#fce4ec;
+  color:#c62828;
+}
+
+.badge-active{
+  background:#e8f5e9;
+  color:#2e7d32;
+}
+
+.badge-deactivated{
+  background:#fff3e0;
+  color:#f57c00;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.action-btn{
+  width:28px;
+  height:28px;
+  border-radius:4px;
+  border:1px solid #d0d0d0;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.action-btn:hover{
+  background:#f0f0f0;
+}
+
+.action-btn i{
+  font-size:11px;
+  color:#666;
+}
+
+.action-btn.active{
+  background:#242242;
+  border-color:#242242;
+}
+
+.action-btn.active i{
+  color:#fff;
+}
+
+/* editable fields */
+.editable-email[contenteditable="true"],
+.editable-contact[contenteditable="true"]{
+  background:#fffacd;
+  border:1px solid #ffd700;
+  padding:6px 8px;
+  border-radius:3px;
+  cursor:text;
+  outline:none;
+}
+
+.editable-status{
+  border:none;
+  padding:4px 10px;
+  border-radius:3px;
+  font-size:11px;
+  font-weight:500;
+  cursor:pointer;
+  width:auto;
+}
+
+.editable-status:disabled{
+  cursor:default;
+  pointer-events:none;
+}
+
+.editable-status:not([disabled]){
+  background:#fffacd !important;
+  border:1px solid #ffd700 !important;
+  color:#333 !important;
+}
+
+tr.is-editing{
+  background:#fafafa !important;
+}
+
+/* pagination */
+.pagination{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  margin-top:12px;
+  gap:15px;
+  font-size:13px;
+  color:#666;
+}
+
+.pagination-controls{
+  display:flex;
+  gap:5px;
+}
+
+.page-btn{
+  width:32px;
+  height:32px;
+  border:1px solid #d0d0d0;
+  background:white;
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
+}
+
+.page-btn:hover{
+  background:#f0f0f0;
+}
+
+.page-btn.active{
+  background:#242242;
+  color:white;
+  border-color:#242242;
+}
+
+/* modals */
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:200;
+  padding:20px;
+}
+
+.modal-backdrop.show{
+  display:flex;
+}
+
+.archive-section{
+  width:min(1100px, 95vw);
+  max-height:85vh;
+  overflow:auto;
+  border:1px solid #d0d0d0;
+  border-radius:8px;
+  padding:18px 20px 20px;
+  background:#ffffff;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* generic modal panel */
+.modal-panel{
+  width:min(520px, 95vw);
+  max-height:90vh;
+  overflow-y:auto;
+  background:#fff;
+  border-radius:8px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.2);
+  border:1px solid #d0d0d0;
+}
+
+.modal-panel-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px;
+  border-bottom:1px solid #eee;
+}
+
+.modal-panel-header h3{
+  margin:0;
+  font-size:15px;
+  color:#242242;
+  font-weight:600;
+}
+
+.modal-panel-body{
+  padding:20px;
+}
+
+.modal-panel-footer{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  padding:14px 20px;
+  border-top:1px solid #eee;
+}
+
+/* view account modal */
+.view-detail-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.view-detail-item{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+.view-detail-item.full-width{
+  grid-column:1 / -1;
+}
+
+.view-detail-label{
+  font-size:10px;
+  text-transform:uppercase;
+  color:#999;
+  font-weight:600;
+  letter-spacing:0.5px;
+}
+
+.view-detail-value{
+  font-size:13px;
+  color:#333;
+  font-weight:500;
+  word-break:break-word;
+}
+
+.view-avatar-section{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:18px;
+  padding-bottom:16px;
+  border-bottom:1px solid #f0f0f0;
+}
+
+.view-avatar-large{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:#e5e5e5;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:18px;
+  flex-shrink:0;
+}
+
+.view-avatar-info h4{
+  margin:0;
+  font-size:15px;
+  color:#242242;
+}
+
+.view-avatar-info p{
+  margin:3px 0 0;
+  font-size:12px;
+  color:#888;
+}
+
+/* send instructions modal */
+.instruction-textarea{
+  width:100%;
+  min-height:280px;
+  padding:12px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  font-family:inherit;
+  resize:vertical;
+  transition:.2s;
+  line-height:1.6;
+}
+
+.instruction-textarea:focus{
+  outline:none;
+  border-color:#242242;
+}
+
+.instruction-info{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  background:#f8f9fa;
+  border-radius:4px;
+  margin-bottom:14px;
+  font-size:12px;
+  color:#666;
+}
+
+.instruction-info i{
+  color:#242242;
+  font-size:14px;
+}
+
+/* access period modal */
+.period-row{
+  display:flex;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.period-field{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.period-field label{
+  font-size:11px;
+  color:#888;
+  font-weight:600;
+  text-transform:uppercase;
+}
+
+.period-field input{
+  padding:10px 12px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  font-family:inherit;
+}
+
+.period-field input:focus{
+  outline:none;
+  border-color:#242242;
+}
+
+.period-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:4px;
+  margin-top:4px;
+  font-size:12px;
+  font-weight:500;
+}
+
+.period-status.open{
+  background:#e8f5e9;
+  color:#2e7d32;
+}
+
+.period-status.closed{
+  background:#fce4ec;
+  color:#c62828;
+}
+
+.period-status i{
+  font-size:13px;
+}
+
+/* confirm modal */
+.confirm-panel{
+  width:min(400px, 90vw);
+  background:#fff;
+  border-radius:8px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.2);
+  border:1px solid #d0d0d0;
+  text-align:center;
+  padding:28px 24px 20px;
+}
+
+.confirm-icon{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  margin:0 auto 14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+}
+
+.confirm-icon.warn{
+  background:#fff3e0;
+  color:#f57c00;
+}
+
+.confirm-icon.danger{
+  background:#fce4ec;
+  color:#c62828;
+}
+
+.confirm-icon.info{
+  background:#e3f2fd;
+  color:#1565c0;
+}
+
+.confirm-icon.success{
+  background:#e8f5e9;
+  color:#2e7d32;
+}
+
+.confirm-title{
+  font-size:15px;
+  font-weight:600;
+  color:#242242;
+  margin:0 0 6px;
+}
+
+.confirm-text{
+  font-size:13px;
+  color:#666;
+  margin:0 0 20px;
+  line-height:1.5;
+}
+
+.confirm-actions{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+}
+
+.btn-cancel{
+  padding:9px 20px;
+  background:#f5f5f5;
+  color:#555;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:500;
+  transition:.2s;
+}
+
+.btn-cancel:hover{
+  background:#eee;
+}
+
+.btn-danger{
+  padding:9px 20px;
+  background:#c62828;
+  color:white;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:500;
+  transition:.2s;
+}
+
+.btn-danger:hover{
+  background:#b71c1c;
+}
+
+.btn-success{
+  padding:9px 20px;
+  background:#2e7d32;
+  color:white;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:500;
+  transition:.2s;
+}
+
+.btn-success:hover{
+  background:#1b5e20;
+}
+
+/* toast notification */
+.toast-container{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.toast{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 18px;
+  background:#fff;
+  border-radius:6px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.15);
+  border-left:4px solid #242242;
+  font-size:13px;
+  color:#333;
+  animation:toastIn 0.3s ease;
+  min-width:280px;
+}
+
+.toast.success{ border-left-color:#2e7d32; }
+.toast.error{ border-left-color:#c62828; }
+.toast.info{ border-left-color:#1565c0; }
+
+.toast i{
+  font-size:16px;
+}
+
+.toast.success i{ color:#2e7d32; }
+.toast.error i{ color:#c62828; }
+.toast.info i{ color:#1565c0; }
+
+@keyframes toastIn{
+  from{ opacity:0; transform:translateY(20px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* lock toggle btn */
+.lock-toggle{
+  width:28px;
+  height:28px;
+  border-radius:4px;
+  border:1px solid #d0d0d0;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.lock-toggle:hover{
+  background:#f0f0f0;
+}
+
+.lock-toggle i{
+  font-size:11px;
+  color:#666;
+}
+
+.lock-toggle.locked{
+  background:#fce4ec;
+  border-color:#ef9a9a;
+}
+
+.lock-toggle.locked i{
+  color:#c62828;
+}
+
+.archive-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+
+.archive-title{
+  margin:0;
+  font-size:14px;
+  color:#333;
+}
+
+.modal-close{
+  border:none;
+  background:#f2f2f2;
+  color:#333;
+  width:30px;
+  height:30px;
+  border-radius:6px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-close:hover{
+  background:#e6e6e6;
+}
+
+/* footer */
+.footer{
+  background:#242242;
+  color:white;
+  text-align:center;
+  padding:10px;
+  font-size:9px;
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:400;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS (matched to New SPES)
+   ============================================ */
+
+@media (max-width: 1024px){
+  .main-wrapper{
+    padding:24px 32px 60px 32px;
+  }
+
+  .main{
+    gap:8px;
+  }
+
+  .sidebar{
+    width:220px;
+  }
+
+  .content{
+    padding:14px;
+  }
+
+  .top-bar{
+    gap:8px;
+  }
+}
+
+@media (max-width: 720px){
+  .header{
+    padding:10px 20px;
+    gap:10px;
+    flex-wrap:nowrap;
+  }
+
+  .header img{
+    width:32px;
+    height:32px;
+  }
+
+  .header-text{
+    flex:1 1 auto;
+  }
+
+  .header-text h1{
+    font-size:13px;
+    line-height:1.2;
+  }
+
+  .header-text p{
+    font-size:9px;
+  }
+
+  .header-right{
+    display:none;
+  }
+
+  .burger-btn{
+    display:flex;
+  }
+
+  .main-wrapper{
+    padding:20px 16px 40px 16px;
+    overflow:visible;
+  }
+
+  .main{
+    position:relative;
+    overflow:visible;
+  }
+
+  .content{
+    max-height:none;
+  }
+
+  .sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    width:min(320px, 90vw);
+    background:#f3f3f3;
+    transform:translateX(-110%);
+    transition:transform 0.25s ease;
+    z-index:500;
+    border-radius:0;
+    border:none;
+    max-height:100vh;
+  }
+
+  .sidebar-profile{
+    display:flex;
+    flex-shrink:0;
+  }
+
+  .sidebar-menu{
+    flex:1;
+    overflow-y:auto;
+    padding-bottom:0;
+  }
+
+  .menu-item-logout{
+    display:flex;
+    margin-bottom:20px;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .sidebar-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:450;
+  }
+
+  .sidebar-overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .footer{
+    padding:8px;
+    font-size:9px;
+  }
+}
+
+.ml-16{
+  margin-left:16px;
+}
+@media(max-width:720px){.breadcrumb{display:none;}}
+
+/* Force-hide icons in alert/notif UI for consistency */
+.toast i, .confirm-icon i, .notification i{ display:none !important; }
+
+.notif-badge{display:inline-block;min-width:18px;padding:1px 6px;margin-left:6px;border-radius:999px;background:#d32f2f;color:#fff;font-size:11px;line-height:16px;text-align:center;font-weight:700;vertical-align:middle;}
+</style>
+</head>
+
+<body>
+<!-- header -->
+<div class="header">
+
+<button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="spesLogo.png" alt="SPES Logo">
+
+<div class="header-text">
+<h1>Special Program for the Employment of Students</h1>
+<p>SPES Beneficiaries Management Information System</p>
+</div>
+
+<div class="header-right">
+  <div class="user-info" id="userInfo">
+    <strong>Louraine A. Pecayo</strong><br>
+    Coordinator
+  </div>
+  <div class="profile-menu">
+    <div class="avatar" id="profileBtn">LP</div>
+    <div class="profile-dropdown" id="profileDropdown">
+      <button class="profile-item" onclick="goToSettings()">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+      </button>
+      <button class="profile-item" onclick="confirmLogout()">
+        <i class="fa-solid fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- main wrapper -->
+<div class="main-wrapper">
+
+<!-- top bar -->
+<div class="top-bar">
+  <div class="breadcrumb">
+    <i class="fa-solid fa-house"></i>
+    <span>Back ></span>
+  </div>
+
+  <div class="menu-dots">
+    <button class="dots-btn" id="menuDotsBtn">
+      <i class="fa-solid fa-ellipsis"></i>
+    </button>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="dropdown-item" onclick="importExcel()">
+        <i class="fa-solid fa-file-import"></i>
+        Import Excel
+      </div>
+      <div class="dropdown-item" onclick="exportExcel()">
+        <i class="fa-solid fa-file-export"></i>
+        Export to Excel
+      </div>
+      <div class="dropdown-item" onclick="openBulkAccessPeriod()">
+        <i class="fa-solid fa-calendar-days"></i>
+        Set Access Period
+      </div>
+      <div class="dropdown-item" onclick="toggleArchiveSection()">
+        <i class="fa-solid fa-box-archive"></i>
+        Archive
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- main -->
+<div class="main">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- sidebar -->
+<div class="sidebar">
+
+  <div class="sidebar-profile">
+    <div class="sidebar-avatar">LP</div>
+    <div class="sidebar-user">
+      <h4>Louraine A. Pecayo</h4>
+      <p>Coordinator</p>
+    </div>
+  </div>
+
+<div class="sidebar-menu">
+
+<a href="cDashboard.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-house"></i>
+    Dashboard
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cNewSPES.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-user-plus"></i>
+    New SPES
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<div class="submenu-wrapper">
+  <a href="cSpesRegistration.html" class="menu-item active menu-submenu" id="spesManagementBtn">
+    <div class="menu-left">
+      <i class="fa-solid fa-briefcase"></i>
+      SPES Management
+    </div>
+    <i class="fa-solid fa-chevron-right"></i>
+  </a>
+
+  <div class="submenu show" id="spesSubmenu">
+    <a href="cSpesRegistration.html" class="submenu-item">
+      <span>SPES Registration</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="cSpesBene.html" class="submenu-item">
+      <span>SPES Beneficiaries</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="cSpesAccounts.html" class="submenu-item active">
+      <span>SPES Accounts</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="cSpesAR.html" class="submenu-item">
+      <span>Accomplishment Report</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+  </div>
+</div>
+
+<a href="cDeployment.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-check-square"></i>
+    Deployment
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cAnnouncements.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-bullhorn"></i>
+    Announcements
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cDemographic.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-chart-pie"></i>
+    Demographic Data
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cTeamAcc.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-users"></i>
+    Team Accounts
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cSettings.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-gear"></i>
+    Settings
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<button class="menu-item-logout" onclick="confirmLogout()">
+  Log Out
+</button>
+
+</div>
+</div>
+
+<!-- main content -->
+<div class="content">
+
+<!-- toolbar -->
+<div class="toolbar">
+  <div class="search-box">
+    <input type="text" placeholder="Search here..." id="searchInput">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+
+  <button class="refresh-btn" id="refreshBtn">
+    <i class="fa-solid fa-rotate-right"></i>
+  </button>
+
+  <button class="btn-primary" id="bulkEditBtn" style="display:flex;align-items:center;gap:6px">
+    <i class="fa-solid fa-pen-to-square"></i>
+    <span id="bulkEditText">Edit All</span>
+  </button>
+
+  <select class="filter-select" id="yearFilter">
+    <option>2026</option>
+    <option>2025</option>
+    <option>2024</option>
+  </select>
+
+  <select class="filter-select" id="batchFilter">
+    <option>BATCH 1</option>
+    <option>BATCH 2</option>
+    <option>BATCH 3</option>
+  </select>
+
+  <select id="pageSizeSelectTop" class="filter-select" title="Page size">
+    <option value="10">10</option>
+    <option value="25">25</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+    <option value="300" selected>300</option>
+    <option value="all">All</option>
+  </select>
+</div>
+
+<!-- table -->
+<div class="table-container">
+  <div class="loading-bar" id="loadingBar"></div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>PROFILE</th>
+        <th>SPES ID</th>
+        <th>NAME</th>
+        <th>EMAIL ADDRESS</th>
+        <th>CONTACT NO.</th>
+        <th>STATUS</th>
+        <th>ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody id="accountsTableBody"></tbody>
+  </table>
+</div>
+
+<!-- View Account Modal -->
+<div class="modal-backdrop" id="viewAccountModal">
+  <div class="modal-panel">
+    <div class="modal-panel-header">
+      <h3><i class="fa-solid fa-user" style="margin-right:8px"></i>Account Details</h3>
+      <button class="modal-close" id="viewAccountClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-panel-body">
+      <div class="view-avatar-section">
+        <div class="view-avatar-large" id="viewAvatar">--</div>
+        <div class="view-avatar-info">
+          <h4 id="viewName">--</h4>
+          <p id="viewSpesIdTop">--</p>
+        </div>
+      </div>
+      <div class="view-detail-grid">
+        <div class="view-detail-item"><span class="view-detail-label">SPES ID</span><span class="view-detail-value" id="viewSpesId">--</span></div>
+        <div class="view-detail-item"><span class="view-detail-label">Batch</span><span class="view-detail-value" id="viewBatch">--</span></div>
+        <div class="view-detail-item"><span class="view-detail-label">Email Address</span><span class="view-detail-value" id="viewEmail">--</span></div>
+        <div class="view-detail-item"><span class="view-detail-label">Contact No.</span><span class="view-detail-value" id="viewContact">--</span></div>
+        <div class="view-detail-item"><span class="view-detail-label">Year</span><span class="view-detail-value" id="viewYear">--</span></div>
+        <div class="view-detail-item"><span class="view-detail-label">Account Status</span><span class="view-detail-value" id="viewStatus">--</span></div>
+        <div class="view-detail-item full-width"><span class="view-detail-label">Access Period</span><span class="view-detail-value" id="viewAccessPeriod">--</span></div>
+      </div>
+    </div>
+    <div class="modal-panel-footer">
+      <button class="btn-cancel" onclick="closeModal('viewAccountModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Send Instructions Modal -->
+<div class="modal-backdrop" id="sendInstructionsModal">
+  <div class="modal-panel">
+    <div class="modal-panel-header">
+      <h3><i class="fa-solid fa-paper-plane" style="margin-right:8px"></i>Send Password Reset Instructions</h3>
+      <button class="modal-close" onclick="closeModal('sendInstructionsModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-panel-body">
+      <div class="instruction-info">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Send password reset instructions to <strong id="instrEmail">--</strong>. The account will be unlocked once the student resets their password.</span>
+      </div>
+      <label style="font-size:11px;color:#888;font-weight:600;text-transform:uppercase;display:block;margin-bottom:6px">Message</label>
+      <textarea class="instruction-textarea" id="instrMessage" placeholder="Enter instructions for the student...">Hello,
+
+Your account has been locked. To unlock your account, you need to reset your password first. You have two options:
+
+OPTION 1: Reset Password via Email Link (Recommended)
+You will receive an email with a direct password reset link. Click the link and follow the instructions to create your new password. Your account will automatically unlock once you complete the password reset.
+
+OPTION 2: Reset Password via Forgot Password Page
+1. Go to the SPES Login page
+2. Click "Forgot Password" button
+3. Enter your registered email address
+4. Check your email for the password reset link
+5. Click the link and set your new password
+6. Your account will automatically unlock after reset
+
+IMPORTANT: Your account will remain locked until you successfully reset your password using either method above.
+
+If you need further assistance, please contact the SPES Coordinator's office.
+
+Thank you,
+SPES Coordinator</textarea>
+    </div>
+    <div class="modal-panel-footer">
+      <button class="btn-cancel" onclick="closeModal('sendInstructionsModal')">Cancel</button>
+      <button class="btn-primary" id="sendInstrBtn"><i class="fa-solid fa-paper-plane" style="margin-right:6px"></i>Send Instructions</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal-backdrop" id="confirmModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon warn" id="confirmIcon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <h4 class="confirm-title" id="confirmTitle">Are you sure?</h4>
+    <p class="confirm-text" id="confirmText">This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn-danger" id="confirmActionBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bulk Access Period Modal -->
+<div class="modal-backdrop" id="bulkAccessPeriodModal">
+  <div class="modal-panel">
+    <div class="modal-panel-header">
+      <h3><i class="fa-solid fa-calendar-days" style="margin-right:8px"></i>Set Access Period</h3>
+      <button class="modal-close" onclick="closeModal('bulkAccessPeriodModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-panel-body">
+      <div class="instruction-info">
+        <i class="fa-solid fa-users"></i>
+        <span>This will set the access period for <strong id="bulkAccountCount">--</strong> accounts for this year only.</span>
+      </div>
+      <div class="period-field" style="margin-bottom:16px">
+        <label>Apply To</label>
+        <select id="bulkBatchSelect" class="filter-select" style="width:100%">
+          <option value="all">All Batches</option>
+          <option value="BATCH 1">BATCH 1 Only</option>
+          <option value="BATCH 2">BATCH 2 Only</option>
+          <option value="BATCH 3">BATCH 3 Only</option>
+        </select>
+      </div>
+      <div class="period-row">
+        <div class="period-field">
+          <label>Start Date</label>
+          <input type="date" id="bulkPeriodStart">
+        </div>
+        <div class="period-field">
+          <label>End Date</label>
+          <input type="date" id="bulkPeriodEnd">
+        </div>
+      </div>
+      <div id="bulkPeriodStatusDisplay"></div>
+    </div>
+    <div class="modal-panel-footer">
+      <button class="btn-cancel" onclick="closeModal('bulkAccessPeriodModal')">Cancel</button>
+      <button class="btn-primary" id="saveBulkPeriodBtn"><i class="fa-solid fa-check" style="margin-right:6px"></i>Apply</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- archive modal -->
+<div class="modal-backdrop" id="archiveModal">
+  <div class="archive-section" role="dialog" aria-modal="true" aria-labelledby="archiveTitle">
+    <div class="archive-header">
+      <h3 class="archive-title" id="archiveTitle">Archived Accounts</h3>
+      <button class="modal-close" type="button" id="archiveCloseBtn" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>PROFILE</th>
+            <th>SPES ID</th>
+            <th>NAME</th>
+            <th>EMAIL ADDRESS</th>
+            <th>CONTACT NO.</th>
+            <th>STATUS</th>
+            <th>DATE ARCHIVED</th>
+          </tr>
+        </thead>
+        <tbody id="archiveTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- pagination -->
+<div class="pagination">
+  <div id="resultsInfo">Showing results 0 - 0</div>
+  <div class="pagination-controls" id="paginationControls"></div>
+  <div class="ml-16">
+    <select id="pageSizeSelectBottom" class="filter-select" title="Page size">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="300" selected>300</option>
+      <option value="all">All</option>
+    </select>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- footer -->
+<div class="footer">
+Copyright © 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<script>
+  
+// Sidebar & menu logic
+const items = document.querySelectorAll('.menu-item');
+const spesManagementParentMenu = document.querySelector('.menu-item.menu-submenu');
+
+function syncSpesManagementActiveState(){
+  if(!spesManagementParentMenu) return;
+  if(document.querySelector('.submenu-item.active')){
+    spesManagementParentMenu.classList.add('active');
+  }
+}
+
+items.forEach(item=>{
+  item.addEventListener('click',()=>{
+    items.forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+syncSpesManagementActiveState();
+
+const spesManagementBtn = document.getElementById('spesManagementBtn');
+const spesSubmenu       = document.getElementById('spesSubmenu');
+
+if(spesManagementBtn && spesSubmenu){
+  spesManagementBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    spesSubmenu.classList.toggle('show');
+    const arrow = this.querySelector('.fa-chevron-right');
+    arrow.style.transform = spesSubmenu.classList.contains('show') ? 'rotate(90deg)' : 'rotate(0deg)';
+  });
+}
+
+// Refresh button
+const refreshBtn = document.getElementById('refreshBtn');
+const loadingBar = document.getElementById('loadingBar');
+
+refreshBtn.addEventListener('click', () => {
+  loadingBar.classList.add('active');
+  setTimeout(() => { loadingBar.classList.remove('active'); }, 800);
+});
+
+// Mobile sidebar toggle
+const burgerBtn     = document.getElementById('burgerBtn');
+const sidebar       = document.querySelector('.sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+if(burgerBtn && sidebar && sidebarOverlay){
+  burgerBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('show');
+  });
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('show');
+  });
+}
+
+// 3-dot menu
+const menuDotsBtn = document.getElementById('menuDotsBtn');
+const dropdownMenu = document.getElementById('dropdownMenu');
+
+if(menuDotsBtn){
+  menuDotsBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    dropdownMenu.classList.toggle('show');
+  });
+}
+
+// Profile dropdown
+const profileBtn     = document.getElementById('profileBtn');
+const userInfo       = document.getElementById('userInfo');
+const profileDropdown = document.getElementById('profileDropdown');
+
+if(profileBtn && profileDropdown){
+  profileBtn.addEventListener('click', function(e){ e.stopPropagation(); profileDropdown.classList.toggle('show'); });
+}
+if(userInfo && profileDropdown){
+  userInfo.addEventListener('click', function(e){ e.stopPropagation(); profileDropdown.classList.toggle('show'); });
+}
+
+document.addEventListener('click', function(){
+  if(dropdownMenu) dropdownMenu.classList.remove('show');
+  if(profileDropdown) profileDropdown.classList.remove('show');
+});
+
+function goToSettings(){ window.location.href = 'cSettings.html'; }
+function confirmLogout(){
+  const onConfirm = function(){ window.location.href = '../login.html'; };
+  if(typeof showConfirm === 'function'){
+    try {
+      showConfirm('Logout', 'Are you sure you want to logout?', 'warning', 'Logout', 'btn-primary', onConfirm);
+      return;
+    } catch(_err){
+      try {
+        showConfirm('Logout', 'Are you sure you want to logout?', 'warning', onConfirm);
+        return;
+      } catch(_err2){ }
+    }
+  }
+  if(confirm('Are you sure you want to logout?')) onConfirm();
+}
+
+function importExcel(){
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.xlsx, .xls, .csv';
+  input.onchange = function(e){
+    const file = e.target.files[0];
+    if(file) alert('File selected: ' + file.name + '\nImport functionality to be implemented.');
+  };
+  input.click();
+  dropdownMenu.classList.remove('show');
+}
+
+function exportExcel(){
+  const table = document.querySelector('.data-table');
+  if(!table){ alert('No table data to export.'); return; }
+  let csv = [];
+  table.querySelectorAll('tr').forEach(row => {
+    let csvRow = [];
+    row.querySelectorAll('th, td').forEach(col => csvRow.push('"' + col.innerText.replace(/"/g,'""') + '"'));
+    csv.push(csvRow.join(','));
+  });
+  const blob = new Blob([csv.join('\n')], { type:'text/csv' });
+  const url  = window.URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'spes_accounts_' + new Date().getTime() + '.csv'; a.click();
+  window.URL.revokeObjectURL(url);
+  dropdownMenu.classList.remove('show');
+}
+
+function toggleArchiveSection(){
+  document.getElementById('archiveModal').classList.add('show');
+  dropdownMenu.classList.remove('show');
+}
+
+const archiveModal    = document.getElementById('archiveModal');
+const archiveCloseBtn = document.getElementById('archiveCloseBtn');
+
+if(archiveCloseBtn) archiveCloseBtn.addEventListener('click', () => archiveModal.classList.remove('show'));
+if(archiveModal) archiveModal.addEventListener('click', e => { if(e.target === archiveModal) archiveModal.classList.remove('show'); });
+</script>
+
+<script>
+// ============================================================
+// Data generation + pagination for Accounts (New SPES pattern)
+// ============================================================
+(function(){
+  const API_BASE_CANDIDATES = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://127.0.0.1:8001',
+    'http://localhost:8001'
+  ];
+  let ACTIVE_API_BASE = API_BASE_CANDIDATES[0];
+
+  function apiBasePriority(){
+    return [ACTIVE_API_BASE].concat(API_BASE_CANDIDATES.filter(base => base !== ACTIVE_API_BASE));
+  }
+
+  async function fetchWithApiBase(path, options){
+    const opts = options || {};
+    let lastError = null;
+
+    for(const base of apiBasePriority()){
+      try {
+        const response = await fetch(`${base}${path}`, opts);
+        if(response.status === 404){
+          lastError = new Error(`API endpoint not found on ${base}`);
+          continue;
+        }
+
+        ACTIVE_API_BASE = base;
+        return response;
+      } catch(err){
+        if(err && err.name === 'AbortError') throw err;
+        lastError = err;
+      }
+    }
+
+    throw lastError || new Error('Cannot connect to backend');
+  }
+
+  const totalItems  = 0;
+  const firstNames  = ['JUAN','MARIA','JOSE','ANA','CARLO','ROSA','MARK','NINA','LUIS','GRACE','RYAN','CLAIRE','JAMES','LIZA','KEVIN'];
+  const lastNames   = ['DELA CRUZ','REYES','SANTOS','GARCIA','TORRES','FLORES','RAMOS','MENDOZA','CASTRO','BAUTISTA','AQUINO','SALAZAR','LOPEZ','HERNANDEZ','VILLANUEVA'];
+  const statuses    = ['Active','Locked','Deactivated'];
+  const batches     = ['BATCH 1','BATCH 2','BATCH 3'];
+  const years       = [2026, 2025, 2024];
+  const contacts    = ['091','092','093','094','095','096','097','098','099'];
+
+  const allRecords = [];
+  const archivedAccounts = [];
+
+  function titleCase(v){
+    return String(v || '').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  function toInitials(first, last){
+    const f = String(first || '').trim();
+    const l = String(last || '').trim();
+    return ((f[0] || '') + (l[0] || '')).toUpperCase() || 'SP';
+  }
+
+  // Helper: random date range for access period
+  function randomAccessPeriod(yr){
+    const m1 = Math.floor(Math.random()*6)+1;
+    const m2 = m1 + Math.floor(Math.random()*4)+1;
+    const start = `${yr}-${String(m1).padStart(2,'0')}-01`;
+    const end   = `${yr}-${String(Math.min(m2,12)).padStart(2,'0')}-28`;
+    return { start, end };
+  }
+
+  for(let i = 1; i <= totalItems; i++){
+    const ln  = lastNames[i % lastNames.length];
+    const fn  = firstNames[i % firstNames.length];
+    const mi  = String.fromCharCode(65 + (i % 26));
+    const yr  = years[i % years.length];
+    const num = String(i).padStart(4,'0');
+    const period = randomAccessPeriod(yr);
+    allRecords.push({
+      id:       i,
+      spesId:   `${yr}-${num}`,
+      name:     `${ln}, ${fn} ${mi}.`,
+      initials: `${fn[0]}${ln[0]}`,
+      email:    `applicant${i}@example.com`,
+      contact:  contacts[i % contacts.length] + String(10000000 + i).slice(1),
+      status:   statuses[i % statuses.length],
+      batch:    batches[i % batches.length],
+      year:     yr,
+      accessStart: period.start,
+      accessEnd:   period.end
+    });
+  }
+
+  async function loadAccountsFromApi(){
+    try {
+      const res = await fetchWithApiBase('/api/spes-management/records?per_page=1000&status=approved', {
+        headers: { 'Accept': 'application/json' }
+      });
+      const payload = await res.json().catch(() => ({}));
+      if(!res.ok){
+        throw new Error((payload && (payload.message || payload.error)) || 'Failed to load SPES Accounts records');
+      }
+
+      const rows = Array.isArray(payload.data) ? payload.data : [];
+      allRecords.length = 0;
+      rows.forEach((row, idx) => {
+        const first = titleCase(row.first_name || '');
+        const last = titleCase(row.last_name || '');
+        const middle = String(row.middle_name || '').trim();
+        const middleInitial = middle ? ` ${middle.charAt(0).toUpperCase()}.` : '';
+        const fullName = `${last}, ${first}${middleInitial}`.replace(/,\s*$/, '').trim();
+        const approvedAt = row.approved_at || row.created_at || '';
+        const yearVal = Number(String(approvedAt).slice(0, 4)) || 2026;
+
+        allRecords.push({
+          id: Number(row.applicant_id || row.id || (idx + 1)),
+          spesId: String(row.control_no || '').trim() || `SPES-${yearVal}-${String(idx + 1).padStart(4, '0')}`,
+          name: fullName || 'N/A',
+          initials: toInitials(first, last),
+          email: String(row.email || '').trim(),
+          contact: String(row.contact_number || '').trim() || '-',
+          status: 'Active',
+          batch: 'BATCH 1',
+          year: yearVal,
+          accessStart: approvedAt ? String(approvedAt).slice(0, 10) : `${yearVal}-01-01`,
+          accessEnd: `${yearVal}-12-31`,
+        });
+      });
+    } catch(err){
+      console.error('Load accounts failed:', err);
+      showToast((err && err.message) ? err.message : 'Unable to load SPES Accounts data.', 'error');
+    }
+
+    applyFilters();
+    renderArchivedAccounts();
+  }
+
+  let filteredRecords = [...allRecords];
+  let currentPage = 1;
+  let pageSize    = localStorage.getItem('acc_pageSize') || '300';
+
+  const tbody              = document.getElementById('accountsTableBody');
+  const archiveTbody       = document.getElementById('archiveTableBody');
+  const resultsInfo        = document.getElementById('resultsInfo');
+  const paginationControls = document.getElementById('paginationControls');
+  const pageSizeSelectTop  = document.getElementById('pageSizeSelectTop');
+  const pageSizeSelectBot  = document.getElementById('pageSizeSelectBottom');
+  const searchInput        = document.getElementById('searchInput');
+  const yearFilter         = document.getElementById('yearFilter');
+  const batchFilter        = document.getElementById('batchFilter');
+
+  function setPageSizeValue(val){
+    if(pageSizeSelectTop) pageSizeSelectTop.value = val;
+    if(pageSizeSelectBot) pageSizeSelectBot.value = val;
+    localStorage.setItem('acc_pageSize', val);
+    pageSize = val;
+  }
+
+  function applyFilters(){
+    const term  = searchInput ? searchInput.value.toLowerCase() : '';
+    const yr    = yearFilter  ? parseInt(yearFilter.value) : 2026;
+    const batch = batchFilter ? batchFilter.value : 'BATCH 1';
+
+    filteredRecords = allRecords.filter(r => {
+      const matchSearch = !term ||
+        r.name.toLowerCase().includes(term) ||
+        r.spesId.toLowerCase().includes(term) ||
+        r.email.toLowerCase().includes(term) ||
+        r.contact.includes(term);
+      const matchYear  = r.year === yr;
+      const matchBatch = r.batch === batch;
+      return matchSearch && matchYear && matchBatch;
+    });
+
+    // Default A-Z sorting by name
+    filteredRecords.sort((a,b) => a.name.localeCompare(b.name));
+
+    currentPage = 1;
+    renderTable();
+  }
+
+  function renderTable(){
+    const effectiveSize = (pageSize === 'all') ? filteredRecords.length : parseInt(pageSize, 10);
+    const totalPages    = Math.max(1, Math.ceil(filteredRecords.length / effectiveSize));
+    if(currentPage > totalPages) currentPage = totalPages;
+
+    const start = (currentPage - 1) * effectiveSize;
+    const end   = Math.min(start + effectiveSize, filteredRecords.length);
+    const slice = filteredRecords.slice(start, end);
+
+    let html = '';
+    for(const r of slice){
+      const badgeClass = r.status === 'Active'      ? 'badge-active' :
+                         r.status === 'Locked'      ? 'badge-locked' : 'badge-deactivated';
+      const isLocked   = r.status === 'Locked';
+      const lockIcon   = isLocked ? 'fa-lock' : 'fa-lock-open';
+      const lockClass  = isLocked ? 'locked' : '';
+      const lockTitle  = isLocked ? 'Unlock Account' : 'Lock Account';
+
+      html += `
+      <tr data-account-id="${r.id}">
+        <td><div class="profile-cell"><div class="profile-avatar">${r.initials}</div></div></td>
+        <td>${r.spesId}</td>
+        <td>
+          <span class="applicant-name">${r.name}</span>
+          <span class="applicant-email">${r.email}</span>
+        </td>
+        <td class="editable-email">${r.email}</td>
+        <td class="editable-contact">${r.contact}</td>
+        <td>
+          <select class="badge ${badgeClass} editable-status" disabled>
+            <option value="Active"      ${r.status==='Active'      ?'selected':''}>Active</option>
+            <option value="Locked"      ${r.status==='Locked'      ?'selected':''}>Locked</option>
+            <option value="Deactivated" ${r.status==='Deactivated' ?'selected':''}>Deactivated</option>
+          </select>
+        </td>
+        <td>
+          <div class="actions">
+            <button class="action-btn view-btn"         title="View"><i class="fa-solid fa-eye"></i></button>
+            <button class="lock-toggle ${lockClass}"    title="${lockTitle}" data-lock-id="${r.id}"><i class="fa-solid ${lockIcon}"></i></button>
+            <button class="action-btn edit-account-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
+            <button class="action-btn archive-btn"      title="Archive"><i class="fa-solid fa-box-archive"></i></button>
+          </div>
+        </td>
+      </tr>`;
+    }
+    tbody.innerHTML = html;
+
+    const total       = filteredRecords.length;
+    const displayFrom = total === 0 ? 0 : start + 1;
+    const displayTo   = total === 0 ? 0 : end;
+    resultsInfo.textContent = `Showing results ${displayFrom} - ${displayTo} of ${total}`;
+
+    renderPagination(totalPages);
+  }
+
+  function createBtn(label, disabled, onClick, isActive){
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (isActive ? ' active' : '');
+    if(disabled) btn.disabled = true;
+    btn.innerHTML = label;
+    btn.addEventListener('click', onClick);
+    return btn;
+  }
+
+  function renderPagination(totalPages){
+    paginationControls.innerHTML = '';
+
+    paginationControls.appendChild(
+      createBtn('<i class="fa-solid fa-chevron-left"></i>', currentPage===1, ()=>{ if(currentPage>1){ currentPage--; renderTable(); } })
+    );
+
+    if(totalPages <= 5){
+      for(let p=1; p<=totalPages; p++){
+        paginationControls.appendChild(createBtn(p, false, ()=>{ currentPage=p; renderTable(); }, p===currentPage));
+      }
+    } else {
+      const addPage = (p) => paginationControls.appendChild(createBtn(p, false, ()=>{ currentPage=p; renderTable(); }, p===currentPage));
+      const addEllipsis = () => { const e=document.createElement('span'); e.style.padding='6px 8px'; e.textContent='...'; paginationControls.appendChild(e); };
+      addPage(1);
+      if(currentPage > 4) addEllipsis();
+      const s = Math.max(2, currentPage-2);
+      const f = Math.min(totalPages-1, currentPage+2);
+      for(let p=s; p<=f; p++) addPage(p);
+      if(currentPage < totalPages-3) addEllipsis();
+      addPage(totalPages);
+    }
+
+    paginationControls.appendChild(
+      createBtn('<i class="fa-solid fa-chevron-right"></i>', currentPage===totalPages, ()=>{ if(currentPage<totalPages){ currentPage++; renderTable(); } })
+    );
+  }
+
+  // === Modal Helpers ===
+  window.closeModal = function(id){ document.getElementById(id).classList.remove('show'); };
+
+  // Close modals when clicking outside (on backdrop)
+  document.addEventListener('click', function(e){
+    if(e.target.classList.contains('modal-backdrop')){
+      const modalId = e.target.id;
+      if(modalId) closeModal(modalId);
+    }
+  });
+
+  function showToast(msg, type){
+    const container = document.getElementById('toastContainer');
+    const icon = type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-circle-xmark' : 'fa-circle-info';
+    const t = document.createElement('div');
+    t.className = 'toast ' + type;
+    t.innerHTML = `<i class="fa-solid ${icon}"></i><span>${msg}</span>`;
+    container.appendChild(t);
+    setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(), 300); }, 3500);
+  }
+
+  function showConfirm(title, text, iconClass, btnText, btnClass, onConfirm){
+    document.getElementById('confirmTitle').textContent = title;
+    document.getElementById('confirmText').textContent = text;
+    const iconEl = document.getElementById('confirmIcon');
+    iconEl.className = 'confirm-icon ' + iconClass;
+    const actionBtn = document.getElementById('confirmActionBtn');
+    actionBtn.textContent = btnText;
+    actionBtn.className = btnClass;
+    actionBtn.onclick = ()=>{ closeModal('confirmModal'); onConfirm(); };
+    document.getElementById('confirmModal').classList.add('show');
+  }
+
+  // === View Account ===
+  let currentViewId = null;
+
+  function openViewAccount(rec){
+    currentViewId = rec.id;
+    document.getElementById('viewAvatar').textContent = rec.initials;
+    document.getElementById('viewName').textContent = rec.name;
+    document.getElementById('viewSpesIdTop').textContent = rec.spesId + ' • ' + rec.batch;
+    document.getElementById('viewSpesId').textContent = rec.spesId;
+    document.getElementById('viewBatch').textContent = rec.batch;
+    document.getElementById('viewEmail').textContent = rec.email;
+    document.getElementById('viewContact').textContent = rec.contact;
+    document.getElementById('viewYear').textContent = rec.year;
+    const statusEl = document.getElementById('viewStatus');
+    const badgeClass = rec.status === 'Active' ? 'badge-active' : rec.status === 'Locked' ? 'badge-locked' : 'badge-deactivated';
+    statusEl.innerHTML = `<span class="badge ${badgeClass}">${rec.status}</span>`;
+    // Access period
+    if(rec.accessStart && rec.accessEnd){
+      const fmt = d => new Date(d).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+      document.getElementById('viewAccessPeriod').textContent = fmt(rec.accessStart) + '  —  ' + fmt(rec.accessEnd);
+    } else {
+      document.getElementById('viewAccessPeriod').textContent = 'Not set';
+    }
+    document.getElementById('viewAccountModal').classList.add('show');
+  }
+
+  document.getElementById('viewAccountClose').addEventListener('click', ()=> closeModal('viewAccountModal'));
+
+  // === Send Instructions ===
+  let instrTargetId = null;
+
+  function openSendInstructions(rec){
+    instrTargetId = rec.id;
+    document.getElementById('instrEmail').textContent = rec.email;
+    document.getElementById('sendInstructionsModal').classList.add('show');
+  }
+
+  // Send password reset instructions
+  document.getElementById('sendInstrBtn').addEventListener('click', ()=>{
+    const rec = allRecords.find(r => r.id === instrTargetId);
+    if(!rec) return;
+    closeModal('sendInstructionsModal');
+    showToast(`Password reset instructions sent to ${rec.email}`, 'success');
+  });
+
+  // === Bulk Access Period ===
+  window.openBulkAccessPeriod = function(){
+    document.getElementById('bulkBatchSelect').value = 'all';
+    updateBulkAccountCount();
+    document.getElementById('bulkPeriodStart').value = '';
+    document.getElementById('bulkPeriodEnd').value = '';
+    document.getElementById('bulkPeriodStatusDisplay').innerHTML = '';
+    document.getElementById('bulkAccessPeriodModal').classList.add('show');
+    if(dropdownMenu) dropdownMenu.classList.remove('show');
+  };
+
+  function updateBulkAccountCount(){
+    const selectedBatch = document.getElementById('bulkBatchSelect').value;
+    let count;
+    if(selectedBatch === 'all'){
+      count = filteredRecords.length;
+    } else {
+      count = filteredRecords.filter(r => r.batch === selectedBatch).length;
+    }
+    document.getElementById('bulkAccountCount').textContent = count;
+  }
+
+  document.getElementById('bulkBatchSelect').addEventListener('change', ()=>{
+    updateBulkAccountCount();
+    updateBulkPeriodStatus();
+  });
+
+  function updateBulkPeriodStatus(){
+    const start = document.getElementById('bulkPeriodStart').value;
+    const end   = document.getElementById('bulkPeriodEnd').value;
+    const selectedBatch = document.getElementById('bulkBatchSelect').value;
+    const display = document.getElementById('bulkPeriodStatusDisplay');
+    if(start && end){
+      const now = new Date();
+      const s = new Date(start); const e = new Date(end);
+      const isOpen = now >= s && now <= e;
+      const batchText = selectedBatch === 'all' ? 'all selected accounts' : selectedBatch + ' accounts';
+      display.innerHTML = `<div class="period-status ${isOpen ? 'open' : 'closed'}"><i class="fa-solid ${isOpen ? 'fa-circle-check' : 'fa-circle-xmark'}"></i>${isOpen ? 'Access will be OPEN for ' + batchText : 'Access will be CLOSED for ' + batchText}</div>`;
+    } else {
+      display.innerHTML = '';
+    }
+  }
+
+  document.getElementById('bulkPeriodStart').addEventListener('change', updateBulkPeriodStatus);
+  document.getElementById('bulkPeriodEnd').addEventListener('change', updateBulkPeriodStatus);
+
+  document.getElementById('saveBulkPeriodBtn').addEventListener('click', ()=>{
+    const start = document.getElementById('bulkPeriodStart').value;
+    const end   = document.getElementById('bulkPeriodEnd').value;
+    const selectedBatch = document.getElementById('bulkBatchSelect').value;
+    if(!start || !end){
+      showToast('Please select both start and end dates', 'error');
+      return;
+    }
+    let targetRecords;
+    if(selectedBatch === 'all'){
+      targetRecords = filteredRecords;
+    } else {
+      targetRecords = filteredRecords.filter(r => r.batch === selectedBatch);
+    }
+    targetRecords.forEach(rec => {
+      rec.accessStart = start;
+      rec.accessEnd   = end;
+    });
+    closeModal('bulkAccessPeriodModal');
+    const batchText = selectedBatch === 'all' ? 'all batches' : selectedBatch;
+    showToast(`Access period applied to ${targetRecords.length} accounts (${batchText})`, 'success');
+    renderTable();
+  });
+
+  // === Bulk Edit ===
+  let bulkEditMode = false;
+
+  document.getElementById('bulkEditBtn').addEventListener('click', ()=>{
+    bulkEditMode = !bulkEditMode;
+    const btn = document.getElementById('bulkEditBtn');
+    const btnText = document.getElementById('bulkEditText');
+    
+    if(bulkEditMode){
+      // Enable edit mode for all visible rows
+      btn.classList.add('active');
+      btn.style.background = '#2e7d32';
+      btnText.textContent = 'Save All';
+      
+      document.querySelectorAll('tr[data-account-id]').forEach(row => {
+        row.classList.add('is-editing');
+        const emailCell   = row.querySelector('.editable-email');
+        const contactCell = row.querySelector('.editable-contact');
+        const statusSel   = row.querySelector('.editable-status');
+        if(emailCell) emailCell.contentEditable = true;
+        if(contactCell) contactCell.contentEditable = true;
+        if(statusSel) statusSel.disabled = false;
+        const editBtn = row.querySelector('.edit-account-btn');
+        if(editBtn){
+          editBtn.classList.add('active');
+          editBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+          editBtn.title = 'Save';
+        }
+      });
+      showToast('Bulk edit mode enabled - edit any accounts', 'info');
+    } else {
+      // Save all changes
+      let savedCount = 0;
+      document.querySelectorAll('tr[data-account-id]').forEach(row => {
+        const id = parseInt(row.dataset.accountId);
+        const rec = allRecords.find(r => r.id === id);
+        if(rec){
+          const emailCell   = row.querySelector('.editable-email');
+          const contactCell = row.querySelector('.editable-contact');
+          const statusSel   = row.querySelector('.editable-status');
+          if(emailCell && contactCell && statusSel){
+            rec.email   = emailCell.textContent.trim();
+            rec.contact = contactCell.textContent.trim();
+            rec.status  = statusSel.value;
+            const emailSpan = row.querySelector('.applicant-email');
+            if(emailSpan) emailSpan.textContent = rec.email;
+            statusSel.className = 'badge editable-status';
+            if(rec.status==='Active') statusSel.classList.add('badge-active');
+            else if(rec.status==='Locked') statusSel.classList.add('badge-locked');
+            else statusSel.classList.add('badge-deactivated');
+            savedCount++;
+          }
+        }
+        row.classList.remove('is-editing');
+        const emailCell   = row.querySelector('.editable-email');
+        const contactCell = row.querySelector('.editable-contact');
+        const statusSel   = row.querySelector('.editable-status');
+        if(emailCell) emailCell.contentEditable = false;
+        if(contactCell) contactCell.contentEditable = false;
+        if(statusSel) statusSel.disabled = true;
+        const editBtn = row.querySelector('.edit-account-btn');
+        if(editBtn){
+          editBtn.classList.remove('active');
+          editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+          editBtn.title = 'Edit';
+        }
+      });
+      
+      btn.classList.remove('active');
+      btn.style.background = '';
+      btnText.textContent = 'Edit All';
+      showToast(`${savedCount} accounts updated successfully`, 'success');
+    }
+  });
+
+  // === Lock / Unlock ===
+  function toggleLock(rec){
+    if(rec.status === 'Locked'){
+      // If already locked, open send instructions modal
+      openSendInstructions(rec);
+    } else {
+      // Lock
+      showConfirm('Lock Account', `Are you sure you want to lock ${rec.name}'s account? The student will not be able to login.`, 'danger', 'Lock Account', 'btn-danger', ()=>{
+        rec.status = 'Locked';
+        showToast(`${rec.name}'s account has been locked`, 'info');
+        renderTable();
+      });
+    }
+  }
+
+  async function archiveRecordAcrossModules(rec){
+    const response = await fetchWithApiBase('/api/spes-records/archive', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        applicant_id: Number(rec.id || 0),
+        control_no: String(rec.spesId || '').trim(),
+        email: String(rec.email || '').trim()
+      })
+    });
+
+    const payload = await response.json().catch(() => ({}));
+    if(!response.ok){
+      throw new Error((payload && (payload.message || payload.error)) || 'Unable to archive record');
+    }
+
+    return payload;
+  }
+
+  // Row action delegation
+  document.addEventListener('click', function(e){
+    const row = e.target.closest('tr[data-account-id]');
+    if(!row) return;
+    const id = parseInt(row.dataset.accountId);
+
+    // Edit
+    if(e.target.closest('.edit-account-btn')){
+      const btn         = row.querySelector('.edit-account-btn');
+      const emailCell   = row.querySelector('.editable-email');
+      const contactCell = row.querySelector('.editable-contact');
+      const statusSel   = row.querySelector('.editable-status');
+      const isEditing   = row.classList.contains('is-editing');
+
+      if(isEditing){
+        const rec = allRecords.find(r => r.id === id);
+        if(rec){
+          rec.email   = emailCell.textContent.trim();
+          rec.contact = contactCell.textContent.trim();
+          rec.status  = statusSel.value;
+          const emailSpan = row.querySelector('.applicant-email');
+          if(emailSpan) emailSpan.textContent = rec.email;
+          statusSel.className = 'badge editable-status';
+          if(rec.status==='Active') statusSel.classList.add('badge-active');
+          else if(rec.status==='Locked') statusSel.classList.add('badge-locked');
+          else statusSel.classList.add('badge-deactivated');
+        }
+        row.classList.remove('is-editing');
+        emailCell.contentEditable   = false;
+        contactCell.contentEditable = false;
+        statusSel.disabled = true;
+        btn.classList.remove('active');
+        btn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+        btn.title = 'Edit';
+        showToast('Account updated successfully', 'success');
+      } else {
+        row.classList.add('is-editing');
+        emailCell.contentEditable   = true;
+        contactCell.contentEditable = true;
+        statusSel.disabled = false;
+        btn.classList.add('active');
+        btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+        btn.title = 'Save';
+      }
+      return;
+    }
+
+    // View
+    if(e.target.closest('.view-btn')){
+      const rec = allRecords.find(r => r.id === id);
+      if(rec) openViewAccount(rec);
+      return;
+    }
+
+    // Lock/Unlock
+    if(e.target.closest('.lock-toggle')){
+      const rec = allRecords.find(r => r.id === id);
+      if(rec) toggleLock(rec);
+      return;
+    }
+
+    // Archive
+    if(e.target.closest('.archive-btn')){
+      const rec = allRecords.find(r => r.id === id);
+      if(!rec) return;
+      showConfirm('Archive Account', `Are you sure you want to archive ${rec.name}'s account?`, 'warn', 'Archive', 'btn-danger', async ()=>{
+        try {
+          await archiveRecordAcrossModules(rec);
+          const archivedCopy = Object.assign({}, rec, {
+            archivedDate: new Date().toLocaleDateString('en-US',{year:'numeric',month:'2-digit',day:'2-digit'})
+          });
+          archivedAccounts.push(archivedCopy);
+          await loadAccountsFromApi();
+          renderArchivedAccounts();
+          showToast(`${rec.name}'s account has been archived`, 'info');
+        } catch(err){
+          showToast((err && err.message) ? err.message : 'Failed to archive account.', 'error');
+        }
+      });
+    }
+  });
+
+  function renderArchivedAccounts(){
+    if(!archiveTbody) return;
+    let html = '';
+    for(const r of archivedAccounts){
+      const badgeClass = r.status === 'Active' ? 'badge-active' :
+                         r.status === 'Locked' ? 'badge-locked' : 'badge-deactivated';
+      html += `
+      <tr>
+        <td><div class="profile-cell"><div class="profile-avatar">${r.initials}</div></div></td>
+        <td>${r.spesId}</td>
+        <td>
+          <span class="applicant-name">${r.name}</span>
+          <span class="applicant-email">${r.email}</span>
+        </td>
+        <td>${r.email}</td>
+        <td>${r.contact}</td>
+        <td><span class="badge ${badgeClass}">${r.status}</span></td>
+        <td>${r.archivedDate || '-'}</td>
+      </tr>`;
+    }
+    archiveTbody.innerHTML = html;
+  }
+
+  // Filter listeners
+  if(searchInput) searchInput.addEventListener('input', applyFilters);
+  if(yearFilter)  yearFilter.addEventListener('change', applyFilters);
+  if(batchFilter) batchFilter.addEventListener('change', applyFilters);
+
+  // Page size listeners
+  if(pageSizeSelectTop){
+    pageSizeSelectTop.addEventListener('change', ()=>{ currentPage=1; setPageSizeValue(pageSizeSelectTop.value); renderTable(); });
+  }
+  if(pageSizeSelectBot){
+    pageSizeSelectBot.addEventListener('change', ()=>{ currentPage=1; setPageSizeValue(pageSizeSelectBot.value); renderTable(); });
+  }
+
+  // Init
+  setPageSizeValue(pageSize);
+  loadAccountsFromApi();
+})();
+</script>
+
+</body>
+</html>

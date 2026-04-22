@@ -1,0 +1,2401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-SPES | Accomplishment Report</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+/* Hide scrollbars globally */
+*{
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+*::-webkit-scrollbar{
+  width:0;
+  height:0;
+}
+
+/* Show custom scrollbar for content area */
+.content::-webkit-scrollbar{
+  width:1px;
+  display:block;
+}
+.content::-webkit-scrollbar-track{ background:transparent; }
+.content::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.05);
+  border-radius:1px;
+  transition:all 0.2s ease;
+  cursor:pointer;
+  min-height:5px;
+  max-height:12px;
+}
+.content::-webkit-scrollbar-thumb:hover{
+  background:rgba(0,0,0,0.3);
+  width:3px;
+}
+.content{
+  scrollbar-width:thin;
+  scrollbar-color:rgba(0,0,0,0.05) transparent;
+}
+
+/* Show custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar{ width:1px; display:block; }
+.sidebar::-webkit-scrollbar-track{ background:transparent; }
+.sidebar::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.04);
+  border-radius:1px;
+  transition:all 0.2s ease;
+  cursor:pointer;
+  min-height:5px;
+  max-height:10px;
+}
+.sidebar::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.25); width:2px; }
+.sidebar{ scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.04) transparent; }
+
+.table-container::-webkit-scrollbar{ width:1px; height:1px; display:block; }
+.table-container::-webkit-scrollbar-track{ background:transparent; }
+.table-container::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.05);
+  border-radius:1px;
+  min-height:5px; min-width:5px;
+  max-height:12px; max-width:12px;
+  transition:all 0.2s ease;
+}
+.table-container::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.3); }
+.table-container{
+  position:relative;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(0,0,0,0.05) transparent;
+}
+
+/* Hide sidebar scrollbar */
+.sidebar{
+  scrollbar-width:none !important;
+  -ms-overflow-style:none;
+}
+.sidebar::-webkit-scrollbar{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+}
+
+body{
+  margin:0;
+  background:#ffffff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-bottom:46px;
+}
+
+/* header */
+.header{
+  background:#242242;
+  color:white;
+  padding:12px 30px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.header img{ width:40px; height:40px; object-fit:contain; }
+
+.burger-btn{
+  border:none;
+  background:transparent;
+  color:#ffffff;
+  font-size:20px;
+  width:38px; height:38px;
+  border-radius:6px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+.burger-btn:hover{ background:rgba(255,255,255,0.12); }
+
+.header-text{ flex:1 1 auto; }
+.header-text h1{ margin:0; font-size:16px; }
+.header-text p{ margin:2px 0 0; font-size:11px; opacity:0.9; font-style:italic; }
+
+.header-right{ margin-left:auto; display:flex; align-items:center; gap:12px; }
+.user-info{ text-align:right; font-size:12px; cursor:pointer; transition:.2s; }
+.user-info:hover{ opacity:0.8; }
+
+.avatar{
+  width:38px; height:38px;
+  border-radius:50%;
+  background:#e5e5e5;
+  color:#242242;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:600; cursor:pointer; transition:.2s;
+}
+.avatar:hover{ background:#d0d0d0; }
+
+/* profile dropdown */
+.profile-menu{ position:relative; }
+.profile-dropdown{
+  position:absolute; top:100%; right:0; margin-top:8px;
+  background:white; border:1px solid #d0d0d0; border-radius:4px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15); min-width:150px;
+  display:none; z-index:100;
+}
+.profile-dropdown.show{ display:block; }
+.profile-item{
+  padding:12px 15px; font-size:13px; color:#555; cursor:pointer;
+  display:flex; align-items:center; gap:10px; transition:.2s;
+  border:none; background:none; width:100%; text-align:left;
+}
+.profile-item:hover{ background:#f5f5f5; color:#242242; }
+.profile-item i{ width:16px; font-size:13px; }
+
+/* main wrapper */
+.main-wrapper{
+  flex:1;
+  padding:30px 120px 60px 120px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* breadcrumb */
+.breadcrumb{
+  display:flex; align-items:center; gap:8px;
+  font-size:13px; color:#666; cursor:pointer; margin-bottom:15px;
+}
+.breadcrumb i{ font-size:12px; }
+
+/* top bar */
+.top-bar{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:15px;
+}
+
+/* 3-dot menu */
+.menu-dots{ position:relative; margin-left:auto; }
+.dots-btn{
+  background:transparent; border:none; border-radius:4px; padding:6px 12px;
+  cursor:pointer; font-size:18px; color:#666; transition:.2s;
+}
+.dots-btn:hover{ background:#f5f5f5; color:#242242; }
+.dropdown-menu{
+  position:absolute; top:100%; right:0; margin-top:5px;
+  background:white; border:1px solid #d0d0d0; border-radius:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15); min-width:160px; display:none; z-index:100;
+}
+.dropdown-menu.show{ display:block; }
+.dropdown-item{
+  padding:10px 15px; font-size:13px; color:#555; cursor:pointer;
+  display:flex; align-items:center; gap:10px; transition:.2s;
+}
+.dropdown-item:hover{ background:#f5f5f5; color:#242242; }
+.dropdown-item i{ width:16px; font-size:13px; }
+
+/* main */
+.main{ display:flex; gap:11px; flex:1; overflow:hidden; }
+
+/* sidebar */
+.sidebar{
+  width:235px;
+  background:#f3f3f3;
+  border-radius:5px;
+  padding:0px;
+  border:1px solid #d0d0d0;
+  flex-shrink:0;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+  max-height:calc(100vh - 160px);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-profile{
+  display:none; align-items:center; gap:10px;
+  padding:16px 14px; border-bottom:1px solid #e1e1e1; background:#ededed;
+}
+.sidebar-avatar{
+  width:38px; height:38px; border-radius:50%;
+  background:#d9d9d9; color:#242242;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:13px; flex-shrink:0;
+}
+.sidebar-user h4{ margin:0; font-size:13px; color:#222; font-weight:700; }
+.sidebar-user p{ margin:2px 0 0; font-size:11px; color:#666; font-weight:500; }
+
+.menu-item{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:34px 14px; border-radius:6px; font-size:14.5px; color:#666;
+  cursor:pointer; transition:.2s; text-decoration:none; font-weight:600;
+}
+.menu-left{ display:flex; align-items:center; gap:12px; }
+.menu-item i{ width:20px; text-align:center; font-size:16px; }
+.menu-item:hover{ background:#e6e6e6; }
+.menu-item:hover .fa-chevron-right{
+  background:#bfc3c9; color:#666666;
+  width:20px; height:20px; display:flex; align-items:center; justify-content:center;
+  border-radius:50%; font-size:10px;
+}
+.submenu-wrapper > .menu-item:not(.active):hover{ background:#e6e6e6; }
+
+.sidebar-menu{
+  flex:1; overflow-y:auto; scrollbar-width:none; -ms-overflow-style:none;
+}
+.sidebar-menu::-webkit-scrollbar{ display:none; width:0; height:0; }
+
+.menu-item-logout{
+  display:none; align-items:center; justify-content:center;
+  padding:16px 20px; border-radius:8px; font-size:15.5px; color:#222;
+  cursor:pointer; transition:all 0.2s ease; text-decoration:none;
+  background:#e4e6eb; border:1px solid #ced0d4;
+  width:calc(100% - 28px); text-align:center;
+  margin-top:30px; margin-bottom:70px; margin-left:14px; margin-right:14px;
+  font-weight:700;
+}
+.menu-item-logout:hover{ background:#d8dadf; border-color:#bcc0c4; }
+.menu-item-logout i{ width:18px; text-align:center; }
+
+.menu-item.active{ background:#ffffff; color:rgb(40,32,32); border-radius:0px; }
+.menu-item.active i{ color:rgb(32,30,30); }
+.menu-item.active .fa-chevron-right{
+  background:#1a1a1a; color:#ffffff;
+  width:20px; height:20px; display:flex; align-items:center; justify-content:center;
+  border-radius:50%; font-size:10px; transform:rotate(0deg);
+}
+.menu-item.active.menu-submenu .fa-chevron-right{
+  transform:rotate(90deg); transition:transform 0.3s ease;
+}
+.submenu-wrapper > .menu-item:hover .fa-chevron-right{
+  transform:rotate(90deg) !important;
+}
+
+.submenu-wrapper{ position:relative; }
+.submenu{
+  max-height:0; overflow:hidden;
+  transition:max-height 0.3s ease; background:#e8e8e8;
+}
+.submenu.show{ max-height:300px; }
+.submenu-wrapper:hover .submenu{ max-height:300px; }
+
+.submenu-item{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 14px 18px 45px; font-size:12.5px; color:#555;
+  cursor:pointer; transition:.2s; text-decoration:none;
+  border-left:3px solid transparent;
+}
+.submenu-item:hover{ background:#d8d8d8; }
+.submenu-item.active{
+  background:#ffffff; color:#242242; border-left-color:#242242; font-weight:500;
+}
+.submenu-item i{ font-size:8px; color:#999; }
+.submenu-item.active i{ color:#242242; }
+
+/* main content */
+.content{
+  flex:1; background:#ffffff; border-radius:4px; padding:20px;
+  border:1px solid #d0d0d0; position:relative;
+  overflow-y:hidden; overflow-x:hidden;
+  max-height:calc(100vh - 160px);
+}
+
+.loading-bar{
+  position:absolute; top:38px; left:0; right:0;
+  width:0; height:2px; background:#3b82f6;
+  transition:width 0.8s ease; z-index:5;
+}
+.loading-bar.active{ width:100%; }
+
+/* toolbar */
+.toolbar{
+  display:flex; align-items:center; gap:12px;
+  margin-bottom:20px; flex-wrap:wrap;
+  position:sticky;
+  top:0;
+  z-index:6;
+  background:#ffffff;
+  padding-bottom:10px;
+}
+.search-box{ flex:1; min-width:250px; position:relative; }
+.search-box input{
+  width:100%; padding:10px 40px 10px 15px;
+  border:1px solid #d0d0d0; border-radius:4px; font-size:13px;
+}
+.search-box i{
+  position:absolute; right:15px; top:50%; transform:translateY(-50%);
+  color:#888; cursor:pointer;
+}
+
+.filter-select{
+  padding:10px 35px 10px 15px; border:1px solid #d0d0d0; border-radius:4px;
+  font-size:13px; background:#fff; cursor:pointer; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 10px center;
+}
+
+.refresh-btn{
+  padding:10px 12px; border:1px solid #d0d0d0; background:white;
+  border-radius:4px; cursor:pointer; transition:.2s;
+}
+.refresh-btn:hover{ background:#f5f5f5; }
+.refresh-btn:active{ transform:scale(0.95); }
+
+/* table */
+.table-container{ overflow:auto; margin-bottom:20px; position:relative; max-height:calc(100vh - 340px); }
+.data-table{ width:100%; border-collapse:collapse; font-size:12px; }
+.data-table th{
+  background:#f8f8f8; padding:12px 10px; text-align:left;
+  font-weight:600; color:#555; border-bottom:2px solid #d0d0d0;
+  white-space:nowrap; position:sticky; top:0; z-index:3;
+}
+.data-table td{ padding:12px 10px; border-bottom:1px solid #f0f0f0; }
+.data-table tbody tr:hover{ background:#fafafa; }
+
+.profile-cell{ display:flex; align-items:center; gap:10px; }
+.profile-avatar{
+  width:35px; height:35px; border-radius:50%; background:#e0e0e0; color:#555;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:600; font-size:12px; flex-shrink:0;
+}
+.applicant-name{ font-weight:500; color:#333; display:block; margin-bottom:2px; }
+.applicant-email{ color:#888; font-size:11px; }
+
+.remarks-input{
+  width:100%; min-width:100px; padding:6px 8px;
+  border:1px solid #e0e0e0; border-radius:3px; font-size:11px;
+  font-family:inherit; background:#fafafa; transition:.2s;
+}
+.remarks-input:disabled{ color:#666; background:#f3f3f3; }
+.remarks-input:focus{ outline:none; border-color:#0288d1; background:#fff; }
+
+.badge{ display:inline-block; padding:4px 10px; border-radius:3px; font-size:11px; font-weight:500; }
+.badge-pending{ background:#f5f5f5; color:#666; }
+.badge-approved{ background:#000; color:#fff; }
+
+.actions{ display:flex; gap:8px; align-items:center; }
+.action-btn{
+  width:28px; height:28px; border-radius:4px; border:1px solid #d0d0d0;
+  background:white; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:.2s;
+}
+.action-btn:hover{ background:#f0f0f0; }
+.action-btn i{ font-size:11px; color:#666; }
+.action-btn.active{ background:#242242; border-color:#242242; }
+.action-btn.active i{ color:#fff; }
+
+/* pagination */
+.pagination{
+  display:flex; align-items:center; justify-content:flex-end;
+  margin-top:12px; gap:15px; font-size:13px; color:#666;
+  padding:8px 0 0 0; flex-shrink:0;
+}
+.pagination-controls{ display:flex; gap:5px; }
+.page-btn{
+  width:32px; height:32px; border:1px solid #d0d0d0; background:white;
+  border-radius:4px; cursor:pointer; display:flex; align-items:center;
+  justify-content:center; transition:.2s;
+  font-size:12px; color:#444; font-family:'Inter', sans-serif; font-weight:500;
+}
+.page-btn:hover{ background:#f0f0f0; }
+.page-btn.active{ background:#242242; color:white; border-color:#242242; }
+.page-btn:disabled{ opacity:0.4; cursor:not-allowed; }
+
+/* archive modal */
+.modal-backdrop{
+  position:fixed; inset:0; background:transparent;
+  display:none; align-items:center; justify-content:center;
+  z-index:200; padding:20px;
+}
+.modal-backdrop.show{ display:flex; }
+.archive-section{
+  width:min(1100px,95vw); max-height:85vh; overflow:auto;
+  border:1px solid #d0d0d0; border-radius:8px; padding:18px 20px 20px;
+  background:#ffffff; box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+#reminderModal.modal-backdrop {
+  background: rgba(0,0,0,0.4);
+}
+#confirmModal.modal-backdrop {
+  z-index: 1200;
+  background: rgba(0,0,0,0.45);
+}
+.archive-header{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
+}
+.archive-title{ margin:0; font-size:14px; color:#333; }
+.modal-close{
+  border:none; background:#f2f2f2; color:#333;
+  width:30px; height:30px; border-radius:6px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+}
+.modal-close:hover{ background:#e6e6e6; }
+
+/* footer */
+.footer{
+  background:#242242; color:white; text-align:center;
+  padding:10px; font-size:9px; position:fixed; left:0; bottom:0;
+  width:100%; z-index:400;
+}
+
+/* responsive */
+@media (max-width:1024px){
+  .main-wrapper{ padding:24px 32px 60px 32px; }
+  .main{ gap:8px; }
+  .sidebar{ width:220px; }
+  .content{ padding:14px; }
+  .top-bar{ gap:8px; }
+}
+
+@media (max-width:720px){
+  .header{ padding:10px 20px; gap:10px; flex-wrap:nowrap; }
+  .header img{ width:32px; height:32px; }
+  .header-text{ flex:1 1 auto; }
+  .header-text h1{ font-size:13px; line-height:1.2; }
+  .header-text p{ font-size:9px; }
+  .header-right{ display:none; }
+  .burger-btn{ display:flex; }
+  .main-wrapper{ padding:20px 16px 40px 16px; overflow:visible; }
+  .main{ position:relative; overflow:visible; }
+  .content{ max-height:none; }
+  .sidebar{
+    position:fixed; top:0; left:0; height:100vh;
+    width:min(320px,90vw); background:#f3f3f3;
+    transform:translateX(-110%); transition:transform 0.25s ease;
+    z-index:500; border-radius:0; border:none; max-height:100vh;
+  }
+  .sidebar-profile{ display:flex; flex-shrink:0; }
+  .sidebar-menu{ flex:1; overflow-y:auto; padding-bottom:0; }
+  .menu-item-logout{ display:flex; margin-bottom:20px; }
+  .sidebar.open{ transform:translateX(0); }
+  .sidebar-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.35);
+    opacity:0; pointer-events:none; transition:opacity 0.2s ease; z-index:450;
+  }
+  .sidebar-overlay.show{ opacity:1; pointer-events:auto; }
+  .footer{ padding:8px; font-size:9px; }
+}
+
+/*  AR Management Styles */
+
+/* Summary bar */
+.summary-bar{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:15px;
+  margin-bottom:25px;
+}
+.summary-item{
+  background:#ffffff;
+  border:1px solid #e8ecf1;
+  border-radius:10px;
+  padding:20px;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  box-shadow:0 2px 4px rgba(0,0,0,0.04);
+  position:relative;
+  overflow:hidden;
+}
+.summary-item:hover {
+  box-shadow:0 8px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  transform:translateY(-4px);
+}
+.summary-item.blue:hover {
+  border-color:#1976d2;
+  box-shadow:0 8px 16px rgba(25,118,210,0.18);
+}
+.summary-item.green:hover {
+  border-color:#388e3c;
+  box-shadow:0 8px 16px rgba(56,142,60,0.18);
+}
+.summary-item.red:hover {
+  border-color:#d32f2f;
+  box-shadow:0 8px 16px rgba(211,47,47,0.18);
+}
+.summary-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+.summary-icon{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  border:2px solid;
+  background:transparent;
+  transition:all 0.25s ease;
+}
+.summary-icon.blue{ color:#1976d2; border-color:#1976d2; }
+.summary-icon.green{ color:#388e3c; border-color:#388e3c; }
+.summary-icon.red{ color:#d32f2f; border-color:#d32f2f; }
+.summary-count{
+  display:block;
+  font-size:32px;
+  font-weight:700;
+  color:#1a1d2e;
+  margin-bottom:6px;
+  line-height:1;
+}
+.summary-label{
+  font-size:11px;
+  color:#6b7280;
+  text-transform:uppercase;
+  letter-spacing:0.6px;
+  font-weight:600;
+}
+.summary-item.s-submitted .summary-count{color:#2e7d32}
+.summary-item.s-not-submitted .summary-count{color:#c62828}
+
+/* Active state */
+.summary-item.active.blue{
+  background:#1976d2;
+  border-color:#1976d2;
+  box-shadow:0 8px 20px rgba(25,118,210,0.3);
+}
+.summary-item.active.green{
+  background:#388e3c;
+  border-color:#388e3c;
+  box-shadow:0 8px 20px rgba(56,142,60,0.3);
+}
+.summary-item.active.red{
+  background:#d32f2f;
+  border-color:#d32f2f;
+  box-shadow:0 8px 20px rgba(211,47,47,0.3);
+}
+.summary-item.active .summary-count{
+  color:#fff !important;
+}
+.summary-item.active .summary-label{
+  color:rgba(255,255,255,0.85) !important;
+}
+.summary-item.active .summary-icon{
+  border-color:rgba(255,255,255,0.6);
+  color:#fff;
+}
+
+/* Progress bar */
+.progress-wrap{display:flex;align-items:center;gap:8px}
+.progress-bar-bg{flex:1;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;min-width:80px}
+.progress-bar-fill{height:100%;border-radius:3px;transition:width .3s}
+.progress-fill-green{background:#2e7d32}
+.progress-fill-yellow{background:#f9a825}
+.progress-fill-red{background:#c62828}
+.progress-text{font-size:11px;color:#555;white-space:nowrap;font-weight:500}
+
+/* AR Status badges */
+.badge-submitted{background:#e8f5e9;color:#2e7d32}
+.badge-not-submitted{background:#fce4ec;color:#c62828}
+.badge-no-work{background:#e3f2fd;color:#1565c0}
+
+/* Highlight row for not submitted */
+.data-table tbody tr.row-highlight{background:#fff8e1}
+.data-table tbody tr.row-highlight:hover{background:#fff3cd}
+
+/* Modal panel */
+.modal-panel{width:min(600px,95vw);max-height:90vh;overflow-y:auto;background:#fff;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,0.2);border:1px solid #d0d0d0}
+.modal-panel::-webkit-scrollbar{ width:1px; display:block; }
+.modal-panel::-webkit-scrollbar-track{ background:transparent; }
+.modal-panel::-webkit-scrollbar-thumb{ background:rgba(0,0,0,0.05); border-radius:1px; transition:all 0.2s ease; cursor:pointer; min-height:5px; max-height:12px; }
+.modal-panel::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.3); width:3px; }
+.modal-panel{ scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.05) transparent; }
+.modal-panel.wide{width:min(850px,95vw)}
+.modal-panel-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #eee}
+.modal-panel-header h3{margin:0;font-size:15px;color:#242242;font-weight:600}
+.modal-panel-body{padding:20px}
+.modal-panel-footer{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:14px 20px;border-top:1px solid #eee}
+
+.btn-primary{padding:10px 20px;background:#242242;color:white;border:none;border-radius:4px;font-size:13px;cursor:pointer;font-weight:500;transition:.2s}
+.btn-primary:hover{background:#363454}
+.btn-cancel{padding:10px 20px;background:#f5f5f5;color:#555;border:1px solid #d0d0d0;border-radius:4px;font-size:13px;cursor:pointer;font-weight:500;transition:.2s}
+.btn-cancel:hover{background:#eee}
+
+.auto-reminder-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.auto-reminder-status{font-size:11px;font-weight:700;padding:4px 8px;border-radius:4px;background:#f5f5f5;color:#666;text-transform:uppercase;letter-spacing:.4px}
+.auto-reminder-status.on{background:#e8f5e9;color:#2e7d32}
+.auto-reminder-help{font-size:11px;color:#777;line-height:1.4;margin-top:6px}
+.reminder-separator{border:0;border-top:1px solid #eceff3;margin:12px 0}
+.reminder-method-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:16px;background:#f3f6fb;border:1px solid #d9e1ec;color:#2a3b52;font-size:11px;font-weight:700;letter-spacing:.25px;text-transform:uppercase}
+.auto-controls-line{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
+.auto-inline-label{font-size:11px;color:#777;font-weight:700;text-transform:uppercase;letter-spacing:.35px}
+.auto-method-select{min-width:210px}
+.auto-method-select:disabled{background:#f3f3f3;color:#999;cursor:not-allowed;border-color:#e0e0e0}
+.method-inline-text{white-space:nowrap;font-size:11px;color:#555;font-weight:600}
+.auto-method-stack{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+
+/* Student info header */
+.student-info-header{display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:1px solid #eee;margin-bottom:16px}
+.student-avatar-lg{width:48px;height:48px;border-radius:50%;background:#e0e0e0;color:#555;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;flex-shrink:0}
+.student-meta{flex:1}
+.student-meta h4{margin:0;font-size:14px;color:#333}
+.student-meta p{margin:2px 0 0;font-size:12px;color:#888}
+.student-stats{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.student-stats span{font-size:11px;font-weight:500;padding:3px 8px;border-radius:3px}
+.stat-done{background:#e8f5e9;color:#2e7d32}
+.stat-miss{background:#fce4ec;color:#c62828}
+.stat-left{background:#f5f5f5;color:#666}
+
+/* Submissions list — sbAR style rows with preview */
+.submissions-grid{display:flex;flex-direction:column;gap:14px}
+.week-section{margin-bottom:4px}
+.week-label{font-size:13px;font-weight:700;color:#333;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.week-label i{color:#242242}
+.week-list{border:1px solid #e8ecf1;border-radius:8px;overflow:hidden;background:#fff}
+
+.day-line{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+  border-bottom:1px solid #e8ecf1;
+  transition:.2s;
+}
+.day-line:last-child{border-bottom:none}
+.day-line.submitted{cursor:pointer;background:#f7fbff}
+.day-line.submitted{cursor:pointer;background:#ffffff}
+.day-line.submitted:hover{background:#f6f8fb}
+.day-line.today-deadline{background:#e8f4fd;border-left:3px solid #0288d1;padding-left:11px}
+.day-line.missed{background:#fff5f5;border-left:3px solid #d32f2f;padding-left:11px}
+.day-line.future{background:#fafafa}
+
+.day-pill{
+  min-width:64px;
+  text-align:center;
+  padding:6px 10px;
+  border-radius:5px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.4px;
+  color:#fff;
+  background:#242242;
+  flex-shrink:0;
+}
+.day-line.missed .day-pill{background:#d32f2f}
+.day-line.future .day-pill{background:#8b8b8b}
+
+.day-date{font-size:11px;color:#8b95a5;min-width:175px;white-space:nowrap;flex-shrink:0}
+
+.day-line-tasks{flex:1;min-width:0;color:#444;font-size:11px;line-height:1.45}
+.day-line-tasks ul{margin:0;padding-left:14px}
+.day-line-tasks li{margin-bottom:1px}
+.day-line-missed-text{color:#c62828;font-weight:600}
+
+.day-line-preview{
+  width:108px;
+  height:64px;
+  border:1px solid #d6dce5;
+  border-radius:6px;
+  overflow:hidden;
+  flex-shrink:0;
+  background:#f2f4f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.day-line-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.day-line-preview-fallback{color:#9aa3b2;font-size:18px}
+
+.day-line-actions{flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;min-width:90px}
+.day-line-view-btn{
+  padding:6px 14px;
+  border:1px solid #cfd3da;
+  border-radius:4px;
+  background:#fff;
+  color:#333;
+  font-size:10px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s;
+}
+.day-line-view-btn:hover{background:#f5f5f5;border-color:#999}
+.day-line-status{font-size:10px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.4px}
+.day-line-status.deadline{color:#0277bd}
+.day-line-status.complied{color:#2e7d32}
+.day-line-status.missed{color:#c62828}
+
+/* Photo summary bar */
+.photo-summary-bar{ display:flex; gap:16px; padding:12px 16px; background:#f9f9f9; border-radius:6px; margin-bottom:16px; flex-wrap:wrap; align-items:center; }
+.photo-summary-item{ font-size:12px; color:#666; display:flex; align-items:center; gap:6px; }
+.photo-summary-item i{ font-size:14px; }
+.photo-summary-item.ps-submitted i{ color:#2e7d32; }
+.photo-summary-item.ps-missed i{ color:#c62828; }
+.photo-summary-item.ps-upcoming i{ color:#999; }
+
+@media(max-width:920px){
+  .day-line{flex-wrap:wrap;gap:10px}
+  .day-date{min-width:auto;white-space:normal}
+  .day-line-preview{width:100%;height:150px;order:5}
+  .day-line-actions{margin-left:auto}
+}
+@media(max-width:560px){
+  .day-pill{min-width:58px}
+  .day-line{padding:11px}
+  .day-line-actions{min-width:auto}
+  .auto-method-select{min-width:100%}
+}
+
+/* Schedule form */
+.schedule-form{display:flex;flex-direction:column;gap:14px}
+.schedule-row{display:flex;gap:14px}
+.schedule-field{flex:1;display:flex;flex-direction:column;gap:4px}
+.schedule-field label{font-size:11px;color:#888;font-weight:600;text-transform:uppercase}
+.schedule-field input{padding:10px 12px;border:1px solid #d0d0d0;border-radius:4px;font-size:13px;font-family:inherit}
+.schedule-field input:focus{outline:none;border-color:#242242}
+
+/* No-work days calendar */
+.nw-calendar{margin-top:12px}
+.nw-month-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.nw-month-header h4{margin:0;font-size:14px;color:#333}
+.nw-month-nav{display:flex;gap:6px}
+.nw-month-nav button{width:28px;height:28px;border:1px solid #d0d0d0;background:#fff;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;font-size:11px}
+.nw-month-nav button:hover{background:#f0f0f0}
+.nw-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
+.nw-weekday{text-align:center;font-size:10px;font-weight:600;color:#999;padding:4px 0}
+.nw-days-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.nw-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;border-radius:4px;cursor:pointer;transition:.15s;border:1px solid transparent}
+.nw-day:hover:not(.empty):not(.weekend){background:#f0f0f0}
+.nw-day.today{border-color:#242242;font-weight:700}
+.nw-day.no-work{background:#c62828;color:white;font-weight:600}
+.nw-day.no-work:hover{background:#ab1a1a}
+.nw-day.empty,.nw-day.weekend{cursor:default;color:#ddd}
+.nw-list{margin-top:16px;border-top:1px solid #eee;padding-top:12px}
+.nw-list-title{font-size:12px;font-weight:600;color:#555;margin-bottom:8px}
+.nw-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fafafa;border:1px solid #f0f0f0;border-radius:4px;margin-bottom:6px;font-size:12px}
+.nw-item-date{font-weight:600;color:#333;min-width:100px}
+.nw-item-reason{color:#888;font-style:italic;flex:1}
+.nw-item-remove{border:none;background:#fce4ec;color:#c62828;width:22px;height:22px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:9px;transition:.2s;flex-shrink:0}
+.nw-item-remove:hover{background:#f8bbd0}
+.nw-item-remove:disabled{background:#f0f0f0;color:#ccc;cursor:not-allowed;opacity:0.5}
+.nw-item.protected{background:#e3f2fd;border-color:#bbdefb}
+.nw-item.protected .nw-item-date{color:#1565c0}
+.nw-item.protected .nw-reason-input{background:#e3f2fd;border-color:#bbdefb;color:#1565c0;font-weight:500}
+.nw-reason-input{width:100%;padding:8px 10px;border:1px solid #d0d0d0;border-radius:4px;font-size:12px;font-family:inherit;margin-top:8px}
+.nw-reason-input:focus{outline:none;border-color:#242242}
+
+/* Info box */
+.info-box{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#f5f5f5;border-radius:4px;font-size:12px;color:#555;margin-bottom:16px}
+.info-box i{color:#1565c0;flex-shrink:0}
+
+/* Confirm modal */
+.confirm-panel{width:min(400px,90vw);background:#fff;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,0.2);text-align:center;padding:30px 24px 24px;border:1px solid #d0d0d0}
+.confirm-icon{width:56px;height:56px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.confirm-icon.danger{background:#fce4ec;color:#c62828}
+.confirm-icon.info{background:#e3f2fd;color:#1565c0}
+.confirm-icon.success{background:#e8f5e9;color:#2e7d32}
+#confirmTitle{margin:0 0 8px;font-size:16px;color:#333}
+#confirmText{margin:0 0 20px;font-size:13px;color:#666;line-height:1.5}
+.confirm-actions{display:flex;gap:10px;justify-content:center}
+
+/* Toast */
+.toast-container{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{min-width:280px;padding:12px 16px;border-radius:6px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.15);display:flex;align-items:center;gap:10px;font-size:13px;border-left:4px solid #333;animation:toastIn .3s ease}
+.toast.success{border-left-color:#2e7d32}.toast.success i{color:#2e7d32}
+.toast.error{border-left-color:#c62828}.toast.error i{color:#c62828}
+.toast.info{border-left-color:#1565c0}.toast.info i{color:#1565c0}
+@keyframes toastIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* Photo/Detail Viewer */
+.photo-viewer{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9000;display:none;align-items:center;justify-content:center;flex-direction:column;padding:30px}
+.photo-viewer.show{display:flex}
+.photo-viewer-content{display:flex;flex-direction:column;align-items:center;max-width:90%;cursor:default}
+.photo-viewer-img{width:260px;height:180px;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,0.5);background:#333;display:flex;align-items:center;justify-content:center;font-size:48px;color:#666}
+.photo-viewer-img.submitted-bg{background:#e8f5e9;color:#2e7d32}
+.photo-viewer-img.missed-bg{background:#fce4ec;color:#c62828}
+.photo-viewer-img.upcoming-bg{background:#f5f5f5;color:#999}
+.photo-viewer-info{background:#fff;padding:16px 24px;border-radius:8px;margin-top:16px;max-width:600px;width:100%;text-align:center}
+.photo-viewer-info h4{margin:0 0 4px;font-size:14px;color:#333}
+.photo-viewer-info p{margin:0;font-size:13px;color:#666;line-height:1.5}
+.photo-viewer-close{position:fixed;top:20px;right:24px;background:rgba(255,255,255,0.15);border:none;color:white;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.2s;z-index:9001}
+.photo-viewer-close:hover{background:rgba(255,255,255,0.3)}
+.photo-viewer-nav{display:flex;gap:8px;margin-top:12px}
+.photo-viewer-nav button{padding:8px 16px;background:rgba(255,255,255,0.15);border:none;color:white;border-radius:4px;cursor:pointer;font-size:12px;transition:.2s}
+.photo-viewer-nav button:hover{background:rgba(255,255,255,0.3)}
+.photo-viewer-nav button:disabled{opacity:0.3;cursor:not-allowed}
+
+.ml-16{
+  margin-left:16px;
+}
+@media(max-width:720px){.breadcrumb{display:none;}}
+
+/* Force-hide icons in alert/notif UI for consistency */
+.toast i, .confirm-icon i, .notification i{ display:none !important; }
+
+.notif-badge{display:inline-block;min-width:18px;padding:1px 6px;margin-left:6px;border-radius:999px;background:#d32f2f;color:#fff;font-size:11px;line-height:16px;text-align:center;font-weight:700;vertical-align:middle;}
+</style>
+</head>
+
+<body>
+<!-- header -->
+<div class="header">
+
+<button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="spesLogo.png" alt="SPES Logo">
+
+<div class="header-text">
+  <h1>Special Program for the Employment of Students</h1>
+  <p>SPES Beneficiaries Management Information System</p>
+</div>
+
+<div class="header-right">
+  <div class="user-info" id="userInfo">
+    <strong>Louraine A. Pecayo</strong><br>
+    Coordinator
+  </div>
+  <div class="profile-menu">
+    <div class="avatar" id="profileBtn">LP</div>
+    <div class="profile-dropdown" id="profileDropdown">
+      <button class="profile-item" onclick="goToSettings()">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+      </button>
+      <button class="profile-item" onclick="confirmLogout()">
+        <i class="fa-solid fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- main wrapper -->
+<div class="main-wrapper">
+
+<!-- top bar -->
+<div class="top-bar">
+  <div class="breadcrumb">
+    <i class="fa-solid fa-house"></i>
+    <span>Back ></span>
+  </div>
+
+  <div class="menu-dots">
+    <button class="dots-btn" id="menuDotsBtn">
+      <i class="fa-solid fa-ellipsis"></i>
+    </button>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="dropdown-item" onclick="openWorkSchedule()">
+        <i class="fa-solid fa-clock"></i>
+        Set Work Schedule
+      </div>
+      <div class="dropdown-item" onclick="openNoWorkDays()">
+        <i class="fa-solid fa-calendar-xmark"></i>
+        Manage No-Work Days
+      </div>
+      <div class="dropdown-item" onclick="importExcel()">
+        <i class="fa-solid fa-file-import"></i>
+        Import Excel
+      </div>
+      <div class="dropdown-item" onclick="exportExcel()">
+        <i class="fa-solid fa-file-export"></i>
+        Export to Excel
+      </div>
+      <div class="dropdown-item" onclick="toggleArchiveSection()">
+        <i class="fa-solid fa-box-archive"></i>
+        Archive
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- main -->
+<div class="main">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- sidebar -->
+<div class="sidebar">
+
+  <div class="sidebar-profile">
+    <div class="sidebar-avatar">LP</div>
+    <div class="sidebar-user">
+      <h4>Louraine A. Pecayo</h4>
+      <p>Coordinator</p>
+    </div>
+  </div>
+
+  <div class="sidebar-menu">
+
+    <a href="cDashboard.html" class="menu-item">
+      <div class="menu-left"><i class="fa-solid fa-house"></i> Dashboard</div>
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+
+    <a href="cNewSPES.html" class="menu-item">
+      <div class="menu-left"><i class="fa-solid fa-user-plus"></i> New SPES</div>
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+
+    <div class="submenu-wrapper">
+      <a href="cSpesRegistration.html" class="menu-item active menu-submenu" id="spesManagementBtn">
+        <div class="menu-left"><i class="fa-solid fa-briefcase"></i> SPES Management</div>
+        <i class="fa-solid fa-chevron-right"></i>
+      </a>
+      <div class="submenu show" id="spesSubmenu">
+        <a href="cSpesRegistration.html" class="submenu-item">
+          <span>SPES Registration</span><i class="fa-solid fa-circle"></i>
+        </a>
+        <a href="cSpesBene.html" class="submenu-item">
+          <span>SPES Beneficiaries</span><i class="fa-solid fa-circle"></i>
+        </a>
+        <a href="cSpesAccounts.html" class="submenu-item">
+          <span>SPES Accounts</span><i class="fa-solid fa-circle"></i>
+        </a>
+        <a href="cSpesAR.html" class="submenu-item active">
+          <span>Accomplishment Report</span><i class="fa-solid fa-circle"></i>
+        </a>
+      </div>
+    </div>
+
+    <a href="cDeployment.html" class="menu-item">
+      <div class="menu-left"><i class="fa-solid fa-check-square"></i> Deployment</div>
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+
+    <a href="cAnnouncements.html" class="menu-item">
+      <div class="menu-left"><i class="fa-solid fa-bullhorn"></i> Announcements</div>
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+
+    <a href="cDemographic.html" class="menu-item">
+      <div class="menu-left"><i class="fa-solid fa-chart-pie"></i> Demographic Data</div>
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+
+    <a href="cTeamAcc.html" class="menu-item">
+      <div class="menu-left"><i class="fa-solid fa-users"></i> Team Accounts</div>
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+
+    <a href="cSettings.html" class="menu-item">
+      <div class="menu-left"><i class="fa-solid fa-gear"></i> Settings</div>
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+
+    <button class="menu-item-logout" onclick="confirmLogout()">Log Out</button>
+
+  </div>
+</div>
+
+<!-- main content -->
+<div class="content">
+
+<!-- toolbar -->
+<div class="toolbar">
+  <div class="search-box">
+    <input type="text" placeholder="Search here..." id="searchInput">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+
+  <button class="refresh-btn" id="refreshBtn">
+    <i class="fa-solid fa-rotate-right"></i>
+  </button>
+
+  <select class="filter-select" id="statusFilter">
+    <option value="all">All Status</option>
+    <option value="submitted">Submitted Today</option>
+    <option value="not-submitted">Not Submitted</option>
+  </select>
+
+  <select class="filter-select" id="yearFilter">
+    <option>2026</option>
+    <option>2025</option>
+    <option>2024</option>
+  </select>
+
+  <select class="filter-select" id="batchFilter">
+    <option value="all">All Batches</option>
+    <option>BATCH 1</option>
+    <option>BATCH 2</option>
+    <option>BATCH 3</option>
+  </select>
+
+  <select id="pageSizeSelectTop" class="filter-select" title="Page size">
+    <option value="10">10</option>
+    <option value="25">25</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+    <option value="300" selected>300</option>
+    <option value="all">All</option>
+  </select>
+</div>
+
+<!-- summary bar -->
+<div class="summary-bar">
+  <div class="summary-item blue" onclick="setActiveSummary(0);showAllStudents()" title="Click to view all students">
+    <div class="summary-header">
+      <div>
+        <span class="summary-count" id="totalCount">0</span>
+        <span class="summary-label">Total Students</span>
+      </div>
+      <div class="summary-icon blue">
+        <i class="fa-solid fa-users"></i>
+      </div>
+    </div>
+  </div>
+  <div class="summary-item green s-submitted" onclick="setActiveSummary(1);showSubmittedToday()" title="Click to view students who submitted today">
+    <div class="summary-header">
+      <div>
+        <span class="summary-count" id="submittedTodayCount">0</span>
+        <span class="summary-label">Submitted Today</span>
+      </div>
+      <div class="summary-icon green">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+    </div>
+  </div>
+  <div class="summary-item red s-not-submitted" id="notSubmittedCard" onclick="setActiveSummary(2);showNotSubmitted()" title="Click to view and send reminders">
+    <div class="summary-header">
+      <div>
+        <span class="summary-count" id="notSubmittedTodayCount">0</span>
+        <span class="summary-label">Not Submitted</span>
+      </div>
+      <div class="summary-icon red">
+        <i class="fa-solid fa-circle-xmark"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- table -->
+<div class="table-container">
+  <div class="loading-bar" id="loadingBar"></div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>PROFILE</th>
+        <th>SPES ID</th>
+        <th>NAME</th>
+        <th>ASSIGNMENT</th>
+        <th>PROGRESS</th>
+        <th>TODAY'S STATUS</th>
+        <th>LAST SUBMISSION</th>
+        <th>ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody id="arTbody"></tbody>
+  </table>
+</div>
+
+<!-- Archive Modal -->
+<div class="modal-backdrop" id="archiveModal">
+  <div class="archive-section" role="dialog" aria-modal="true" aria-labelledby="archiveTitle">
+    <div class="archive-header">
+      <h3 class="archive-title" id="archiveTitle">Archived Applicants</h3>
+      <button class="modal-close" type="button" id="archiveCloseBtn" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>PROFILE</th><th>SPES ID</th><th>NAME</th>
+            <th>ASSIGNMENT</th><th>PROGRESS</th><th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody id="archiveTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- View Submissions Modal -->
+<div class="modal-backdrop" id="viewSubmissionsModal">
+  <div class="modal-panel wide">
+    <div class="modal-panel-header">
+      <h3><i class="fa-solid fa-images" style="margin-right:8px"></i>Accomplishment Report</h3>
+      <button class="modal-close" onclick="closeModal('viewSubmissionsModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-panel-body">
+      <div class="student-info-header" id="viewStudentInfo"></div>
+      <div class="submissions-grid" id="submissionsGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Work Schedule Modal -->
+<div class="modal-backdrop" id="workScheduleModal">
+  <div class="modal-panel">
+    <div class="modal-panel-header">
+      <h3><i class="fa-solid fa-clock" style="margin-right:8px"></i>Work Schedule</h3>
+      <button class="modal-close" onclick="closeModal('workScheduleModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-panel-body">
+      <div class="info-box">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Set the daily work schedule and total working days for each batch. Configure schedules separately per batch.</span>
+      </div>
+      <div class="schedule-form">
+        <div class="schedule-field" style="margin-bottom:12px">
+          <label>Select Batch</label>
+          <select id="schedBatchSelect" class="filter-select" style="width:100%;padding:10px 35px 10px 15px">
+            <option value="BATCH 1">BATCH 1</option>
+            <option value="BATCH 2">BATCH 2</option>
+            <option value="BATCH 3">BATCH 3</option>
+          </select>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-field">
+            <label>Start Time</label>
+            <input type="time" id="schedStartTime" value="08:00">
+          </div>
+          <div class="schedule-field">
+            <label>End Time</label>
+            <input type="time" id="schedEndTime" value="17:00">
+          </div>
+        </div>
+        <div class="schedule-row">
+          <div class="schedule-field">
+            <label>Total Working Days</label>
+            <input type="number" id="schedTotalDays" value="20" min="1" max="30">
+          </div>
+          <div class="schedule-field">
+            <label>Period Start Date</label>
+            <input type="date" id="schedStartDate" value="2026-02-02">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-panel-footer">
+      <button class="btn-cancel" onclick="closeModal('workScheduleModal')">Cancel</button>
+      <button class="btn-primary" id="saveScheduleBtn"><i class="fa-solid fa-check" style="margin-right:6px"></i>Save Schedule</button>
+    </div>
+  </div>
+</div>
+
+<!-- No-Work Days Modal -->
+<div class="modal-backdrop" id="noWorkDaysModal">
+  <div class="modal-panel">
+    <div class="modal-panel-header">
+      <h3><i class="fa-solid fa-calendar-xmark" style="margin-right:8px"></i>No-Work Days</h3>
+      <button class="modal-close" onclick="closeModal('noWorkDaysModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-panel-body">
+      <div class="info-box">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Click on a weekday to mark/unmark it as a no-work day. Students are not required to submit on these dates.</span>
+      </div>
+      <div class="nw-calendar">
+        <div class="nw-month-header">
+          <div class="nw-month-nav"><button id="nwPrevMonth"><i class="fa-solid fa-chevron-left"></i></button></div>
+          <h4 id="nwMonthTitle">February 2026</h4>
+          <div class="nw-month-nav"><button id="nwNextMonth"><i class="fa-solid fa-chevron-right"></i></button></div>
+        </div>
+        <div class="nw-weekdays">
+          <div class="nw-weekday">Sun</div><div class="nw-weekday">Mon</div><div class="nw-weekday">Tue</div>
+          <div class="nw-weekday">Wed</div><div class="nw-weekday">Thu</div><div class="nw-weekday">Fri</div><div class="nw-weekday">Sat</div>
+        </div>
+        <div class="nw-days-grid" id="nwDaysGrid"></div>
+      </div>
+      <div class="nw-list" id="nwList"></div>
+    </div>
+    <div class="modal-panel-footer">
+      <button class="btn-cancel" onclick="closeModal('noWorkDaysModal')">Cancel</button>
+      <button class="btn-primary" id="saveNoWorkBtn">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal-backdrop" id="confirmModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon info" id="confirmIcon"><i class="fa-solid fa-question"></i></div>
+    <h3 id="confirmTitle">Confirm</h3>
+    <p id="confirmText">Are you sure?</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn-primary" id="confirmActionBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reminder Modal -->
+<div class="modal-backdrop" id="reminderModal">
+  <div class="modal-panel">
+    <div class="modal-panel-header">
+      <h3><i class="fa-solid fa-bell" style="margin-right:8px"></i>Send Reminder to Students</h3>
+      <button class="modal-close" onclick="closeModal('reminderModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-panel-body">
+      <div class="info-box" style="background:#fce4ec;border:1px solid #f8bbd0">
+        <i class="fa-solid fa-exclamation-triangle" style="color:#c62828"></i>
+        <span><strong id="reminderCount">0</strong> students have not submitted today. Send them a reminder to submit their accomplishment report.</span>
+      </div>
+      <div class="schedule-form" style="margin-top:16px">
+        <div class="schedule-field">
+          <label>Auto Send Reminder</label>
+          <div class="auto-controls-line">
+            <button class="btn-cancel" type="button" id="toggleAutoReminderBtn">Enable Auto Send</button>
+            <span class="auto-reminder-status" id="autoReminderStatus">OFF</span>
+            <span class="auto-inline-label">Sending via</span>
+            <div class="auto-method-stack">
+              <select id="autoNotifMethod" class="filter-select auto-method-select" style="padding:10px 35px 10px 15px" disabled>
+                <option value="both">Email & SMS</option>
+                <option value="email">Email Only</option>
+                <option value="sms">SMS Only</option>
+              </select>
+              <span class="method-inline-text" id="currentAutoNotifMethod">Auto uses: Email & SMS</span>
+            </div>
+          </div>
+        </div>
+        <hr class="reminder-separator">
+        <div class="schedule-field" style="margin-top:12px">
+          <label>Manual Send Method</label>
+          <select id="notifMethod" class="filter-select" style="width:100%;padding:10px 35px 10px 15px">
+            <option value="both">Email & SMS</option>
+            <option value="email">Email Only</option>
+            <option value="sms">SMS Only</option>
+          </select>
+          <div style="margin-top:10px">
+            <span class="method-inline-text" id="currentManualNotifMethod">Manual uses: Email & SMS</span>
+          </div>
+        </div>
+        <div class="schedule-field" style="margin-top:12px">
+          <label>Message Preview</label>
+          <textarea id="reminderMessage" class="nw-reason-input" style="height:150px;resize:vertical;font-size:12px;line-height:1.6" readonly>
+Dear SPES Beneficiary,
+
+This is a reminder that you have not yet submitted your Accomplishment Report for today.
+
+Please submit your daily work report immediately. Consistent submission is required to track your attendance and work performance.
+
+IMPORTANT: Your work period will be extended by one day for each missed submission to ensure you complete the required number of working days.
+
+Always remember to submit your accomplishment report daily (Monday-Friday, 8:00 AM - 5:00 PM).
+
+Thank you for your cooperation.
+
+SPES Coordinator
+City College of Calamba</textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-panel-footer">
+      <button class="btn-cancel" onclick="closeModal('reminderModal')">Cancel</button>
+      <button class="btn-primary" id="sendReminderBtn" onclick="sendReminder()"><i class="fa-solid fa-paper-plane" style="margin-right:6px"></i>Send Reminder</button>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Viewer -->
+<div class="photo-viewer" id="photoViewer">
+  <button class="photo-viewer-close" onclick="event.stopPropagation();document.getElementById('photoViewer').classList.remove('show')"><i class="fa-solid fa-xmark"></i></button>
+  <div class="photo-viewer-content" onclick="event.stopPropagation()">
+    <div class="photo-viewer-img" id="pvImage"><i class="fa-solid fa-image"></i></div>
+    <div class="photo-viewer-info">
+      <h4 id="pvTitle"></h4>
+      <p id="pvDesc"></p>
+    </div>
+    <div class="photo-viewer-nav">
+      <button id="pvPrevBtn" onclick="navigatePhoto(-1)"><i class="fa-solid fa-chevron-left" style="margin-right:4px"></i>Previous</button>
+      <button id="pvNextBtn" onclick="navigatePhoto(1)">Next<i class="fa-solid fa-chevron-right" style="margin-left:4px"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+</div>
+
+</div>
+
+<!-- pagination -->
+<div class="pagination">
+  <div id="resultsInfo">Showing results 0 - 0</div>
+  <div class="pagination-controls" id="paginationControls"></div>
+  <div class="ml-16">
+    <select id="pageSizeSelectBottom" class="filter-select" title="Page size">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="300" selected>300</option>
+      <option value="all">All</option>
+    </select>
+  </div>
+</div>
+
+</div>
+
+<!-- footer -->
+<div class="footer">
+Copyright © 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<script>
+// ── Sidebar & Menu ──
+const items = document.querySelectorAll('.menu-item');
+const spesManagementParentMenu = document.querySelector('.menu-item.menu-submenu');
+function syncSpesManagementActiveState(){
+  if(!spesManagementParentMenu) return;
+  if(document.querySelector('.submenu-item.active')) spesManagementParentMenu.classList.add('active');
+}
+items.forEach(item=>{ item.addEventListener('click',()=>{ items.forEach(i=>i.classList.remove('active')); item.classList.add('active'); }); });
+syncSpesManagementActiveState();
+const spesManagementBtn = document.getElementById('spesManagementBtn');
+const spesSubmenu = document.getElementById('spesSubmenu');
+if(spesManagementBtn && spesSubmenu){
+  spesManagementBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    spesSubmenu.classList.toggle('show');
+    const arrow = this.querySelector('.fa-chevron-right');
+    arrow.style.transform = spesSubmenu.classList.contains('show') ? 'rotate(90deg)' : 'rotate(0deg)';
+  });
+}
+
+// ── Refresh ──
+const refreshBtn = document.getElementById('refreshBtn');
+const loadingBar = document.getElementById('loadingBar');
+refreshBtn.addEventListener('click',()=>{ 
+  loadingBar.classList.add('active'); 
+  setTimeout(()=>{
+    loadingBar.classList.remove('active');
+    // Reset all filters
+    searchInput.value='';
+    statusFilter.value='all';
+    yearFilter.value='2026';
+    batchFilter.value='all';
+    applyFilters();
+  },800); 
+});
+
+// ── Mobile Sidebar ──
+const burgerBtn = document.getElementById('burgerBtn');
+const sidebar = document.querySelector('.sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+if(burgerBtn && sidebar && sidebarOverlay){
+  burgerBtn.addEventListener('click',()=>{ sidebar.classList.toggle('open'); sidebarOverlay.classList.toggle('show'); });
+  sidebarOverlay.addEventListener('click',()=>{ sidebar.classList.remove('open'); sidebarOverlay.classList.remove('show'); });
+}
+
+// ── Dropdowns ──
+const menuDotsBtn = document.getElementById('menuDotsBtn');
+const dropdownMenu = document.getElementById('dropdownMenu');
+const profileBtn = document.getElementById('profileBtn');
+const userInfo = document.getElementById('userInfo');
+const profileDropdown = document.getElementById('profileDropdown');
+if(menuDotsBtn) menuDotsBtn.addEventListener('click',e=>{ e.stopPropagation(); dropdownMenu.classList.toggle('show'); });
+if(profileBtn) profileBtn.addEventListener('click',e=>{ e.stopPropagation(); profileDropdown.classList.toggle('show'); });
+if(userInfo) userInfo.addEventListener('click',e=>{ e.stopPropagation(); profileDropdown.classList.toggle('show'); });
+document.addEventListener('click',()=>{ if(dropdownMenu) dropdownMenu.classList.remove('show'); if(profileDropdown) profileDropdown.classList.remove('show'); });
+
+function goToSettings(){ window.location.href='cSettings.html'; }
+function confirmLogout(){ showConfirm('Logout','Are you sure you want to logout?','info','Logout','btn-primary',()=>{ window.location.href='../login.html'; }); }
+function importExcel(){
+  const input=document.createElement('input'); input.type='file'; input.accept='.xlsx,.xls,.csv';
+  input.onchange=e=>{ const f=e.target.files[0]; if(f) showToast('File imported: '+f.name,'success'); };
+  input.click(); dropdownMenu.classList.remove('show');
+}
+function exportExcel(){
+  const table=document.querySelector('.data-table');
+  if(!table){ showToast('No data to export.','error'); return; }
+  let csv=[];
+  table.querySelectorAll('tr').forEach(row=>{ let r=[]; row.querySelectorAll('th,td').forEach(col=>r.push('"'+col.innerText.replace(/"/g,'""')+'"')); csv.push(r.join(',')); });
+  const blob=new Blob([csv.join('\n')],{type:'text/csv'});
+  const url=window.URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='ar_data_'+Date.now()+'.csv'; a.click();
+  window.URL.revokeObjectURL(url); dropdownMenu.classList.remove('show'); showToast('Exported successfully','success');
+}
+function toggleArchiveSection(){ document.getElementById('archiveModal').classList.add('show'); dropdownMenu.classList.remove('show'); }
+
+// ── Modal Helpers ──
+window.closeModal = function(id){ document.getElementById(id).classList.remove('show'); };
+document.addEventListener('click',function(e){ if(e.target.classList.contains('modal-backdrop')){ const id=e.target.id; if(id) closeModal(id); } });
+
+function showToast(msg,type){
+  const container=document.getElementById('toastContainer');
+  const icon=type==='success'?'fa-circle-check':type==='error'?'fa-circle-xmark':'fa-circle-info';
+  const t=document.createElement('div'); t.className='toast '+type;
+  t.innerHTML=`<i class="fa-solid ${icon}"></i><span>${msg}</span>`;
+  container.appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(),300); },3500);
+}
+function showConfirm(title,text,iconClass,btnText,btnClass,onConfirm){
+  document.getElementById('confirmTitle').textContent=title;
+  document.getElementById('confirmText').textContent=text;
+  document.getElementById('confirmIcon').className='confirm-icon '+iconClass;
+  const actionBtn=document.getElementById('confirmActionBtn');
+  actionBtn.textContent=btnText; actionBtn.className=btnClass;
+  actionBtn.onclick=()=>{ closeModal('confirmModal'); onConfirm(); };
+  document.getElementById('confirmModal').classList.add('show');
+}
+
+// ── Archive Modal ──
+const archiveModal=document.getElementById('archiveModal');
+const archiveCloseBtn=document.getElementById('archiveCloseBtn');
+if(archiveCloseBtn) archiveCloseBtn.addEventListener('click',()=>archiveModal.classList.remove('show'));
+
+// ══════════════════════════════════════════════
+// ── AR MANAGEMENT SYSTEM ──
+// ══════════════════════════════════════════════
+(function(){
+  // ── Config ──
+  let workSchedules = {
+    'BATCH 1': { startTime:'08:00', endTime:'17:00', totalDays:20, startDate:'2026-02-02' },
+    'BATCH 2': { startTime:'08:00', endTime:'17:00', totalDays:20, startDate:'2026-02-02' },
+    'BATCH 3': { startTime:'08:00', endTime:'17:00', totalDays:20, startDate:'2026-02-02' }
+  };
+  let noWorkDays = [
+    { date:'2026-01-01', reason:'New Year\'s Day', protected:true },
+    { date:'2026-02-25', reason:'EDSA People Power Anniversary', protected:true },
+    { date:'2026-04-09', reason:'Araw ng Kagitingan (Day of Valor)', protected:true },
+    { date:'2026-04-10', reason:'Maundy Thursday', protected:true },
+    { date:'2026-04-11', reason:'Good Friday', protected:true },
+    { date:'2026-04-12', reason:'Black Saturday', protected:true },
+    { date:'2026-05-01', reason:'Labor Day', protected:true },
+    { date:'2026-06-12', reason:'Independence Day', protected:true },
+    { date:'2026-08-31', reason:'National Heroes Day', protected:true },
+    { date:'2026-11-30', reason:'Bonifacio Day', protected:true },
+    { date:'2026-12-25', reason:'Christmas Day', protected:true },
+    { date:'2026-12-30', reason:'Rizal Day', protected:true },
+    { date:'2026-12-31', reason:'New Year\'s Eve', protected:true }
+  ];
+
+  // ── Generate Working Days ──
+  function getWorkingDays(batch){
+    const schedule = workSchedules[batch] || workSchedules['BATCH 1'];
+    const start = new Date(schedule.startDate+'T00:00:00');
+    const days = []; const d = new Date(start); let count=0; let safety=0;
+    while(count < schedule.totalDays && safety < 200){
+      safety++;
+      const dow = d.getDay();
+      const yr=d.getFullYear(), mo=String(d.getMonth()+1).padStart(2,'0'), da=String(d.getDate()).padStart(2,'0');
+      const dateStr = yr+'-'+mo+'-'+da;
+      const isWeekday = dow>=1 && dow<=5;
+      const isNoWork = noWorkDays.some(nw=>nw.date===dateStr);
+      if(isWeekday && !isNoWork){
+        days.push({ date:new Date(d), dateStr, dayNum:count+1 });
+        count++;
+      }
+      d.setDate(d.getDate()+1);
+    }
+    return days;
+  }
+
+  function formatDateShort(dateStr){
+    return new Date(dateStr+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  }
+  function formatDateFull(dateStr){
+    return new Date(dateStr+'T00:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+  }
+
+  const API_BASE_CANDIDATES = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://127.0.0.1:8001',
+    'http://localhost:8001'
+  ];
+  let ACTIVE_API_BASE = API_BASE_CANDIDATES[0];
+
+  function apiBasePriority(){
+    return [ACTIVE_API_BASE].concat(API_BASE_CANDIDATES.filter(base => base !== ACTIVE_API_BASE));
+  }
+
+  async function fetchWithApiBase(path, options){
+    const opts = options || {};
+    let lastError = null;
+
+    for(const base of apiBasePriority()){
+      try {
+        const response = await fetch(`${base}${path}`, opts);
+        if(response.status === 404){
+          lastError = new Error(`API endpoint not found on ${base}`);
+          continue;
+        }
+
+        ACTIVE_API_BASE = base;
+        return response;
+      } catch(err){
+        if(err && err.name === 'AbortError') throw err;
+        lastError = err;
+      }
+    }
+
+    throw lastError || new Error('Cannot connect to backend');
+  }
+
+  // ── Generate Student Records ──
+  const firstNames=['JUAN','MARIA','JOSE','ANA','CARLO','ROSA','MARK','NINA','LUIS','GRACE','RYAN','CLAIRE','JAMES','LIZA','KEVIN'];
+  const lastNames=['DELA CRUZ','REYES','SANTOS','GARCIA','TORRES','FLORES','RAMOS','MENDOZA','CASTRO','BAUTISTA','AQUINO','SALAZAR','LOPEZ','HERNANDEZ','VILLANUEVA'];
+  const assignmentList=['City Hall','Library','IT Office','Records Office','HR Department','Finance Office','Engineering Office'];
+  const batchList=['BATCH 1','BATCH 2','BATCH 3'];
+  const descList=['Encoded data from logbook into the system','Filed and organized documents','Assisted in cleaning and sorting records','Helped prepare documents for submission','Attended training on office procedures','Sorted incoming and outgoing mail','Updated inventory records','Assisted visitors at the front desk','Photocopied and scanned documents','Organized supplies in the stockroom'];
+
+  const totalItems = 0;
+  let allRecords = [];
+  let archivedRecords = [];
+
+  function titleCase(v){
+    return String(v || '').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  function toInitials(first, last){
+    const f = String(first || '').trim();
+    const l = String(last || '').trim();
+    return ((f[0] || '') + (l[0] || '')).toUpperCase() || 'SP';
+  }
+
+  function generateRecords(){
+    allRecords = [];
+    const today = new Date(); today.setHours(0,0,0,0);
+
+    for(let i=1; i<=totalItems; i++){
+      const ln=lastNames[i%lastNames.length], fn=firstNames[i%firstNames.length];
+      const mi=String.fromCharCode(65+(i%26));
+      const name=ln+', '+fn+' '+mi+'.';
+      const initials=fn[0]+ln[0];
+      const spesId='SPES-2026-'+String(i).padStart(4,'0');
+      const assignment=assignmentList[i%assignmentList.length];
+      const batch=batchList[i%batchList.length];
+      const year=2026;
+      const email='spes'+i+'@example.com';
+
+      // Generate submissions for each working day (batch-specific)
+      const workingDays = getWorkingDays(batch);
+      let latestWorkDay = null;
+      for(let j=workingDays.length-1; j>=0; j--){
+        if(workingDays[j].date <= today){ latestWorkDay = workingDays[j]; break; }
+      }
+
+      const submissions=[];
+      for(const wd of workingDays){
+        const isPast = wd.date <= today;
+        if(!isPast){
+          submissions.push({ dateStr:wd.dateStr, dayNum:wd.dayNum, submitted:false, future:true, desc:'', time:'' });
+        } else {
+          const hash=(i*17+wd.dayNum*31)%100;
+          const submitted = hash < 82;
+          const hr=8+(hash%9), mn=(hash*7)%60;
+          submissions.push({
+            dateStr:wd.dateStr, dayNum:wd.dayNum, submitted, future:false,
+            desc: submitted ? descList[hash%descList.length] : '',
+            time: submitted ? String(hr).padStart(2,'0')+':'+String(mn).padStart(2,'0') : ''
+          });
+        }
+      }
+
+      const pastDays=submissions.filter(s=>!s.future);
+      const submittedCount=pastDays.filter(s=>s.submitted).length;
+      const totalPastDays=pastDays.length;
+
+      let todaySubmitted=null;
+      if(latestWorkDay){
+        const ts=submissions.find(s=>s.dateStr===latestWorkDay.dateStr);
+        if(ts) todaySubmitted=ts.submitted;
+      }
+
+      const lastSub=[...submissions].reverse().find(s=>s.submitted);
+
+      allRecords.push({
+        id:i, initials, name, email, spesId, assignment, batch, year,
+        submissions, submittedCount, totalPastDays,
+        todaySubmitted, lastSubmissionDate: lastSub ? lastSub.dateStr : null
+      });
+    }
+  }
+  generateRecords();
+
+  async function loadRecordsFromApi(){
+    try {
+      const res = await fetchWithApiBase('/api/spes-management/records?per_page=1000&status=approved', {
+        headers: { 'Accept': 'application/json' }
+      });
+      const payload = await res.json().catch(() => ({}));
+      if(!res.ok){
+        throw new Error((payload && (payload.message || payload.error)) || 'Failed to load accomplishment records');
+      }
+
+      const rows = Array.isArray(payload.data) ? payload.data : [];
+      allRecords = [];
+      const today = new Date();
+      today.setHours(0,0,0,0);
+
+      rows.forEach((row, idx) => {
+        const first = titleCase(row.first_name || '');
+        const last = titleCase(row.last_name || '');
+        const middle = String(row.middle_name || '').trim();
+        const middleInitial = middle ? ` ${middle.charAt(0).toUpperCase()}.` : '';
+        const assignment = String(row.college_school || '').trim() || assignmentList[idx % assignmentList.length];
+        const batch = batchList[0];
+        const workingDays = getWorkingDays(batch);
+
+        const submissions = workingDays.map((wd, wdIndex) => {
+          const isPast = wd.date <= today;
+          if(!isPast){
+            return { dateStr:wd.dateStr, dayNum:wd.dayNum, submitted:false, future:true, desc:'', time:'' };
+          }
+          return {
+            dateStr:wd.dateStr,
+            dayNum:wd.dayNum,
+            submitted:true,
+            future:false,
+            desc:descList[(idx + wdIndex) % descList.length],
+            time:'08:30'
+          };
+        });
+
+        const pastDays=submissions.filter(s=>!s.future);
+        const submittedCount=pastDays.filter(s=>s.submitted).length;
+        const totalPastDays=pastDays.length;
+        const latestPast=[...pastDays].reverse()[0] || null;
+
+        allRecords.push({
+          id:Number(row.applicant_id || row.id || (idx + 1)),
+          initials:toInitials(first, last),
+          name:`${last}, ${first}${middleInitial}`.replace(/,\s*$/, '').trim() || 'N/A',
+          email:String(row.email || '').trim(),
+          spesId:String(row.control_no || '').trim() || `SPES-2026-${String(idx + 1).padStart(4,'0')}`,
+          assignment,
+          batch,
+          year:Number(String(row.approved_at || row.created_at || '').slice(0,4)) || 2026,
+          submissions,
+          submittedCount,
+          totalPastDays,
+          todaySubmitted:latestPast ? true : null,
+          lastSubmissionDate:latestPast ? latestPast.dateStr : null
+        });
+      });
+    } catch(err){
+      console.error('Load accomplishment records failed:', err);
+      showToast((err && err.message) ? err.message : 'Unable to load records.', 'error');
+    }
+
+    filteredRecords=[...allRecords];
+    applyFilters();
+  }
+
+  // ── DOM References ──
+  const tbody=document.getElementById('arTbody');
+  const pageSizeSelectTop=document.getElementById('pageSizeSelectTop');
+  const pageSizeSelectBot=document.getElementById('pageSizeSelectBottom');
+  const resultsInfo=document.getElementById('resultsInfo');
+  const paginationControls=document.getElementById('paginationControls');
+  const searchInput=document.getElementById('searchInput');
+  const statusFilter=document.getElementById('statusFilter');
+  const yearFilter=document.getElementById('yearFilter');
+  const batchFilter=document.getElementById('batchFilter');
+
+  const savedSize=localStorage.getItem('ar_pageSize')||'300';
+  let currentPage=1;
+  let pageSize=savedSize;
+  let filteredRecords=[...allRecords];
+
+  function setPageSizeValue(val){
+    if(pageSizeSelectTop) pageSizeSelectTop.value=val;
+    if(pageSizeSelectBot) pageSizeSelectBot.value=val;
+    localStorage.setItem('ar_pageSize',val);
+    pageSize=val;
+  }
+
+  // ── Filters ──
+  function applyFilters(){
+    const term=searchInput?searchInput.value.toLowerCase():'';
+    const status=statusFilter?statusFilter.value:'all';
+    const batch=batchFilter?batchFilter.value:'all';
+
+    filteredRecords=allRecords.filter(r=>{
+      const matchSearch=!term||r.name.toLowerCase().includes(term)||r.spesId.toLowerCase().includes(term)||r.email.toLowerCase().includes(term)||r.assignment.toLowerCase().includes(term);
+      const matchBatch=batch==='all'||r.batch===batch;
+      let matchStatus=true;
+      if(status==='submitted') matchStatus=r.todaySubmitted===true;
+      else if(status==='not-submitted') matchStatus=r.todaySubmitted===false;
+      return matchSearch && matchBatch && matchStatus;
+    });
+
+    filteredRecords.sort((a,b)=>a.name.localeCompare(b.name));
+    currentPage=1;
+    renderTable();
+  }
+
+  // ── Update Summary ──
+  function updateSummary(){
+    // Always show counts from all records, not filtered
+    const total=allRecords.length;
+    const sub=allRecords.filter(r=>r.todaySubmitted===true).length;
+    const notSub=allRecords.filter(r=>r.todaySubmitted===false).length;
+    document.getElementById('totalCount').textContent=total;
+    document.getElementById('submittedTodayCount').textContent=sub;
+    document.getElementById('notSubmittedTodayCount').textContent=notSub;
+  }
+
+  // ── Render Table ──
+  function renderTable(){
+    const effectiveSize=(pageSize==='all')?filteredRecords.length:parseInt(pageSize,10);
+    const totalPages=Math.max(1,Math.ceil(filteredRecords.length/effectiveSize));
+    if(currentPage>totalPages) currentPage=totalPages;
+
+    const start=(currentPage-1)*effectiveSize;
+    const end=Math.min(start+effectiveSize,filteredRecords.length);
+    const slice=filteredRecords.slice(start,end);
+
+    let html='';
+    for(const r of slice){
+      const percent=r.totalPastDays>0?Math.round(r.submittedCount/r.totalPastDays*100):0;
+      const fillClass=percent>=80?'progress-fill-green':percent>=50?'progress-fill-yellow':'progress-fill-red';
+      const rowClass=r.todaySubmitted===false?'row-highlight':'';
+
+      let todayBadge;
+      if(r.todaySubmitted===null) todayBadge='<span class="badge badge-no-work">No Work Today</span>';
+      else if(r.todaySubmitted) todayBadge='<span class="badge badge-submitted">Submitted</span>';
+      else todayBadge='<span class="badge badge-not-submitted">Not Submitted</span>';
+
+      const lastSubFmt=r.lastSubmissionDate?formatDateShort(r.lastSubmissionDate):'-';
+
+      html+=`
+      <tr class="${rowClass}" data-id="${r.id}">
+        <td><div class="profile-cell"><div class="profile-avatar">${r.initials}</div></div></td>
+        <td>${r.spesId}</td>
+        <td>
+          <span class="applicant-name">${r.name}</span>
+          <span class="applicant-email">${r.email}</span>
+        </td>
+        <td>${r.assignment}</td>
+        <td>
+          <div class="progress-wrap">
+            <div class="progress-bar-bg"><div class="progress-bar-fill ${fillClass}" style="width:${percent}%"></div></div>
+            <span class="progress-text">${r.submittedCount}/${r.totalPastDays}</span>
+          </div>
+        </td>
+        <td>${todayBadge}</td>
+        <td>${lastSubFmt}</td>
+        <td>
+          <div class="actions">
+            <button class="action-btn view-btn" title="View Submissions"><i class="fa-solid fa-eye"></i></button>
+            <button class="action-btn archive-btn" title="Archive"><i class="fa-solid fa-box-archive"></i></button>
+          </div>
+        </td>
+      </tr>`;
+    }
+    tbody.innerHTML=html;
+
+    const total=filteredRecords.length;
+    const displayFrom=total===0?0:start+1;
+    const displayTo=total===0?0:end;
+    resultsInfo.textContent='Showing results '+displayFrom+' - '+displayTo+' of '+total;
+
+    updateSummary();
+    renderPagination(totalPages);
+  }
+
+  // ── Pagination ──
+  function createBtn(label,disabled,onClick,isActive){
+    const btn=document.createElement('button');
+    btn.className='page-btn'+(isActive?' active':'');
+    if(disabled) btn.disabled=true;
+    btn.innerHTML=label;
+    btn.addEventListener('click',onClick);
+    return btn;
+  }
+  function renderPagination(totalPages){
+    paginationControls.innerHTML='';
+    paginationControls.appendChild(createBtn('<i class="fa-solid fa-chevron-left"></i>',currentPage===1,()=>{ if(currentPage>1){ currentPage--; renderTable(); } }));
+    if(totalPages<=5){
+      for(let p=1;p<=totalPages;p++) paginationControls.appendChild(createBtn(p,false,()=>{ currentPage=p; renderTable(); },p===currentPage));
+    } else {
+      const addPage=p=>paginationControls.appendChild(createBtn(p,false,()=>{ currentPage=p; renderTable(); },p===currentPage));
+      const addEllipsis=()=>{ const e=document.createElement('span'); e.style.padding='6px 8px'; e.textContent='...'; paginationControls.appendChild(e); };
+      addPage(1);
+      if(currentPage>4) addEllipsis();
+      const s=Math.max(2,currentPage-2), f=Math.min(totalPages-1,currentPage+2);
+      for(let p=s;p<=f;p++) addPage(p);
+      if(currentPage<totalPages-3) addEllipsis();
+      addPage(totalPages);
+    }
+    paginationControls.appendChild(createBtn('<i class="fa-solid fa-chevron-right"></i>',currentPage===totalPages,()=>{ if(currentPage<totalPages){ currentPage++; renderTable(); } }));
+  }
+
+  async function archiveRecordAcrossModules(rec){
+    const response = await fetchWithApiBase('/api/spes-records/archive', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        applicant_id: Number(rec.id || 0),
+        control_no: String(rec.spesId || '').trim(),
+        email: String(rec.email || '').trim()
+      })
+    });
+
+    const payload = await response.json().catch(() => ({}));
+    if(!response.ok){
+      throw new Error((payload && (payload.message || payload.error)) || 'Unable to archive record');
+    }
+
+    return payload;
+  }
+
+  // ── Row Actions ──
+  document.addEventListener('click',function(e){
+    const row = e.target.closest('tr[data-id]');
+    if(!row) return;
+    const id = parseInt(row.getAttribute('data-id'));
+
+    // If action button (archive/view), handle as before
+    if(e.target.closest('.archive-btn')){
+      const rec=allRecords.find(r=>r.id===id);
+      if(!rec) return;
+      showConfirm('Archive Student','Are you sure you want to archive '+rec.name+'?','info','Archive','btn-primary',async ()=>{
+        try {
+          await archiveRecordAcrossModules(rec);
+          archivedRecords.push(Object.assign({}, rec));
+          await loadRecordsFromApi();
+          renderArchiveTable();
+          showToast(rec.name+' has been archived','info');
+        } catch(err){
+          showToast((err && err.message) ? err.message : 'Failed to archive record.', 'error');
+        }
+      });
+      return;
+    }
+    // If action button (view), handle as before
+    if(e.target.closest('.view-btn')){
+      const rec=allRecords.find(r=>r.id===id);
+      if(rec) openViewSubmissions(rec);
+      return;
+    }
+    // If not action button, open details modal (like cSpesRegistration)
+    if(!e.target.closest('.actions')){
+      const rec=allRecords.find(r=>r.id===id);
+      if(rec) openViewSubmissions(rec);
+    }
+  });
+
+  function renderArchiveTable(){
+    const archiveTbody=document.getElementById('archiveTableBody');
+    if(!archiveTbody) return;
+    let html='';
+    for(const r of archivedRecords){
+      const percent=r.totalPastDays>0?Math.round(r.submittedCount/r.totalPastDays*100):0;
+      const fillClass=percent>=80?'progress-fill-green':percent>=50?'progress-fill-yellow':'progress-fill-red';
+      html+=`
+      <tr>
+        <td><div class="profile-cell"><div class="profile-avatar">${r.initials}</div></div></td>
+        <td>${r.spesId}</td>
+        <td><span class="applicant-name">${r.name}</span></td>
+        <td>${r.assignment}</td>
+        <td>
+          <div class="progress-wrap">
+            <div class="progress-bar-bg"><div class="progress-bar-fill ${fillClass}" style="width:${percent}%"></div></div>
+            <span class="progress-text">${r.submittedCount}/${r.totalPastDays}</span>
+          </div>
+        </td>
+        <td>Archived</td>
+      </tr>`;
+    }
+    archiveTbody.innerHTML=html;
+  }
+
+  // ── View Submissions Modal ──
+  let currentViewRec = null;
+  let currentViewDay = 0;
+
+  function openViewSubmissions(rec){
+    currentViewRec = rec;
+    const pastDays=rec.submissions.filter(s=>!s.future);
+    const submitted=pastDays.filter(s=>s.submitted).length;
+    const missed=pastDays.filter(s=>!s.submitted).length;
+    const remaining=rec.submissions.filter(s=>s.future).length;
+
+    document.getElementById('viewStudentInfo').innerHTML=`
+      <div class="student-avatar-lg">${rec.initials}</div>
+      <div class="student-meta">
+        <h4>${rec.name}</h4>
+        <p>${rec.spesId} &bull; ${rec.batch} &bull; ${rec.assignment}</p>
+        <div class="student-stats">
+          <span class="stat-done"><i class="fa-solid fa-check" style="margin-right:4px"></i>${submitted} Submitted</span>
+          <span class="stat-miss"><i class="fa-solid fa-xmark" style="margin-right:4px"></i>${missed} Missed</span>
+          <span class="stat-left"><i class="fa-solid fa-clock" style="margin-right:4px"></i>${remaining} Remaining</span>
+        </div>
+      </div>`;
+
+    renderPhotoGrid();
+    document.getElementById('viewSubmissionsModal').classList.add('show');
+  }
+
+  function buildSubmissionPreview(dayNum, state){
+    const palettes = {
+      submitted: ['#8db2d1', '#264f7a', '#f4fbff'],
+      deadline: ['#8bd1f7', '#0b6fa7', '#f4fbff'],
+      missed: ['#d8d8d8', '#8a8a8a', '#f8f8f8'],
+      future: ['#d8deea', '#6a758c', '#f3f6fb']
+    };
+    const p = palettes[state] || palettes.future;
+    const label = state === 'submitted'
+      ? 'Complied'
+      : (state === 'deadline' ? 'Due Today' : (state === 'missed' ? 'Missed' : 'Upcoming'));
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200">'
+      + '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">'
+      + '<stop offset="0%" stop-color="'+p[0]+'"/><stop offset="100%" stop-color="'+p[1]+'"/></linearGradient></defs>'
+      + '<rect width="320" height="200" fill="url(#g)"/>'
+      + '<circle cx="54" cy="48" r="18" fill="rgba(255,255,255,.8)"/>'
+      + '<path d="M26 156l66-68 40 44 38-30 52 54H26z" fill="rgba(255,255,255,.42)"/>'
+      + '<rect x="16" y="14" rx="10" ry="10" width="90" height="28" fill="rgba(0,0,0,.35)"/>'
+      + '<text x="28" y="33" font-family="Inter,Arial,sans-serif" font-size="14" fill="'+p[2]+'" font-weight="700">DAY '+dayNum+'</text>'
+      + '<rect x="16" y="164" rx="8" ry="8" width="116" height="22" fill="rgba(0,0,0,.28)"/>'
+      + '<text x="24" y="179" font-family="Inter,Arial,sans-serif" font-size="11" fill="'+p[2]+'">'+label+'</text>'
+      + '</svg>';
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  }
+
+  function renderPhotoGrid(){
+    const rec = currentViewRec;
+    if(!rec) return;
+    const subs = rec.submissions;
+    const schedule = workSchedules[rec.batch] || workSchedules['BATCH 1'];
+    const deadlineText = (schedule.startTime || '08:00') + ' to ' + (schedule.endTime || '17:00');
+    const now = new Date();
+    const todayStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+    const pastDays = subs.filter(s=>!s.future);
+    const submittedCount = pastDays.filter(s=>s.submitted).length;
+    const missedCount = pastDays.filter(s=>!s.submitted).length;
+    const upcomingCount = subs.filter(s=>s.future).length;
+
+    let h = '';
+
+    h += '<div class="photo-summary-bar">';
+    h += '<div class="photo-summary-item ps-submitted"><i class="fa-solid fa-circle-check"></i><strong>'+submittedCount+'</strong> Submitted</div>';
+    h += '<div class="photo-summary-item ps-missed"><i class="fa-solid fa-circle-xmark"></i><strong>'+missedCount+'</strong> Missed</div>';
+    h += '<div class="photo-summary-item ps-upcoming"><i class="fa-solid fa-hourglass-half"></i><strong>'+upcomingCount+'</strong> Upcoming</div>';
+    h += '</div>';
+
+    const weeks = [];
+    for(let i=0; i<subs.length; i+=5){
+      weeks.push(subs.slice(i, i+5));
+    }
+
+    weeks.forEach((week, wi)=>{
+      h += '<div class="week-section">';
+      h += '<div class="week-label"><i class="fa-solid fa-calendar-week"></i>Week '+(wi+1)+'</div>';
+      h += '<div class="week-list">';
+
+      week.forEach(s=>{
+        const dateStr = new Date(s.dateStr+'T00:00:00').toLocaleString('en-US', {
+          weekday:'long', month:'long', day:'numeric', year:'numeric'
+        });
+        const isToday = s.dateStr === todayStr;
+
+        if(s.submitted){
+          h += '<div class="day-line submitted" onclick="openDayViewer('+s.dayNum+')">';
+          h += '<div class="day-pill">DAY '+s.dayNum+'</div>';
+          h += '<div class="day-date">'+dateStr+'</div>';
+          h += '<div class="day-line-tasks"><ul>';
+          h += '<li>'+s.desc+'</li>';
+          h += '<li>Submitted at '+s.time+'</li>';
+          h += '</ul></div>';
+          h += '<div class="day-line-preview"><img src="'+buildSubmissionPreview(s.dayNum, 'submitted')+'" alt="Day '+s.dayNum+' preview"></div>';
+          h += '<div class="day-line-actions">';
+          h += '<button class="day-line-view-btn" onclick="event.stopPropagation();openDayViewer('+s.dayNum+')">View</button>';
+          h += '<span class="day-line-status complied" style="margin-left:10px">Complied</span>';
+          h += '</div></div>';
+        } else if(!s.future && isToday){
+          h += '<div class="day-line today-deadline">';
+          h += '<div class="day-pill">DAY '+s.dayNum+'</div>';
+          h += '<div class="day-date">'+dateStr+'</div>';
+          h += '<div class="day-line-tasks"><span class="day-line-missed-text" style="color:#0277bd">Deadline today ('+deadlineText+'). Awaiting student submission.</span></div>';
+          h += '<div class="day-line-preview"><img src="'+buildSubmissionPreview(s.dayNum, 'deadline')+'" alt="Day '+s.dayNum+' deadline today"></div>';
+          h += '<div class="day-line-actions"><span class="day-line-status deadline">Due Today</span></div>';
+          h += '</div>';
+        } else if(!s.future){
+          h += '<div class="day-line missed">';
+          h += '<div class="day-pill">DAY '+s.dayNum+'</div>';
+          h += '<div class="day-date">'+dateStr+'</div>';
+          h += '<div class="day-line-tasks"><span class="day-line-missed-text">Not Available, You did not submit Accomplishment Report.</span></div>';
+          h += '<div class="day-line-actions"><span class="day-line-status missed">Missed</span></div>';
+          h += '</div>';
+        } else {
+          h += '<div class="day-line future">';
+          h += '<div class="day-pill">DAY '+s.dayNum+'</div>';
+          h += '<div class="day-date">'+dateStr+'</div>';
+          h += '<div class="day-line-tasks">Schedule is upcoming for this day.</div>';
+          h += '<div class="day-line-preview"><img src="'+buildSubmissionPreview(s.dayNum, 'future')+'" alt="Day '+s.dayNum+' upcoming"></div>';
+          h += '<div class="day-line-actions"><span class="day-line-status">Upcoming</span></div>';
+          h += '</div>';
+        }
+      });
+
+      h += '</div>';
+      h += '</div>';
+    });
+
+    document.getElementById('submissionsGrid').innerHTML = h;
+  }
+
+  // Detail viewer — click a submitted card to view details, navigate prev/next
+  window.openDayViewer = function(dayNum){
+    const rec = currentViewRec;
+    if(!rec) return;
+    currentViewDay = dayNum;
+    updateDayViewer();
+    document.getElementById('photoViewer').classList.add('show');
+  };
+
+  function updateDayViewer(){
+    const rec = currentViewRec;
+    if(!rec) return;
+    const sub = rec.submissions.find(s=>s.dayNum===currentViewDay);
+    if(!sub) return;
+    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const date = new Date(sub.dateStr+'T00:00:00');
+    const dateStr = monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear();
+    const pvImage = document.getElementById('pvImage');
+
+    // Set icon and background based on status
+    pvImage.className = 'photo-viewer-img';
+    if(!sub.future && sub.submitted){
+      pvImage.className += ' submitted-bg';
+      pvImage.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+      document.getElementById('pvTitle').textContent = 'Day '+currentViewDay+' — '+dateStr;
+      document.getElementById('pvDesc').textContent = sub.desc + (sub.time ? ' (Submitted at '+sub.time+')' : '');
+    } else if(!sub.future && !sub.submitted){
+      pvImage.className += ' missed-bg';
+      pvImage.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
+      document.getElementById('pvTitle').textContent = 'Day '+currentViewDay+' — '+dateStr;
+      document.getElementById('pvDesc').textContent = 'No documentation submitted';
+    } else {
+      pvImage.className += ' upcoming-bg';
+      pvImage.innerHTML = '<i class="fa-solid fa-hourglass-half"></i>';
+      document.getElementById('pvTitle').textContent = 'Day '+currentViewDay+' — '+dateStr;
+      document.getElementById('pvDesc').textContent = 'Upcoming';
+    }
+
+    // Enable/disable prev/next
+    document.getElementById('pvPrevBtn').disabled = currentViewDay <= 1;
+    document.getElementById('pvNextBtn').disabled = currentViewDay >= rec.submissions.length;
+  }
+
+  window.navigatePhoto = function(dir){
+    const rec = currentViewRec;
+    if(!rec) return;
+    const newDay = currentViewDay + dir;
+    if(newDay < 1 || newDay > rec.submissions.length) return;
+    currentViewDay = newDay;
+    updateDayViewer();
+  };
+
+  // Close detail viewer on backdrop click
+  document.getElementById('photoViewer').addEventListener('click', function(e){
+    if(e.target === this) this.classList.remove('show');
+  });
+
+  // ── Work Schedule Modal ──
+  let currentScheduleBatch = 'BATCH 1';
+  window.openWorkSchedule = function(){
+    currentScheduleBatch = 'BATCH 1';
+    loadScheduleForBatch(currentScheduleBatch);
+    document.getElementById('workScheduleModal').classList.add('show');
+    if(dropdownMenu) dropdownMenu.classList.remove('show');
+  };
+  function loadScheduleForBatch(batch){
+    const sched = workSchedules[batch];
+    document.getElementById('schedBatchSelect').value = batch;
+    document.getElementById('schedStartTime').value = sched.startTime;
+    document.getElementById('schedEndTime').value = sched.endTime;
+    document.getElementById('schedTotalDays').value = sched.totalDays;
+    document.getElementById('schedStartDate').value = sched.startDate;
+  }
+  document.getElementById('schedBatchSelect').addEventListener('change',function(){
+    currentScheduleBatch = this.value;
+    loadScheduleForBatch(currentScheduleBatch);
+  });
+  document.getElementById('saveScheduleBtn').addEventListener('click',()=>{
+    const batch = document.getElementById('schedBatchSelect').value;
+    workSchedules[batch].startTime = document.getElementById('schedStartTime').value;
+    workSchedules[batch].endTime = document.getElementById('schedEndTime').value;
+    workSchedules[batch].totalDays = parseInt(document.getElementById('schedTotalDays').value)||20;
+    workSchedules[batch].startDate = document.getElementById('schedStartDate').value;
+    generateRecords();
+    applyFilters();
+    closeModal('workScheduleModal');
+    showToast('Work schedule for '+batch+' updated successfully','success');
+  });
+
+  // ── No-Work Days Modal ──
+  let nwCalMonth=1, nwCalYear=2026; // Feb 2026
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  window.openNoWorkDays = function(){
+    nwCalMonth=new Date().getMonth(); nwCalYear=new Date().getFullYear();
+    renderNwCalendar();
+    document.getElementById('noWorkDaysModal').classList.add('show');
+    if(dropdownMenu) dropdownMenu.classList.remove('show');
+  };
+
+  function renderNwCalendar(){
+    document.getElementById('nwMonthTitle').textContent=monthNames[nwCalMonth]+' '+nwCalYear;
+    const firstDay=new Date(nwCalYear,nwCalMonth,1).getDay();
+    const daysInMonth=new Date(nwCalYear,nwCalMonth+1,0).getDate();
+    const today=new Date(); today.setHours(0,0,0,0);
+
+    let html='';
+    for(let i=0;i<firstDay;i++) html+='<div class="nw-day empty"></div>';
+    for(let d=1;d<=daysInMonth;d++){
+      const date=new Date(nwCalYear,nwCalMonth,d);
+      const dow=date.getDay();
+      const mo=String(nwCalMonth+1).padStart(2,'0'), da=String(d).padStart(2,'0');
+      const dateStr=nwCalYear+'-'+mo+'-'+da;
+      const isWeekend=dow===0||dow===6;
+      const isToday=date.getTime()===today.getTime();
+      const isNoWork=noWorkDays.some(nw=>nw.date===dateStr);
+      let cls='nw-day';
+      if(isWeekend) cls+=' weekend';
+      if(isToday) cls+=' today';
+      if(isNoWork) cls+=' no-work';
+      const clickAttr=!isWeekend?` onclick="toggleNoWorkDay('${dateStr}')"` :'';
+      html+=`<div class="${cls}"${clickAttr}>${d}</div>`;
+    }
+    document.getElementById('nwDaysGrid').innerHTML=html;
+    renderNwList();
+  }
+
+  function renderNwList(){
+    const list=document.getElementById('nwList');
+    if(noWorkDays.length===0){ list.innerHTML='<div class="nw-list-title">No marked no-work days</div>'; return; }
+    
+    // Filter to only show days in current displayed month
+    const filtered=noWorkDays.filter(nw=>{
+      const d=new Date(nw.date+'T00:00:00');
+      return d.getFullYear()===nwCalYear && d.getMonth()===nwCalMonth;
+    });
+    
+    if(filtered.length===0){ 
+      list.innerHTML='<div class="nw-list-title">No marked no-work days in '+monthNames[nwCalMonth]+' '+nwCalYear+'</div>'; 
+      return; 
+    }
+    
+    const sorted=[...filtered].sort((a,b)=>a.date.localeCompare(b.date));
+    const protectedCount=filtered.filter(nw=>nw.protected).length;
+    const customCount=filtered.length-protectedCount;
+    let html='<div class="nw-list-title">'+monthNames[nwCalMonth]+' '+nwCalYear+' ('+filtered.length+') - '+protectedCount+' Holidays, '+customCount+' Custom</div>';
+    for(const nw of sorted){
+      const itemClass=nw.protected?'nw-item protected':'nw-item';
+      const inputDisabled=nw.protected?' disabled':'';
+      const btnDisabled=nw.protected?' disabled':'';
+      const lockIcon=nw.protected?'<i class="fa-solid fa-lock" style="color:#1565c0;margin-right:4px;font-size:10px"></i>':'';
+      html+=`
+      <div class="${itemClass}">
+        <span class="nw-item-date">${lockIcon}${formatDateFull(nw.date)}</span>
+        <input class="nw-reason-input" placeholder="Add reason..." value="${nw.reason||''}" onchange="updateNwReason('${nw.date}',this.value)" style="flex:1;margin:0 8px"${inputDisabled}>
+        <button class="nw-item-remove" onclick="removeNoWorkDay('${nw.date}')"${btnDisabled}><i class="fa-solid fa-xmark"></i></button>
+      </div>`;
+    }
+    list.innerHTML=html;
+  }
+
+  window.toggleNoWorkDay = function(dateStr){
+    const idx=noWorkDays.findIndex(nw=>nw.date===dateStr);
+    if(idx!==-1) return; // Already marked - can't toggle off, use remove button
+    noWorkDays.push({date:dateStr, reason:'', protected:false});
+    renderNwCalendar();
+  };
+  window.removeNoWorkDay = function(dateStr){
+    const nw=noWorkDays.find(n=>n.date===dateStr);
+    if(nw && nw.protected){
+      showToast('Philippine holidays cannot be removed','error');
+      return;
+    }
+    const idx=noWorkDays.findIndex(nw=>nw.date===dateStr);
+    if(idx!==-1){ noWorkDays.splice(idx,1); renderNwCalendar(); }
+  };
+  window.updateNwReason = function(dateStr, reason){
+    const nw=noWorkDays.find(n=>n.date===dateStr);
+    if(nw && !nw.protected) nw.reason=reason;
+  };
+
+  document.getElementById('nwPrevMonth').addEventListener('click',()=>{ nwCalMonth--; if(nwCalMonth<0){ nwCalMonth=11; nwCalYear--; } renderNwCalendar(); });
+  document.getElementById('nwNextMonth').addEventListener('click',()=>{ nwCalMonth++; if(nwCalMonth>11){ nwCalMonth=0; nwCalYear++; } renderNwCalendar(); });
+
+  document.getElementById('saveNoWorkBtn').addEventListener('click',()=>{
+    generateRecords();
+    applyFilters();
+    closeModal('noWorkDaysModal');
+    showToast('No-work days updated. Records recalculated.','success');
+  });
+
+  // ── Summary Card Active Toggle ──
+  window.setActiveSummary = function(idx){
+    const cards = document.querySelectorAll('.summary-item');
+    cards.forEach((card, i) => {
+      if(i === idx){
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+    });
+  };
+
+  // Default: set first card active on load
+  // (moved to end of init — see below)
+
+  // ── Summary Card Click Handlers ──
+  window.showAllStudents = function(){
+    // Clear all filters to show all students
+    searchInput.value='';
+    statusFilter.value='all';
+    yearFilter.value='2026';
+    batchFilter.value='all';
+    applyFilters();
+    showToast('Showing all students','info');
+  };
+
+  window.showSubmittedToday = function(){
+    const submittedStudents = allRecords.filter(r=>r.todaySubmitted===true);
+    if(submittedStudents.length===0){
+      showToast('No students have submitted today','info');
+      return;
+    }
+    // Filter to show only submitted
+    statusFilter.value='submitted';
+    applyFilters();
+    showToast(`Showing ${submittedStudents.length} student${submittedStudents.length>1?'s':''} who submitted today`,'success');
+  };
+
+  window.showNotSubmitted = function(){
+    const notSubmittedStudents = allRecords.filter(r=>r.todaySubmitted===false);
+    if(notSubmittedStudents.length===0){
+      showToast('All students have submitted today!','success');
+      return;
+    }
+    // Filter to show only not-submitted
+    statusFilter.value='not-submitted';
+    applyFilters();
+    // Update reminder modal count
+    document.getElementById('reminderCount').textContent=notSubmittedStudents.length;
+    // Show reminder modal
+    document.getElementById('reminderModal').classList.add('show');
+  };
+
+  // ── Send Reminder ──
+  let autoReminderEnabled = localStorage.getItem('ar_autoReminderEnabled') === '1';
+  function getReminderMethodText(source){
+    const selectId = source === 'auto' ? 'autoNotifMethod' : 'notifMethod';
+    const method = document.getElementById(selectId) ? document.getElementById(selectId).value : 'both';
+    return method==='both' ? 'Email & SMS' : method==='email' ? 'Email' : 'SMS';
+  }
+  function updateReminderMethodChips(){
+    const autoChip = document.getElementById('currentAutoNotifMethod');
+    const manualChip = document.getElementById('currentManualNotifMethod');
+    if(autoChip) autoChip.textContent = 'Auto uses: ' + getReminderMethodText('auto');
+    if(manualChip) manualChip.textContent = 'Manual uses: ' + getReminderMethodText('manual');
+  }
+  function getTodayKey(){
+    const d = new Date();
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+  function updateAutoReminderUI(){
+    const toggleBtn = document.getElementById('toggleAutoReminderBtn');
+    const statusEl = document.getElementById('autoReminderStatus');
+    const autoMethodSelect = document.getElementById('autoNotifMethod');
+    if(!toggleBtn || !statusEl) return;
+    if(autoReminderEnabled){
+      toggleBtn.textContent = 'Disable Auto Send';
+      toggleBtn.classList.remove('btn-cancel');
+      toggleBtn.classList.add('btn-primary');
+      statusEl.textContent = 'ON';
+      statusEl.classList.add('on');
+      if(autoMethodSelect) autoMethodSelect.disabled = false;
+    } else {
+      toggleBtn.textContent = 'Enable Auto Send';
+      toggleBtn.classList.remove('btn-primary');
+      toggleBtn.classList.add('btn-cancel');
+      statusEl.textContent = 'OFF';
+      statusEl.classList.remove('on');
+      if(autoMethodSelect) autoMethodSelect.disabled = true;
+    }
+    updateReminderMethodChips();
+  }
+  function performReminderSend(isAuto){
+    const notSubmittedStudents = allRecords.filter(r=>r.todaySubmitted===false);
+    if(notSubmittedStudents.length===0){
+      if(!isAuto) showToast('No students to send reminders to','info');
+      return false;
+    }
+    const methodText = isAuto ? getReminderMethodText('auto') : getReminderMethodText('manual');
+    if(isAuto){
+      localStorage.setItem('ar_autoReminderLastSentDate', getTodayKey());
+      showToast(`Auto reminder sent via ${methodText} to ${notSubmittedStudents.length} students`,'info');
+      return true;
+    }
+    showConfirm(
+      'Send Reminder',
+      `Send reminder via ${methodText} to ${notSubmittedStudents.length} students who have not submitted today?`,
+      'info',
+      'Send',
+      'btn-primary',
+      ()=>{
+        // Simulate sending
+        closeModal('reminderModal');
+        showToast(`Reminder sent via ${methodText} to ${notSubmittedStudents.length} students`,'success');
+      }
+    );
+    return true;
+  };
+
+  window.sendReminder = function(){
+    performReminderSend(false);
+  };
+
+  function runAutoReminderCheck(){
+    if(!autoReminderEnabled) return;
+    const todayKey = getTodayKey();
+    const lastSent = localStorage.getItem('ar_autoReminderLastSentDate');
+    if(lastSent === todayKey) return;
+    performReminderSend(true);
+  }
+
+  // ── Filter Listeners ──
+  if(searchInput) searchInput.addEventListener('input',applyFilters);
+  if(statusFilter) statusFilter.addEventListener('change',applyFilters);
+  if(yearFilter) yearFilter.addEventListener('change',applyFilters);
+  if(batchFilter) batchFilter.addEventListener('change',applyFilters);
+  const notifMethodSelect = document.getElementById('notifMethod');
+  const autoNotifMethodSelect = document.getElementById('autoNotifMethod');
+  if(notifMethodSelect) notifMethodSelect.addEventListener('change', updateReminderMethodChips);
+  if(autoNotifMethodSelect) autoNotifMethodSelect.addEventListener('change', updateReminderMethodChips);
+  if(pageSizeSelectTop) pageSizeSelectTop.addEventListener('change',()=>{ currentPage=1; setPageSizeValue(pageSizeSelectTop.value); renderTable(); });
+  if(pageSizeSelectBot) pageSizeSelectBot.addEventListener('change',()=>{ currentPage=1; setPageSizeValue(pageSizeSelectBot.value); renderTable(); });
+  const toggleAutoReminderBtn = document.getElementById('toggleAutoReminderBtn');
+  if(toggleAutoReminderBtn){
+    toggleAutoReminderBtn.addEventListener('click',()=>{
+      autoReminderEnabled = !autoReminderEnabled;
+      localStorage.setItem('ar_autoReminderEnabled', autoReminderEnabled ? '1' : '0');
+      if(autoReminderEnabled){
+        showToast('Auto reminder is enabled','success');
+        runAutoReminderCheck();
+      } else {
+        showToast('Auto reminder is disabled','info');
+      }
+      updateAutoReminderUI();
+    });
+  }
+
+  // ── Init ──
+  setPageSizeValue(savedSize);
+  loadRecordsFromApi();
+  updateSummary();
+  setActiveSummary(0);
+  updateReminderMethodChips();
+  updateAutoReminderUI();
+  runAutoReminderCheck();
+  setInterval(runAutoReminderCheck, 60000);
+})();
+</script>
+
+</body>
+</html>
+

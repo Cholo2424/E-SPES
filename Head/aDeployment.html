@@ -1,0 +1,2901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-SPES | Deployment</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+/* Hide scrollbars globally */
+*{
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+*::-webkit-scrollbar{ width:0; height:0; }
+
+/* Show custom scrollbar for content area */
+.content::-webkit-scrollbar{ width:1px; display:block; }
+.content::-webkit-scrollbar-track{ background:transparent; }
+.content::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.05); border-radius:1px;
+  transition:all 0.2s ease; cursor:pointer; min-height:5px; max-height:12px;
+}
+.content::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.3); width:3px; }
+.content{ scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.05) transparent; }
+
+/* Show custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar{ width:1px; display:block; }
+.sidebar::-webkit-scrollbar-track{ background:transparent; }
+.sidebar::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.04); border-radius:1px;
+  transition:all 0.2s ease; cursor:pointer; min-height:5px; max-height:10px;
+}
+.sidebar::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.25); width:2px; }
+.sidebar{ scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.04) transparent; }
+
+.table-container::-webkit-scrollbar{ width:1px; height:1px; display:block; }
+.table-container::-webkit-scrollbar-track{ background:transparent; }
+.table-container::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.05); border-radius:1px;
+  min-height:5px; min-width:5px; max-height:12px; max-width:12px; transition:all 0.2s ease;
+}
+.table-container::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.3); }
+.table-container{ position:relative; scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.05) transparent; }
+
+/* Show custom scrollbar for modals */
+.modal-body::-webkit-scrollbar{ width:3px; display:block; }
+.modal-body::-webkit-scrollbar-track{ background:transparent; }
+.modal-body::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.08); border-radius:3px;
+  transition:all 0.2s ease; min-height:20px;
+}
+.modal-body::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.2); }
+.modal-body{ scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.08) transparent; }
+#batchSettingsModal .modal-body::-webkit-scrollbar{ width:3px; display:block; }
+#exportColContainer::-webkit-scrollbar{ width:3px; display:block; }
+#exportColContainer::-webkit-scrollbar-track{ background:transparent; }
+#exportColContainer::-webkit-scrollbar-thumb{ background:rgba(0,0,0,0.08); border-radius:3px; }
+#exportColContainer::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.2); }
+#exportColContainer{ scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.08) transparent; }
+
+/* Hide sidebar scrollbar */
+.sidebar{ scrollbar-width:none !important; -ms-overflow-style:none; }
+.sidebar::-webkit-scrollbar{ display:none !important; width:0 !important; height:0 !important; }
+
+body{
+  margin:0;
+  background:#ffffff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-bottom:46px;
+}
+
+/* header */
+.header{
+  background:#242242; color:white; padding:12px 30px;
+  display:flex; align-items:center; gap:12px;
+}
+.header img{ width:40px; height:40px; object-fit:contain; }
+
+.burger-btn{
+  border:none; background:transparent; color:#ffffff; font-size:20px;
+  width:38px; height:38px; border-radius:6px; display:none;
+  align-items:center; justify-content:center; cursor:pointer;
+}
+.burger-btn:hover{ background:rgba(255,255,255,0.12); }
+
+.header-text{ flex:1 1 auto; }
+.header-text h1{ margin:0; font-size:16px; }
+.header-text p{ margin:2px 0 0; font-size:11px; opacity:0.9; font-style:italic; }
+
+.header-right{ margin-left:auto; display:flex; align-items:center; gap:12px; }
+.user-info{ text-align:right; font-size:12px; cursor:pointer; transition:.2s; }
+.user-info:hover{ opacity:0.8; }
+
+.avatar{
+  width:38px; height:38px; border-radius:50%; background:#e5e5e5; color:#242242;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:600; cursor:pointer; transition:.2s;
+}
+.avatar:hover{ background:#d0d0d0; }
+
+/* profile dropdown */
+.profile-menu{ position:relative; }
+.profile-dropdown{
+  position:absolute; top:100%; right:0; margin-top:8px;
+  background:white; border:1px solid #d0d0d0; border-radius:4px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15); min-width:150px; display:none; z-index:100;
+}
+.profile-dropdown.show{ display:block; }
+.profile-item{
+  padding:12px 15px; font-size:13px; color:#555; cursor:pointer;
+  display:flex; align-items:center; gap:10px; transition:.2s;
+  border:none; background:none; width:100%; text-align:left;
+}
+.profile-item:hover{ background:#f5f5f5; color:#242242; }
+.profile-item i{ width:16px; font-size:13px; }
+
+/* main wrapper */
+.main-wrapper{
+  flex:1; padding:30px 120px 60px 120px;
+  display:flex; flex-direction:column; overflow:hidden;
+}
+
+/* breadcrumb */
+.breadcrumb{
+  display:flex; align-items:center; gap:8px;
+  font-size:13px; color:#666; cursor:pointer; margin-bottom:15px;
+}
+.breadcrumb i{ font-size:12px; }
+
+/* top bar */
+.top-bar{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:15px;
+}
+
+/* 3-dot menu */
+.menu-dots{ position:relative; margin-left:auto; }
+.dots-btn{
+  background:transparent; border:none; border-radius:4px; padding:6px 12px;
+  cursor:pointer; font-size:18px; color:#666; transition:.2s;
+}
+.dots-btn:hover{ background:#f5f5f5; color:#242242; }
+.dropdown-menu{
+  position:absolute; top:100%; right:0; margin-top:5px;
+  background:white; border:1px solid #d0d0d0; border-radius:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15); min-width:160px; display:none; z-index:100;
+}
+.dropdown-menu.show{ display:block; }
+.dropdown-item{
+  padding:10px 15px; font-size:13px; color:#555; cursor:pointer;
+  display:flex; align-items:center; gap:10px; transition:.2s;
+}
+.dropdown-item:hover{ background:#f5f5f5; color:#242242; }
+.dropdown-item i{ width:16px; font-size:13px; }
+
+/* main */
+.main{ display:flex; gap:11px; flex:1; overflow:hidden; }
+
+/* sidebar */
+.sidebar{
+  width:235px; background:#f3f3f3; border-radius:5px; padding:0px;
+  border:1px solid #d0d0d0; flex-shrink:0; position:sticky; top:0;
+  align-self:flex-start; max-height:calc(100vh - 160px);
+  overflow-y:auto; display:flex; flex-direction:column;
+}
+.sidebar-profile{
+  display:none; align-items:center; gap:10px; padding:16px 14px;
+  border-bottom:1px solid #e1e1e1; background:#ededed;
+}
+.sidebar-avatar{
+  width:38px; height:38px; border-radius:50%; background:#d9d9d9; color:#242242;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:13px; flex-shrink:0;
+}
+.sidebar-user h4{ margin:0; font-size:13px; color:#222; font-weight:700; }
+.sidebar-user p{ margin:2px 0 0; font-size:11px; color:#666; font-weight:500; }
+
+.menu-item{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:34px 14px; border-radius:6px; font-size:14.5px; color:#666;
+  cursor:pointer; transition:.2s; text-decoration:none; font-weight:600;
+}
+.menu-left{ display:flex; align-items:center; gap:12px; }
+.menu-item i{ width:20px; text-align:center; font-size:16px; }
+.menu-item:hover{ background:#e6e6e6; }
+.menu-item:hover .fa-chevron-right{
+  background:#bfc3c9; color:#666666; width:20px; height:20px;
+  display:flex; align-items:center; justify-content:center; border-radius:50%; font-size:10px;
+}
+.submenu-wrapper > .menu-item:not(.active):hover{ background:#e6e6e6; }
+
+.sidebar-menu{ flex:1; overflow-y:auto; scrollbar-width:none; -ms-overflow-style:none; }
+.sidebar-menu::-webkit-scrollbar{ display:none; width:0; height:0; }
+
+.menu-item-logout{
+  display:none; align-items:center; justify-content:center;
+  padding:16px 20px; border-radius:8px; font-size:15.5px; color:#222;
+  cursor:pointer; transition:all 0.2s ease; text-decoration:none;
+  background:#e4e6eb; border:1px solid #ced0d4; width:calc(100% - 28px);
+  text-align:center; margin-top:30px; margin-bottom:70px;
+  margin-left:14px; margin-right:14px; font-weight:700;
+}
+.menu-item-logout:hover{ background:#d8dadf; border-color:#bcc0c4; }
+.menu-item-logout i{ width:18px; text-align:center; }
+
+.menu-item.active{ background:#ffffff; color:rgb(40,32,32); border-radius:0px; }
+.menu-item.active i{ color:rgb(32,30,30); }
+.menu-item.active .fa-chevron-right{
+  background:#1a1a1a; color:#ffffff; width:20px; height:20px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:50%; font-size:10px; transform:rotate(0deg);
+}
+.menu-item.active.menu-submenu .fa-chevron-right{ transform:rotate(90deg); }
+.submenu-wrapper > .menu-item:hover .fa-chevron-right{ transform:rotate(90deg) !important; }
+
+.submenu-wrapper{ position:relative; }
+.submenu{ max-height:0; overflow:hidden; transition:max-height 0.3s ease; background:#e8e8e8; }
+.submenu-wrapper:hover .submenu{ max-height:300px; }
+.submenu-item{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 14px 18px 45px; font-size:12.5px; color:#555;
+  cursor:pointer; transition:.2s; text-decoration:none; border-left:3px solid transparent;
+}
+.submenu-item:hover{ background:#d8d8d8; }
+.submenu-item.active{ background:#ffffff; color:#242242; border-left-color:#242242; font-weight:500; }
+.submenu-item i{ font-size:8px; color:#999; }
+.submenu-item.active i{ color:#242242; }
+
+/* main content */
+.content{
+  flex:1; background:#ffffff; border-radius:4px; padding:0; border:none;
+  position:relative; overflow-y:hidden; overflow-x:hidden;
+  max-height:calc(100vh - 160px);
+}
+
+/* tabs */
+.tabs-wrapper{
+  display:flex; align-items:center; margin:0 0 15px 0;
+}
+.tabs-container{
+  display:flex; align-items:center; gap:8px; flex:1; overflow-x:auto;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  padding:0; border-bottom:none; border-top:none;
+}
+.tabs-container::-webkit-scrollbar{ display:none; }
+.tab-btn{
+  padding:12px 24px; background:transparent; border:1px solid #d0d0d0;
+  border-radius:1px 1px 0 0; font-size:13px; color:#666;
+  cursor:pointer; transition:.2s; font-weight:500;
+}
+.tab-btn:hover{ color:#444; background:#f5f5f5; }
+.tab-btn.active{ color:#242242; border-bottom:2px solid #242242; background:#fff; font-weight:600; }
+.tab-content{ display:none; padding:0; }
+.tab-content.active{ display:block; }
+
+/* tab panel wrapper */
+.tab-panel-wrapper{
+  border:1px solid #d0d0d0; border-radius:4px; padding:14px; position:relative;
+}
+
+.loading-bar{
+  position:absolute; top:38px; left:0; right:0; width:0;
+  height:2px; background:#3b82f6; transition:width 0.8s ease; z-index:5;
+}
+.loading-bar.active{ width:100%; }
+
+/* toolbar */
+.toolbar{ display:flex; align-items:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; position:sticky; top:0; z-index:6; background:#ffffff; padding-bottom:10px; }
+.search-box{ flex:1; min-width:250px; position:relative; }
+.search-box input{
+  width:100%; padding:10px 40px 10px 15px;
+  border:1px solid #d0d0d0; border-radius:4px; font-size:13px;
+}
+.search-box i{
+  position:absolute; right:15px; top:50%; transform:translateY(-50%);
+  color:#888; cursor:pointer;
+}
+.filter-select{
+  padding:10px 35px 10px 15px; border:1px solid #d0d0d0; border-radius:4px;
+  font-size:13px; background:#fff; cursor:pointer; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 10px center;
+}
+.btn-primary{
+  padding:10px 20px; background:#242242; color:white; border:none;
+  border-radius:4px; font-size:13px; cursor:pointer; font-weight:500; transition:.2s;
+}
+.btn-primary:hover{ background:#363454; }
+.refresh-btn{
+  padding:10px 12px; border:1px solid #d0d0d0; background:white;
+  border-radius:4px; cursor:pointer; transition:.2s;
+}
+.refresh-btn:hover{ background:#f5f5f5; }
+.refresh-btn:active{ transform:scale(0.95); }
+
+/* table */
+.table-container{ overflow:auto; margin-bottom:20px; position:relative; max-height:calc(100vh - 340px); }
+.data-table{ width:100%; border-collapse:collapse; font-size:12px; }
+.data-table th{
+  background:#f8f8f8; padding:12px 10px; text-align:left;
+  font-weight:600; color:#555; border-bottom:2px solid #d0d0d0;
+  white-space:nowrap; position:sticky; top:0; z-index:3;
+}
+.data-table td{ padding:12px 10px; border-bottom:1px solid #f0f0f0; }
+.data-table tbody tr:hover{ background:#fafafa; }
+.applicant-name{ font-weight:500; color:#333; display:block; margin-bottom:2px; }
+.applicant-email{ color:#888; font-size:11px; }
+
+.badge{ display:inline-block; padding:4px 10px; border-radius:3px; font-size:11px; font-weight:500; }
+.badge-pending{ background:#f5f5f5; color:#666; }
+.badge-approved{ background:#000; color:#fff; }
+
+/* pagination */
+.pagination{
+  display:flex; align-items:center; justify-content:flex-end;
+  margin-top:12px; gap:15px; font-size:13px; color:#666;
+  padding:8px 0 0 0; flex-shrink:0;
+}
+.pagination-controls{ display:flex; gap:5px; }
+.page-btn{
+  width:32px; height:32px; border:1px solid #d0d0d0; background:white;
+  border-radius:4px; cursor:pointer; display:flex; align-items:center;
+  justify-content:center; transition:.2s;
+  font-size:12px; color:#444; font-family:'Inter', sans-serif; font-weight:500;
+}
+.page-btn:hover{ background:#f0f0f0; }
+.page-btn.active{ background:#242242; color:white; border-color:#242242; }
+.page-btn:disabled{ opacity:0.4; cursor:not-allowed; }
+
+/* tab-specific pagination (hidden by default, shown when tab is active) */
+.tab-pagination{ display:none; }
+.tab-pagination.active{ display:flex; }
+
+/* footer */
+.footer{
+  background:#242242; color:white; text-align:center; padding:10px; font-size:9px;
+  position:fixed; left:0; bottom:0; width:100%; z-index:400;
+}
+
+/*
+   RESPONSIVE BREAKPOINTS */
+@media (max-width:1024px){
+  .main-wrapper{ padding:24px 32px 60px 32px; }
+  .main{ gap:8px; }
+  .sidebar{ width:220px; }
+  .content{ padding:14px; }
+  .top-bar{ gap:8px; }
+}
+
+@media (max-width:720px){
+  .header{ padding:10px 20px; gap:10px; flex-wrap:nowrap; }
+  .header img{ width:32px; height:32px; }
+  .header-text{ flex:1 1 auto; }
+  .header-text h1{ font-size:13px; line-height:1.2; }
+  .header-text p{ font-size:9px; }
+  .header-right{ display:none; }
+  .burger-btn{ display:flex; }
+  .main-wrapper{ padding:20px 16px 40px 16px; overflow:visible; }
+  .main{ position:relative; overflow:visible; }
+  .content{ max-height:none; }
+  .sidebar{
+    position:fixed; top:0; left:0; height:100vh;
+    width:min(320px,90vw); background:#f3f3f3;
+    transform:translateX(-110%); transition:transform 0.25s ease;
+    z-index:500; border-radius:0; border:none; max-height:100vh;
+  }
+  .sidebar-profile{ display:flex; flex-shrink:0; }
+  .sidebar-menu{ flex:1; overflow-y:auto; padding-bottom:0; }
+  .menu-item-logout{ display:flex; margin-bottom:20px; }
+  .sidebar.open{ transform:translateX(0); }
+  .sidebar-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.35);
+    opacity:0; pointer-events:none; transition:opacity 0.2s ease; z-index:450;
+  }
+  .sidebar-overlay.show{ opacity:1; pointer-events:auto; }
+  .footer{ padding:8px; font-size:9px; }
+  .tab-btn{ padding:10px 14px; font-size:12px; white-space:nowrap; flex-shrink:0; }
+  .menu-dots{ flex-shrink:0; }
+  .dots-btn{ padding:10px 14px; font-size:20px; min-width:44px; min-height:44px; }
+  .dropdown-menu{ position:fixed; z-index:1000; }
+}
+
+.ml-auto{
+  margin-left:auto;
+}
+
+.ml-16{
+  margin-left:16px;
+}
+
+/* MODALS  */
+.modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; z-index:1000; padding:20px; }
+.modal-backdrop.show{ display:flex; }
+.modal-content{ background:white; border-radius:8px; width:90%; max-width:520px; max-height:85vh; display:flex; flex-direction:column; box-shadow:0 10px 40px rgba(0,0,0,0.3); overflow:hidden; }
+.modal-content-wide{ max-width:660px; }
+.modal-content-xl{ max-width:900px; }
+.modal-header{ padding:20px 24px; border-bottom:1px solid #e0e0e0; display:flex; align-items:flex-start; justify-content:space-between; flex-shrink:0; gap:12px; }
+.modal-header h3{ margin:0; font-size:18px; color:#333; }
+.modal-header p{ margin:4px 0 0; font-size:12px; color:#888; }
+.modal-close{ width:32px; height:32px; border:none; background:#f5f5f5; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.2s; flex-shrink:0; }
+.modal-close:hover{ background:#e0e0e0; }
+.modal-body{ padding:24px; overflow-y:auto; flex:1; }
+.modal-footer{ padding:16px 24px; border-top:1px solid #e0e0e0; display:flex; gap:12px; justify-content:flex-end; flex-shrink:0; align-items:center; }
+.form-group{ margin-bottom:18px; }
+.form-group:last-child{ margin-bottom:0; }
+.form-group label{ display:block; margin-bottom:7px; font-size:13px; font-weight:600; color:#555; }
+.form-group input:not([type=checkbox]),.form-group select,.form-group textarea{ width:100%; padding:10px 12px; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; font-family:inherit; box-sizing:border-box; }
+.form-group input:not([type=checkbox]):focus,.form-group select:focus,.form-group textarea:focus{ outline:none; border-color:#242242; }
+.form-group textarea{ resize:vertical; min-height:70px; }
+.form-row-2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.form-row-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+.btn-secondary{ padding:10px 20px; background:#f5f5f5; color:#666; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; cursor:pointer; font-weight:500; transition:.2s; text-transform:uppercase; }
+.btn-secondary:hover{ background:#e0e0e0; }
+.btn-outline{ padding:10px 20px; background:white; color:#242242; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; cursor:pointer; font-weight:500; transition:.2s; display:inline-flex; align-items:center; gap:6px; }
+.btn-outline:hover{ background:#f5f5ff; border-color:#242242; }
+.modal-footer .btn-primary{ text-transform:uppercase; }
+
+/* auto-suggest */
+.suggest-stats{ display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+.sstat{ padding:10px 16px; background:#f8f8f8; border:1px solid #e8e8e8; border-radius:6px; font-size:12px; color:#555; flex:1; min-width:100px; text-align:center; }
+.sstat strong{ display:block; font-size:18px; color:#242242; margin-bottom:2px; }
+.sdept{ margin-bottom:14px; border:1px solid #e8e8e8; border-radius:6px; overflow:hidden; }
+.sdept-hdr{ display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:#f8f8f8; border-bottom:1px solid #e8e8e8; gap:10px; }
+.sdept-hdr h4{ margin:0; font-size:13px; color:#333; font-weight:700; }
+.sdept-hdr .sub{ font-size:11px; color:#888; margin-top:2px; }
+.dcnt{ font-size:11px; padding:4px 10px; border-radius:12px; font-weight:600; white-space:nowrap; }
+.dcnt-ok{ background:#e8f5e9; color:#2e7d32; }
+.dcnt-over{ background:#fff3e0; color:#f57c00; }
+.dcnt-under{ background:#fce4ec; color:#c62828; }
+.srow{ display:flex; align-items:center; gap:12px; padding:10px 16px; border-top:1px solid #f0f0f0; font-size:12px; }
+.srow:hover{ background:#fafafa; }
+.srow .si{ flex:1; min-width:0; }
+.srow .sn{ font-weight:600; color:#333; }
+.srow .sd{ color:#888; font-size:11px; margin-top:1px; }
+.ms{ font-size:10px; padding:3px 8px; border-radius:3px; font-weight:600; white-space:nowrap; }
+.ms-h{ background:#e8f5e9; color:#2e7d32; }
+.ms-m{ background:#fff3e0; color:#f57c00; }
+.ms-l{ background:#f5f5f5; color:#666; }
+.sacts{ display:flex; gap:5px; }
+.sa-btn{ width:28px; height:28px; border-radius:4px; border:1px solid #d0d0d0; background:white; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.15s; font-size:11px; }
+.sa-accept{ border-color:#4caf50; background:#e8f5e9; color:#2e7d32; }
+.sa-accept:hover,.sa-accept.on{ background:#4caf50; color:white; }
+.sa-reject{ border-color:#ef5350; background:#fce4ec; color:#c62828; }
+.sa-reject:hover,.sa-reject.on{ background:#ef5350; color:white; }
+.sempty{ padding:16px; text-align:center; color:#aaa; font-size:12px; font-style:italic; }
+
+.modal-body::-webkit-scrollbar{ width:4px; display:block; }
+.modal-body::-webkit-scrollbar-track{ background:transparent; }
+.modal-body::-webkit-scrollbar-thumb{ background:rgba(0,0,0,0.1); border-radius:4px; }
+
+/* solicitation suggest button */
+.sol-suggest-btn{ padding:6px 14px; background:#f5f5ff; color:#242242; border:1px solid #d0d0d0; border-radius:4px; font-size:11px; cursor:pointer; font-weight:500; transition:.15s; display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
+.sol-suggest-btn:hover{ background:#242242; color:white; border-color:#242242; }
+
+/* deployment inline assignment select */
+.dep-assign-select{ padding:6px 28px 6px 8px; border:1px solid transparent; border-radius:4px; font-size:12px; font-family:inherit; background:transparent; cursor:pointer; min-width:140px; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 9L1 4h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 8px center; transition:.15s; }
+.dep-assign-select:hover{ border-color:#d0d0d0; background-color:#fafafa; }
+.dep-assign-select:focus{ outline:none; border-color:#242242; background-color:#fff; }
+
+/* highlight rows without assignment */
+.no-assignment{ background:#fff8e1 !important; }
+.no-assignment:hover{ background:#fff3cd !important; }
+.dep-assign-select.unassigned{ color:#c62828; font-weight:600; font-style:italic; }
+
+/* batch badge */
+.batch-badge{ display:inline-block; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:600; }
+.batch-0{ background:#ffebee; color:#c62828; font-style:italic; }
+.batch-1{ background:#e3f2fd; color:#1565c0; }
+.batch-2{ background:#f3e5f5; color:#7b1fa2; }
+.batch-3{ background:#e8f5e9; color:#2e7d32; }
+
+/* no-batch highlight */
+.no-batch{ background:#fce4ec !important; }
+.no-batch:hover{ background:#f8bbd0 !important; }
+
+/* student search inside suggest modal */
+.suggest-search-box{ position:relative; margin-bottom:16px; }
+.suggest-search-box input{ width:100%; padding:10px 40px 10px 15px; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; font-family:inherit; }
+.suggest-search-box input:focus{ outline:none; border-color:#242242; }
+.suggest-search-box i{ position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#888; }
+
+/* student search results list */
+.suggest-search-results{ max-height:220px; overflow-y:auto; border:1px solid #e8e8e8; border-radius:6px; margin-bottom:16px; display:none; }
+.suggest-search-results.show{ display:block; }
+.ssr-item{ display:flex; align-items:center; gap:12px; padding:10px 16px; border-bottom:1px solid #f0f0f0; font-size:12px; cursor:pointer; transition:.15s; }
+.ssr-item:last-child{ border-bottom:none; }
+.ssr-item:hover{ background:#f5f5ff; }
+.ssr-item .si{ flex:1; min-width:0; }
+.ssr-item .sn{ font-weight:600; color:#333; }
+.ssr-item .sd{ color:#888; font-size:11px; margin-top:1px; }
+.ssr-add-btn{ padding:5px 12px; background:#e8f5e9; color:#2e7d32; border:1px solid #4caf50; border-radius:4px; font-size:11px; cursor:pointer; font-weight:600; transition:.15s; white-space:nowrap; }
+.ssr-add-btn:hover{ background:#4caf50; color:white; }
+
+/* swap/replace indicator */
+.srow-swap{ background:#fff8e1; border-left:3px solid #f57c00; }
+.swap-label{ font-size:10px; color:#f57c00; font-weight:600; text-transform:uppercase; margin-left:6px; }
+
+/* solicitation highlight for unfilled/empty rows */
+.sol-unfilled{ background:#fff8e1 !important; }
+.sol-unfilled:hover{ background:#fff3cd !important; }
+.sol-empty{ background:#fce4ec !important; }
+.sol-empty:hover{ background:#f8bbd0 !important; }
+.sol-overfilled{ background:#f3e5f5 !important; }
+.sol-overfilled:hover{ background:#e1bee7 !important; }
+.sol-status-badge{ display:inline-block; padding:3px 8px; border-radius:12px; font-size:10px; font-weight:600; }
+.sol-status-full{ background:#e8f5e9; color:#2e7d32; }
+.sol-status-partial{ background:#fff3e0; color:#f57c00; }
+.sol-status-empty{ background:#ffebee; color:#c62828; }
+.sol-status-overfilled{ background:#f3e5f5; color:#7b1fa2; }
+
+/* ═══ EXTRACTED FROM INLINE STYLES ═══ */
+.text-center{ text-align:center; }
+.cursor-pointer{ cursor:pointer; }
+
+/* suggest footer info */
+#suggestFooterInfo{ flex:1; font-size:13px; color:#555; }
+
+/* bulk batch note box */
+#bulkBatchNote{ margin-bottom:16px; padding:12px 14px; background:#f0f4ff; border:1px solid #d0d8f0; border-radius:6px; font-size:12px; color:#444; line-height:1.6; }
+.info-icon-blue{ color:#3b82f6; margin-right:6px; }
+.batch-mapping{ margin-top:8px; display:flex; gap:10px; flex-wrap:wrap; }
+.batch-badge-lg{ padding:4px 12px; }
+
+/* bulk batch count & skip */
+#bulkBatchCount{ font-size:13px; color:#555; margin:14px 0 0; }
+#bulkBatchSkipInfo{ flex:1; font-size:12px; color:#888; }
+
+/* form select full-width */
+.form-select-full{ width:100%; padding:12px 15px; font-size:14px; }
+
+/* export column controls */
+.export-col-all-wrap{ margin-bottom:8px; }
+.export-col-all-label{ display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; cursor:pointer; user-select:none; }
+.cb-accent{ accent-color:#242242; width:16px; height:16px; }
+.cb-accent-sm{ accent-color:#242242; width:15px; height:15px; }
+#exportColContainer{ display:grid; grid-template-columns:1fr 1fr; gap:8px 16px; max-height:160px; overflow-y:auto; padding:10px 12px; border:1px solid #e0e0e0; border-radius:8px; background:#fafafa; }
+.export-col-label{ display:inline-flex; align-items:center; gap:6px; font-size:12px; cursor:pointer; user-select:none; }
+
+/* batch table inline elements */
+.syend-text{ font-size:11px; }
+.no-date-text{ color:#c62828; font-style:italic; }
+.batch-inline-select{ padding:6px 28px 6px 8px; font-size:12px; }
+
+/* auto-assign preview */
+.preview-header{ font-size:13px; font-weight:600; margin-bottom:8px; }
+.preview-header-ok{ color:#333; }
+.preview-header-err{ color:#c62828; }
+.icon-ok{ color:#2e7d32; margin-right:6px; }
+.icon-warn{ margin-right:6px; }
+.preview-scroll{ max-height:180px; overflow-y:auto; border:1px solid #e0e0e0; border-radius:6px; margin-bottom:14px; }
+.preview-scroll-err{ max-height:120px; overflow-y:auto; border:1px solid #ffcdd2; border-radius:6px; background:#fff5f5; }
+.preview-table{ font-size:11px; margin:0; }
+.conflict-row{ background:#fff5f5; }
+.conflict-text{ color:#c62828; font-size:10px; font-weight:600; }
+
+/* solicitation value colors */
+.sol-row{ cursor:pointer; }
+.sol-val-overfilled{ color:#7b1fa2; }
+.sol-val-full{ color:#2e7d32; }
+.sol-val-empty{ color:#c62828; }
+.sol-val-partial{ color:#f57c00; }
+
+/* suggest modal compact stats */
+.suggest-stats-compact{ margin:0; flex-wrap:nowrap; }
+.suggest-actions-wrap{ display:flex; gap:10px; align-items:center; }
+.sstat-min{ min-width:80px; }
+
+/* pagination ellipsis */
+.pagination-ellipsis{ padding:6px 8px; display:inline-block; }
+.ssr-listed{ font-size:11px; color:#888; font-weight:500; }
+
+/* per-dept search in suggest */
+.sdept-search-box{ position:relative; min-width:200px; flex:1; max-width:280px; }
+.sdept-search-box input{ width:100%; padding:10px 40px 10px 15px; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; font-family:inherit; box-sizing:border-box; }
+.sdept-search-box input:focus{ outline:none; border-color:#242242; }
+.sdept-search-box i{ position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#888; font-size:13px; pointer-events:none; }
+.sdept-search-results{ max-height:200px; overflow-y:auto; margin-top:6px; border:1px solid #e8e8e8; border-radius:6px; background:#fafafa; }
+.sdept-search-results:empty{ display:none; }
+.sdept-search-results .ssr-item{ display:flex; align-items:center; justify-content:space-between; padding:10px 14px; border-bottom:1px solid #f0f0f0; gap:10px; }
+.sdept-search-results .ssr-item:last-child{ border-bottom:none; }
+.sdept-search-results .ssr-item:hover{ background:#f0f4ff; }
+
+/* batch settings */
+.batch-settings-grid{ display:grid; gap:14px; }
+.batch-setting-row{ display:flex; align-items:center; gap:12px; padding:12px 14px; background:#f8f8f8; border:1px solid #e8e8e8; border-radius:6px; }
+.batch-setting-row .batch-badge{ min-width:70px; text-align:center; }
+.batch-setting-label{ flex:1; font-size:13px; color:#333; font-weight:500; }
+.batch-setting-select{ padding:8px 30px 8px 10px; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; font-family:inherit; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; background-color:#fff; cursor:pointer; }
+.batch-setting-select:focus{ outline:none; border-color:#242242; }
+.batch-count-input{ width:60px; padding:8px 10px; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; text-align:center; font-family:inherit; }
+.batch-count-input:focus{ outline:none; border-color:#242242; }
+.batch-total-info{ padding:12px 14px; background:#f0f4ff; border:1px solid #d0d8f0; border-radius:6px; font-size:12px; color:#444; line-height:1.6; display:flex; align-items:center; gap:8px; }
+.batch-total-info strong{ color:#242242; font-size:16px; }
+
+/* batch color picker */
+.batch-color-wrap{ display:flex; gap:6px; align-items:center; }
+.batch-color-swatch{ width:26px; height:26px; border-radius:50%; border:2px solid #d0d0d0; cursor:pointer; transition:.2s; flex-shrink:0; }
+.batch-color-swatch:hover{ transform:scale(1.15); border-color:#888; }
+.batch-color-swatch.active{ border-color:#242242; box-shadow:0 0 0 2px rgba(36,34,66,0.3); }
+.batch-color-swatch.taken{ opacity:0.25; cursor:not-allowed; pointer-events:none; position:relative; }
+.batch-color-swatch.taken::after{ content:'\d7'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:14px; color:#888; font-weight:bold; }
+.batch-badge-custom{ display:inline-block; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:600; cursor:pointer; transition:.2s; min-width:70px; text-align:center; }
+.batch-badge-custom:hover{ opacity:0.85; }
+.batch-date-input{ padding:8px 10px; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; font-family:inherit; cursor:pointer; }
+.batch-date-input:focus{ outline:none; border-color:#242242; }
+.batch-end-display{ font-size:12px; color:#555; background:#f0f4ff; padding:5px 10px; border-radius:4px; border:1px solid #d0d8f0; white-space:nowrap; }
+
+/* ═══ Batch Calendar ═══ */
+#batchSettingsModal .modal-content{ max-width:640px; }
+#batchSettingsModal .modal-body{ max-height:82vh; overflow-y:auto; padding:14px; }
+.bcal-batch-card{ background:#f8f8f8; border:1px solid #e0e0e0; border-radius:8px; overflow:hidden; transition:.2s; }
+.bcal-batch-card.expanded{ border-color:#242242; box-shadow:0 2px 12px rgba(36,34,66,0.1); background:#fff; }
+.bcal-batch-header{ display:flex; align-items:center; gap:10px; padding:10px 14px; cursor:pointer; transition:.15s; }
+.bcal-batch-header:hover{ background:#f0f0f0; }
+.bcal-batch-card.expanded .bcal-batch-header{ background:#fafafa; border-bottom:1px solid #e8e8e8; }
+.bcal-date-info{ display:flex; align-items:center; gap:8px; font-size:12px; color:#555; }
+.bcal-date-label{ display:flex; align-items:center; gap:4px; white-space:nowrap; }
+.bcal-day-counter{ display:inline-block; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:600; white-space:nowrap; }
+.bcal-container{ padding:10px 14px; background:#fff; }
+.bcal-month-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.bcal-month-header h4{ margin:0; font-size:14px; color:#333; font-weight:600; min-width:150px; text-align:center; }
+.bcal-nav-btn{ width:28px; height:28px; border:1px solid #d0d0d0; background:#fff; border-radius:0; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.2s; font-size:11px; color:#555; }
+.bcal-nav-btn:hover{ background:#f0f0f0; border-color:#aaa; }
+.bcal-weekdays{ display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:4px; }
+.bcal-weekday{ text-align:center; font-size:10px; font-weight:600; color:#999; padding:4px 0; text-transform:uppercase; }
+.bcal-weekday.wkend{ color:#ddd; }
+.bcal-days-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+.bcal-cell{ display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:13px; border-radius:0; cursor:pointer; transition:all .15s; border:1px solid transparent; position:relative; aspect-ratio:1; background:transparent; user-select:none; }
+.bcal-cell.empty{ background:transparent; cursor:default; pointer-events:none; }
+.bcal-cell.weekend{ color:#ddd; background:transparent; cursor:default; pointer-events:none; }
+.bcal-cell.today{ border-color:#242242; font-weight:700; }
+.bcal-cell.selected{ font-weight:600; }
+.bcal-cell.start-day{ font-weight:700; }
+.bcal-cell:not(.empty):not(.weekend):hover{ background:#f0f0f0; }
+.bcal-cell-num{ font-size:13px; font-weight:inherit; line-height:1; }
+.bcal-cell-icon{ font-size:7px; margin-top:1px; }
+.bcal-info{ display:flex; align-items:center; gap:8px; margin-top:6px; padding:6px 10px; background:#f8f8f8; border-radius:0; border:1px solid #eee; flex-wrap:wrap; }
+.bcal-legend{ display:flex; gap:14px; flex-wrap:wrap; }
+.bcal-legend-item{ display:flex; align-items:center; gap:5px; font-size:11px; color:#666; }
+.bcal-legend-dot{ width:10px; height:10px; border-radius:0; flex-shrink:0; }
+.bcal-day-counter-lg{ font-size:13px; color:#333; font-weight:500; }
+.bcal-hint{ margin-top:4px; font-size:10px; color:#aaa; line-height:1.4; }
+.bcal-hint i{ margin-right:3px; color:#bbb; }
+.bcal-reset-btn{ display:inline-flex; align-items:center; gap:4px; padding:4px 10px; border:1px solid #e0e0e0; background:#fff; border-radius:4px; font-size:11px; color:#888; cursor:pointer; transition:.2s; margin-left:8px; }
+.bcal-reset-btn:hover{ background:#fff0f0; border-color:#e57373; color:#c62828; }
+
+/* ═══ Confirm Modal ═══ */
+.confirm-panel{ width:min(420px,90vw); background:#fff; border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,0.2); text-align:center; padding:30px 24px 24px; border:1px solid #d0d0d0; }
+.confirm-icon{ width:56px; height:56px; border-radius:50%; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:24px; }
+.confirm-icon.danger{ background:#fce4ec; color:#c62828; }
+.confirm-icon.info{ background:#e3f2fd; color:#1565c0; }
+.confirm-icon.success{ background:#e8f5e9; color:#2e7d32; }
+.confirm-icon.warning{ background:#fff3e0; color:#e65100; }
+#confirmTitle{ margin:0 0 8px; font-size:16px; color:#333; }
+#confirmText{ margin:0 0 20px; font-size:13px; color:#666; line-height:1.6; white-space:pre-line; }
+.confirm-actions{ display:flex; gap:10px; justify-content:center; }
+.btn-cancel{ padding:10px 20px; background:#f5f5f5; color:#555; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; cursor:pointer; font-weight:500; transition:.2s; }
+.btn-cancel:hover{ background:#eee; }
+
+/* ═══ Toast Notifications ═══ */
+.toast-container{ position:fixed; bottom:20px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
+.toast{ min-width:300px; max-width:450px; padding:14px 18px; border-radius:8px; background:#fff; box-shadow:0 4px 16px rgba(0,0,0,0.15); display:flex; align-items:flex-start; gap:10px; font-size:13px; border-left:4px solid #333; animation:toastIn .3s ease; line-height:1.5; }
+.toast.success{ border-left-color:#2e7d32; }
+.toast.success i{ color:#2e7d32; }
+.toast.error{ border-left-color:#c62828; }
+.toast.error i{ color:#c62828; }
+.toast.info{ border-left-color:#1565c0; }
+.toast.info i{ color:#1565c0; }
+.toast.warning{ border-left-color:#e65100; }
+.toast.warning i{ color:#e65100; }
+.toast i{ margin-top:2px; flex-shrink:0; font-size:16px; }
+.toast span{ flex:1; }
+.toast-close{ background:none; border:none; color:#aaa; cursor:pointer; font-size:14px; padding:0; margin-left:8px; transition:.2s; flex-shrink:0; }
+.toast-close:hover{ color:#333; }
+@keyframes toastIn{ from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+
+/* ═══ Inline style replacements ═══ */
+.sempty-pad{ padding:12px 14px; }
+.ssr-si{ flex:1; }
+.ssr-sn{ font-weight:600; font-size:13px; }
+.ssr-sd{ font-size:11px; color:#777; margin-top:2px; }
+.batch-count-label{ flex:none; margin-left:auto; }
+.batch-settings-grid-mt{ margin-top:14px; }
+.bcal-arrow-icon{ font-size:10px; color:#aaa; }
+.bcal-chevron{ color:#888; font-size:12px; margin-left:auto; }
+.batch-color-picker-inner{ padding:8px 14px; display:none; gap:6px; flex-wrap:wrap; align-items:center; background:#fafafa; border-top:1px solid #e8e8e8; }
+.batch-color-label{ font-size:11px; color:#888; font-weight:500; margin-right:4px; }
+.bcal-legend-weekend{ background:repeating-linear-gradient(45deg,#f9f9f9,#f9f9f9 2px,#eee 2px,#eee 4px); border:1px solid #ccc; }
+.bcal-start-icon{ font-size:8px; }
+.bcal-day-counter-lg{ font-size:13px; color:#333; font-weight:500; margin-left:auto; }
+
+/* ═══ Mobile Responsive ═══ */
+@media (max-width:480px){
+  .header{ padding:8px 12px; gap:8px; }
+  .header img{ width:28px; height:28px; }
+  .header-text h1{ font-size:11px; }
+  .header-text p{ font-size:8px; }
+
+  .main-wrapper{ padding:12px 8px 45px 8px; }
+
+  .tabs-container{ gap:0; }
+  .tab-btn{ padding:8px 12px; font-size:11px; white-space:nowrap; flex-shrink:0; }
+  .menu-dots{ flex-shrink:0; }
+  .dots-btn{ padding:10px 14px; font-size:20px; min-width:44px; min-height:44px; }
+  .dropdown-menu{ position:fixed; z-index:1000; }
+
+  .tab-panel-wrapper{ padding:10px 8px; }
+
+  .toolbar{ gap:6px; }
+  .search-box{ min-width:0; flex:1; }
+  .search-box input{ padding:8px 35px 8px 10px; font-size:12px; }
+  .filter-select{ padding:8px 28px 8px 8px; font-size:11px; }
+  .btn-primary{ padding:8px 14px; font-size:12px; }
+  .btn-outline{ padding:8px 12px; font-size:11px; }
+  .btn-secondary{ padding:8px 14px; font-size:12px; }
+  .refresh-btn{ padding:8px 10px; }
+
+  .data-table{ font-size:11px; }
+  .data-table th{ padding:8px 6px; font-size:10px; }
+  .data-table td{ padding:8px 6px; }
+
+  .pagination{ gap:8px; font-size:11px; flex-wrap:wrap; justify-content:center; }
+  .page-btn{ width:28px; height:28px; font-size:11px; }
+  .page-size-select{ font-size:11px; }
+
+  /* Modals */
+  .modal-backdrop{ padding:10px; }
+  .modal-content{ width:95%; max-height:90vh; }
+  .modal-content-wide{ max-width:95vw; }
+  .modal-content-xl{ max-width:95vw; }
+  .modal-header{ padding:14px 16px; }
+  .modal-header h3{ font-size:15px; }
+  .modal-body{ padding:14px 16px; }
+  .modal-footer{ padding:12px 16px; gap:8px; }
+
+  /* Batch Settings Calendar */
+  #batchSettingsModal .modal-content{ max-width:95vw; }
+  .bcal-batch-header{ flex-wrap:wrap; gap:8px; padding:10px 12px; }
+  .bcal-date-info{ font-size:11px; gap:6px; }
+  .bcal-container{ padding:8px 10px; }
+  .bcal-cell{ height:32px; font-size:11px; }
+  .bcal-cell-num{ font-size:11px; }
+  .bcal-month-header h4{ font-size:13px; min-width:130px; }
+  .bcal-nav-btn{ width:26px; height:26px; }
+  .bcal-info{ flex-direction:column; align-items:flex-start; gap:6px; }
+  .bcal-day-counter-lg{ margin-left:0; }
+
+  /* Suggest Modal */
+  .sdept-hdr{ flex-direction:column; align-items:flex-start; }
+  .suggest-actions-wrap{ width:100%; flex-wrap:wrap; gap:6px; }
+  .sdept-search-box{ width:100%; }
+  .suggest-stats-compact{ gap:6px; }
+  .sstat-min{ font-size:10px; }
+  .srow{ flex-wrap:wrap; gap:6px; }
+
+  /* Export Modal */
+  #exportColContainer{ grid-template-columns:1fr; }
+  .form-row-2{ grid-template-columns:1fr; }
+
+  /* Confirm Modal */
+  .confirm-panel{ width:95vw; padding:24px 16px 20px; }
+
+  /* Toast */
+  .toast-container{ bottom:10px; right:10px; left:10px; }
+  .toast{ min-width:0; width:100%; font-size:12px; padding:10px 14px; }
+
+  /* Footer */
+  .footer{ font-size:8px; padding:6px; }
+
+}
+
+
+/* Tablet intermediate fixes */
+@media (max-width:720px){
+  .toolbar{ flex-wrap:wrap; }
+  .search-box{ min-width:0; flex:1 1 100%; }
+  .modal-content-wide{ max-width:95vw; }
+  #batchSettingsModal .modal-content{ max-width:95vw; }
+  .form-row-2{ grid-template-columns:1fr; }
+}
+@media(max-width:720px){.breadcrumb{display:none;}}
+
+/* Force-hide icons in alert/notif UI for consistency */
+.toast i, .confirm-icon i, .notification i{ display:none !important; }
+
+.notif-badge{display:inline-block;min-width:18px;padding:1px 6px;margin-left:6px;border-radius:999px;background:#d32f2f;color:#fff;font-size:11px;line-height:16px;text-align:center;font-weight:700;vertical-align:middle;}
+</style>
+</head>
+
+<body>
+<!-- header -->
+<div class="header">
+
+<button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="spesLogo.png" alt="SPES Logo">
+
+<div class="header-text">
+  <h1>Special Program for the Employment of Students</h1>
+  <p>SPES Beneficiaries Management Information System</p>
+</div>
+
+<div class="header-right">
+  <div class="user-info" id="userInfo">
+    <strong>Louraine A. Pecayo</strong><br>
+    Coordinator
+  </div>
+  <div class="profile-menu">
+    <div class="avatar" id="profileBtn">LP</div>
+    <div class="profile-dropdown" id="profileDropdown">
+      <button class="profile-item" onclick="goToSettings()">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+      </button>
+      <button class="profile-item" onclick="confirmLogout()">
+        <i class="fa-solid fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- main wrapper -->
+<div class="main-wrapper">
+
+<!-- top bar -->
+<div class="top-bar">
+  <div class="breadcrumb">
+    <i class="fa-solid fa-house"></i>
+    <span>Back ></span>
+  </div>
+</div>
+
+<!-- main -->
+<div class="main">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- sidebar -->
+<div class="sidebar">
+
+  <div class="sidebar-profile">
+    <div class="sidebar-avatar">LP</div>
+    <div class="sidebar-user">
+      <h4>Louraine A. Pecayo</h4>
+      <p>Coordinator</p>
+    </div>
+  </div>
+
+  <div class="sidebar-menu">
+
+<a href="aDashboard.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-house"></i>
+    Dashboard
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="aNewSPES.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-user-plus"></i>
+    New SPES
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<div class="submenu-wrapper">
+  <a href="aSpesRegistration.html" class="menu-item menu-submenu">
+    <div class="menu-left">
+      <i class="fa-solid fa-briefcase"></i>
+      SPES Management
+    </div>
+    <i class="fa-solid fa-chevron-right"></i>
+  </a>
+  <div class="submenu">
+    <a href="aSpesRegistration.html" class="submenu-item">
+      <span>SPES Registration</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="aSpesBene.html" class="submenu-item">
+      <span>SPES Beneficiaries</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="aSpesAccounts.html" class="submenu-item">
+      <span>SPES Accounts</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="aSpesAR.html" class="submenu-item">
+      <span>Accomplishment Report</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+  </div>
+</div>
+
+<a href="aDeployment.html" class="menu-item active">
+  <div class="menu-left">
+    <i class="fa-solid fa-check-square"></i>
+    Deployment
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="aTeamAcc.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-users"></i>
+    Team Accounts
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="aSettings.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-gear"></i>
+    Settings
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+    <button class="menu-item-logout" onclick="confirmLogout()">Log Out</button>
+
+  </div>
+</div>
+
+<!-- main content -->
+<div class="content">
+
+<!-- tabs + 3-dot menu -->
+<div class="tabs-wrapper">
+<div class="tabs-container">
+  <button class="tab-btn active" data-tab="solicitation">Solicitation</button>
+  <button class="tab-btn" data-tab="student-deployment">Student Deployment</button>
+  <button class="tab-btn" data-tab="batch-management">Batch Management</button>
+</div>
+
+  <div class="menu-dots">
+    <button class="dots-btn" id="menuDotsBtn">
+      <i class="fa-solid fa-ellipsis"></i>
+    </button>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="dropdown-item" onclick="importExcel()">
+        <i class="fa-solid fa-file-import"></i>
+        Import Excel
+      </div>
+      <div class="dropdown-item" onclick="exportExcel()">
+        <i class="fa-solid fa-file-export"></i>
+        Export Current Tab as CSV
+      </div>
+      <div class="dropdown-item" onclick="exportCurrentTabPDF()">
+        <i class="fa-solid fa-file-pdf"></i>
+        Export Current Tab as PDF
+      </div>
+      <div class="dropdown-item" onclick="openExportModal()">
+        <i class="fa-solid fa-download"></i>
+        Download Options...
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Solicitation Tab ─── -->
+<div class="tab-content active" id="solicitation">
+  <div class="tab-panel-wrapper">
+
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" placeholder="Search here..." id="solSearchInput">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <button class="refresh-btn" id="refreshBtn">
+        <i class="fa-solid fa-rotate-right"></i>
+      </button>
+      <select class="filter-select" id="solSourceFilter">
+        <option value="">All Source</option>
+        <option value="Online">Online</option>
+        <option value="Walk-in">Walk-in</option>
+      </select>
+      <select class="filter-select" id="solBatchFilter">
+        <option value="">All Batch</option>
+        <option value="1">Batch 1</option>
+        <option value="2">Batch 2</option>
+        <option value="3">Batch 3</option>
+      </select>
+      <button class="btn-primary" onclick="openModal('addSolModal')">Add Solicitation</button>
+      <select id="solPageSizeTop" class="filter-select" title="Page size">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="300" selected>300</option>
+        <option value="all">All</option>
+      </select>
+    </div>
+
+    <div class="table-container">
+      <div class="loading-bar" id="loadingBar"></div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>DEPARTMENT/OFFICE</th>
+            <th>TOTAL NO. OF STUDENTS</th>
+            <th>ASSIGNED</th>
+            <th>FEMALE</th>
+            <th>MALE</th>
+            <th>PREFERRED COURSES</th>
+            <th>FUNCTIONS/DUTIES</th>
+            <th>DEPARTMENT HEAD</th>
+            <th>STATUS</th>
+            <th class="text-center">ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody id="solTbody"></tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── Student Deployment Tab ─── -->
+<div class="tab-content" id="student-deployment">
+  <div class="tab-panel-wrapper">
+
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" placeholder="Search here..." id="depSearchInput">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <button class="refresh-btn" id="refreshBtn2">
+        <i class="fa-solid fa-rotate-right"></i>
+      </button>
+      <select class="filter-select" id="depBrgyFilter" onchange="renderDepTable()">
+        <option value="">All District</option>
+        <option>MAKILING</option><option>BANADERO</option><option>REAL</option>
+        <option>PARIAN</option><option>CANLUBANG</option><option>MAJADA</option>
+        <option>HALANG</option><option>PACIANO RIZAL</option><option>BUCAL</option>
+        <option>NIUGAN</option>
+      </select>
+      <select class="filter-select" id="depBatchFilter" onchange="renderDepTable()">
+        <option value="">All Batch</option>
+        <option value="0">No Batch</option>
+        <option value="1">Batch 1</option>
+        <option value="2">Batch 2</option>
+        <option value="3">Batch 3</option>
+      </select>
+      <button class="btn-outline" onclick="openSuggestModal()"><i class="fa-solid fa-wand-magic-sparkles"></i> Auto Suggest</button>
+      <select id="depPageSizeTop" class="filter-select" title="Page size">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="300" selected>300</option>
+        <option value="all">All</option>
+      </select>
+    </div>
+
+    <div class="table-container">
+      <div class="loading-bar" id="loadingBar2"></div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>SPES ID NO.</th>
+            <th>BATCH</th>
+            <th>NAME</th>
+            <th>COURSE/STRAND</th>
+            <th>DISTRICT</th>
+            <th>START</th>
+            <th>END</th>
+            <th>ASSIGNMENT</th>
+          </tr>
+        </thead>
+        <tbody id="depTbody"></tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── Batch Management Tab ─── -->
+<div class="tab-content" id="batch-management">
+  <div class="tab-panel-wrapper">
+
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" placeholder="Search here..." id="batchSearchInput">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <button class="refresh-btn" id="refreshBtn3">
+        <i class="fa-solid fa-rotate-right"></i>
+      </button>
+      <select class="filter-select" id="batchFilterBatch" onchange="renderBatchTable()">
+        <option value="">All Batch</option>
+        <option value="0">No Batch</option>
+        <option value="1">Batch 1</option>
+        <option value="2">Batch 2</option>
+        <option value="3">Batch 3</option>
+      </select>
+      <select class="filter-select" id="batchFilterBrgy" onchange="renderBatchTable()">
+        <option value="">All District</option>
+        <option>MAKILING</option><option>BANADERO</option><option>REAL</option>
+        <option>PARIAN</option><option>CANLUBANG</option><option>MAJADA</option>
+        <option>HALANG</option><option>PACIANO RIZAL</option><option>BUCAL</option>
+        <option>NIUGAN</option>
+      </select>
+      <button class="btn-primary" onclick="bulkAssignBatch()"><i class="fa-solid fa-layer-group"></i> Assign Batch</button>
+      <button class="btn-outline" onclick="openBatchSettings()"><i class="fa-solid fa-gear"></i> Settings</button>
+      <select id="batchPageSizeTop" class="filter-select" title="Page size">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="300" selected>300</option>
+        <option value="all">All</option>
+      </select>
+    </div>
+
+    <div class="table-container">
+      <div class="loading-bar" id="loadingBar3"></div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>SPES ID NO.</th>
+            <th>NAME</th>
+            <th>COURSE/STRAND</th>
+            <th>DISTRICT</th>
+            <th>CURRENT BATCH</th>
+            <th>SCHOOL YEAR END</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody id="batchTbody"></tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- end .content -->
+
+</div><!-- end .main -->
+
+<!-- ─── Solicitation Pagination ─── -->
+<div class="pagination tab-pagination active" id="solPagination">
+  <div id="solResultsInfo">Showing results 0 - 0</div>
+  <div class="pagination-controls" id="solPaginationControls"></div>
+  <div class="ml-16">
+    <select id="solPageSizeBot" class="filter-select" title="Page size">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="300" selected>300</option>
+      <option value="all">All</option>
+    </select>
+  </div>
+</div>
+
+<!-- ─── Student Deployment Pagination ─── -->
+<div class="pagination tab-pagination" id="depPagination">
+  <div id="depResultsInfo">Showing results 0 - 0</div>
+  <div class="pagination-controls" id="depPaginationControls"></div>
+  <div class="ml-16">
+    <select id="depPageSizeBot" class="filter-select" title="Page size">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="300" selected>300</option>
+      <option value="all">All</option>
+    </select>
+  </div>
+</div>
+
+<!-- ─── Batch Management Pagination ─── -->
+<div class="pagination tab-pagination" id="batchPagination">
+  <div id="batchResultsInfo">Showing results 0 - 0</div>
+  <div class="pagination-controls" id="batchPaginationControls"></div>
+  <div class="ml-16">
+    <select id="batchPageSizeBot" class="filter-select" title="Page size">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="300" selected>300</option>
+      <option value="all">All</option>
+    </select>
+  </div>
+</div>
+
+</div><!-- end .main-wrapper -->
+
+<!-- ═══ Add Solicitation Modal ═══ -->
+<div class="modal-backdrop" id="addSolModal">
+  <div class="modal-content modal-content-wide">
+    <div class="modal-header">
+      <div><h3>Add Solicitation</h3><p>Add a new department request for SPES students</p></div>
+      <button class="modal-close" onclick="closeModal('addSolModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Department / Office</label>
+        <input type="text" id="solDept" placeholder="e.g. City Hall – Admin Office">
+      </div>
+      <div class="form-row-3">
+        <div class="form-group"><label>Total Students</label><input type="number" id="solTotal" min="0" value="0"></div>
+        <div class="form-group"><label>Female</label><input type="number" id="solFemale" min="0" value="0"></div>
+        <div class="form-group"><label>Male</label><input type="number" id="solMale" min="0" value="0"></div>
+      </div>
+      <div class="form-group">
+        <label>Preferred Course/s</label>
+        <input type="text" id="solCourseInput" placeholder="e.g. BSIT, BSN">
+      </div>
+      <div class="form-group">
+        <label>Functions / Duties</label>
+        <textarea id="solFuncDuty" placeholder="Describe the expected functions or duties..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Department Head</label>
+        <input type="text" id="solHeadName" placeholder="Full Name">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('addSolModal')">CANCEL</button>
+      <button class="btn-primary" onclick="submitSolicitation()">ADD SOLICITATION</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Add Deployment (Manual) Modal ═══ -->
+<div class="modal-backdrop" id="addDepModal">
+  <div class="modal-content modal-content-wide">
+    <div class="modal-header">
+      <div><h3>Add Deployment</h3><p>Manually assign a student to a department</p></div>
+      <button class="modal-close" onclick="closeModal('addDepModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row-2">
+        <div class="form-group"><label>SPES ID No.</label><input type="text" id="depSpesId" placeholder="e.g. 2026-001"></div>
+        <div class="form-group"><label>Batch</label><select id="depBatch"><option value="1">Batch 1</option><option value="2">Batch 2</option><option value="3">Batch 3</option></select></div>
+      </div>
+      <div class="form-group">
+        <label>Student Name</label>
+        <input type="text" id="depStudentName" placeholder="LAST NAME, FIRST NAME M.I.">
+      </div>
+      <div class="form-row-2">
+        <div class="form-group"><label>Course / Strand</label><input type="text" id="depCourse" placeholder="e.g. BSIT"></div>
+        <div class="form-group"><label>District</label><input type="text" id="depDistrict" placeholder="e.g. MAKILING"></div>
+      </div>
+      <div class="form-group">
+        <label>Assignment (Department)</label>
+        <select id="depAssignment">
+          <option value="">Select department...</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('addDepModal')">CANCEL</button>
+      <button class="btn-primary" onclick="submitDeployment()">ADD DEPLOYMENT</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Auto Suggest Modal ═══ -->
+<div class="modal-backdrop" id="suggestModal">
+  <div class="modal-content modal-content-xl">
+    <div class="modal-header">
+      <div><h3>Auto Suggest Deployment</h3><p>System-generated student assignments based on solicitation requests</p></div>
+      <button class="modal-close" onclick="closeModal('suggestModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body" id="suggestBody">
+      <!-- search box added dynamically -->
+    </div>
+    <div class="modal-footer">
+      <span id="suggestFooterInfo"></span>
+      <button class="btn-secondary" onclick="closeModal('suggestModal')">CANCEL</button>
+      <button class="btn-primary" onclick="confirmSuggestions()">CONFIRM SELECTED</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Bulk Assign Batch Modal ═══ -->
+<div class="modal-backdrop" id="bulkBatchModal">
+  <div class="modal-content modal-content-wide">
+    <div class="modal-header">
+      <div><h3>Auto Assign Batch</h3><p>Automatically assign batch based on School Year End date</p></div>
+      <button class="modal-close" onclick="closeModal('bulkBatchModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div id="bulkBatchNote">
+        <i class="fa-solid fa-circle-info info-icon-blue"></i>
+        <strong>How it works:</strong> The system automatically assigns batches to students <strong>without a batch</strong> based on their School Year End date:
+        <div class="batch-mapping" id="bulkBatchMapping"></div>
+      </div>
+      <div id="bulkBatchPreview"></div>
+      <p id="bulkBatchCount"></p>
+    </div>
+    <div class="modal-footer">
+      <span id="bulkBatchSkipInfo"></span>
+      <button class="btn-secondary" onclick="closeModal('bulkBatchModal')">CANCEL</button>
+      <button class="btn-primary" id="bulkBatchConfirmBtn" onclick="confirmBulkBatch()"><i class="fa-solid fa-layer-group"></i> ASSIGN BATCH</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Export Options Modal ═══ -->
+<div class="modal-backdrop" id="exportModal">
+  <div class="modal-content modal-content-wide">
+    <div class="modal-header">
+      <div><h3>Export / Download</h3><p>Choose what data to export and format</p></div>
+      <button class="modal-close" onclick="closeModal('exportModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Export Data</label>
+        <select id="exportType" class="filter-select form-select-full" onchange="updateExportColumns()">
+          <option value="current">Current Tab</option>
+          <option value="solicitation">Solicitation</option>
+          <option value="assignment">Student Deployment (Assignment per Student)</option>
+          <option value="batch">Batch List (Batch per Student)</option>
+          <option value="both">Both (Assignment + Batch)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Filter by Batch (optional)</label>
+        <select id="exportBatchFilter" class="filter-select form-select-full">
+          <option value="">All Batches</option>
+          <option value="0">No Batch Only</option>
+          <option value="1">Batch 1 Only</option>
+          <option value="2">Batch 2 Only</option>
+          <option value="3">Batch 3 Only</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Columns to Export</label>
+        <div class="export-col-all-wrap">
+          <label class="export-col-all-label">
+            <input type="checkbox" id="exportColAll" checked onchange="toggleAllExportCols(this.checked)" class="cb-accent"> Select All
+          </label>
+        </div>
+        <div id="exportColContainer"></div>
+      </div>
+      <div class="form-group">
+        <label>File Format</label>
+        <select id="exportFormat" class="filter-select form-select-full">
+          <option value="csv">CSV (Spreadsheet)</option>
+          <option value="pdf">PDF (Document)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('exportModal')">CANCEL</button>
+      <button class="btn-primary" onclick="doExport()"><i class="fa-solid fa-download"></i> DOWNLOAD</button>
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+<div class="footer">
+Copyright © 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Confirm Modal -->
+<div class="modal-backdrop" id="confirmModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon info" id="confirmIcon"><i class="fa-solid fa-question"></i></div>
+    <h3 id="confirmTitle">Confirm</h3>
+    <p id="confirmText">Are you sure?</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn-primary" id="confirmActionBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!--Batch Settings Modal-->
+<div class="modal-backdrop" id="batchSettingsModal">
+  <div class="modal-content modal-content-wide">
+    <div class="modal-header">
+      <div><h3>Batch Settings</h3><p>Configure the number of batches, start dates, and colors</p></div>
+      <button class="modal-close" onclick="closeModal('batchSettingsModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body" id="batchSettingsBody"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('batchSettingsModal')">CANCEL</button>
+      <button class="btn-primary" onclick="saveBatchSettings()">SAVE SETTINGS</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Sidebar & menu ──
+const items = document.querySelectorAll('.menu-item');
+items.forEach(item=>{
+  item.addEventListener('click',()=>{
+    items.forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+// ── Tab switching (with pagination toggle) ──
+const tabBtns    = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const tabName = btn.getAttribute('data-tab');
+    tabBtns.forEach(b=>b.classList.remove('active'));
+    tabContents.forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabName).classList.add('active');
+
+    // Toggle paginations
+    document.getElementById('solPagination').classList.toggle('active', tabName==='solicitation');
+    document.getElementById('depPagination').classList.toggle('active', tabName==='student-deployment');
+    document.getElementById('batchPagination').classList.toggle('active', tabName==='batch-management');
+  });
+});
+
+// ── Refresh buttons ──
+document.getElementById('refreshBtn').addEventListener('click',()=>{
+  const bar = document.getElementById('loadingBar');
+  bar.classList.add('active'); setTimeout(()=>bar.classList.remove('active'),800);
+});
+document.getElementById('refreshBtn2').addEventListener('click',()=>{
+  const bar = document.getElementById('loadingBar2');
+  bar.classList.add('active'); setTimeout(()=>bar.classList.remove('active'),800);
+});
+document.getElementById('refreshBtn3').addEventListener('click',()=>{
+  const bar = document.getElementById('loadingBar3');
+  bar.classList.add('active'); setTimeout(()=>bar.classList.remove('active'),800);
+});
+
+// ── Mobile sidebar ──
+const burgerBtn      = document.getElementById('burgerBtn');
+const sidebar        = document.querySelector('.sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+if(burgerBtn && sidebar && sidebarOverlay){
+  burgerBtn.addEventListener('click',()=>{ sidebar.classList.toggle('open'); sidebarOverlay.classList.toggle('show'); });
+  sidebarOverlay.addEventListener('click',()=>{ sidebar.classList.remove('open'); sidebarOverlay.classList.remove('show'); });
+}
+</script>
+
+<script>
+// ── Dropdowns ──
+const menuDotsBtn     = document.getElementById('menuDotsBtn');
+const dropdownMenu    = document.getElementById('dropdownMenu');
+const profileBtn      = document.getElementById('profileBtn');
+const userInfo        = document.getElementById('userInfo');
+const profileDropdown = document.getElementById('profileDropdown');
+
+if(menuDotsBtn) menuDotsBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  dropdownMenu.classList.toggle('show');
+  if(dropdownMenu.classList.contains('show')){
+    const rect = menuDotsBtn.getBoundingClientRect();
+    const isMobile = window.innerWidth <= 720;
+    if(isMobile){
+      dropdownMenu.style.position = 'fixed';
+      dropdownMenu.style.top = rect.bottom + 4 + 'px';
+      dropdownMenu.style.right = (window.innerWidth - rect.right) + 'px';
+      dropdownMenu.style.left = 'auto';
+    } else {
+      dropdownMenu.style.position = '';
+      dropdownMenu.style.top = '';
+      dropdownMenu.style.right = '';
+      dropdownMenu.style.left = '';
+    }
+  }
+});
+if(profileBtn)  profileBtn.addEventListener('click', e=>{ e.stopPropagation(); profileDropdown.classList.toggle('show'); });
+if(userInfo)    userInfo.addEventListener('click',   e=>{ e.stopPropagation(); profileDropdown.classList.toggle('show'); });
+document.addEventListener('click',()=>{
+  if(dropdownMenu)    dropdownMenu.classList.remove('show');
+  if(profileDropdown) profileDropdown.classList.remove('show');
+});
+
+function goToSettings(){ window.location.href='cSettings.html'; }
+function confirmLogout(){
+  showConfirm('Logout','Are you sure you want to logout?','danger','Logout','btn-primary',()=>{ window.location.href='login.html'; });
+}
+function importExcel(){
+  const input=document.createElement('input'); input.type='file'; input.accept='.xlsx,.xls,.csv';
+  input.onchange=e=>{ const f=e.target.files[0]; if(f) showToast('File imported: '+f.name,'success'); };
+  input.click(); dropdownMenu.classList.remove('show');
+}
+function exportExcel(){
+  dropdownMenu.classList.remove('show');
+  // Quick export current tab as CSV
+  const table=document.querySelector('.tab-content.active .data-table');
+  if(!table){ showToast('No data to export.','error'); return; }
+  let csv=[];
+  table.querySelectorAll('tr').forEach(row=>{
+    let r=[]; row.querySelectorAll('th,td').forEach(col=>r.push('"'+col.innerText.replace(/"/g,'""')+'"'));
+    csv.push(r.join(','));
+  });
+  const activeTab = document.querySelector('.tab-btn.active');
+  const tabName = activeTab ? activeTab.textContent.trim().replace(/\s+/g,'_') : 'export';
+  downloadCSV(csv.join('\n'), tabName+'_'+Date.now()+'.csv');
+}
+
+function openExportModal(){
+  dropdownMenu.classList.remove('show');
+  openModal('exportModal');
+  updateExportColumns();
+}
+
+// ═══ COLUMN SELECTION FOR EXPORT ═══
+const exportColumnDefs = {
+  solicitation: ['DEPARTMENT/OFFICE','TOTAL NO. OF STUDENTS','ASSIGNED','FEMALE','MALE','PREFERRED COURSES','FUNCTIONS/DUTIES','DEPARTMENT HEAD','STATUS'],
+  assignment: ['SPES ID','NAME','COURSE/STRAND','DISTRICT','ASSIGNMENT'],
+  batch: ['SPES ID','NAME','COURSE/STRAND','DISTRICT','BATCH','SCHOOL YEAR END'],
+  both: ['SPES ID','NAME','COURSE/STRAND','DISTRICT','BATCH','SCHOOL YEAR END','ASSIGNMENT']
+};
+
+function getActiveTabColumns(){
+  const table=document.querySelector('.tab-content.active .data-table');
+  if(!table) return [];
+  const cols=[];
+  table.querySelectorAll('thead th').forEach(th=>{
+    const t=th.innerText.trim();
+    if(t && t.toUpperCase()!=='ACTIONS') cols.push(t);
+  });
+  return cols;
+}
+
+function updateExportColumns(){
+  const type = document.getElementById('exportType').value;
+  let cols = type==='current' ? getActiveTabColumns() : (exportColumnDefs[type]||[]);
+  const container = document.getElementById('exportColContainer');
+  container.innerHTML = '';
+  cols.forEach((col, idx)=>{
+    const lbl = document.createElement('label');
+    lbl.className = 'export-col-label';
+    lbl.innerHTML = '<input type="checkbox" class="export-col-cb cb-accent-sm" value="'+idx+'" checked onchange="syncExportColAll()"> '+col;
+    container.appendChild(lbl);
+  });
+  document.getElementById('exportColAll').checked = true;
+}
+
+function toggleAllExportCols(checked){
+  document.querySelectorAll('.export-col-cb').forEach(cb=>cb.checked=checked);
+}
+function syncExportColAll(){
+  const all = document.querySelectorAll('.export-col-cb');
+  const checked = document.querySelectorAll('.export-col-cb:checked');
+  document.getElementById('exportColAll').checked = all.length===checked.length;
+}
+
+function exportCurrentTabPDF(){
+  dropdownMenu.classList.remove('show');
+  const table=document.querySelector('.tab-content.active .data-table');
+  if(!table){ showToast('No data to export.','error'); return; }
+  const activeTab = document.querySelector('.tab-btn.active');
+  const tabName = activeTab ? activeTab.textContent.trim() : 'Export';
+  generatePDFFromTable(table, tabName);
+}
+
+function getSelectedColIndices(){
+  const cbs = document.querySelectorAll('.export-col-cb:checked');
+  if(!cbs.length){ showToast('Please select at least one column.','error'); return null; }
+  return Array.from(cbs).map(cb=>parseInt(cb.value));
+}
+
+function filterByColumns(headers, rows, indices){
+  const fHeaders = indices.map(i=>headers[i]);
+  const fRows = rows.map(row=>indices.map(i=>row[i]));
+  return { headers:fHeaders, rows:fRows };
+}
+
+function doExport(){
+  const type = document.getElementById('exportType').value;
+  const batchF = document.getElementById('exportBatchFilter').value;
+  const format = document.getElementById('exportFormat').value;
+  const selCols = getSelectedColIndices();
+  if(!selCols) return;
+
+  if(type==='current'){
+    const table=document.querySelector('.tab-content.active .data-table');
+    if(!table){ showToast('No data to export.','error'); return; }
+    const activeTab = document.querySelector('.tab-btn.active');
+    const tabName = activeTab ? activeTab.textContent.trim() : 'Export';
+    // Extract headers (excluding ACTIONS)
+    let allHeaders=[];
+    table.querySelectorAll('thead th').forEach(th=>{
+      const t=th.innerText.trim();
+      if(t.toUpperCase()!=='ACTIONS') allHeaders.push(t);
+    });
+    let allRows=[];
+    table.querySelectorAll('tbody tr').forEach(tr=>{
+      const row=[];
+      const tds=tr.querySelectorAll('td');
+      allHeaders.forEach((_,ci)=>{ row.push(tds[ci]?tds[ci].innerText.trim():''); });
+      if(row.length) allRows.push(row);
+    });
+    const {headers:fH, rows:fR} = filterByColumns(allHeaders, allRows, selCols);
+    if(format==='pdf'){
+      generatePDFFromData(fH, fR, tabName);
+    } else {
+      let csv=[fH.map(h=>'"'+h+'"').join(',')];
+      fR.forEach(r=>csv.push(r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')));
+      downloadCSV(csv.join('\n'), tabName.replace(/\s+/g,'_')+'_'+Date.now()+'.csv');
+    }
+    closeModal('exportModal');
+    return;
+  }
+
+  // Solicitation export
+  if(type==='solicitation'){
+    let allHeaders = ['DEPARTMENT/OFFICE','TOTAL NO. OF STUDENTS','ASSIGNED','FEMALE','MALE','PREFERRED COURSES','FUNCTIONS/DUTIES','DEPARTMENT HEAD','STATUS'];
+    let allRows = solRecordsData.map(r=>{
+      const isOverfilled = r.assigned > r.total;
+      const isFull = r.assigned === r.total;
+      const isEmpty = r.assigned === 0;
+      let statusLabel = '';
+      if(isEmpty) statusLabel = 'Empty';
+      else if(isOverfilled) statusLabel = 'Overfilled';
+      else if(isFull) statusLabel = 'Full';
+      else statusLabel = 'Partial';
+      return [r.dept, r.total, r.assigned, r.female, r.male, r.course, r.func_, r.head, r.assigned+'/'+r.total+' \u2022 '+statusLabel];
+    });
+    const {headers:fH, rows:fR} = filterByColumns(allHeaders, allRows, selCols);
+    const fileLabel = 'Solicitation';
+    if(format==='pdf'){
+      generatePDFFromData(fH, fR, fileLabel);
+    } else {
+      let csv=[fH.map(h=>'"'+h+'"').join(',')];
+      fR.forEach(r=>csv.push(r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')));
+      downloadCSV(csv.join('\n'), fileLabel+'_'+Date.now()+'.csv');
+    }
+    closeModal('exportModal');
+    return;
+  }
+
+  // Filter records for deployment/batch
+  let records = depState.records;
+  if(batchF) records = records.filter(r=>String(r.batch)===batchF);
+
+  let allHeaders=[], allRows=[];
+  if(type==='assignment'){
+    allHeaders=['SPES ID','NAME','COURSE/STRAND','DISTRICT','ASSIGNMENT'];
+    allRows = records.map(r=>[r.spesId, r.name, r.course, r.barangay, r.assignment||'Unassigned']);
+  } else if(type==='batch'){
+    allHeaders=['SPES ID','NAME','COURSE/STRAND','DISTRICT','BATCH','SCHOOL YEAR END'];
+    allRows = records.map(r=>{
+      const bLabel = r.batch > 0 ? 'Batch '+r.batch : 'No Batch';
+      const bRec = batchState.records.find(br=>br.id===r.id);
+      const syEnd = bRec && bRec.schoolYearEnd ? bRec.schoolYearEnd : '';
+      return [r.spesId, r.name, r.course, r.barangay, bLabel, syEnd];
+    });
+  } else {
+    allHeaders=['SPES ID','NAME','COURSE/STRAND','DISTRICT','BATCH','SCHOOL YEAR END','ASSIGNMENT'];
+    allRows = records.map(r=>{
+      const bLabel = r.batch > 0 ? 'Batch '+r.batch : 'No Batch';
+      const bRec = batchState.records.find(br=>br.id===r.id);
+      const syEnd = bRec && bRec.schoolYearEnd ? bRec.schoolYearEnd : '';
+      return [r.spesId, r.name, r.course, r.barangay, bLabel, syEnd, r.assignment||'Unassigned'];
+    });
+  }
+
+  const {headers:fH, rows:fR} = filterByColumns(allHeaders, allRows, selCols);
+  const fileLabel = type==='assignment'?'Student_Deployment':type==='batch'?'Batch_List':'Batch_Assignment';
+
+  if(format==='pdf'){
+    generatePDFFromData(fH, fR, fileLabel.replace(/_/g,' '));
+  } else {
+    let csv=[fH.map(h=>'"'+h+'"').join(',')];
+    fR.forEach(r=>csv.push(r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')));
+    downloadCSV(csv.join('\n'), fileLabel+'_'+Date.now()+'.csv');
+  }
+  closeModal('exportModal');
+}
+
+function downloadCSV(content, filename){
+  const blob=new Blob([content],{type:'text/csv;charset=utf-8;'});
+  const url=window.URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=filename; a.click();
+  window.URL.revokeObjectURL(url);
+}
+
+//  PDF GENERATION (using print window) 
+function generatePDFFromTable(table, title){
+  const headers=[];
+  const rows=[];
+  table.querySelectorAll('thead th').forEach(th=>headers.push(th.innerText.trim()));
+  table.querySelectorAll('tbody tr').forEach(tr=>{
+    const row=[];
+    tr.querySelectorAll('td').forEach(td=>row.push(td.innerText.trim()));
+    if(row.length) rows.push(row);
+  });
+  generatePDFFromData(headers, rows, title);
+}
+
+function generatePDFFromData(headers, rows, title){
+  const win = window.open('','_blank');
+  if(!win){ showToast('Please allow pop-ups to download PDF.','warning'); return; }
+  const tableHTML = '<table>'
+    +'<thead><tr>'+headers.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead>'
+    +'<tbody>'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</tbody>'
+    +'</table>';
+  win.document.write(`<!DOCTYPE html><html><head><title>${title} - E-SPES</title><style>
+    *{box-sizing:border-box;font-family:'Segoe UI','Inter',Arial,sans-serif;}
+    body{margin:20px 30px;color:#222;}
+    .pdf-header{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+    .pdf-header h1{margin:0;font-size:18px;color:#242242;}
+    .pdf-header p{margin:2px 0 0;font-size:11px;color:#666;}
+    .pdf-title{font-size:16px;font-weight:700;color:#333;margin:16px 0 4px;}
+    .pdf-meta{font-size:11px;color:#888;margin-bottom:14px;}
+    table{width:100%;border-collapse:collapse;font-size:11px;}
+    th{background:#242242;color:white;padding:8px 10px;text-align:left;font-weight:600;font-size:10px;letter-spacing:0.3px;}
+    td{padding:7px 10px;border-bottom:1px solid #e0e0e0;}
+    tr:nth-child(even){background:#f9f9f9;}
+    tr:hover{background:#f0f0f0;}
+    .pdf-footer{margin-top:20px;font-size:9px;color:#aaa;text-align:center;border-top:1px solid #e0e0e0;padding-top:10px;}
+    @media print{body{margin:10px 15px;}.pdf-footer{position:fixed;bottom:10px;left:0;right:0;}}
+  
+/* Force-hide icons in alert/notif UI for consistency */
+.toast i, .confirm-icon i, .notification i{ display:none !important; }
+
+.notif-badge{display:inline-block;min-width:18px;padding:1px 6px;margin-left:6px;border-radius:999px;background:#d32f2f;color:#fff;font-size:11px;line-height:16px;text-align:center;font-weight:700;vertical-align:middle;}
+</style></head><body>
+  <div class="pdf-header"><div><h1>E-SPES Deployment</h1><p>Special Program for the Employment of Students</p></div></div>
+  <div class="pdf-title">${title}</div>
+  <div class="pdf-meta">Generated: ${new Date().toLocaleDateString('en-PH',{year:'numeric',month:'long',day:'numeric'})} &bull; Total Records: ${rows.length}</div>
+  ${tableHTML}
+  <div class="pdf-footer">Copyright © 2026 City College of Calamba. All rights Reserved. &bull; E-SPES System</div>
+  </body></html>`);
+  win.document.close();
+  setTimeout(()=>{ win.print(); }, 500);
+}
+</script>
+
+<script>
+//  PAGINATION FACTORY (reusable for both tabs)//
+function makePagination({ records, tbodyId, pageSizeTopId, pageSizeBotId, resultsInfoId, paginationControlsId, localStorageKey }){
+
+  const tbody              = document.getElementById(tbodyId);
+  const pageSizeSelectTop  = document.getElementById(pageSizeTopId);
+  const pageSizeSelectBot  = document.getElementById(pageSizeBotId);
+  const resultsInfo        = document.getElementById(resultsInfoId);
+  const paginationControls = document.getElementById(paginationControlsId);
+
+  const savedSize = localStorage.getItem(localStorageKey) || '300';
+  let currentPage = 1;
+  let pageSize    = savedSize;
+
+  function setPageSizeValue(val){
+    if(pageSizeSelectTop) pageSizeSelectTop.value = val;
+    if(pageSizeSelectBot) pageSizeSelectBot.value = val;
+    localStorage.setItem(localStorageKey, val);
+    pageSize = val;
+  }
+
+  function renderTable(){
+    const effectiveSize = (pageSize==='all') ? records.length : parseInt(pageSize,10);
+    const totalPages    = Math.max(1, Math.ceil(records.length / effectiveSize));
+    if(currentPage > totalPages) currentPage = totalPages;
+
+    const start = (currentPage-1) * effectiveSize;
+    const end   = Math.min(start + effectiveSize, records.length);
+    const slice = records.slice(start, end);
+
+    tbody.innerHTML = slice.map(r => r.html).join('');
+
+    const total       = records.length;
+    const displayFrom = total===0 ? 0 : start+1;
+    const displayTo   = total===0 ? 0 : end;
+    resultsInfo.textContent = `Showing results ${displayFrom} - ${displayTo} of ${total}`;
+
+    renderPagination(totalPages);
+  }
+
+  function createBtn(label, disabled, onClick, isActive){
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (isActive ? ' active' : '');
+    if(disabled) btn.disabled = true;
+    btn.innerHTML = label;
+    btn.addEventListener('click', onClick);
+    return btn;
+  }
+
+  function renderPagination(totalPages){
+    paginationControls.innerHTML = '';
+
+    paginationControls.appendChild(
+      createBtn('<i class="fa-solid fa-chevron-left"></i>', currentPage===1,
+        ()=>{ if(currentPage>1){ currentPage--; renderTable(); } })
+    );
+
+    if(totalPages <= 10){
+      for(let p=1; p<=totalPages; p++)
+        paginationControls.appendChild(createBtn(p, false, ()=>{ currentPage=p; renderTable(); }, p===currentPage));
+    } else {
+      const addPage = p => paginationControls.appendChild(
+        createBtn(p, false, ()=>{ currentPage=p; renderTable(); }, p===currentPage)
+      );
+      const addEllipsis = () => {
+        const e=document.createElement('span'); e.className='pagination-ellipsis'; e.textContent='...';
+        paginationControls.appendChild(e);
+      };
+      addPage(1);
+      if(currentPage>4) addEllipsis();
+      const s=Math.max(2,currentPage-2), f=Math.min(totalPages-1,currentPage+2);
+      for(let p=s; p<=f; p++) addPage(p);
+      if(currentPage<totalPages-3) addEllipsis();
+      addPage(totalPages);
+    }
+
+    paginationControls.appendChild(
+      createBtn('<i class="fa-solid fa-chevron-right"></i>', currentPage===totalPages,
+        ()=>{ if(currentPage<totalPages){ currentPage++; renderTable(); } })
+    );
+  }
+
+  if(pageSizeSelectTop) pageSizeSelectTop.addEventListener('change',()=>{ currentPage=1; setPageSizeValue(pageSizeSelectTop.value); renderTable(); });
+  if(pageSizeSelectBot) pageSizeSelectBot.addEventListener('change',()=>{ currentPage=1; setPageSizeValue(pageSizeSelectBot.value); renderTable(); });
+
+  setPageSizeValue(savedSize);
+  renderTable();
+}
+
+//  SOLICITATION — 300 records//
+const solRecordsData = [];
+(function(){
+  const departments = [
+    'DISTRICT MAKILING HEALTH CENTER','CITY HALL – ADMIN OFFICE','IT DEPARTMENT',
+    'CITY LIBRARY','RECORDS OFFICE','HR DEPARTMENT','FINANCE OFFICE',
+    'ENGINEERING OFFICE','SOCIAL WELFARE OFFICE','MAYOR\'S OFFICE',
+    'PLANNING AND DEVELOPMENT','CITY TREASURER\'S OFFICE','LEGAL OFFICE',
+    'CITY HEALTH OFFICE','DISASTER RISK REDUCTION OFFICE'
+  ];
+  const courses = ['NURSING','BSIT','BS ENGINEERING','BS ACCOUNTANCY','BSED','BS COMPUTER SCIENCE'];
+  const functions_ = ['NURSING','IT SUPPORT','ENGINEERING','ACCOUNTING','TEACHING','ADMIN WORK','DATA ENTRY','FILING & RECORDS'];
+  const heads = ['KENNETCH VERDARA','JOSE DELA CRUZ','MARIA SANTOS','ANNA REYES','MARK TORRES','CARLO FLORES','RYAN GARCIA'];
+
+  const records = [];
+  for(let i=1; i<=300; i++){
+    const dept   = departments[i % departments.length];
+    const total  = 3 + (i % 8);
+    const female = Math.floor(total * 0.6);
+    const male   = total - female;
+    const course = courses[i % courses.length];
+    const func_  = functions_[i % functions_.length];
+    const head   = heads[i % heads.length];
+    // Simulate assigned count: some depts are full, some partial, some empty, some overfilled
+    let assigned;
+    if(i % 5 === 0) assigned = 0; // Empty
+    else if(i % 7 === 0) assigned = total + Math.floor(total * 0.5); // Overfilled
+    else if(i % 3 === 0) assigned = total; // Full
+    else assigned = Math.floor(total * 0.4); // Partial
+    solRecordsData.push({dept,total,female,male,course,func_,head,assigned});
+    const isOverfilled = assigned > total;
+    const isFull = assigned === total;
+    const isEmpty = assigned === 0;
+    let rowCls = '';
+    let statusBadgeCls = '';
+    let statusLabel = '';
+    if(isEmpty) {
+      rowCls = 'sol-empty';
+      statusBadgeCls = 'sol-status-empty';
+      statusLabel = 'Empty';
+    } else if(isOverfilled) {
+      rowCls = 'sol-overfilled';
+      statusBadgeCls = 'sol-status-overfilled';
+      statusLabel = 'Overfilled';
+    } else if(isFull) {
+      rowCls = '';
+      statusBadgeCls = 'sol-status-full';
+      statusLabel = 'Full';
+    } else {
+      rowCls = 'sol-unfilled';
+      statusBadgeCls = 'sol-status-partial';
+      statusLabel = 'Partial';
+    }
+    const solValCls = isEmpty ? 'sol-val-empty' : (isOverfilled ? 'sol-val-overfilled' : (isFull ? 'sol-val-full' : 'sol-val-partial'));
+    records.push({
+      html:`<tr class="sol-row ${rowCls}" onclick="suggestForDept(${i-1})">
+        <td>${dept}</td>
+        <td>${total}</td>
+        <td><strong class="${solValCls}">${assigned}</strong></td>
+        <td>${female}</td>
+        <td>${male}</td>
+        <td>${course}</td>
+        <td>${func_}</td>
+        <td>${head}</td>
+        <td><span class="sol-status-badge ${statusBadgeCls}">${assigned}/${total} • ${statusLabel}</span></td>
+        <td class="text-center"><button class="sol-suggest-btn" onclick="event.stopPropagation();suggestForDept(${i-1})"><i class="fa-solid fa-wand-magic-sparkles"></i> Suggest</button></td>
+      </tr>`
+    });
+  }
+
+  makePagination({
+    records,
+    tbodyId:              'solTbody',
+    pageSizeTopId:        'solPageSizeTop',
+    pageSizeBotId:        'solPageSizeBot',
+    resultsInfoId:        'solResultsInfo',
+    paginationControlsId: 'solPaginationControls',
+    localStorageKey:      'sol_pageSize'
+  });
+})();
+
+//  STUDENT DEPLOYMENT — 300 records (mutable)// 
+const depState = { records:[], currentPage:1, pageSize:'300' };
+
+function addBusinessDays(date, days){
+  const d = new Date(date);
+  let added = 0;
+  while(added < days){ d.setDate(d.getDate()+1); if(d.getDay()!==0 && d.getDay()!==6) added++; }
+  return d;
+}
+function fmtDate(d){ if(!d) return '—'; const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return m[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear(); }
+const deptOptions = [
+  'City Hall','Library','IT Office','Records Office','HR Department',
+  'Finance Office','Engineering Office','Health Center','Mayor\'s Office',
+  'Social Welfare','DISTRICT MAKILING HEALTH CENTER','CITY HALL – ADMIN OFFICE',
+  'IT DEPARTMENT','CITY LIBRARY','PLANNING AND DEVELOPMENT'
+];
+
+(function initDeployment(){
+  const firstNames  = ['JUAN','MARIA','JOSE','ANA','CARLO','ROSA','MARK','NINA','LUIS','GRACE','RYAN','CLAIRE','JAMES','LIZA','KEVIN'];
+  const lastNames   = ['DELA CRUZ','REYES','SANTOS','GARCIA','TORRES','FLORES','RAMOS','MENDOZA','CASTRO','BAUTISTA','AQUINO','SALAZAR','LOPEZ','HERNANDEZ','VILLANUEVA'];
+  const courses     = ['BSIT','BSCS','BSN','BS ENGINEERING','BS ACCOUNTANCY','BSED'];
+  const barangays   = ['MAKILING','BANADERO','REAL','PARIAN','CANLUBANG','MAJADA','HALANG','PACIANO RIZAL','BUCAL','NIUGAN'];
+  const assignments = ['City Hall','Library','IT Office','Records Office','HR Department','Finance Office','Engineering Office','Health Center','Mayor\'s Office','Social Welfare'];
+  const years       = [2024, 2025, 2026];
+
+  for(let i=1; i<=300; i++){
+    const ln       = lastNames[i % lastNames.length];
+    const fn       = firstNames[i % firstNames.length];
+    const mi       = String.fromCharCode(65+(i%26));
+    const name     = `${ln}, ${fn} ${mi}.`;
+    const year     = years[i % years.length];
+    const spesId   = `${year}-${String(1000+i).slice(1)}`;
+    const batch    = (i % 4 === 0) ? 0 : ((i % 3) + 1);
+    const course   = courses[i % courses.length];
+    const barangay = barangays[i % barangays.length];
+    // ~25% have NO assignment (highlighted)
+    const hasAssignment = !(i%4===0 || i%13===0);
+    const assignment = hasAssignment ? assignments[i % assignments.length] : '';
+    // Start date based on batch (Mon-Fri, 20 working days)
+    let startDate = null, endDate = null;
+    if(batch > 0){
+      const batchStarts = { 1: new Date(2026,2,2), 2: new Date(2026,3,6), 3: new Date(2026,4,4) };
+      const base = batchStarts[batch] || new Date(2026,2,2);
+      startDate = new Date(base);
+      // Slight offset per student within batch (vary by a few days)
+      const offset = (i % 5);
+      if(offset > 0){ startDate = addBusinessDays(base, offset); }
+      endDate = addBusinessDays(startDate, 20);
+    }
+    depState.records.push({ id:i, spesId, batch, name, course, barangay, assignment, startDate, endDate });
+  }
+
+  const saved = localStorage.getItem('dep_pageSize') || '300';
+  depState.pageSize = saved;
+  const pst = document.getElementById('depPageSizeTop');
+  const psb = document.getElementById('depPageSizeBot');
+  if(pst) pst.value = saved;
+  if(psb) psb.value = saved;
+  if(pst) pst.addEventListener('change',()=>{ depState.currentPage=1; depState.pageSize=pst.value; if(psb)psb.value=pst.value; localStorage.setItem('dep_pageSize',pst.value); renderDepTable(); });
+  if(psb) psb.addEventListener('change',()=>{ depState.currentPage=1; depState.pageSize=psb.value; if(pst)pst.value=psb.value; localStorage.setItem('dep_pageSize',psb.value); renderDepTable(); });
+
+  renderDepTable();
+})();
+
+function buildAssignSelect(recordId, current){
+  let opts = '<option value=""' + (!current?' selected':'') + '>-- Unassigned --</option>';
+  deptOptions.forEach(d=>{
+    opts += '<option value="'+d+'"'+(d===current?' selected':'')+'>'+d+'</option>';
+  });
+  const cls = current ? 'dep-assign-select' : 'dep-assign-select unassigned';
+  return '<select class="'+cls+'" onchange="updateAssignment('+recordId+',this.value)">'+opts+'</select>';
+}
+
+function renderDepTable(){
+  const brgyFilter = document.getElementById('depBrgyFilter').value;
+  const batchFilter = document.getElementById('depBatchFilter').value;
+  let filtered = depState.records;
+  if(brgyFilter) filtered = filtered.filter(r=>r.barangay===brgyFilter);
+  if(batchFilter) filtered = filtered.filter(r=>String(r.batch)===batchFilter);
+
+  const ps = depState.pageSize==='all' ? filtered.length : parseInt(depState.pageSize,10);
+  const tp = Math.max(1, Math.ceil(filtered.length/ps));
+  if(depState.currentPage>tp) depState.currentPage=tp;
+  const start = (depState.currentPage-1)*ps;
+  const end   = Math.min(start+ps, filtered.length);
+  const slice = filtered.slice(start, end);
+
+  const tbody = document.getElementById('depTbody');
+  tbody.innerHTML = slice.map(r=>{
+    const noAssign = r.assignment==='';
+    const noBatch = r.batch===0;
+    let rowCls = '';
+    if(noAssign && noBatch) rowCls = ' class="no-assignment"';
+    else if(noAssign) rowCls = ' class="no-assignment"';
+    else if(noBatch) rowCls = ' class="no-batch"';
+    const bCls = 'batch-badge batch-'+r.batch;
+    const bLabel = r.batch > 0 ? 'Batch '+r.batch : 'No Batch';
+    return '<tr'+rowCls+'>'
+      +'<td>'+r.spesId+'</td>'
+      +'<td><span class="'+bCls+'">'+bLabel+'</span></td>'
+      +'<td>'+r.name+'</td>'
+      +'<td>'+r.course+'</td>'
+      +'<td>'+r.barangay+'</td>'
+      +'<td>'+fmtDate(r.startDate)+'</td>'
+      +'<td>'+fmtDate(r.endDate)+'</td>'
+      +'<td>'+buildAssignSelect(r.id, r.assignment)+'</td>'
+      +'</tr>';
+  }).join('');
+
+  document.getElementById('depResultsInfo').textContent =
+    'Showing results '+(filtered.length===0?0:start+1)+' - '+(filtered.length===0?0:end)+' of '+filtered.length;
+  renderDepPagination(tp);
+}
+
+function renderDepPagination(tp){
+  const pc = document.getElementById('depPaginationControls');
+  pc.innerHTML='';
+  const mkBtn=(lbl,dis,fn,act)=>{
+    const b=document.createElement('button');
+    b.className='page-btn'+(act?' active':'');
+    if(dis)b.disabled=true; b.innerHTML=lbl;
+    b.addEventListener('click',fn); return b;
+  };
+  pc.appendChild(mkBtn('<i class="fa-solid fa-chevron-left"></i>',depState.currentPage===1,()=>{if(depState.currentPage>1){depState.currentPage--;renderDepTable();}}));
+  if(tp<=10){
+    for(let p=1;p<=tp;p++) pc.appendChild(mkBtn(p,false,()=>{depState.currentPage=p;renderDepTable();},p===depState.currentPage));
+  } else {
+    const ap=p=>pc.appendChild(mkBtn(p,false,()=>{depState.currentPage=p;renderDepTable();},p===depState.currentPage));
+    const ell=()=>{const e=document.createElement('span');e.className='pagination-ellipsis';e.textContent='...';pc.appendChild(e);};
+    ap(1); if(depState.currentPage>4)ell();
+    const sf=Math.max(2,depState.currentPage-2),ff=Math.min(tp-1,depState.currentPage+2);
+    for(let p=sf;p<=ff;p++)ap(p);
+    if(depState.currentPage<tp-3)ell(); ap(tp);
+  }
+  pc.appendChild(mkBtn('<i class="fa-solid fa-chevron-right"></i>',depState.currentPage===tp,()=>{if(depState.currentPage<tp){depState.currentPage++;renderDepTable();}}));
+}
+
+function updateAssignment(id, val){
+  const rec = depState.records.find(r=>r.id===id);
+  if(rec) rec.assignment = val;
+  renderDepTable();
+}
+</script>
+
+<script>
+
+//  BATCH MANAGEMENT — manage batches//
+const batchState = { records:[], currentPage:1, pageSize:'300', selected:new Set() };
+
+(function initBatchManagement(){
+  // School end months vary: March, April, May, June
+  const endMonths = [
+    { month:2, label:'March' },    // March
+    { month:3, label:'April' },    // April
+    { month:4, label:'May' },      // May
+    { month:5, label:'June' }      // June
+  ];
+  // Use the same student data from depState — ALL students get a schoolYearEnd
+  batchState.records = depState.records.map((r,idx)=>{
+    const em = endMonths[idx % endMonths.length];
+    const day = 10 + (idx % 21); // Days 10-30
+    const yr = r.batch > 0 ? (2024 + r.batch) : 2026; // default year for no-batch
+    const dt = new Date(yr, em.month, day);
+    const schoolYearEnd = dt.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+    return {
+      id:r.id, spesId:r.spesId, name:r.name, course:r.course,
+      barangay:r.barangay, batch:r.batch, schoolYearEnd:schoolYearEnd
+    };
+  });
+
+  const saved = localStorage.getItem('batch_pageSize') || '300';
+  batchState.pageSize = saved;
+  const pst = document.getElementById('batchPageSizeTop');
+  const psb = document.getElementById('batchPageSizeBot');
+  if(pst) pst.value = saved;
+  if(psb) psb.value = saved;
+  if(pst) pst.addEventListener('change',()=>{ batchState.currentPage=1; batchState.pageSize=pst.value; if(psb)psb.value=pst.value; localStorage.setItem('batch_pageSize',pst.value); renderBatchTable(); });
+  if(psb) psb.addEventListener('change',()=>{ batchState.currentPage=1; batchState.pageSize=psb.value; if(pst)pst.value=psb.value; localStorage.setItem('batch_pageSize',psb.value); renderBatchTable(); });
+
+  renderBatchTable();
+})();
+
+function renderBatchTable(){
+  const batchFilter = document.getElementById('batchFilterBatch').value;
+  const brgyFilter = document.getElementById('batchFilterBrgy').value;
+  let filtered = batchState.records;
+  if(batchFilter) filtered = filtered.filter(r=>String(r.batch)===batchFilter);
+  if(brgyFilter) filtered = filtered.filter(r=>r.barangay===brgyFilter);
+
+  const ps = batchState.pageSize==='all' ? filtered.length : parseInt(batchState.pageSize,10);
+  const tp = Math.max(1, Math.ceil(filtered.length/ps));
+  if(batchState.currentPage>tp) batchState.currentPage=tp;
+  const start = (batchState.currentPage-1)*ps;
+  const end   = Math.min(start+ps, filtered.length);
+  const slice = filtered.slice(start, end);
+
+  const tbody = document.getElementById('batchTbody');
+  tbody.innerHTML = slice.map(r=>{
+    const hasBatch = r.batch > 0;
+    const bCls = 'batch-badge batch-'+r.batch;
+    const bLabel = hasBatch ? 'Batch '+r.batch : 'No Batch';
+    const rowCls = hasBatch ? '' : ' class="no-batch"';
+    return '<tr'+rowCls+'>'
+      +'<td>'+r.spesId+'</td>'
+      +'<td>'+r.name+'</td>'
+      +'<td>'+r.course+'</td>'
+      +'<td>'+r.barangay+'</td>'
+      +'<td><span class="'+bCls+'">'+bLabel+'</span></td>'
+      +'<td>'+(hasBatch ? '<span class="syend-text">'+r.schoolYearEnd+'</span>' : '<span class="no-date-text">—</span>')+'</td>'
+      +'<td><select class="filter-select batch-inline-select" onchange="updateBatch('+r.id+',this.value)">'
+      +'<option value="0"'+(r.batch===0?' selected':'')+'>— None —</option>'
+      +'<option value="1"'+(r.batch===1?' selected':'')+'>Batch 1</option>'
+      +'<option value="2"'+(r.batch===2?' selected':'')+'>Batch 2</option>'
+      +'<option value="3"'+(r.batch===3?' selected':'')+'>Batch 3</option>'
+      +'</select></td>'
+      +'</tr>';
+  }).join('');
+
+  document.getElementById('batchResultsInfo').textContent =
+    'Showing results '+(filtered.length===0?0:start+1)+' - '+(filtered.length===0?0:end)+' of '+filtered.length;
+  renderBatchPagination(tp);
+}
+
+function renderBatchPagination(tp){
+  const pc = document.getElementById('batchPaginationControls');
+  pc.innerHTML='';
+  const mkBtn=(lbl,dis,fn,act)=>{
+    const b=document.createElement('button');
+    b.className='page-btn'+(act?' active':'');
+    if(dis)b.disabled=true; b.innerHTML=lbl;
+    b.addEventListener('click',fn); return b;
+  };
+  pc.appendChild(mkBtn('<i class="fa-solid fa-chevron-left"></i>',batchState.currentPage===1,()=>{if(batchState.currentPage>1){batchState.currentPage--;renderBatchTable();}}));
+  if(tp<=10){
+    for(let p=1;p<=tp;p++) pc.appendChild(mkBtn(p,false,()=>{batchState.currentPage=p;renderBatchTable();},p===batchState.currentPage));
+  } else {
+    const ap=p=>pc.appendChild(mkBtn(p,false,()=>{batchState.currentPage=p;renderBatchTable();},p===batchState.currentPage));
+    const ell=()=>{const e=document.createElement('span');e.className='pagination-ellipsis';e.textContent='...';pc.appendChild(e);};
+    ap(1); if(batchState.currentPage>4)ell();
+    const sf=Math.max(2,batchState.currentPage-2),ff=Math.min(tp-1,batchState.currentPage+2);
+    for(let p=sf;p<=ff;p++)ap(p);
+    if(batchState.currentPage<tp-3)ell(); ap(tp);
+  }
+  pc.appendChild(mkBtn('<i class="fa-solid fa-chevron-right"></i>',batchState.currentPage===tp,()=>{if(batchState.currentPage<tp){batchState.currentPage++;renderBatchTable();}}));
+}
+
+function generateSchoolYearEnd(batch, studentId){
+  if(batch <= 0) return '';
+  const endMonths = [
+    { month:2, label:'March' },
+    { month:3, label:'April' },
+    { month:4, label:'May' },
+    { month:5, label:'June' }
+  ];
+  const em = endMonths[studentId % endMonths.length];
+  const day = 10 + (studentId % 21);
+  const yr = 2024 + batch;
+  const dt = new Date(yr, em.month, day);
+  return dt.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+}
+
+function updateBatch(id, newBatch){
+  const nb = parseInt(newBatch,10);
+  const rec = batchState.records.find(r=>r.id===id);
+  if(rec) {
+    rec.batch = nb;
+    rec.schoolYearEnd = generateSchoolYearEnd(nb, id);
+    const depRec = depState.records.find(r=>r.id===id);
+    if(depRec) depRec.batch = nb;
+  }
+  renderBatchTable();
+}
+
+// Auto-determine batch from schoolYearEnd date string using batchSettings
+function getBatchFromSchoolYearEnd(dateStr){
+  if(!dateStr) return null;
+  const lower = dateStr.toLowerCase();
+  // Match by checking if the schoolYearEnd month falls within a batch's start date month
+  for(let i=0; i<batchSettings.batches.length; i++){
+    const b = batchSettings.batches[i];
+    if(b.startDate){
+      const sd = new Date(b.startDate+'T00:00:00');
+      const monthName = monthOptions[sd.getMonth()].toLowerCase();
+      if(lower.startsWith(monthName)){
+        return b.id;
+      }
+    }
+  }
+  return null; // no matching batch = conflict
+}
+
+function bulkAssignBatch(){
+  // Find all students without a batch
+  const noBatch = batchState.records.filter(r=>r.batch === 0);
+  if(noBatch.length === 0){
+    showToast('All students are already assigned to a batch.','info');
+    return;
+  }
+
+  // Build batch mapping badges dynamically from settings
+  const mappingEl = document.getElementById('bulkBatchMapping');
+  let mappingHTML = '';
+  batchSettings.batches.forEach(b=>{
+    const bCls = b.id <= 3 ? 'batch-'+b.id : 'batch-1';
+    const dateLabel = b.startDate ? fmtDate(new Date(b.startDate+'T00:00:00')) : 'No date';
+    mappingHTML += '<span class="batch-badge '+bCls+' batch-badge-lg">'+dateLabel+' \u2192 Batch '+b.id+'</span>';
+  });
+  mappingHTML += '<span class="batch-badge batch-0 batch-badge-lg">Other months \u2192 Conflict (skipped)</span>';
+  mappingEl.innerHTML = mappingHTML;
+
+  // Preview: determine batch for each
+  let assignable = [];
+  let skipped = [];
+  noBatch.forEach(r=>{
+    const autoBatch = getBatchFromSchoolYearEnd(r.schoolYearEnd);
+    if(autoBatch){
+      assignable.push({ id:r.id, name:r.name, course:r.course, barangay:r.barangay, schoolYearEnd:r.schoolYearEnd, autoBatch });
+    } else {
+      // Find actual month for conflict reason
+      const monthName = r.schoolYearEnd ? r.schoolYearEnd.split(' ')[0] : 'Unknown';
+      skipped.push({ id:r.id, name:r.name, course:r.course, barangay:r.barangay, schoolYearEnd:r.schoolYearEnd, conflictMonth:monthName });
+    }
+  });
+
+  // Build preview table
+  let html = '';
+  if(assignable.length > 0){
+    html += '<div class="preview-header preview-header-ok"><i class="fa-solid fa-check-circle icon-ok"></i>Will be assigned (' + assignable.length + ' students)</div>';
+    html += '<div class="preview-scroll">';
+    html += '<table class="data-table preview-table"><thead><tr><th>NAME</th><th>COURSE</th><th>SCHOOL YEAR END</th><th>BATCH</th></tr></thead><tbody>';
+    assignable.forEach(s=>{
+      const bIdx = s.autoBatch <= 3 ? s.autoBatch : 1;
+      const bCls = 'batch-badge batch-'+bIdx;
+      html += '<tr><td>'+s.name+'</td><td>'+s.course+'</td><td class="syend-text">'+s.schoolYearEnd+'</td><td><span class="'+bCls+'">Batch '+s.autoBatch+'</span></td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+
+  if(skipped.length > 0){
+    html += '<div class="preview-header preview-header-err"><i class="fa-solid fa-exclamation-triangle icon-warn"></i>Conflict \u2014 will be skipped (' + skipped.length + ' students)</div>';
+    html += '<div class="preview-scroll-err">';
+    html += '<table class="data-table preview-table"><thead><tr><th>NAME</th><th>COURSE</th><th>SCHOOL YEAR END</th><th>REASON</th></tr></thead><tbody>';
+    skipped.forEach(s=>{
+      html += '<tr class="conflict-row"><td>'+s.name+'</td><td>'+s.course+'</td><td class="syend-text">'+s.schoolYearEnd+'</td><td><span class="conflict-text">No matching batch ('+s.conflictMonth+')</span></td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+
+  document.getElementById('bulkBatchPreview').innerHTML = html;
+  document.getElementById('bulkBatchCount').textContent =
+    noBatch.length + ' student(s) without a batch found. ' + assignable.length + ' can be auto-assigned, ' + skipped.length + ' will be skipped due to conflict.';
+  document.getElementById('bulkBatchSkipInfo').textContent = skipped.length > 0 ? skipped.length + ' student(s) need manual batch assignment.' : '';
+
+  // Store for confirm
+  batchState._autoAssign = assignable;
+  batchState._skipped = skipped;
+
+  const confirmBtn = document.getElementById('bulkBatchConfirmBtn');
+  if(assignable.length === 0){
+    confirmBtn.disabled = true;
+    confirmBtn.style.opacity = '0.5';
+  } else {
+    confirmBtn.disabled = false;
+    confirmBtn.style.opacity = '1';
+  }
+
+  openModal('bulkBatchModal');
+}
+
+function confirmBulkBatch(){
+  const assignable = batchState._autoAssign || [];
+  if(assignable.length === 0){ showToast('No students to assign.','error'); return; }
+  let count = 0;
+  assignable.forEach(s=>{
+    const rec = batchState.records.find(r=>r.id===s.id);
+    if(rec){
+      rec.batch = s.autoBatch;
+      // Keep the existing schoolYearEnd (it's already set)
+      const depRec = depState.records.find(r=>r.id===s.id);
+      if(depRec) depRec.batch = s.autoBatch;
+      count++;
+    }
+  });
+  const skippedCount = (batchState._skipped || []).length;
+  let msg = count + ' student(s) successfully assigned to their respective batches.';
+  if(skippedCount > 0) msg += '\n' + skippedCount + ' student(s) were skipped due to School Year End conflict (June). Please assign them manually.';
+  showToast(msg,'success');
+  batchState._autoAssign = null;
+  batchState._skipped = null;
+  closeModal('bulkBatchModal');
+  renderBatchTable();
+}
+</script>
+
+<script>
+// ═══ MODAL HELPERS ═══
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+document.querySelectorAll('.modal-backdrop').forEach(m=>{
+  m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('show'); });
+});
+
+// ═══ TOAST NOTIFICATIONS ═══
+function showToast(msg, type){
+  const container = document.getElementById('toastContainer');
+  const icons = { success:'fa-circle-check', error:'fa-circle-xmark', info:'fa-circle-info', warning:'fa-triangle-exclamation' };
+  const icon = icons[type] || icons.info;
+  const t = document.createElement('div');
+  t.className = 'toast ' + (type||'info');
+  t.innerHTML = '<i class="fa-solid '+icon+'"></i><span>'+msg+'</span><button class="toast-close" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>';
+  container.appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(),300); }, 4000);
+}
+
+// ═══ CONFIRM MODAL ═══
+function showConfirm(title, text, iconClass, btnText, btnClass, onConfirm){
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmText').textContent = text;
+  document.getElementById('confirmIcon').className = 'confirm-icon ' + iconClass;
+  const actionBtn = document.getElementById('confirmActionBtn');
+  actionBtn.textContent = btnText;
+  actionBtn.className = btnClass || 'btn-primary';
+  actionBtn.onclick = ()=>{ closeModal('confirmModal'); onConfirm(); };
+  openModal('confirmModal');
+}
+
+// ═══ SOLICITATION SUBMIT ═══
+function submitSolicitation(){
+  const dept=document.getElementById('solDept').value.trim();
+  if(!dept){ showToast('Please enter the department name.','error'); return; }
+  showToast('Solicitation added successfully!','success');
+  closeModal('addSolModal');
+  ['solDept','solCourseInput','solFuncDuty','solHeadName'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('solTotal').value='0';
+  document.getElementById('solFemale').value='0';
+  document.getElementById('solMale').value='0';
+}
+
+// ═══ MANUAL DEPLOYMENT SUBMIT ═══
+function submitDeployment(){
+  const name=document.getElementById('depStudentName').value.trim();
+  if(!name){ showToast('Please enter the student name.','error'); return; }
+  showToast('Deployment added successfully!','success');
+  closeModal('addDepModal');
+  ['depSpesId','depStudentName','depCourse','depDistrict'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('depAssignment').value='';
+}
+
+// ═══ AUTO-SUGGEST DEPLOYMENT SYSTEM ═══
+const suggestState = { mode:'all', deptFilter:null, requests:[], suggestions:[], searchTerm:'' };
+
+const suggestStudents = [];
+(function initSuggestStudents(){
+  const fn=['JUAN','MARIA','JOSE','ANA','CARLO','ROSA','MARK','NINA','LUIS','GRACE','RYAN','CLAIRE','JAMES','LIZA','KEVIN','PAOLO','DIANA','MIGUEL','SARAH','DANIEL'];
+  const ln=['DELA CRUZ','REYES','SANTOS','GARCIA','TORRES','FLORES','RAMOS','MENDOZA','CASTRO','BAUTISTA'];
+  const cs=['BSIT','BSCS','BSN','BS ENGINEERING','BS ACCOUNTANCY','BSED'];
+  const bg=['MAKILING','BANADERO','REAL','PARIAN','CANLUBANG','MAJADA','HALANG','PACIANO RIZAL','BUCAL','NIUGAN'];
+  for(let i=0;i<60;i++){
+    suggestStudents.push({
+      id:i+1,
+      name:ln[i%ln.length]+', '+fn[i%fn.length]+' '+String.fromCharCode(65+(i%26))+'.',
+      course:cs[i%cs.length],
+      barangay:bg[i%bg.length],
+      batch:(i%3)+1
+    });
+  }
+  // Populate manual deployment dropdown
+  const sel=document.getElementById('depAssignment');
+  deptOptions.forEach(d=>{
+    const o=document.createElement('option'); o.value=d; o.textContent=d;
+    sel.appendChild(o);
+  });
+})();
+
+// Build suggest requests from solicitation data
+function getSuggestRequests(filterIdx){
+  if(filterIdx!==null && filterIdx!==undefined){
+    const r=solRecordsData[filterIdx];
+    return [{dept:r.dept,needed:r.total,course:r.course,head:r.head}];
+  }
+  const seen=new Set(); const reqs=[];
+  solRecordsData.forEach(r=>{
+    if(!seen.has(r.dept)){ seen.add(r.dept); reqs.push({dept:r.dept,needed:r.total,course:r.course,head:r.head}); }
+  });
+  return reqs.slice(0,15);
+}
+
+// Open suggest from a solicitation row
+function suggestForDept(solIdx){
+  suggestState.mode='single';
+  suggestState.deptFilter=solIdx;
+  suggestState.searchTerm='';
+  generateSuggestions();
+  renderSuggestions();
+  openModal('suggestModal');
+}
+
+// Open suggest for all departments (from deployment tab)
+function openSuggestModal(){
+  suggestState.mode='all';
+  suggestState.deptFilter=null;
+  suggestState.searchTerm='';
+  generateSuggestions();
+  renderSuggestions();
+  openModal('suggestModal');
+}
+
+function generateSuggestions(){
+  const reqs=getSuggestRequests(suggestState.mode==='single'?suggestState.deptFilter:null);
+  suggestState.requests=reqs;
+  const used=new Set();
+  suggestState.suggestions=[];
+  // Respect batch filter from deployment tab
+  const batchF = document.getElementById('depBatchFilter').value;
+  const pool = batchF ? suggestStudents.filter(s=>String(s.batch)===batchF) : suggestStudents;
+  reqs.forEach((req,ri)=>{
+    const scored=pool
+      .filter(s=>!used.has(s.id))
+      .map(s=>{
+        let score=0;
+        if(s.course===req.course) score+=10;
+        if(req.dept.toUpperCase().includes(s.barangay)) score+=3;
+        return {studentId:s.id,name:s.name,course:s.course,barangay:s.barangay,batch:s.batch,score,deptIdx:ri};
+      })
+      .sort((a,b)=>b.score-a.score);
+    const take=Math.min(scored.length,req.needed+2);
+    for(let i=0;i<take;i++){
+      const s=scored[i];
+      suggestState.suggestions.push({...s,accepted:true});
+      used.add(s.studentId);
+    }
+  });
+}
+
+function renderSuggestions(){
+  const body=document.getElementById('suggestBody');
+  const reqs=suggestState.requests;
+  let totalNeeded=0,totalAccepted=0;
+  reqs.forEach(r=>totalNeeded+=r.needed);
+  suggestState.suggestions.forEach(s=>{if(s.accepted)totalAccepted++;});
+
+  // Department suggestions — no global search box
+  let h='';
+
+  // Department suggestions — no global search results
+
+  reqs.forEach((req,ri)=>{
+    const deptSugs=suggestState.suggestions.filter(s=>s.deptIdx===ri);
+    const accepted=deptSugs.filter(s=>s.accepted).length;
+    const available=suggestStudents.filter(s=>!suggestState.suggestions.some(sg=>sg.studentId===s.id && sg.accepted)).length;
+    const cntClass=accepted===req.needed?'dcnt-ok':accepted>req.needed?'dcnt-over':'dcnt-under';
+    h+='<div class="sdept">';
+    h+='<div class="sdept-hdr"><div><h4>'+req.dept+'</h4><div class="sub">Preferred: '+req.course+' \u00b7 Head: '+req.head+'</div></div>';
+    h+='<div class="suggest-actions-wrap">';
+    h+='<div class="sdept-search-box"><input type="text" placeholder="Search here..." oninput="onDeptSearch('+ri+',this.value)" id="deptSearchInput_'+ri+'"><i class="fa-solid fa-magnifying-glass"></i></div>';
+    h+='<div class="suggest-stats suggest-stats-compact">';
+    h+='<div class="sstat sstat-min"><strong>'+req.needed+'</strong>Needed</div>';
+    h+='<div class="sstat sstat-min"><strong>'+accepted+'</strong>Accepted</div>';
+    h+='<div class="sstat sstat-min"><strong>'+available+'</strong>Available</div>';
+    h+='</div>';
+    h+='<span class="dcnt '+cntClass+'">'+accepted+'/'+req.needed+'</span>';
+    h+='</div></div>';
+    // Search results area (inline, always present)
+    h+='<div class="sdept-search-results" id="deptSearchResults_'+ri+'"></div>';
+    if(deptSugs.length===0){
+      h+='<div class="sempty">No matching students available</div>';
+    } else {
+      deptSugs.forEach(s=>{
+        const idx=suggestState.suggestions.indexOf(s);
+        const mCls=s.score>=10?'ms-h':s.score>=3?'ms-m':'ms-l';
+        const mLbl=s.score>=10?'Course Match':s.score>=3?'District Match':'Available';
+        const aCls=s.accepted===true?' on':'';
+        const rCls=s.accepted===false?' on':'';
+        const bCls='batch-badge batch-'+s.batch;
+        const isManual=s.manuallyAdded?' srow-swap':'';
+        h+='<div class="srow'+isManual+'">';
+        h+='<div class="si"><div class="sn">'+s.name+(s.manuallyAdded?'<span class="swap-label">SEARCHED</span>':'')+'</div><div class="sd">'+s.course+' \u00b7 '+s.barangay+' \u00b7 <span class="'+bCls+'">Batch '+s.batch+'</span></div></div>';
+        h+='<span class="ms '+mCls+'">'+mLbl+'</span>';
+        h+='<div class="sacts">';
+        h+='<button class="sa-btn sa-accept'+aCls+'" onclick="toggleSuggest('+idx+',true)" title="Accept"><i class="fa-solid fa-check"></i></button>';
+        h+='<button class="sa-btn sa-reject'+rCls+'" onclick="toggleSuggest('+idx+',false)" title="Reject"><i class="fa-solid fa-xmark"></i></button>';
+        h+='</div></div>';
+      });
+    }
+    h+='</div>';
+  });
+  body.innerHTML=h;
+  document.getElementById('suggestFooterInfo').textContent=totalAccepted+' of '+totalNeeded+' positions filled';
+
+  // Re-focus search input
+  const si=document.getElementById('suggestSearchInput');
+  if(si && suggestState.searchTerm){ si.focus(); si.setSelectionRange(si.value.length, si.value.length); }
+}
+
+function onSuggestSearch(val){
+  suggestState.searchTerm=val;
+  renderSuggestions();
+}
+
+function addStudentToSuggest(studentId, deptIdx){
+  const student=suggestStudents.find(s=>s.id===studentId);
+  if(!student) return;
+  const targetDeptIdx = (deptIdx !== undefined) ? deptIdx : 0;
+  const req=suggestState.requests[targetDeptIdx];
+  let score=0;
+  if(student.course===req.course) score+=10;
+  if(req.dept.toUpperCase().includes(student.barangay)) score+=3;
+  suggestState.suggestions.push({
+    studentId:student.id, name:student.name, course:student.course,
+    barangay:student.barangay, batch:student.batch, score, deptIdx:targetDeptIdx,
+    accepted:true, manuallyAdded:true
+  });
+  renderSuggestions();
+}
+
+function toggleSuggest(idx,accept){
+  const s=suggestState.suggestions[idx];
+  if(accept) s.accepted=s.accepted===true?null:true;
+  else s.accepted=s.accepted===false?null:false;
+  renderSuggestions();
+}
+
+function confirmSuggestions(){
+  const accepted=suggestState.suggestions.filter(s=>s.accepted);
+  if(!accepted.length){ showToast('No suggestions accepted. Please accept at least one.','error'); return; }
+  showToast(accepted.length+' deployment(s) confirmed successfully!','success');
+  closeModal('suggestModal');
+}
+
+// ═══ PER-DEPARTMENT SEARCH IN SUGGEST MODAL ═══
+function onDeptSearch(deptIdx, val){
+  const container = document.getElementById('deptSearchResults_'+deptIdx);
+  if(!container) return;
+  if(val.length < 2){ container.innerHTML=''; return; }
+  const term = val.toUpperCase();
+  const alreadyIds = new Set(suggestState.suggestions.map(s=>s.studentId));
+  // Respect batch filter
+  const batchF = document.getElementById('depBatchFilter').value;
+  const pool = batchF ? suggestStudents.filter(s=>String(s.batch)===batchF) : suggestStudents;
+  const results = pool.filter(s=>{
+    return s.name.toUpperCase().includes(term)||s.course.toUpperCase().includes(term)||s.barangay.toUpperCase().includes(term);
+  }).slice(0,10);
+
+  if(results.length===0){
+    container.innerHTML='<div class="sempty" style="padding:12px 14px;">No students found for "'+val+'"</div>';
+    return;
+  }
+
+  let h='';
+  results.forEach(s=>{
+    const bCls='batch-badge batch-'+s.batch;
+    const isAdded=alreadyIds.has(s.id);
+    h+='<div class="ssr-item">';
+    h+='<div class="si" style="flex:1;"><div class="sn" style="font-weight:600;font-size:13px;">'+s.name+'</div><div class="sd" style="font-size:11px;color:#777;margin-top:2px;">'+s.course+' \u00b7 '+s.barangay+' \u00b7 <span class="'+bCls+'">Batch '+s.batch+'</span></div></div>';
+    if(isAdded){
+      h+='<span class="ssr-listed">Already listed</span>';
+    } else {
+      h+='<button class="ssr-add-btn" onclick="addStudentToSuggest('+s.id+','+deptIdx+')"><i class="fa-solid fa-plus"></i> Add</button>';
+    }
+    h+='</div>';
+  });
+  container.innerHTML=h;
+}
+
+// ═══ BATCH SETTINGS ═══
+const batchSettings = {
+  count: 3,
+  batches: [
+    { id:1, startDate:'2026-03-02', color:'#e3f2fd', textColor:'#1565c0' },
+    { id:2, startDate:'2026-04-06', color:'#f3e5f5', textColor:'#7b1fa2' },
+    { id:3, startDate:'2026-05-04', color:'#e8f5e9', textColor:'#2e7d32' }
+  ]
+};
+const monthOptions = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const batchColorPalette = [
+  { bg:'#e3f2fd', text:'#1565c0', label:'Blue' },
+  { bg:'#f3e5f5', text:'#7b1fa2', label:'Purple' },
+  { bg:'#e8f5e9', text:'#2e7d32', label:'Green' },
+  { bg:'#fff3e0', text:'#e65100', label:'Orange' },
+  { bg:'#e0f7fa', text:'#00838f', label:'Cyan' },
+  { bg:'#f1f8e9', text:'#558b2f', label:'Lime' },
+  { bg:'#ede7f6', text:'#4527a0', label:'Indigo' },
+  { bg:'#e0f2f1', text:'#00695c', label:'Teal' },
+  { bg:'#e8eaf6', text:'#283593', label:'Navy' },
+  { bg:'#eceff1', text:'#455a64', label:'Blue Grey' },
+  { bg:'#dcedc8', text:'#33691e', label:'Light Green' },
+  { bg:'#b2ebf2', text:'#006064', label:'Aqua' },
+  { bg:'#d1c4e9', text:'#4a148c', label:'Lavender' },
+  { bg:'#b2dfdb', text:'#004d40', label:'Mint' }
+];
+
+/* ── Batch Calendar State ── */
+let batchCalState = {};
+let expandedBatchCal = -1;
+
+function _ds(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
+function openBatchSettings(){
+  // Initialize workingDays from startDate if not already set
+  batchSettings.batches.forEach(b=>{
+    if(!b.workingDays && b.startDate){
+      b.workingDays = [b.startDate];
+      let cur = new Date(b.startDate+'T00:00:00');
+      for(let i=1;i<20;i++){
+        cur = addBusinessDays(cur,1);
+        b.workingDays.push(_ds(cur));
+      }
+    }
+    if(!b.workingDays) b.workingDays = [];
+  });
+  expandedBatchCal = -1;
+  batchCalState = {};
+  renderBatchSettings();
+  openModal('batchSettingsModal');
+}
+
+function renderBatchSettings(){
+  const container = document.getElementById('batchSettingsBody');
+  const usedColors = new Set();
+  batchSettings.batches.forEach(b=>usedColors.add(b.color));
+
+  let h='<div class="batch-total-info"><i class="fa-solid fa-circle-info info-icon-blue"></i> <span>Current number of batches: <strong>'+batchSettings.count+'</strong></span>';
+  h+='<label class="batch-setting-label" style="flex:none;margin-left:auto;">Number of Batches</label>';
+  h+='<input type="number" class="batch-count-input" id="batchCountInput" min="1" max="14" value="'+batchSettings.count+'" onchange="updateBatchCount(this.value)">';
+  h+='</div>';
+
+  h+='<div class="batch-settings-grid" style="margin-top:14px;">';
+  batchSettings.batches.forEach((b, idx)=>{
+    if(!b.workingDays) b.workingDays = [];
+    const dayCount = b.workingDays.length;
+    const startStr = b.startDate ? fmtDate(new Date(b.startDate+'T00:00:00')) : 'Click to set';
+    const lastDay = dayCount > 0 ? b.workingDays[dayCount-1] : null;
+    const endStr = lastDay ? fmtDate(new Date(lastDay+'T00:00:00')) : '—';
+    const isExpanded = expandedBatchCal === idx;
+
+    h+='<div class="bcal-batch-card'+(isExpanded?' expanded':'')+'">';
+
+    /* ── Header row ── */
+    h+='<div class="bcal-batch-header" onclick="toggleBatchCalendar('+idx+')">';
+    h+='<span class="batch-badge-custom" style="background:'+b.color+';color:'+b.textColor+';" onclick="event.stopPropagation();toggleColorPicker('+idx+')">Batch '+b.id+'</span>';
+    h+='<div class="bcal-date-info">';
+    h+='<span class="bcal-date-label"><i class="fa-regular fa-calendar"></i> '+startStr+'</span>';
+    h+='<i class="fa-solid fa-arrow-right" style="font-size:10px;color:#aaa;"></i>';
+    h+='<span class="bcal-date-label"><i class="fa-regular fa-calendar-check"></i> '+endStr+'</span>';
+    h+='</div>';
+    h+='<span class="bcal-day-counter" style="background:'+b.color+';color:'+b.textColor+';">'+dayCount+'/20</span>';
+    h+='<i class="fa-solid fa-chevron-'+(isExpanded?'up':'down')+'" style="color:#888;font-size:12px;margin-left:auto;"></i>';
+    h+='</div>';
+
+    /* ── Color picker (hidden) ── */
+    h+='<div class="batch-color-picker" id="colorPicker_'+idx+'" hidden style="padding:8px 14px;display:none;gap:6px;flex-wrap:wrap;align-items:center;background:#fafafa;border-top:1px solid #e8e8e8;">';
+    h+='<span style="font-size:11px;color:#888;font-weight:500;margin-right:4px;">Choose color:</span>';
+    batchColorPalette.forEach((c, ci)=>{
+      const isActive = b.color===c.bg ? ' active' : '';
+      const isTaken = (b.color!==c.bg && usedColors.has(c.bg)) ? ' taken' : '';
+      h+='<div class="batch-color-swatch'+isActive+isTaken+'" style="background:'+c.bg+';" title="'+c.label+(isTaken?' (already used)':'')+'" onclick="event.stopPropagation();setBatchColor('+idx+','+ci+')"></div>';
+    });
+    h+='</div>';
+
+    /* ── Calendar (expanded) ── */
+    if(isExpanded){
+      h+='<div class="bcal-container" id="batchCal_'+idx+'">';
+      h+=buildBatchCalendar(idx);
+      h+='</div>';
+    }
+
+    h+='</div>';
+  });
+  h+='</div>';
+
+  container.innerHTML = h;
+}
+
+function buildBatchCalendar(idx){
+  const b = batchSettings.batches[idx];
+  const s = batchCalState[idx];
+  if(!s) return '';
+
+  const month = s.month, year = s.year;
+  const mNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const workingSet = new Set(b.workingDays || []);
+  const today = new Date();
+  const todayStr = _ds(today);
+
+  let h = '';
+
+  /* Month nav */
+  h+='<div class="bcal-month-header">';
+  h+='<button class="bcal-nav-btn" onclick="event.stopPropagation();batchCalNav('+idx+',-1)"><i class="fa-solid fa-chevron-left"></i></button>';
+  h+='<h4>'+mNames[month]+' '+year+'</h4>';
+  h+='<button class="bcal-nav-btn" onclick="event.stopPropagation();batchCalNav('+idx+',1)"><i class="fa-solid fa-chevron-right"></i></button>';
+  h+='</div>';
+
+  /* Weekday headers */
+  h+='<div class="bcal-weekdays">';
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>{
+    h+='<div class="bcal-weekday'+(d==='Sun'||d==='Sat'?' wkend':'')+'">'+d+'</div>';
+  });
+  h+='</div>';
+
+  /* Day cells */
+  const firstDow = new Date(year, month, 1).getDay();
+  const totalDays = new Date(year, month+1, 0).getDate();
+
+  h+='<div class="bcal-days-grid">';
+  for(let i=0; i<firstDow; i++) h+='<div class="bcal-cell empty"></div>';
+  for(let d=1; d<=totalDays; d++){
+    const ds = year+'-'+String(month+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const dow = new Date(year, month, d).getDay();
+    const isWE = dow===0||dow===6;
+    const isSel = workingSet.has(ds);
+    const isToday = ds===todayStr;
+    const isStart = ds===b.startDate;
+
+    let cls = 'bcal-cell';
+    if(isWE) cls += ' weekend';
+    if(isToday) cls += ' today';
+    if(isSel) cls += ' selected';
+    if(isStart) cls += ' start-day';
+
+    let st = '';
+    if(isSel) st = ' style="background:'+b.color+';color:'+b.textColor+';border-color:'+b.textColor+'44;"';
+
+    const oc = isWE ? '' : ' onclick="event.stopPropagation();batchCalClickDay('+idx+',\''+ds+'\')"';
+
+    h+='<div class="'+cls+'"'+st+oc+'>';
+    h+='<span class="bcal-cell-num">'+d+'</span>';
+    if(isStart) h+='<span class="bcal-cell-icon"><i class="fa-solid fa-play"></i></span>';
+    h+='</div>';
+  }
+  h+='</div>';
+
+  /* Legend & count */
+  const dayCount = (b.workingDays||[]).length;
+  h+='<div class="bcal-info">';
+  h+='<div class="bcal-legend">';
+  h+='<span class="bcal-legend-item"><span class="bcal-legend-dot" style="background:'+b.color+';border:1px solid '+b.textColor+';"></span> Working day</span>';
+  h+='<span class="bcal-legend-item"><span class="bcal-legend-dot" style="background:repeating-linear-gradient(45deg,#f9f9f9,#f9f9f9 2px,#eee 2px,#eee 4px);border:1px solid #ccc;"></span> Weekend</span>';
+  if(b.startDate) h+='<span class="bcal-legend-item"><i class="fa-solid fa-play" style="font-size:8px;color:'+b.textColor+';"></i> Start</span>';
+  h+='</div>';
+  h+='<span style="margin-left:auto;" class="bcal-day-counter-lg"><strong>'+dayCount+'</strong> / 20 days</span>';
+  if(dayCount > 0) h+='<button class="bcal-reset-btn" onclick="event.stopPropagation();batchCalReset('+idx+')"><i class="fa-solid fa-rotate-left"></i> Reset</button>';
+  h+='</div>';
+
+  h+='<div class="bcal-hint"><i class="fa-solid fa-circle-info"></i> Click a weekday to set start date &amp; auto-select 20 working days. Click selected days to remove, or click empty weekdays to add.</div>';
+
+  return h;
+}
+
+function toggleBatchCalendar(idx){
+  expandedBatchCal = expandedBatchCal===idx ? -1 : idx;
+  if(!batchCalState[idx]){
+    const b = batchSettings.batches[idx];
+    if(b.startDate){
+      const d = new Date(b.startDate+'T00:00:00');
+      batchCalState[idx] = { month: d.getMonth(), year: d.getFullYear() };
+    } else {
+      const now = new Date();
+      batchCalState[idx] = { month: now.getMonth(), year: now.getFullYear() };
+    }
+  }
+  renderBatchSettings();
+}
+
+function batchCalNav(idx, dir){
+  const s = batchCalState[idx];
+  if(!s) return;
+  s.month += dir;
+  if(s.month > 11){ s.month = 0; s.year++; }
+  if(s.month < 0){ s.month = 11; s.year--; }
+  const el = document.getElementById('batchCal_'+idx);
+  if(el) el.innerHTML = buildBatchCalendar(idx);
+}
+
+function batchCalClickDay(idx, dateStr){
+  const b = batchSettings.batches[idx];
+  if(!b.workingDays) b.workingDays = [];
+
+  const existingIdx = b.workingDays.indexOf(dateStr);
+
+  if(b.workingDays.length === 0){
+    /* First click → set start + auto-generate 20 business days */
+    b.startDate = dateStr;
+    b.workingDays = [dateStr];
+    let cur = new Date(dateStr+'T00:00:00');
+    for(let i=1; i<20; i++){
+      cur = addBusinessDays(cur, 1);
+      b.workingDays.push(_ds(cur));
+    }
+  } else if(existingIdx >= 0){
+    /* Already selected → remove */
+    b.workingDays.splice(existingIdx, 1);
+  } else {
+    /* Add day */
+    b.workingDays.push(dateStr);
+    b.workingDays.sort();
+  }
+
+  /* Update startDate to earliest selected day */
+  if(b.workingDays.length > 0){
+    b.startDate = b.workingDays[0];
+  } else {
+    b.startDate = '';
+  }
+
+  renderBatchSettings();
+}
+
+function batchCalReset(idx){
+  const b = batchSettings.batches[idx];
+  b.workingDays = [];
+  b.startDate = '';
+  renderBatchSettings();
+}
+
+function updateBatchCount(val){
+  const n = Math.max(1, Math.min(14, parseInt(val,10)||1));
+  if(n > batchSettings.count){
+    const usedColors = new Set(batchSettings.batches.map(b=>b.color));
+    for(let i=batchSettings.count; i<n; i++){
+      let ci = i % batchColorPalette.length;
+      for(let attempt=0; attempt<batchColorPalette.length; attempt++){
+        if(!usedColors.has(batchColorPalette[ci].bg)) break;
+        ci = (ci+1) % batchColorPalette.length;
+      }
+      const c = batchColorPalette[ci];
+      usedColors.add(c.bg);
+      batchSettings.batches.push({ id:i+1, startDate:'', color:c.bg, textColor:c.text, workingDays:[] });
+    }
+  } else if(n < batchSettings.count){
+    batchSettings.batches = batchSettings.batches.slice(0, n);
+  }
+  batchSettings.count = n;
+  renderBatchSettings();
+}
+
+function toggleColorPicker(idx){
+  const el = document.getElementById('colorPicker_'+idx);
+  if(!el) return;
+  const isHidden = el.hidden;
+  document.querySelectorAll('.batch-color-picker').forEach(p=>{ p.hidden=true; p.style.display='none'; });
+  if(isHidden){
+    el.hidden = false;
+    el.style.display = 'flex';
+  }
+}
+
+function setBatchColor(idx, colorIdx){
+  const c = batchColorPalette[colorIdx];
+  if(!c || !batchSettings.batches[idx]) return;
+  batchSettings.batches[idx].color = c.bg;
+  batchSettings.batches[idx].textColor = c.text;
+  renderBatchSettings();
+}
+
+function saveBatchSettings(){
+  batchSettings.batches.forEach(b=>{
+    if(!b.startDate) return;
+    const base = new Date(b.startDate+'T00:00:00');
+    depState.records.forEach(r=>{
+      if(r.batch === b.id){
+        const offset = (r.id % 5);
+        const start = offset > 0 ? addBusinessDays(base, offset) : new Date(base);
+        r.startDate = start;
+        r.endDate = addBusinessDays(start, 20);
+      }
+    });
+  });
+  renderDepTable();
+  const summary = batchSettings.batches.map(b=>{
+    const s = b.startDate ? fmtDate(new Date(b.startDate+'T00:00:00')) : 'No date set';
+    const cnt = (b.workingDays||[]).length;
+    const last = cnt > 0 ? fmtDate(new Date(b.workingDays[cnt-1]+'T00:00:00')) : '—';
+    return 'Batch '+b.id+': '+s+' → '+last+' ('+cnt+' days)';
+  }).join('\n');
+  showToast('Batch settings saved! Total batches: '+batchSettings.count,'success');
+  closeModal('batchSettingsModal');
+}
+</script>
+
+</body>
+</html>
+

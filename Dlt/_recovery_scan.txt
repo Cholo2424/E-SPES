@@ -1,0 +1,47 @@
+﻿PWD: C:\Users\admin\Documents\eSPES
+
+GIT STATUS:
+?? Coordinator/
+?? Employee/
+?? Head/
+?? Student/
+?? _recovery_scan.txt
+
+GIT REFLOG:
+2ecb479 HEAD@{0}: commit (merge): HTML Files
+33a435f HEAD@{1}: Branch: renamed refs/heads/master to refs/heads/main
+33a435f HEAD@{3}: commit (initial): HTML Files
+
+VS HISTORY ROOT EXISTS:
+True
+VS HISTORY ROOT: C:\Users\admin\AppData\Roaming\Code\User\History
+
+TOP HISTORY DIRS:
+C:\Users\admin\AppData\Roaming\Code\User\History\-1031290f
+C:\Users\admin\AppData\Roaming\Code\User\History\-104318dd
+C:\Users\admin\AppData\Roaming\Code\User\History\-10669344
+C:\Users\admin\AppData\Roaming\Code\User\History\-10a0094
+C:\Users\admin\AppData\Roaming\Code\User\History\-11711d5b
+C:\Users\admin\AppData\Roaming\Code\User\History\-13b1543
+C:\Users\admin\AppData\Roaming\Code\User\History\-14f540e3
+C:\Users\admin\AppData\Roaming\Code\User\History\-155d9219
+C:\Users\admin\AppData\Roaming\Code\User\History\-15a38d35
+C:\Users\admin\AppData\Roaming\Code\User\History\-15f829fd
+
+ENTRY JSON SAMPLE:
+C:\Users\admin\AppData\Roaming\Code\User\History\-1031290f\entries.json
+C:\Users\admin\AppData\Roaming\Code\User\History\-104318dd\entries.json
+C:\Users\admin\AppData\Roaming\Code\User\History\-10669344\entries.json
+C:\Users\admin\AppData\Roaming\Code\User\History\-10a0094\entries.json
+C:\Users\admin\AppData\Roaming\Code\User\History\-11711d5b\entries.json
+
+PSREADLINE MODULE:
+
+Name       Version Path                                                        
+----       ------- ----                                                        
+PSReadLine 2.0.0   C:\Program Files\WindowsPowerShell\Modules\PSReadLine\2.0...
+
+
+
+
+DONE

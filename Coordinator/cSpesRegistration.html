@@ -1,0 +1,3066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-SPES | SPES Registration</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+/* Hide scrollbars globally */
+*{
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+*::-webkit-scrollbar{
+  width:0;
+  height:0;
+}
+
+/* Show custom scrollbar for content area */
+.content::-webkit-scrollbar {
+  width: 1px;
+  display: block;
+}
+
+.content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 5px;
+  max-height: 12px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+  width: 3px;
+  cursor: pointer;
+}
+
+.content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.05) transparent;
+}
+
+/* Show custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 1px;
+  display: block;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 5px;
+  max-height: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+  width: 2px;
+  cursor: pointer;
+}
+
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.04) transparent;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+  display: block;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
+  min-height: 5px;
+  min-width: 5px;
+  max-height: 12px;
+  max-width: 12px;
+  transition: all 0.2s ease;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.table-container {
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.05) transparent;
+}
+
+/* Hide sidebar scrollbar */
+.sidebar{
+  scrollbar-width:none !important;
+  -ms-overflow-style:none;
+}
+
+.sidebar::-webkit-scrollbar{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+}
+
+body{
+  margin:0;
+  background:#ffffff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-bottom:46px;
+}
+
+/* header */
+.header{
+  background:#242242;
+  color:white;
+  padding:12px 30px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+}
+
+.burger-btn{
+  border:none;
+  background:transparent;
+  color:#ffffff;
+  font-size:20px;
+  width:38px;
+  height:38px;
+  border-radius:6px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.burger-btn:hover{
+  background:rgba(255,255,255,0.12);
+}
+
+.header-text h1{
+  margin:0;
+  font-size:16px;
+}
+
+.header-text p{
+  margin:2px 0 0;
+  font-size:11px;
+  opacity:0.9;
+  font-style:italic;
+}
+
+.header-text{
+  flex:1 1 auto;
+}
+
+/* right side header */
+.header-right{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-info{
+  text-align:right;
+  font-size:12px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.user-info:hover{
+  opacity:0.8;
+}
+
+.avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e5e5e5;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.avatar:hover{
+  background:#d0d0d0;
+}
+
+/* profile dropdown */
+.profile-menu{
+  position:relative;
+}
+
+.profile-dropdown{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:8px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  min-width:150px;
+  display:none;
+  z-index:100;
+}
+
+.profile-dropdown.show{
+  display:block;
+}
+
+.profile-item{
+  padding:12px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+  border:none;
+  background:none;
+  width:100%;
+  text-align:left;
+}
+
+.profile-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.profile-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main wrapper */
+.main-wrapper{
+  flex:1;
+  padding:30px 120px 60px 120px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* breadcrumb */
+.breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:#666;
+  cursor:pointer;
+  margin-bottom:15px;
+}
+
+.breadcrumb i{
+  font-size:12px;
+}
+
+/* top bar with breadcrumb and menu */
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+/* 3-dot menu */
+.menu-dots{
+  position:relative;
+  margin-left:auto;
+}
+
+.dots-btn{
+  background:transparent;
+  border:none;
+  border-radius:4px;
+  padding:6px 12px;
+  cursor:pointer;
+  font-size:18px;
+  color:#666;
+  transition:.2s;
+}
+
+.dots-btn:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-menu{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:5px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  min-width:160px;
+  display:none;
+  z-index:100;
+}
+
+.dropdown-menu.show{
+  display:block;
+}
+
+.dropdown-item{
+  padding:10px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+}
+
+.dropdown-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main*/
+.main{
+  display:flex;
+  gap:11px;
+  flex:1;
+  overflow:hidden;
+}
+
+/* sidebar */
+.sidebar{
+  width:235px; 
+  background:#f3f3f3;
+  border-radius:5px;
+  padding:0px;
+  border:1px solid #d0d0d0;
+  flex-shrink:0;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+  max-height:calc(100vh - 160px);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-profile{
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:16px 14px;
+  border-bottom:1px solid #e1e1e1;
+  background:#ededed;
+}
+
+.sidebar-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#d9d9d9;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+  flex-shrink:0;
+}
+
+.sidebar-user h4{
+  margin:0;
+  font-size:13px;
+  color:#222;
+  font-weight:700;
+}
+
+.sidebar-user p{
+  margin:2px 0 0;
+  font-size:11px;
+  color:#666;
+  font-weight:500;
+}
+
+/* menu */
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:34px 14px;
+  border-radius:6px;
+  font-size:14.5px;
+  color:#666;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.menu-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.menu-item i{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+/* hover */
+.menu-item:hover{
+  background:#e6e6e6;
+}
+
+.menu-item:hover .fa-chevron-right{
+  background:#bfc3c9;
+  color:#666666;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+}
+
+/* keep parent highlighted when hovering submenu */
+.submenu-wrapper > .menu-item:not(.active):hover{
+  background:#e6e6e6;
+}
+
+/* sidebar menu container */
+.sidebar-menu{
+  flex:1;
+  overflow-y:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+.sidebar-menu::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+
+/* logout menu item */
+.menu-item-logout{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px 20px;
+  border-radius:8px;
+  font-size:15.5px;
+  color:#222;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  text-decoration:none;
+  background:#e4e6eb;
+  border:1px solid #ced0d4;
+  width:calc(100% - 28px);
+  text-align:center;
+  margin-top:30px;
+  margin-bottom:70px;
+  margin-left:14px;
+  margin-right:14px;
+  font-weight:700;
+}
+
+.menu-item-logout:hover{
+  background:#d8dadf;
+  border-color:#bcc0c4;
+}
+
+.menu-item-logout i{
+  width:18px;
+  text-align:center;
+}
+
+/* active */
+.menu-item.active{
+  background:#ffffff;
+  color:rgb(40, 32, 32);
+  border-radius: 0px;
+}
+
+.menu-item.active i{
+  color:rgb(32, 30, 30);
+}
+
+/* arrow rotate for active */
+.menu-item.active .fa-chevron-right{
+  background:#1a1a1a;
+  color:#ffffff;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+  transform:rotate(0deg);
+}
+
+/* arrow down for active SPES Management only when submenu is showing */
+.menu-item.active.menu-submenu .fa-chevron-right{
+  transform:rotate(90deg);
+  transition:transform 0.3s ease;
+}
+
+/* arrow down when hovering SPES Management or submenu */
+.submenu-wrapper > .menu-item:hover .fa-chevron-right{
+  transform:rotate(90deg) !important;
+}
+
+/* submenu styles */
+.submenu-wrapper{
+  position:relative;
+}
+
+.submenu{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.3s ease;
+  background:#e8e8e8;
+}
+
+.submenu.show{
+  max-height:300px;
+}
+
+.submenu-wrapper:hover .submenu{
+  max-height:300px;
+}
+
+.submenu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 14px 18px 45px;
+  font-size:12.5px;
+  color:#555;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  border-left:3px solid transparent;
+}
+
+.submenu-item:hover{
+  background:#d8d8d8;
+}
+
+.submenu-item.active{
+  background:#ffffff;
+  color:#242242;
+  border-left-color:#242242;
+  font-weight:500;
+}
+
+.submenu-item i{
+  font-size:8px;
+  color:#999;
+}
+
+.submenu-item.active i{
+  color:#242242;
+}
+
+/* main content*/
+.content{
+  flex:1;
+  background:#ffffff;
+  border-radius:4px;
+  padding:14px;
+  border:1px solid #d0d0d0;
+  position:relative;
+  overflow-y:hidden;
+  overflow-x:hidden;
+  max-height:calc(100vh - 160px);
+}
+
+.loading-bar{
+  position:absolute;
+  top:38px;
+  left:0;
+  right:0;
+  width:0;
+  height:2px;
+  background:#3b82f6;
+  transition:width 0.8s ease;
+  z-index:5;
+}
+
+.loading-bar.active{
+  width:100%;
+}
+
+/* toolbar */
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+  position:sticky;
+  top:0;
+  z-index:6;
+  background:#ffffff;
+  padding-bottom:10px;
+}
+
+.search-box{
+  flex:1;
+  min-width:250px;
+  position:relative;
+}
+
+.search-box input{
+  width:100%;
+  padding:10px 40px 10px 15px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+}
+
+.search-box i{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#888;
+  cursor:pointer;
+}
+
+.filter-select{
+  padding:10px 35px 10px 15px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  background:#fff;
+  cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+}
+
+.btn-primary{
+  padding:10px 20px;
+  background:#242242;
+  color:white;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:500;
+  transition:.2s;
+}
+
+.btn-primary:hover{
+  background:#363454;
+}
+
+.refresh-btn{
+  padding:10px 12px;
+  border:1px solid #d0d0d0;
+  background:white;
+  border-radius:4px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.refresh-btn:hover{
+  background:#f5f5f5;
+}
+
+.refresh-btn:active{
+  transform:scale(0.95);
+}
+
+/* table */
+.table-container{
+  overflow:auto;
+  margin-bottom:20px;
+  position:relative;
+  max-height:calc(100vh - 340px);
+}
+
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
+.data-table th{
+  background:#f8f8f8;
+  padding:12px 10px;
+  text-align:left;
+  font-weight:600;
+  color:#555;
+  border-bottom:2px solid #d0d0d0;
+  white-space:nowrap;
+  position:sticky;
+  top:0;
+  z-index:3;
+}
+
+.data-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #f0f0f0;
+}
+
+.data-table tbody tr:hover{
+  background:#fafafa;
+  cursor:pointer;
+}
+
+.profile-cell{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.profile-avatar{
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:#e0e0e0;
+  color:#555;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  font-size:12px;
+  flex-shrink:0;
+}
+
+.applicant-name{
+  font-weight:500;
+  color:#333;
+  display:block;
+  margin-bottom:2px;
+}
+
+.applicant-email{
+  color:#888;
+  font-size:11px;
+}
+
+.editable-remarks,
+.editable-endorsed{
+  min-width:100px;
+}
+
+.editable-control,
+.editable-env{
+  min-width:70px;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:3px;
+  font-size:11px;
+  font-weight:500;
+}
+
+.badge-online{
+  background:#e8f4f8;
+  color:#0288d1;
+}
+
+.badge-walkin{
+  background:#fff3e0;
+  color:#f57c00;
+}
+
+.badge-pending{
+  background:#f5f5f5;
+  color:#666;
+}
+
+.badge-approved{
+  background:#000;
+  color:#fff;
+}
+
+.badge-rejected{
+  background:#ffebee;
+  color:#c62828;
+}
+
+.badge-completed{
+  background:#e8f5e9;
+  color:#2e7d32;
+}
+
+/* Requirements progress */
+.req-progress{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:100px;
+}
+
+.req-progress-bar{
+  width:100%;
+  height:6px;
+  background:#e0e0e0;
+  border-radius:3px;
+  overflow:hidden;
+}
+
+.req-progress-fill{
+  height:100%;
+  background:#2e7d32;
+  border-radius:3px;
+  transition:width 0.3s ease;
+}
+
+.req-progress-fill.partial{
+  background:#f57c00;
+}
+
+.req-progress-text{
+  font-size:10px;
+  color:#666;
+  font-weight:500;
+}
+
+/* Requirements checklist in modal */
+.req-checklist{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.req-check-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  background:#f8f8f8;
+  border-radius:6px;
+  border:1px solid #e8e8e8;
+  transition:.2s;
+  cursor:pointer;
+}
+
+.req-check-item:hover{
+  background:#f0f0f0;
+  border-color:#d0d0d0;
+}
+
+.req-check-item.checked{
+  background:#e8f5e9;
+  border-color:#a5d6a7;
+}
+
+.req-check-item.checked .req-check-label{
+  color:#2e7d32;
+}
+
+.req-check-item.checked .req-check-icon{
+  background:#2e7d32;
+  border-color:#2e7d32;
+  color:#fff;
+}
+
+.req-check-icon{
+  width:22px;
+  height:22px;
+  border-radius:4px;
+  border:2px solid #ccc;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  font-size:12px;
+  color:transparent;
+  transition:.2s;
+}
+
+.req-check-label{
+  font-size:12px;
+  color:#555;
+  font-weight:500;
+  flex:1;
+}
+
+.req-check-date{
+  font-size:10px;
+  color:#999;
+  white-space:nowrap;
+}
+
+/* Approve button in details modal */
+.details-modal-footer-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  width:100%;
+  justify-content:space-between;
+}
+
+.btn-approve-official{
+  padding:10px 24px;
+  background:#2e7d32;
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:600;
+  transition:.2s;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.btn-approve-official:hover{
+  background:#1b5e20;
+}
+
+.btn-approve-official:disabled{
+  background:#ccc;
+  cursor:not-allowed;
+}
+
+.btn-approve-official:disabled:hover{
+  background:#ccc;
+}
+
+/* Requirements summary in modal */
+.req-summary{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 16px;
+  background:#f0f7ff;
+  border:1px solid #d0dff0;
+  border-radius:6px;
+  margin-bottom:16px;
+}
+
+.req-summary.all-complete{
+  background:#e8f5e9;
+  border-color:#a5d6a7;
+}
+
+.req-summary-icon{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  flex-shrink:0;
+}
+
+.req-summary-icon.pending{
+  background:#fff3e0;
+  color:#f57c00;
+}
+
+.req-summary-icon.complete{
+  background:#e8f5e9;
+  color:#2e7d32;
+}
+
+.req-summary-text{
+  font-size:12px;
+  color:#555;
+  line-height:1.5;
+}
+
+.req-summary-text strong{
+  color:#333;
+}
+
+/* Action btn for mark complete in table */
+.action-btn.approve-btn{
+  background:#e8f5e9;
+  border-color:#a5d6a7;
+}
+
+.action-btn.approve-btn i{
+  color:#2e7d32;
+}
+
+.action-btn.approve-btn:hover{
+  background:#c8e6c9;
+}
+
+.action-btn.approve-btn:disabled{
+  opacity:0.4;
+  cursor:not-allowed;
+}
+
+.action-btn.approve-btn:disabled:hover{
+  background:#e8f5e9;
+}
+
+.applicant-name.flagged {
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+.row-flagged {
+  background: #ffebee !important;
+}
+
+.row-flagged:hover {
+  background: #ffcdd2 !important;
+}
+
+.flag-icon {
+  color: #d32f2f;
+  font-size: 11px;
+  margin-left: 6px;
+  animation: flagPulse 2s infinite;
+}
+
+@keyframes flagPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.action-btn{
+  width:28px;
+  height:28px;
+  border-radius:4px;
+  border:1px solid #d0d0d0;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.action-btn:hover{
+  background:#f0f0f0;
+}
+
+.action-btn i{
+  font-size:11px;
+  color:#666;
+}
+
+.action-btn.active{
+  background:#242242;
+  border-color:#242242;
+}
+
+.action-btn.active i{
+  color:#fff;
+}
+
+/* editable fields */
+.editable-control[contenteditable="true"],
+.editable-env[contenteditable="true"],
+.editable-remarks[contenteditable="true"],
+.editable-endorsed[contenteditable="true"]{
+  background:#fffacd;
+  border:1px solid #ffd700;
+  padding:6px 8px;
+  border-radius:3px;
+  cursor:text;
+  outline:none;
+}
+
+/* editable row highlight */
+tr.is-editing{
+  background:#fafafa !important;
+}
+
+.status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#4caf50;
+  display:inline-block;
+}
+
+/* pagination */
+.pagination{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  margin-top:12px;
+  gap:15px;
+  font-size:13px;
+  color:#666;
+}
+
+.pagination-controls{
+  display:flex;
+  gap:5px;
+}
+
+.page-btn{
+  width:32px;
+  height:32px;
+  border:1px solid #d0d0d0;
+  background:white;
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
+}
+
+.page-btn:hover{
+  background:#f0f0f0;
+}
+
+.page-btn.active{
+  background:#242242;
+  color:white;
+  border-color:#242242;
+}
+
+/* archive modal */
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:200;
+  padding:20px;
+}
+
+.modal-backdrop.show{
+  display:flex;
+}
+
+.archive-section{
+  width:min(1100px, 95vw);
+  max-height:85vh;
+  overflow:auto;
+  border:1px solid #d0d0d0;
+  border-radius:8px;
+  padding:18px 20px 20px;
+  background:#ffffff;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.archive-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+
+.archive-title{
+  margin:0;
+  font-size:14px;
+  color:#333;
+}
+
+.modal-close{
+  border:none;
+  background:#f2f2f2;
+  color:#333;
+  width:30px;
+  height:30px;
+  border-radius:6px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-close:hover{
+  background:#e6e6e6;
+}
+
+/* footer*/
+.footer{
+  background:#242242;
+  color:white;
+  text-align:center;
+  padding:10px;
+  font-size:9px;
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:400;
+}
+
+/* Details Modal Styles */
+.details-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.details-modal-backdrop.show {
+  display: flex;
+}
+
+.details-modal-content {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.details-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background: white;
+}
+
+.details-modal-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 0.5px;
+}
+
+.details-modal-close {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s;
+  font-size: 18px;
+  color: #666;
+}
+
+.details-modal-close:hover {
+  color: #333;
+}
+
+.details-modal-body {
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.details-section {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.details-section:last-child {
+  border-bottom: none;
+}
+
+.details-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #666;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.details-row {
+  display: flex;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.details-row:last-child {
+  margin-bottom: 0;
+}
+
+.details-label {
+  font-size: 12px;
+  color: #666;
+  min-width: 120px;
+  font-weight: 500;
+}
+
+.details-value {
+  font-size: 12px;
+  color: #333;
+  font-weight: 600;
+  flex: 1;
+  word-break: break-word;
+}
+
+.details-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f8f8f8;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.details-file:hover {
+  background: #e8e8e8;
+  transform: translateX(2px);
+}
+
+.details-file:last-child {
+  margin-bottom: 0;
+}
+
+.details-file i {
+  color: #e53935;
+  font-size: 14px;
+}
+
+.details-file-icon {
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+}
+
+.details-modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  background: white;
+}
+
+.btn-close-details {
+  padding: 10px 32px;
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-close-details:hover {
+  background: #e8e8e8;
+  color: #333;
+}
+
+.details-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.details-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.details-modal-body::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+.details-modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.details-modal-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+.flag-warning-section {
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  padding: 16px 20px;
+  margin: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.flag-warning-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e65100;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flag-warning-title i {
+  font-size: 14px;
+}
+
+.flag-item {
+  font-size: 12px;
+  color: #bf360c;
+  margin-bottom: 8px;
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.flag-item:last-child {
+  margin-bottom: 0;
+}
+
+.flag-item:before {
+  content: "•";
+  position: absolute;
+  left: 4px;
+  font-weight: 700;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS (matched to New SPES)
+   ============================================ */
+
+@media (max-width: 1024px){
+  .main-wrapper{
+    padding:24px 32px 60px 32px;
+  }
+
+  .main{
+    gap:8px;
+  }
+
+  .sidebar{
+    width:220px;
+  }
+
+  .content{
+    padding:14px;
+  }
+
+  .top-bar{
+    gap:8px;
+  }
+}
+
+@media (max-width: 720px){
+  .header{
+    padding:10px 20px;
+    gap:10px;
+    flex-wrap:nowrap;
+  }
+
+  .header img{
+    width:32px;
+    height:32px;
+  }
+
+  .header-text{
+    flex:1 1 auto;
+  }
+
+  .header-text h1{
+    font-size:13px;
+    line-height:1.2;
+  }
+
+  .header-text p{
+    font-size:9px;
+  }
+
+  .header-right{
+    display:none;
+  }
+
+  .burger-btn{
+    display:flex;
+  }
+
+  .main-wrapper{
+    padding:20px 16px 40px 16px;
+    overflow:visible;
+  }
+
+  .main{
+    position:relative;
+    overflow:visible;
+  }
+
+  .content{
+    max-height:none;
+  }
+
+  .sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    width:min(320px, 90vw);
+    background:#f3f3f3;
+    transform:translateX(-110%);
+    transition:transform 0.25s ease;
+    z-index:500;
+    border-radius:0;
+    border:none;
+    max-height:100vh;
+  }
+
+  .sidebar-profile{
+    display:flex;
+    flex-shrink:0;
+  }
+
+  .sidebar-menu{
+    flex:1;
+    overflow-y:auto;
+    padding-bottom:0;
+  }
+
+  .menu-item-logout{
+    display:flex;
+    margin-bottom:20px;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .sidebar-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:450;
+  }
+
+  .sidebar-overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .footer{
+    padding:8px;
+    font-size:9px;
+  }
+}
+
+.ml-16{
+  margin-left:16px;
+}
+
+.h-8{
+  height:8px;
+}
+
+/* ═══ Confirm Modal ═══ */
+.confirm-panel{ width:min(420px,90vw); background:#fff; border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,0.2); text-align:center; padding:30px 24px 24px; border:1px solid #d0d0d0; }
+.confirm-icon{ width:56px; height:56px; border-radius:50%; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:24px; }
+.confirm-icon.danger{ background:#fce4ec; color:#c62828; }
+.confirm-icon.info{ background:#e3f2fd; color:#1565c0; }
+.confirm-icon.success{ background:#e8f5e9; color:#2e7d32; }
+.confirm-icon.warning{ background:#fff3e0; color:#e65100; }
+#confirmTitle{ margin:0 0 8px; font-size:16px; color:#333; }
+#confirmText{ margin:0 0 20px; font-size:13px; color:#666; line-height:1.6; white-space:pre-line; }
+.confirm-actions{ display:flex; gap:10px; justify-content:center; }
+.confirm-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; z-index:1000; }
+.confirm-backdrop.show{ display:flex; }
+.btn-cancel-confirm{ padding:10px 20px; background:#f5f5f5; color:#555; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; cursor:pointer; font-weight:500; transition:.2s; }
+.btn-cancel-confirm:hover{ background:#eee; }
+
+/* ═══ Toast Notifications ═══ */
+.toast-container{ position:fixed; bottom:20px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
+.toast{ min-width:300px; max-width:450px; padding:14px 18px; border-radius:8px; background:#fff; box-shadow:0 4px 16px rgba(0,0,0,0.15); display:flex; align-items:flex-start; gap:10px; font-size:13px; border-left:4px solid #333; animation:toastIn .3s ease; line-height:1.5; }
+.toast.success{ border-left-color:#2e7d32; }
+.toast.success i{ color:#2e7d32; }
+.toast.error{ border-left-color:#c62828; }
+.toast.error i{ color:#c62828; }
+.toast.info{ border-left-color:#1565c0; }
+.toast.info i{ color:#1565c0; }
+.toast.warning{ border-left-color:#e65100; }
+.toast.warning i{ color:#e65100; }
+.toast i{ margin-top:2px; flex-shrink:0; font-size:16px; }
+.toast span{ flex:1; }
+.toast-close{ background:none; border:none; color:#aaa; cursor:pointer; font-size:14px; padding:0; margin-left:8px; transition:.2s; flex-shrink:0; }
+.toast-close:hover{ color:#333; }
+@keyframes toastIn{ from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+@media(max-width:720px){.breadcrumb{display:none;}}
+
+/* Force-hide icons in alert/notif UI for consistency */
+.toast i, .confirm-icon i, .notification i{ display:none !important; }
+
+.notif-badge{display:inline-block;min-width:18px;padding:1px 6px;margin-left:6px;border-radius:999px;background:#d32f2f;color:#fff;font-size:11px;line-height:16px;text-align:center;font-weight:700;vertical-align:middle;}
+</style>
+</head>
+
+<body>
+<!-- header -->
+<div class="header">
+
+<button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="spesLogo.png" alt="SPES Logo">
+
+<div class="header-text">
+<h1>Special Program for the Employment of Students</h1>
+<p>SPES Beneficiaries Management Information System</p>
+</div>
+
+<div class="header-right">
+  <div class="user-info" id="userInfo">
+    <strong>Louraine A. Pecayo</strong><br>
+    Coordinator
+  </div>
+  <div class="profile-menu">
+    <div class="avatar" id="profileBtn">LP</div>
+    <div class="profile-dropdown" id="profileDropdown">
+      <button class="profile-item" onclick="goToSettings()">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+      </button>
+      <button class="profile-item" onclick="confirmLogout()">
+        <i class="fa-solid fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- main wrapper -->
+<div class="main-wrapper">
+
+<!-- top bar -->
+<div class="top-bar">
+  <!-- breadcrumb -->
+  <div class="breadcrumb">
+    <i class="fa-solid fa-house"></i>
+    <span>Back ></span>
+  </div>
+  
+  <!-- 3-dot menu -->
+  <div class="menu-dots">
+    <button class="dots-btn" id="menuDotsBtn">
+      <i class="fa-solid fa-ellipsis"></i>
+    </button>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="dropdown-item" onclick="importExcel()">
+        <i class="fa-solid fa-file-import"></i>
+        Import Excel
+      </div>
+      <div class="dropdown-item" onclick="exportExcel()">
+        <i class="fa-solid fa-file-export"></i>
+        Export to Excel
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- main -->
+<div class="main">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- sidebar -->
+<div class="sidebar">
+
+  <div class="sidebar-profile">
+    <div class="sidebar-avatar">LP</div>
+    <div class="sidebar-user">
+      <h4>Louraine A. Pecayo</h4>
+      <p>Coordinator</p>
+    </div>
+  </div>
+
+<div class="sidebar-menu">
+
+<a href="cDashboard.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-house"></i>
+    Dashboard
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cNewSPES.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-user-plus"></i>
+    New SPES
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<div class="submenu-wrapper">
+  <a href="cSpesRegistration.html" class="menu-item active menu-submenu" id="spesManagementBtn">
+    <div class="menu-left">
+      <i class="fa-solid fa-briefcase"></i>
+      SPES Management
+    </div>
+    <i class="fa-solid fa-chevron-right"></i>
+  </a>
+  
+  <div class="submenu show" id="spesSubmenu">
+    <a href="cSpesRegistration.html" class="submenu-item active">
+      <span>SPES Registration</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="cSpesBene.html" class="submenu-item">
+      <span>SPES Beneficiaries</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="cSpesAccounts.html" class="submenu-item">
+      <span>SPES Accounts</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="cSpesAR.html" class="submenu-item">
+      <span>Accomplishment Report</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+  </div>
+</div>
+
+<a href="cDeployment.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-check-square"></i>
+    Deployment
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cAnnouncements.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-bullhorn"></i>
+    Announcements
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cDemographic.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-chart-pie"></i>
+    Demographic Data
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cTeamAcc.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-users"></i>
+    Team Accounts
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cSettings.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-gear"></i>
+    Settings
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<button class="menu-item-logout" onclick="confirmLogout()">
+  Log Out
+</button>
+
+</div>
+
+</div>
+
+<!-- main content -->
+<div class="content">
+
+<!-- toolbar -->
+<div class="toolbar">
+  <div class="search-box">
+    <input type="text" placeholder="Search here..." id="searchInput">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  
+  <button class="refresh-btn" id="refreshBtn">
+    <i class="fa-solid fa-rotate-right"></i>
+  </button>
+
+  <button class="btn-primary" id="bulkEditBtn" style="display:flex;align-items:center;gap:6px">
+    <i class="fa-solid fa-pen-to-square"></i>
+    <span id="bulkEditText">Edit All</span>
+  </button>
+  
+  <select class="filter-select">
+    <option>A-Z</option>
+    <option>Z-A</option>
+  </select>
+  
+  <select class="filter-select">
+    <option>2026</option>
+    <option>2025</option>
+    <option>2024</option>
+  </select>
+
+  <select class="filter-select">
+    <option>BATCH 1</option>
+    <option>BATCH 2</option>
+    <option>BATCH 3</option>
+  </select>
+
+  <select class="filter-select" id="statusFilter">
+    <option value="all">All Status</option>
+    <option value="pending">Pending</option>
+    <option value="approved">Approved</option>
+    <option value="completed">Completed</option>
+    <option value="rejected">Rejected</option>
+    <option value="flagged">Flagged</option>
+  </select>
+
+  <select id="pageSizeSelectTop" class="filter-select" title="Page size">
+    <option value="10">10</option>
+    <option value="25">25</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+    <option value="300" selected>300</option>
+    <option value="all">All</option>
+  </select>
+</div>
+
+<!-- table -->
+<div class="table-container">
+  <div class="loading-bar" id="loadingBar"></div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>PROFILE</th>
+        <th>CONTROL NO#</th>
+        <th>ENV NO.</th>
+        <th>NAME</th>
+        <th>DATE OF BIRTH</th>
+        <th>AGE</th>
+        <th>DATE OF REGUSTRATION</th>
+        <th>SEX</th>
+        <th>CONTACT</th>
+        <th>EMAIL ADDRESS</th>
+        <th>BARANGGAY</th>
+        <th>COURSE/STRAND</th>
+        <th>SCHOOL</th>
+        <th>S.Y/A.C. END</th>
+        <th>STATUS</th>
+        <th>LAST ASSIGNMENT</th>
+        <th>REQUIREMENTS</th>
+        <th>REMARKS</th>
+        <th>GSIS/100%</th>
+        <th>LASY YEAR GSIS/100%</th>
+        <th>END#</th>
+        <th>ENDORSED BY</th>
+        <th>ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody id="registrationTbody"></tbody>
+  </table>
+</div>
+
+</div>
+
+</div>
+
+<!-- pagination -->
+<div class="pagination">
+  <div id="resultsInfo">Showing results 0 - 0</div>
+  <div class="pagination-controls" id="paginationControls"></div>
+  <div class="ml-16">
+    <select id="pageSizeSelectBottom" class="filter-select" title="Page size">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="300" selected>300</option>
+      <option value="all">All</option>
+    </select>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<!-- Details Modal -->
+<div class="details-modal-backdrop" id="detailsModal" onclick="closeDetailsModalOnBackdrop(event)">
+  <div class="details-modal-content" onclick="event.stopPropagation()">
+    <div class="details-modal-header">
+      <h3>REGISTRATION DETAILS & REQUIREMENTS</h3>
+      <button class="details-modal-close" onclick="closeDetailsModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="details-modal-body" id="detailsModalBody">
+      <!-- Content will be dynamically populated -->
+    </div>
+    <div class="details-modal-footer">
+      <div class="details-modal-footer-actions">
+        <button class="btn-close-details" onclick="closeDetailsModal()">CLOSE</button>
+        <button class="btn-approve-official" id="btnApproveOfficial" disabled onclick="approveAsOfficialSpes()">
+          <i class="fa-solid fa-user-check"></i>
+          Mark as Complete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+<div class="footer">
+Copyright © 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<script>
+// Highlight active menu dynamically
+const items = document.querySelectorAll('.menu-item');
+const spesManagementParentMenu = document.querySelector('.menu-item.menu-submenu');
+
+function syncSpesManagementActiveState(){
+  if(!spesManagementParentMenu) return;
+  if(document.querySelector('.submenu-item.active')){
+    spesManagementParentMenu.classList.add('active');
+  }
+}
+
+items.forEach(item=>{
+  item.addEventListener('click',()=>{
+    items.forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+syncSpesManagementActiveState();
+
+// Toggle SPES Management submenu
+const spesManagementBtn = document.getElementById('spesManagementBtn');
+const spesSubmenu = document.getElementById('spesSubmenu');
+
+if(spesManagementBtn && spesSubmenu){
+  spesManagementBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    spesSubmenu.classList.toggle('show');
+    
+    // Toggle arrow rotation based on submenu visibility
+    const arrow = this.querySelector('.fa-chevron-right');
+    if(spesSubmenu.classList.contains('show')){
+      arrow.style.transform = 'rotate(90deg)';
+    } else {
+      arrow.style.transform = 'rotate(0deg)';
+    }
+  });
+}
+
+// Refresh button loading animation
+const refreshBtn = document.getElementById('refreshBtn');
+const loadingBar = document.getElementById('loadingBar');
+
+refreshBtn.addEventListener('click', () => {
+  loadingBar.classList.add('active');
+
+  if(typeof window._loadRegistrationApplicants === 'function'){
+    window._loadRegistrationApplicants();
+  }
+  
+  setTimeout(() => {
+    loadingBar.classList.remove('active');
+  }, 800);
+});
+
+// Mobile sidebar toggle
+const burgerBtn = document.getElementById('burgerBtn');
+const sidebar = document.querySelector('.sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+if(burgerBtn && sidebar && sidebarOverlay){
+  burgerBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('show');
+  });
+
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('show');
+  });
+}
+
+// === Bulk Edit All ===
+let bulkEditMode = false;
+
+function enableRowEditing(row){
+  row.classList.add('is-editing');
+  const controlCell  = row.querySelector('.editable-control');
+  const envCell      = row.querySelector('.editable-env');
+  const remarksCell  = row.querySelector('.editable-remarks');
+  const endorsedCell = row.querySelector('.editable-endorsed');
+  if(controlCell)  controlCell.contentEditable  = true;
+  if(envCell)      envCell.contentEditable      = true;
+  if(remarksCell)  remarksCell.contentEditable  = true;
+  if(endorsedCell) endorsedCell.contentEditable = true;
+  const editBtn = row.querySelector('.edit-btn');
+  if(editBtn){
+    editBtn.classList.add('active');
+    editBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+    editBtn.title = 'Save';
+  }
+}
+
+function disableRowEditing(row){
+  row.classList.remove('is-editing');
+  const controlCell  = row.querySelector('.editable-control');
+  const envCell      = row.querySelector('.editable-env');
+  const remarksCell  = row.querySelector('.editable-remarks');
+  const endorsedCell = row.querySelector('.editable-endorsed');
+  if(controlCell)  controlCell.contentEditable  = false;
+  if(envCell)      envCell.contentEditable      = false;
+  if(remarksCell)  remarksCell.contentEditable  = false;
+  if(endorsedCell) endorsedCell.contentEditable = false;
+  const editBtn = row.querySelector('.edit-btn');
+  if(editBtn){
+    editBtn.classList.remove('active');
+    editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+    editBtn.title = 'Edit';
+  }
+}
+
+function saveRowData(row){
+  const recordId = parseInt(row.dataset.recordId);
+  const record = window.registrationRecords?.find(r => r.i === recordId);
+  if(record){
+    const controlCell  = row.querySelector('.editable-control');
+    const envCell      = row.querySelector('.editable-env');
+    const remarksCell  = row.querySelector('.editable-remarks');
+    const endorsedCell = row.querySelector('.editable-endorsed');
+    if(controlCell)  record.controlNo  = controlCell.textContent.trim();
+    if(envCell)      record.envNo      = envCell.textContent.trim();
+    if(endorsedCell) record.endorsedBy = endorsedCell.textContent.trim();
+  }
+}
+
+document.getElementById('bulkEditBtn').addEventListener('click', ()=>{
+  bulkEditMode = !bulkEditMode;
+  const btn = document.getElementById('bulkEditBtn');
+  const btnText = document.getElementById('bulkEditText');
+
+  if(bulkEditMode){
+    btn.style.background = '#2e7d32';
+    btnText.textContent = 'Save All';
+    document.querySelectorAll('#registrationTbody tr').forEach(row => enableRowEditing(row));
+    showToast('Bulk edit mode enabled — edit Control #, ENV #, Remarks, Endorsed By', 'info');
+  } else {
+    let savedCount = 0;
+    document.querySelectorAll('#registrationTbody tr').forEach(row => {
+      saveRowData(row);
+      disableRowEditing(row);
+      savedCount++;
+    });
+    btn.style.background = '';
+    btnText.textContent = 'Edit All';
+    showToast(`${savedCount} rows saved successfully.`, 'success');
+  }
+});
+
+// Edit actions (per-row)
+document.addEventListener('click', function(e){
+  const editBtn = e.target.closest('.edit-btn');
+  if(editBtn){
+    const row = editBtn.closest('tr');
+    const isEditing = !row.classList.contains('is-editing');
+    if(isEditing){
+      enableRowEditing(row);
+    } else {
+      saveRowData(row);
+      disableRowEditing(row);
+      showToast('Row saved.', 'success');
+    }
+    return;
+  }
+
+  // Click on table row to open details modal (except action buttons, inputs, and editable cells being edited)
+  const row = e.target.closest('#registrationTbody tr');
+  if(row && !e.target.closest('.actions') && !e.target.closest('[contenteditable="true"]')){
+    const recordId = parseInt(row.dataset.recordId);
+    if(recordId) viewRecordDetails(recordId);
+  }
+});
+</script>
+
+<script>
+// 3-dot menu toggle
+const menuDotsBtn = document.getElementById('menuDotsBtn');
+const dropdownMenu = document.getElementById('dropdownMenu');
+
+if(menuDotsBtn){
+  menuDotsBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    dropdownMenu.classList.toggle('show');
+  });
+}
+
+// Profile dropdown toggle
+const profileBtn = document.getElementById('profileBtn');
+const userInfo = document.getElementById('userInfo');
+const profileDropdown = document.getElementById('profileDropdown');
+
+if(profileBtn && profileDropdown){
+  profileBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    profileDropdown.classList.toggle('show');
+  });
+}
+
+if(userInfo && profileDropdown){
+  userInfo.addEventListener('click', function(e){
+    e.stopPropagation();
+    profileDropdown.classList.toggle('show');
+  });
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(){
+  if(dropdownMenu){
+    dropdownMenu.classList.remove('show');
+  }
+  if(profileDropdown){
+    profileDropdown.classList.remove('show');
+  }
+});
+
+// Settings function
+function goToSettings(){
+  window.location.href = 'cSettings.html';
+}
+
+// Logout confirmation
+function confirmLogout(){
+  showConfirm('Logout', 'Are you sure you want to logout?', 'warning', 'Logout', 'btn-primary', function(){ window.location.href = '../login.html'; });
+}
+
+// Import Excel function
+function importExcel(){
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.xlsx, .xls, .csv';
+  input.onchange = function(e){
+    const file = e.target.files[0];
+    if(file){
+      showToast('File selected: ' + file.name, 'success');
+    }
+  };
+  input.click();
+  dropdownMenu.classList.remove('show');
+}
+
+// Export Excel function
+function exportExcel(){
+  const table = document.querySelector('.data-table');
+  if(!table){
+    showToast('No table data to export.', 'warning');
+    return;
+  }
+  
+  let csv = [];
+  const rows = table.querySelectorAll('tr');
+  
+  for(let row of rows){
+    let cols = row.querySelectorAll('th, td');
+    let csvRow = [];
+    for(let col of cols){
+      csvRow.push('"' + col.innerText.replace(/"/g, '""') + '"');
+    }
+    csv.push(csvRow.join(','));
+  }
+  
+  const csvContent = csv.join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'spes_data_' + new Date().getTime() + '.csv';
+  a.click();
+  window.URL.revokeObjectURL(url);
+  
+  dropdownMenu.classList.remove('show');
+}
+
+
+</script>
+
+<script>
+// Data generation + pagination for Registration table (matching New SPES pattern)
+(function(){
+  const API_BASE_CANDIDATES = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://127.0.0.1:8001',
+    'http://localhost:8001'
+  ];
+  let ACTIVE_API_BASE = API_BASE_CANDIDATES[0];
+
+  function apiBasePriority(){
+    return [ACTIVE_API_BASE].concat(API_BASE_CANDIDATES.filter(base => base !== ACTIVE_API_BASE));
+  }
+
+  async function fetchWithApiBase(path, options){
+    const opts = options || {};
+    let lastError = null;
+
+    for(const base of apiBasePriority()){
+      try {
+        const response = await fetch(`${base}${path}`, opts);
+        if(response.status === 404){
+          lastError = new Error(`API endpoint not found on ${base}`);
+          continue;
+        }
+
+        ACTIVE_API_BASE = base;
+        return response;
+      } catch(err){
+        if(err && err.name === 'AbortError') throw err;
+        lastError = err;
+      }
+    }
+
+    throw lastError || new Error('Cannot connect to backend');
+  }
+
+  const totalItems = 0;
+  const records = [];
+
+  const firstNames = ['JUAN','MARIA','JOSE','ANA','CARLO','ROSA','MARK','NINA','LUIS','GRACE','RYAN','CLAIRE','JAMES','LIZA','KEVIN'];
+  const lastNames  = ['DELA CRUZ','REYES','SANTOS','GARCIA','TORRES','FLORES','RAMOS','MENDOZA','CASTRO','BAUTISTA','AQUINO','SALAZAR','LOPEZ','HERNANDEZ','VILLANUEVA'];
+  const barangays  = ['MAKILING','BANADERO','REAL','PARIAN','CANLUBANG','MAJADA','HALANG','PACIANO RIZAL','BUCAL','NIUGAN'];
+  const courses    = ['BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY','BACHELOR OF SCIENCE IN COMPUTER SCIENCE','BACHELOR OF SCIENCE IN NURSING','BS ENGINEERING','BS ACCOUNTANCY','BACHELOR OF SECONDARY EDUCATION'];
+  const schools    = ['CITY COLLEGE OF CALAMBA','UNIVERSITY OF THE PHILIPPINES','DE LA SALLE UNIVERSITY','CITY UNIVERSITY','NATIONAL UNIVERSITY'];
+  const assignments= ['City Hall','Library','IT Office','Records Office','HR Department','Finance Office','Engineering Office','-'];
+  const endorsers  = ['Admin Office','HR Department','IT Head','Records Manager','Finance Head','Mayor\'s Office',''];
+  const gsis       = ['Yes','No','-'];
+  const contacts   = ['091','092','093','094','095','096','097','098','099'];
+
+  // Requirements list
+  const requirementsList = [
+    'Birth Certificate (PSA)',
+    'School Registration / COR',
+    'Latest Grade / Report Card',
+    'Parents Joint ITR / Certificate of No Income',
+    'District Certificate of Residency',
+    'SPES Application Form (Signed)'
+  ];
+
+  function titleCase(value){
+    if(!value) return '';
+    return String(value)
+      .toLowerCase()
+      .split(' ')
+      .filter(Boolean)
+      .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(' ');
+  }
+
+  function toDisplayDate(value){
+    if(!value) return '-';
+    const date = new Date(value);
+    if(isNaN(date.getTime())) return String(value);
+    return `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`;
+  }
+
+  function toInitials(first, last){
+    const a = (first || '').trim();
+    const b = (last || '').trim();
+    return `${a ? a[0] : ''}${b ? b[0] : ''}`.toUpperCase() || '--';
+  }
+
+  function mapApplicantToRecord(applicant){
+    const firstName = titleCase(applicant.first_name || '');
+    const middleName = titleCase(applicant.middle_name || '');
+    const lastName = titleCase(applicant.last_name || '');
+    const middleInitial = middleName ? ` ${middleName.charAt(0)}.` : '';
+    const fullName = `${lastName}, ${firstName}${middleInitial}`.replace(/,\s*$/, '').trim();
+
+    return {
+      i: Number(applicant.id || 0),
+      initials: toInitials(firstName, lastName),
+      name: fullName || 'N/A',
+      email: applicant.email || '-',
+      dob: toDisplayDate(applicant.dob),
+      age: applicant.age || '-',
+      regDate: toDisplayDate(applicant.created_at),
+      sex: applicant.sex || '-',
+      contact: applicant.contact_number || '-',
+      barangay: applicant.district || '-',
+      course: applicant.college_course || '-',
+      school: applicant.college_school || '-',
+      syEnd: '-',
+      status: applicant.status || 'Pending',
+      lastAssign: '-',
+      gsisVal: '-',
+      lastGsis: '-',
+      endNo: '-',
+      endorsedBy: '',
+      controlNo: applicant.control_no || String(applicant.id || '').padStart(3, '0'),
+      envNo: applicant.id || '-',
+      flags: [],
+      requirements: requirementsList.map(req => ({ name:req, submitted:false, dateSubmitted:null })),
+      completedReqs: 0,
+      totalReqs: requirementsList.length,
+    };
+  }
+
+  async function loadApplicantsFromApi(){
+    try {
+      const res = await fetchWithApiBase('/api/spes-management/applicants?per_page=300', {
+        headers: { 'Accept': 'application/json' }
+      });
+      const payload = await res.json().catch(() => ({}));
+
+      if(!res.ok){
+        throw new Error((payload && (payload.message || payload.error)) || 'Failed to load applicants');
+      }
+
+      const rows = Array.isArray(payload.data) ? payload.data : [];
+      records.length = 0;
+      rows.forEach(applicant => records.push(mapApplicantToRecord(applicant)));
+      window.registrationRecords = records;
+      currentPage = 1;
+      renderTable();
+    } catch(err){
+      console.error('Load applicants failed:', err);
+      showToast((err && err.message) ? err.message : 'Unable to load applicant records.', 'error');
+      records.length = 0;
+      window.registrationRecords = records;
+      renderTable();
+    }
+  }
+
+  // === MOCK DATA: First 10 are realistic named records with clear approvable ones ===
+  const mockData = [];
+
+  // Generate first 10 from mock data
+  for(let i = 0; i < mockData.length; i++){
+    const m = mockData[i];
+    const idx = i + 1;
+    const mi = String.fromCharCode(65 + (idx % 26));
+    const name = `${m.ln}, ${m.fn} ${mi}.`;
+    const initials = `${m.fn[0]}${m.ln[0]}`;
+    const email = `${m.fn.toLowerCase().replace(/\s+/g,'.')}.${m.ln.toLowerCase()}@email.com`;
+    const dob = `${(idx % 12) + 1}-${(idx % 28) + 1}-${2000 + (idx % 6)}`;
+    const regDate = `2-${idx + 1}-2026`;
+    const contact = contacts[idx % contacts.length] + String(10000000 + idx).slice(1);
+    const controlNo = String(idx).padStart(3, '0');
+    const envNo = idx;
+    const syEnd = 2026;
+
+    const flags = [];
+
+    const requirements = requirementsList.map((req, ridx) => {
+      const submitted = ridx < m.reqsDone;
+      return {
+        name: req,
+        submitted: submitted,
+        dateSubmitted: submitted ? `2-${ridx + 5}-2026` : null
+      };
+    });
+    const completedReqs = requirements.filter(r => r.submitted).length;
+    const totalReqs = requirements.length;
+
+    records.push({
+      i: idx, initials, name, email, dob, age: m.age, regDate, sex: m.sex, contact,
+      barangay: m.brgy, course: m.course, school: m.school, syEnd, status: m.status,
+      lastAssign: '-', gsisVal: '-', lastGsis: '-', endNo: '-', endorsedBy: '',
+      controlNo, envNo, flags, requirements, completedReqs, totalReqs
+    });
+  }
+
+  // Generate remaining records (11-300)
+  const statuses = ['Pending','Pending','Rejected'];
+  for(let i = 11; i <= totalItems; i++){
+    const ln   = lastNames[i % lastNames.length];
+    const fn   = firstNames[i % firstNames.length];
+    const mi   = String.fromCharCode(65 + (i % 26));
+    const name = `${ln}, ${fn} ${mi}.`;
+    const initials = `${fn[0]}${ln[0]}`;
+    const email = `applicant${i}@example.com`;
+    const dob   = `${(i%12)+1}-${(i%28)+1}-${2000 + (i%6)}`;
+    const age   = 17 + (i % 8);
+    const regDate = `2-${(i%28)+1}-2026`;
+    const sex   = (i % 2 === 0) ? 'F' : 'M';
+    const contact = contacts[i % contacts.length] + String(10000000 + i).slice(1);
+    const barangay = barangays[i % barangays.length];
+    const course   = courses[i % courses.length];
+    const school   = schools[i % schools.length];
+    const syEnd    = 2025 + (i % 2);
+    const status   = statuses[i % statuses.length];
+    const controlNo  = String(i).padStart(3,'0');
+    const envNo      = i;
+    
+    // Flagging system
+    const flags = [];
+    if(i % 7 === 0) flags.push('Age not within 17-30 years old range');
+    if(i % 5 === 0) flags.push('GWA below required (80% for private, 85% for public)');
+    if(i % 9 === 0) flags.push('Has grade below 80% or 3.00 in a subject');
+    if(i % 11 === 0) flags.push('Currently a scholar (Iskolar ni Rizal, CHED, DOST, etc.)');
+    if(i % 13 === 0) flags.push('Parents Joint ITR exceeds ₱350,000.00');
+    if(i % 17 === 0) flags.push('Currently an SK Official');
+
+    // Generate requirements status
+    const reqsDone = (status === 'Pending') ? (i % 5) + 1 : (i % 4);
+    const requirements = requirementsList.map((req, ridx) => {
+      const submitted = ridx < reqsDone;
+      return {
+        name: req,
+        submitted: submitted,
+        dateSubmitted: submitted ? `${(i % 12) + 1}-${(ridx * 3 + i % 15) + 1}-2026` : null
+      };
+    });
+
+    const completedReqs = requirements.filter(r => r.submitted).length;
+    const totalReqs = requirements.length;
+    const allReqsComplete = completedReqs === totalReqs;
+
+    let finalStatus = status;
+    if(allReqsComplete && status === 'Pending') {
+      finalStatus = 'Completed';
+    }
+
+    records.push({
+      i, initials, name, email, dob, age, regDate, sex, contact,
+      barangay, course, school, syEnd, status: finalStatus, lastAssign: '-',
+      gsisVal: '-', lastGsis: '-', endNo: '-', endorsedBy: '',
+      controlNo, envNo, flags, requirements, completedReqs, totalReqs
+    });
+  }
+
+  const tbody              = document.getElementById('registrationTbody');
+  const pageSizeSelectTop  = document.getElementById('pageSizeSelectTop');
+  const pageSizeSelectBot  = document.getElementById('pageSizeSelectBottom');
+  const resultsInfo        = document.getElementById('resultsInfo');
+  const paginationControls = document.getElementById('paginationControls');
+  const statusFilter       = document.getElementById('statusFilter');
+
+  const savedSize = localStorage.getItem('reg_pageSize') || '300';
+  let currentPage = 1;
+  let pageSize    = savedSize;
+  let currentStatusFilter = 'all';
+
+  // Get filtered records based on status
+  function getFilteredRecords(){
+    if(currentStatusFilter === 'all') return records;
+    if(currentStatusFilter === 'flagged') return records.filter(r => r.status !== 'Approved' && r.status !== 'Completed' && r.flags && r.flags.length > 0);
+    if(currentStatusFilter === 'completed') return records.filter(r => r.status === 'Completed');
+    return records.filter(r => r.status.toLowerCase() === currentStatusFilter);
+  }
+
+  function updateStats(){
+    const pending = records.filter(r => r.status === 'Pending').length;
+    const approved = records.filter(r => r.status === 'Approved').length;
+    const rejected = records.filter(r => r.status === 'Rejected').length;
+    const completed = records.filter(r => r.status === 'Completed').length;
+    const flagged = records.filter(r => r.status !== 'Approved' && r.status !== 'Completed' && r.flags && r.flags.length > 0).length;
+    
+    if(statusFilter){
+      const allOption = statusFilter.querySelector('option[value="all"]');
+      const pendingOption = statusFilter.querySelector('option[value="pending"]');
+      const approvedOption = statusFilter.querySelector('option[value="approved"]');
+      const completedOption = statusFilter.querySelector('option[value="completed"]');
+      const rejectedOption = statusFilter.querySelector('option[value="rejected"]');
+      const flaggedOption = statusFilter.querySelector('option[value="flagged"]');
+      
+      if(allOption) allOption.textContent = `All Status (${records.length})`;
+      if(pendingOption) pendingOption.textContent = `Pending (${pending})`;
+      if(approvedOption) approvedOption.textContent = `Approved (${approved})`;
+      if(completedOption) completedOption.textContent = `Completed (${completed})`;
+      if(rejectedOption) rejectedOption.textContent = `Rejected (${rejected})`;
+      if(flaggedOption) flaggedOption.textContent = `Flagged (${flagged})`;
+    }
+  }
+
+  // Store records globally for details modal
+  window.registrationRecords = records;
+
+  function setPageSizeValue(val){
+    if(pageSizeSelectTop) pageSizeSelectTop.value = val;
+    if(pageSizeSelectBot) pageSizeSelectBot.value = val;
+    localStorage.setItem('reg_pageSize', val);
+    pageSize = val;
+  }
+
+  function renderTable(){
+    const filteredRecords = getFilteredRecords();
+    const parsedPageSize = parseInt(pageSize, 10);
+    const effectiveSize = (pageSize === 'all' || Number.isNaN(parsedPageSize) || parsedPageSize <= 0)
+      ? Math.max(1, filteredRecords.length || 1)
+      : parsedPageSize;
+    const totalPages    = Math.max(1, Math.ceil(filteredRecords.length / effectiveSize));
+    if(currentPage > totalPages) currentPage = totalPages;
+
+    const start = (currentPage - 1) * effectiveSize;
+    const end   = Math.min(start + effectiveSize, filteredRecords.length);
+    const slice = filteredRecords.slice(start, end);
+
+    let html = '';
+    for(const r of slice){
+      const isFlagged = r.status !== 'Approved' && r.status !== 'Completed' && r.flags && r.flags.length > 0;
+      const rowClass = isFlagged ? 'row-flagged' : '';
+      const nameClass = isFlagged ? 'flagged' : '';
+      const flagIcon = isFlagged ? '<i class="fa-solid fa-flag flag-icon"></i>' : '';
+      const badgeClass  = r.status === 'Pending' ? 'badge-pending' : r.status === 'Approved' ? 'badge-approved' : r.status === 'Completed' ? 'badge-completed' : 'badge-rejected';
+      const remarksVal  = r.status === 'Approved' && r.i % 3 === 0 ? 'Good performance' : '';
+      const endorsedVal = r.endorsedBy;
+      const reqPercent = r.totalReqs > 0 ? Math.round((r.completedReqs / r.totalReqs) * 100) : 0;
+      const reqBarClass = reqPercent === 100 ? '' : 'partial';
+      const canApprove = r.status === 'Completed';
+      html += `
+      <tr class="${rowClass}" data-record-id="${r.i}">
+        <td><div class="profile-cell"><div class="profile-avatar">${r.initials}</div></div></td>
+        <td class="editable-control">${r.controlNo}</td>
+        <td class="editable-env">${r.envNo}</td>
+        <td>
+          <span class="applicant-name ${nameClass}">${r.name}${flagIcon}</span>
+          <span class="applicant-email">${r.email}</span>
+        </td>
+        <td>${r.dob}</td>
+        <td>${r.age}</td>
+        <td>${r.regDate}</td>
+        <td>${r.sex}</td>
+        <td>${r.contact}</td>
+        <td>${r.email}</td>
+        <td>${r.barangay}</td>
+        <td>${r.course}</td>
+        <td>${r.school}</td>
+        <td>${r.syEnd}</td>
+        <td><span class="badge ${badgeClass}">${r.status}</span></td>
+        <td>${r.lastAssign}</td>
+        <td>
+          <div class="req-progress">
+            <div class="req-progress-bar"><div class="req-progress-fill ${reqBarClass}" style="width:${reqPercent}%"></div></div>
+            <span class="req-progress-text">${r.completedReqs}/${r.totalReqs} ${reqPercent === 100 ? '✓' : ''}</span>
+          </div>
+        </td>
+        <td class="editable-remarks">${remarksVal || ''}</td>
+        <td>${r.gsisVal}</td>
+        <td>${r.lastGsis}</td>
+        <td>${r.endNo}</td>
+        <td class="editable-endorsed">${endorsedVal || ''}</td>
+        <td>
+          <div class="actions">
+            <button class="action-btn view-btn" title="View Details & Requirements" onclick="viewRecordDetails(${r.i})"><i class="fa-solid fa-eye"></i></button>
+            <button class="action-btn edit-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
+            <button class="action-btn approve-btn" title="Mark as Official SPES" ${canApprove ? '' : 'disabled'} onclick="quickApproveOfficial(${r.i})"><i class="fa-solid fa-user-check"></i></button>
+          </div>
+        </td>
+      </tr>`;
+    }
+    tbody.innerHTML = html;
+
+    const total      = filteredRecords.length;
+    const displayFrom = total === 0 ? 0 : start + 1;
+    const displayTo   = total === 0 ? 0 : end;
+    resultsInfo.textContent = `Showing results ${displayFrom} - ${displayTo} of ${total}`;
+
+    updateStats();
+    renderPagination(totalPages);
+  }
+
+  function createBtn(label, disabled, onClick, isActive){
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (isActive ? ' active' : '');
+    if(disabled) btn.disabled = true;
+    btn.innerHTML = label;
+    btn.addEventListener('click', onClick);
+    return btn;
+  }
+
+  function renderPagination(totalPages){
+    paginationControls.innerHTML = '';
+
+    paginationControls.appendChild(
+      createBtn('<i class="fa-solid fa-chevron-left"></i>', currentPage === 1, () => { if(currentPage > 1){ currentPage--; renderTable(); } })
+    );
+
+    if(totalPages <= 10){
+      for(let p = 1; p <= totalPages; p++){
+        paginationControls.appendChild(createBtn(p, false, () => { currentPage = p; renderTable(); }, p === currentPage));
+      }
+    } else {
+      const addPage = (p) => paginationControls.appendChild(createBtn(p, false, () => { currentPage = p; renderTable(); }, p === currentPage));
+      const addEllipsis = () => { const e = document.createElement('span'); e.style.padding = '6px 8px'; e.textContent = '...'; paginationControls.appendChild(e); };
+
+      addPage(1);
+      if(currentPage > 4) addEllipsis();
+      const s = Math.max(2, currentPage - 2);
+      const f = Math.min(totalPages - 1, currentPage + 2);
+      for(let p = s; p <= f; p++) addPage(p);
+      if(currentPage < totalPages - 3) addEllipsis();
+      addPage(totalPages);
+    }
+
+    paginationControls.appendChild(
+      createBtn('<i class="fa-solid fa-chevron-right"></i>', currentPage === totalPages, () => { if(currentPage < totalPages){ currentPage++; renderTable(); } })
+    );
+  }
+
+  if(pageSizeSelectTop){
+    pageSizeSelectTop.addEventListener('change', () => { currentPage = 1; setPageSizeValue(pageSizeSelectTop.value); renderTable(); });
+  }
+  if(pageSizeSelectBot){
+    pageSizeSelectBot.addEventListener('change', () => { currentPage = 1; setPageSizeValue(pageSizeSelectBot.value); renderTable(); });
+  }
+
+  // Status filter change handler
+  if(statusFilter){
+    statusFilter.addEventListener('change', ()=>{
+      currentStatusFilter = statusFilter.value;
+      currentPage = 1;
+      renderTable();
+    });
+  }
+
+  // Expose renderTable globally for requirements toggle
+  window._renderRegistrationTable = renderTable;
+  window._loadRegistrationApplicants = loadApplicantsFromApi;
+
+  setPageSizeValue(savedSize);
+  loadApplicantsFromApi();
+})();
+
+// View Record Details Function - with Requirements Checklist
+let currentViewRecordId = null;
+
+function viewRecordDetails(recordId){
+  const record = window.registrationRecords?.find(r => r.i === recordId);
+  
+  if(!record){
+    showToast('Record not found.', 'error');
+    return;
+  }
+
+  currentViewRecordId = recordId;
+  
+  const lastName = record.name.split(',')[0] || '';
+  const firstName = record.name.split(',')[1]?.split(' ')[0]?.trim() || '';
+  const middleName = record.name.split(',')[1]?.split(' ')[1]?.replace('.', '') || '';
+  
+  const modalBody = document.getElementById('detailsModalBody');
+  
+  let flagSection = '';
+  if(record.flags && record.flags.length > 0 && record.status !== 'Approved' && record.status !== 'Completed'){
+    flagSection = `
+      <div class="flag-warning-section">
+        <div class="flag-warning-title">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          QUALIFICATION FLAGS
+        </div>
+        ${record.flags.map(flag => `<div class="flag-item">${flag}</div>`).join('')}
+      </div>
+    `;
+  }
+
+  // Requirements summary
+  const completedReqs = record.requirements.filter(r => r.submitted).length;
+  const totalReqs = record.requirements.length;
+  const allComplete = completedReqs === totalReqs;
+  const summaryClass = allComplete ? 'req-summary all-complete' : 'req-summary';
+  const summaryIconClass = allComplete ? 'req-summary-icon complete' : 'req-summary-icon pending';
+  const summaryIcon = allComplete ? 'fa-circle-check' : 'fa-clock';
+  const summaryText = allComplete
+    ? '<strong>All requirements submitted!</strong><br>This registrant is ready to be approved as Official SPES.'
+    : `<strong>${completedReqs} of ${totalReqs} requirements submitted.</strong><br>Complete all requirements before approving.`;
+
+  // Requirements checklist
+  let reqChecklistHtml = record.requirements.map((req, idx) => {
+    const checkedClass = req.submitted ? 'checked' : '';
+    const iconHtml = req.submitted ? '<i class="fa-solid fa-check"></i>' : '';
+    const dateHtml = req.dateSubmitted ? `<span class="req-check-date">${req.dateSubmitted}</span>` : '';
+    return `
+      <div class="req-check-item ${checkedClass}" data-req-idx="${idx}" data-record-id="${record.i}" onclick="toggleRequirement(${record.i}, ${idx})">
+        <div class="req-check-icon">${iconHtml}</div>
+        <span class="req-check-label">${req.name}</span>
+        ${dateHtml}
+      </div>
+    `;
+  }).join('');
+  
+  modalBody.innerHTML = flagSection + `
+    <div class="details-section">
+      <div class="details-section-title">Requirements Status</div>
+      <div class="${summaryClass}" id="reqSummaryBox">
+        <div class="${summaryIconClass}" id="reqSummaryIcon"><i class="fa-solid ${summaryIcon}"></i></div>
+        <div class="req-summary-text" id="reqSummaryText">${summaryText}</div>
+      </div>
+      <div class="req-checklist" id="reqChecklist">
+        ${reqChecklistHtml}
+      </div>
+    </div>
+
+    <div class="details-section">
+      <div class="details-section-title">Basic Information</div>
+      <div class="details-row">
+        <div class="details-label">Last Name:</div>
+        <div class="details-value">${lastName}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">First Name:</div>
+        <div class="details-value">${firstName}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Middle Name:</div>
+        <div class="details-value">${middleName}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Control No.:</div>
+        <div class="details-value">${record.controlNo}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">ENV No.:</div>
+        <div class="details-value">${record.envNo}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Date of Birth:</div>
+        <div class="details-value">${record.dob}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Age:</div>
+        <div class="details-value">${record.age}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Sex:</div>
+        <div class="details-value">${record.sex}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Contact:</div>
+        <div class="details-value">${record.contact}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Email Address:</div>
+        <div class="details-value">${record.email}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">District:</div>
+        <div class="details-value">${record.barangay}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Date of Registration:</div>
+        <div class="details-value">${record.regDate}</div>
+      </div>
+    </div>
+    
+    <div class="details-section">
+      <div class="details-section-title">Education Information</div>
+      <div class="details-row">
+        <div class="details-label">Course/Strand:</div>
+        <div class="details-value">${record.course}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">School:</div>
+        <div class="details-value">${record.school}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">S.Y/A.C. End:</div>
+        <div class="details-value">${record.syEnd}</div>
+      </div>
+    </div>
+    
+    <div class="details-section">
+      <div class="details-section-title">SPES Information</div>
+      <div class="details-row">
+        <div class="details-label">Status:</div>
+        <div class="details-value"><span class="badge ${record.status === 'Completed' ? 'badge-completed' : record.status === 'Approved' ? 'badge-approved' : record.status === 'Pending' ? 'badge-pending' : 'badge-rejected'}">${record.status}</span></div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Last Assignment:</div>
+        <div class="details-value">${record.lastAssign}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">GSIS/100%:</div>
+        <div class="details-value">${record.gsisVal}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Last Year GSIS/100%:</div>
+        <div class="details-value">${record.lastGsis}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">END#:</div>
+        <div class="details-value">${record.endNo}</div>
+      </div>
+      <div class="details-row">
+        <div class="details-label">Endorsed By:</div>
+        <div class="details-value">${record.endorsedBy || 'N/A'}</div>
+      </div>
+    </div>
+  `;
+  
+  // Update approve button state
+  updateApproveButtonState(record);
+
+  const modal = document.getElementById('detailsModal');
+  if(modal) modal.classList.add('show');
+}
+
+// Toggle a requirement's submitted state
+function toggleRequirement(recordId, reqIdx){
+  const record = window.registrationRecords?.find(r => r.i === recordId);
+  if(!record || record.status === 'Approved') return;
+
+  const req = record.requirements[reqIdx];
+  req.submitted = !req.submitted;
+  req.dateSubmitted = req.submitted ? new Date().toLocaleDateString('en-US') : null;
+
+  // Recalculate
+  record.completedReqs = record.requirements.filter(r => r.submitted).length;
+  const allComplete = record.completedReqs === record.totalReqs;
+
+  // Update status
+  if(allComplete && record.status === 'Pending'){
+    record.status = 'Completed';
+  } else if(!allComplete && record.status === 'Completed'){
+    record.status = 'Pending';
+  }
+
+  // Update the checklist item UI
+  const item = document.querySelector(`.req-check-item[data-req-idx="${reqIdx}"][data-record-id="${recordId}"]`);
+  if(item){
+    if(req.submitted){
+      item.classList.add('checked');
+      item.querySelector('.req-check-icon').innerHTML = '<i class="fa-solid fa-check"></i>';
+      // Add date
+      let dateEl = item.querySelector('.req-check-date');
+      if(!dateEl){
+        dateEl = document.createElement('span');
+        dateEl.className = 'req-check-date';
+        item.appendChild(dateEl);
+      }
+      dateEl.textContent = req.dateSubmitted;
+    } else {
+      item.classList.remove('checked');
+      item.querySelector('.req-check-icon').innerHTML = '';
+      const dateEl = item.querySelector('.req-check-date');
+      if(dateEl) dateEl.remove();
+    }
+  }
+
+  // Update summary box
+  const summaryBox = document.getElementById('reqSummaryBox');
+  const summaryIcon = document.getElementById('reqSummaryIcon');
+  const summaryText = document.getElementById('reqSummaryText');
+  if(summaryBox && summaryIcon && summaryText){
+    if(allComplete){
+      summaryBox.className = 'req-summary all-complete';
+      summaryIcon.className = 'req-summary-icon complete';
+      summaryIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+      summaryText.innerHTML = '<strong>All requirements submitted!</strong><br>This registrant is ready to be approved as Official SPES.';
+    } else {
+      summaryBox.className = 'req-summary';
+      summaryIcon.className = 'req-summary-icon pending';
+      summaryIcon.innerHTML = '<i class="fa-solid fa-clock"></i>';
+      summaryText.innerHTML = `<strong>${record.completedReqs} of ${record.totalReqs} requirements submitted.</strong><br>Complete all requirements before approving.`;
+    }
+  }
+
+  // Update approve button
+  updateApproveButtonState(record);
+
+  // Re-render the table to reflect changes
+  if(typeof window._renderRegistrationTable === 'function'){
+    window._renderRegistrationTable();
+  }
+}
+
+function updateApproveButtonState(record){
+  const btn = document.getElementById('btnApproveOfficial');
+  if(!btn) return;
+  const allComplete = record.completedReqs === record.totalReqs;
+  if(allComplete && record.status !== 'Approved'){
+    btn.disabled = false;
+    btn.title = 'Approve and move to SPES Accounts';
+  } else if(record.status === 'Approved'){
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-check-circle"></i> Already Official SPES';
+  } else {
+    btn.disabled = true;
+    btn.title = 'Complete all requirements first';
+  }
+}
+
+// Approve as Official SPES - from details modal
+function approveAsOfficialSpes(){
+  if(!currentViewRecordId) return;
+  const record = window.registrationRecords?.find(r => r.i === currentViewRecordId);
+  if(!record) return;
+  
+  showConfirm(
+    'Approve this Applicant?',
+    `Are you sure you want to mark "${record.name}" as Completed Requirements?\n\nThis applicant will receive an activation email to access the eSPES portal.`,
+    'success',
+    'Approve',
+    'btn-primary',
+    function(){
+      record.status = 'Approved';
+      closeDetailsModal();
+      showToast(`${record.name} is has received an activation email to access the eSPES portal.`, 'success');
+      if(typeof window._renderRegistrationTable === 'function'){
+        window._renderRegistrationTable();
+      }
+    }
+  );
+}
+
+// Quick approve from table action button
+function quickApproveOfficial(recordId){
+  const record = window.registrationRecords?.find(r => r.i === recordId);
+  if(!record) return;
+  if(record.completedReqs !== record.totalReqs) {
+    showToast('Cannot approve: Not all requirements are completed.', 'warning');
+    return;
+  }
+  
+  showConfirm(
+    'Approve as this Applicant?',
+    `Mark "${record.name}" as Complete Requirements?\n\nThis applicant will receive an activation email to access the eSPES portal.`,
+    'success',
+    'Approve',
+    'btn-primary',
+    function(){
+      record.status = 'Approved';
+      showToast(`${record.name} is has received an activation email to access the eSPES portal.`, 'success');
+      if(typeof window._renderRegistrationTable === 'function'){
+        window._renderRegistrationTable();
+      }
+    }
+  );
+}
+
+function closeDetailsModal(){
+  const modal = document.getElementById('detailsModal');
+  if(modal) modal.classList.remove('show');
+}
+
+function closeDetailsModalOnBackdrop(event){
+  if(event.target.id === 'detailsModal'){
+    closeDetailsModal();
+  }
+}
+</script>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Confirm Modal -->
+<div class="confirm-backdrop" id="confirmModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon info" id="confirmIcon"><i class="fa-solid fa-question"></i></div>
+    <h3 id="confirmTitle">Confirm</h3>
+    <p id="confirmText">Are you sure?</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel-confirm" onclick="closeConfirmModal()">Cancel</button>
+      <button class="btn-primary" id="confirmActionBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function showToast(msg, type){
+  const container = document.getElementById('toastContainer');
+  const icons = { success:'fa-circle-check', error:'fa-circle-xmark', info:'fa-circle-info', warning:'fa-triangle-exclamation' };
+  const icon = icons[type] || icons.info;
+  const t = document.createElement('div');
+  t.className = 'toast ' + (type||'info');
+  t.innerHTML = '<i class="fa-solid '+icon+'"></i><span>'+msg+'</span><button class="toast-close" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>';
+  container.appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(),300); }, 4000);
+}
+function openConfirmModal(){ document.getElementById('confirmModal').classList.add('show'); }
+function closeConfirmModal(){ document.getElementById('confirmModal').classList.remove('show'); }
+document.getElementById('confirmModal').addEventListener('click', function(e){ if(e.target===this) closeConfirmModal(); });
+function showConfirm(title, text, iconClass, btnText, btnClass, onConfirm){
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmText').textContent = text;
+  document.getElementById('confirmIcon').className = 'confirm-icon ' + iconClass;
+  const actionBtn = document.getElementById('confirmActionBtn');
+  actionBtn.textContent = btnText;
+  actionBtn.className = btnClass || 'btn-primary';
+  actionBtn.onclick = ()=>{ closeConfirmModal(); onConfirm(); };
+  openConfirmModal();
+}
+</script>
+
+</body>
+</html>
+

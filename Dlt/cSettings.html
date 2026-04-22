@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-SPES | Settings</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+/* Hide scrollbars globally */
+*{
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+*::-webkit-scrollbar{
+  width:0;
+  height:0;
+}
+
+/* Show custom scrollbar for content area */
+.content::-webkit-scrollbar {
+  width: 1px;
+  display: block;
+}
+
+.content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 5px;
+  max-height: 12px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+  width: 3px;
+  cursor: pointer;
+}
+
+.content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.05) transparent;
+}
+
+/* Show custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 1px;
+  display: block;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 5px;
+  max-height: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+  width: 2px;
+  cursor: pointer;
+}
+
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.04) transparent;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+  display: block;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
+  min-height: 5px;
+  min-width: 5px;
+  max-height: 12px;
+  max-width: 12px;
+  transition: all 0.2s ease;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.table-container {
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.05) transparent;
+}
+
+/* Hide sidebar scrollbar */
+.sidebar{
+  scrollbar-width:none !important;
+  -ms-overflow-style:none;
+}
+
+.sidebar::-webkit-scrollbar{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+}
+
+body{
+  margin:0;
+  background:#ffffff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-bottom:46px;
+}
+
+/* header */
+.header{
+  background:#242242;
+  color:white;
+  padding:12px 30px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+}
+
+.burger-btn{
+  border:none;
+  background:transparent;
+  color:#ffffff;
+  font-size:20px;
+  width:38px;
+  height:38px;
+  border-radius:6px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.burger-btn:hover{
+  background:rgba(255,255,255,0.12);
+}
+
+.header-text{
+  flex:1 1 auto;
+}
+
+.header-text h1{
+  margin:0;
+  font-size:16px;
+}
+
+.header-text p{
+  margin:2px 0 0;
+  font-size:11px;
+  opacity:0.9;
+  font-style:italic;
+}
+
+/* right side header */
+.header-right{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-info{
+  text-align:right;
+  font-size:12px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.user-info:hover{
+  opacity:0.8;
+}
+
+.avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e5e5e5;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.avatar:hover{
+  background:#d0d0d0;
+}
+
+/* profile dropdown */
+.profile-menu{
+  position:relative;
+}
+
+.profile-dropdown{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:8px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  min-width:150px;
+  display:none;
+  z-index:100;
+}
+
+.profile-dropdown.show{
+  display:block;
+}
+
+.profile-item{
+  padding:12px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+  border:none;
+  background:none;
+  width:100%;
+  text-align:left;
+}
+
+.profile-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.profile-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main wrapper */
+.main-wrapper{
+  flex:1;
+  padding:30px 120px 60px 120px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* breadcrumb */
+.breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:#666;
+  cursor:pointer;
+  margin-bottom:15px;
+}
+
+.breadcrumb i{
+  font-size:12px;
+}
+
+/* top bar */
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+/* 3-dot menu */
+.menu-dots{
+  position:relative;
+}
+
+.dots-btn{
+  background:transparent;
+  border:none;
+  border-radius:4px;
+  padding:6px 12px;
+  cursor:pointer;
+  font-size:18px;
+  color:#666;
+  transition:.2s;
+}
+
+.dots-btn:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-menu{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:5px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  min-width:160px;
+  display:none;
+  z-index:100;
+}
+
+.dropdown-menu.show{
+  display:block;
+}
+
+.dropdown-item{
+  padding:10px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+}
+
+.dropdown-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main */
+.main{
+  display:flex;
+  gap:11px;
+  flex:1;
+  overflow:hidden;
+}
+
+/* sidebar */
+.sidebar{
+  width:235px;
+  background:#f3f3f3;
+  border-radius:5px;
+  padding:0px;
+  border:1px solid #d0d0d0;
+  flex-shrink:0;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+  max-height:calc(100vh - 160px);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-profile{
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:16px 14px;
+  border-bottom:1px solid #e1e1e1;
+  background:#ededed;
+}
+
+.sidebar-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#d9d9d9;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+  flex-shrink:0;
+}
+
+.sidebar-user h4{
+  margin:0;
+  font-size:13px;
+  color:#222;
+  font-weight:700;
+}
+
+.sidebar-user p{
+  margin:2px 0 0;
+  font-size:11px;
+  color:#666;
+  font-weight:500;
+}
+
+/* menu */
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:34px 14px;
+  border-radius:6px;
+  font-size:14.5px;
+  color:#666;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.menu-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.menu-item i{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+.menu-item:hover{
+  background:#e6e6e6;
+}
+
+.menu-item:hover .fa-chevron-right{
+  background:#bfc3c9;
+  color:#666666;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+}
+
+.submenu-wrapper > .menu-item:not(.active):hover{
+  background:#e6e6e6;
+}
+
+.sidebar-menu{
+  flex:1;
+  overflow-y:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+.sidebar-menu::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+
+.menu-item-logout{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px 20px;
+  border-radius:8px;
+  font-size:15.5px;
+  color:#222;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  text-decoration:none;
+  background:#e4e6eb;
+  border:1px solid #ced0d4;
+  width:calc(100% - 28px);
+  text-align:center;
+  margin-top:30px;
+  margin-bottom:70px;
+  margin-left:14px;
+  margin-right:14px;
+  font-weight:700;
+}
+
+.menu-item-logout:hover{
+  background:#d8dadf;
+  border-color:#bcc0c4;
+}
+
+.menu-item-logout i{
+  width:18px;
+  text-align:center;
+}
+
+.menu-item.active{
+  background:#ffffff;
+  color:rgb(40, 32, 32);
+  border-radius:0px;
+}
+
+.menu-item.active i{
+  color:rgb(32, 30, 30);
+}
+
+.menu-item.active .fa-chevron-right{
+  background:#1a1a1a;
+  color:#ffffff;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+  transform:rotate(0deg);
+}
+
+.menu-item.active.menu-submenu .fa-chevron-right{
+  transform:rotate(90deg);
+  transition:transform 0.3s ease;
+}
+
+.submenu-wrapper > .menu-item:hover .fa-chevron-right{
+  transform:rotate(90deg) !important;
+}
+
+.submenu-wrapper{
+  position:relative;
+}
+
+.submenu{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.3s ease;
+  background:#e8e8e8;
+}
+
+.submenu.show{
+  max-height:300px;
+}
+
+.submenu-wrapper:hover .submenu{
+  max-height:300px;
+}
+
+.submenu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 14px 18px 45px;
+  font-size:12.5px;
+  color:#555;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  border-left:3px solid transparent;
+}
+
+.submenu-item:hover{
+  background:#d8d8d8;
+}
+
+.submenu-item.active{
+  background:#ffffff;
+  color:#242242;
+  border-left-color:#242242;
+  font-weight:500;
+}
+
+.submenu-item i{
+  font-size:8px;
+  color:#999;
+}
+
+.submenu-item.active i{
+  color:#242242;
+}
+
+/* main content */
+.content{
+  flex:1;
+  background:#ffffff;
+  border-radius:4px;
+  padding:0;
+  border:none;
+  position:relative;
+  overflow-y:auto;
+  overflow-x:hidden;
+  max-height:calc(100vh - 160px);
+}
+
+/* tabs */
+.tabs-container{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:0 0 15px 0;
+  padding:0;
+  border-bottom:none;
+  border-top:none;
+  flex-wrap:wrap;
+}
+
+.tab-btn{
+  padding:12px 24px;
+  background:transparent;
+  border:1px solid #d0d0d0;
+  border-radius:1px 1px 0 0;
+  font-size:13px;
+  color:#666;
+  cursor:pointer;
+  transition:.2s;
+  font-weight:500;
+}
+
+.tab-btn:hover{
+  color:#444;
+  background:#f5f5f5;
+}
+
+.tab-btn.active{
+  color:#242242;
+  border-bottom:2px solid #242242;
+  background:#fff;
+  font-weight:600;
+}
+
+.tab-content{
+  display:none;
+  padding:0;
+}
+
+.tab-content.active{
+  display:block;
+}
+
+.loading-bar{
+  position:absolute;
+  top:0;
+  left:0;
+  width:0;
+  height:2px;
+  background:#3b82f6;
+  transition:width 0.8s ease;
+  z-index:10;
+}
+
+.loading-bar.active{
+  width:100%;
+}
+
+/* toolbar */
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+.search-box{
+  flex:1;
+  min-width:250px;
+  position:relative;
+}
+
+.search-box input{
+  width:100%;
+  padding:10px 40px 10px 15px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+}
+
+.search-box i{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#888;
+  cursor:pointer;
+}
+
+.filter-select{
+  padding:10px 35px 10px 15px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  background:#fff;
+  cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+}
+
+.btn-primary{
+  padding:10px 20px;
+  background:#242242;
+  color:white;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:500;
+  transition:.2s;
+}
+
+.btn-primary:hover{
+  background:#363454;
+}
+
+.refresh-btn{
+  padding:10px 12px;
+  border:1px solid #d0d0d0;
+  background:white;
+  border-radius:4px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.refresh-btn:hover{
+  background:#f5f5f5;
+}
+
+.refresh-btn:active{
+  transform:scale(0.95);
+}
+
+/* table */
+.table-container{
+  overflow-x:auto;
+  margin-bottom:20px;
+}
+
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
+.data-table th{
+  background:#f8f8f8;
+  padding:12px 10px;
+  text-align:left;
+  font-weight:600;
+  color:#555;
+  border-bottom:2px solid #d0d0d0;
+  white-space:nowrap;
+  position:relative;
+}
+
+.data-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #f0f0f0;
+}
+
+.data-table tbody tr:hover{
+  background:#fafafa;
+}
+
+.applicant-name{
+  font-weight:500;
+  color:#333;
+  display:block;
+  margin-bottom:2px;
+}
+
+.applicant-email{
+  color:#888;
+  font-size:11px;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:3px;
+  font-size:11px;
+  font-weight:500;
+}
+
+.badge-online{
+  background:#e8f4f8;
+  color:#0288d1;
+}
+
+.badge-walkin{
+  background:#fff3e0;
+  color:#f57c00;
+}
+
+.badge-pending{
+  background:#f5f5f5;
+  color:#666;
+}
+
+.badge-approved{
+  background:#000;
+  color:#fff;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.action-btn{
+  width:28px;
+  height:28px;
+  border-radius:4px;
+  border:1px solid #d0d0d0;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.action-btn:hover{
+  background:#f0f0f0;
+}
+
+.action-btn i{
+  font-size:11px;
+  color:#666;
+}
+
+.status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#4caf50;
+  display:inline-block;
+}
+
+/* pagination */
+.pagination{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  margin-top:12px;
+  gap:15px;
+  font-size:13px;
+  color:#666;
+  padding:8px 0 0 0;
+  flex-shrink:0;
+}
+
+.pagination-controls{
+  display:flex;
+  gap:5px;
+}
+
+.page-btn{
+  width:32px;
+  height:32px;
+  border:1px solid #d0d0d0;
+  background:white;
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
+  font-size:12px;
+  color:#444;
+  font-family:'Inter', sans-serif;
+  font-weight:500;
+}
+
+.page-btn:hover{
+  background:#f0f0f0;
+}
+
+.page-btn.active{
+  background:#242242;
+  color:white;
+  border-color:#242242;
+}
+
+.page-btn:disabled{
+  opacity:0.4;
+  cursor:not-allowed;
+}
+
+/* tab content wrapper */
+.tab-content-wrapper{
+  border:1px solid #ededed;
+  border-radius:4px;
+  padding:14px;
+}
+
+/* footer */
+.footer{
+  background:#242242;
+  color:white;
+  text-align:center;
+  padding:10px;
+  font-size:9px;
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:400;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS (matched to New SPES)
+   ============================================ */
+
+@media (max-width: 1024px){
+  .main-wrapper{
+    padding:24px 32px 60px 32px;
+  }
+
+  .main{
+    gap:8px;
+  }
+
+  .sidebar{
+    width:220px;
+  }
+
+  .content{
+    padding:0;
+  }
+
+  .top-bar{
+    gap:8px;
+  }
+}
+
+@media (max-width: 720px){
+  .header{
+    padding:10px 20px;
+    gap:10px;
+    flex-wrap:nowrap;
+  }
+
+  .header img{
+    width:32px;
+    height:32px;
+  }
+
+  .header-text{
+    flex:1 1 auto;
+  }
+
+  .header-text h1{
+    font-size:13px;
+    line-height:1.2;
+  }
+
+  .header-text p{
+    font-size:9px;
+  }
+
+  .header-right{
+    display:none;
+  }
+
+  .burger-btn{
+    display:flex;
+  }
+
+  .main-wrapper{
+    padding:20px 16px 40px 16px;
+    overflow:visible;
+  }
+
+  .main{
+    position:relative;
+    overflow:visible;
+  }
+
+  .content{
+    max-height:none;
+  }
+
+  .sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    width:min(320px, 90vw);
+    background:#f3f3f3;
+    transform:translateX(-110%);
+    transition:transform 0.25s ease;
+    z-index:500;
+    border-radius:0;
+    border:none;
+    max-height:100vh;
+  }
+
+  .sidebar-profile{
+    display:flex;
+    flex-shrink:0;
+  }
+
+  .sidebar-menu{
+    flex:1;
+    overflow-y:auto;
+    padding-bottom:0;
+  }
+
+  .menu-item-logout{
+    display:flex;
+    margin-bottom:20px;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .sidebar-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:450;
+  }
+
+  .sidebar-overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .tab-btn{
+    padding:10px 16px;
+    font-size:12px;
+  }
+
+  .footer{
+    padding:8px;
+    font-size:9px;
+  }
+}
+
+.form-group{
+  margin-bottom:25px;
+}
+
+.form-group-lg{
+  margin-bottom:30px;
+}
+
+.form-label{
+  display:block;
+  font-size:13px;
+  color:#555;
+  font-weight:600;
+  margin-bottom:8px;
+}
+
+.input-wrapper{
+  position:relative;
+  max-width:100%;
+}
+
+.form-input{
+  width:100%;
+  padding:12px 60px 12px 12px;
+  border:2px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+}
+
+.form-input-readonly{
+  width:100%;
+  padding:12px 60px 12px 12px;
+  border:2px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  background:#f8f8f8;
+  color:#888;
+}
+
+.input-icon-wrapper{
+  position:absolute;
+  right:0;
+  top:0;
+  bottom:0;
+  width:50px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-left:2px solid #d0d0d0;
+}
+
+.input-icon-wrapper-readonly{
+  position:absolute;
+  right:0;
+  top:0;
+  bottom:0;
+  width:50px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-left:2px solid #d0d0d0;
+  background:#f8f8f8;
+}
+
+.input-icon{
+  color:#666;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.input-icon-locked{
+  color:#999;
+  font-size:14px;
+}
+
+.section-title{
+  font-size:15px;
+  color:#333;
+  margin-bottom:20px;
+  font-weight:600;
+}
+
+.requirements-box{
+  background:#f8f9fa;
+  border:1px solid #e0e0e0;
+  border-radius:4px;
+  padding:15px;
+  margin-bottom:25px;
+}
+
+.requirements-title{
+  margin:0 0 10px 0;
+  font-size:13px;
+  font-weight:600;
+  color:#333;
+}
+
+.requirements-list{
+  margin:0;
+  padding-left:20px;
+  font-size:12px;
+  color:#666;
+}
+
+.requirements-item{
+  margin-bottom:5px;
+}
+
+.requirements-item-last{
+  margin-bottom:0;
+}
+
+.btn-large{
+  padding:12px 35px;
+  font-size:14px;
+}
+
+.form-group-sm{
+  margin-bottom:8px;
+}
+
+.form-group-md{
+  margin-bottom:20px;
+}
+
+.strength-indicator{
+  margin-bottom:20px;
+  display:none;
+}
+
+.strength-bars{
+  display:flex;
+  gap:5px;
+  margin-bottom:5px;
+}
+
+.strength-bar{
+  height:4px;
+  flex:1;
+  background:#e0e0e0;
+  border-radius:2px;
+  transition:0.3s;
+}
+
+.strength-text{
+  margin:0;
+  font-size:12px;
+  color:#666;
+  font-weight:500;
+}
+
+.section-divider{
+  margin:40px 0;
+  border:none;
+  border-top:1px solid #e0e0e0;
+}
+
+.section-desc{
+  font-size:13px;
+  color:#666;
+  margin-bottom:15px;
+}
+
+.btn-secondary{
+  padding:10px 25px;
+  font-size:13px;
+  background:#666;
+}
+
+.logo-preview-wrapper{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-bottom:10px;
+}
+
+.logo-preview{
+  width:60px;
+  height:60px;
+  object-fit:contain;
+  border:2px solid #d0d0d0;
+  border-radius:4px;
+  padding:5px;
+  background:white;
+}
+
+.file-input-hidden{
+  display:none;
+}
+
+.btn-medium{
+  padding:8px 20px;
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.helper-text{
+  margin:0;
+  font-size:11px;
+  color:#888;
+}
+
+.banner-container{
+  margin-bottom:10px;
+}
+
+.banner-preview-box{
+  width:100%;
+  max-width:600px;
+  height:200px;
+  border:2px solid #d0d0d0;
+  border-radius:4px;
+  background:#f8f8f8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.banner-image{
+  display:none;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.banner-placeholder{
+  color:#999;
+  font-size:13px;
+}
+
+.btn-mr-10{
+  margin-right:10px;
+}
+
+.btn-gray{
+  background:#888;
+}
+
+.helper-text-mt{
+  margin:8px 0 0 0;
+  font-size:11px;
+  color:#888;
+}
+
+.color-picker-wrapper{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.color-input{
+  width:60px;
+  height:40px;
+  border:2px solid #d0d0d0;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+.color-hex-input{
+  padding:10px;
+  border:2px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  background:#f8f8f8;
+  width:120px;
+}
+
+.btn-mt-10{
+  margin-top:10px;
+}
+
+/* ═══ Confirm Modal ═══ */
+.confirm-panel{ width:min(420px,90vw); background:#fff; border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,0.2); text-align:center; padding:30px 24px 24px; border:1px solid #d0d0d0; }
+.confirm-icon{ width:56px; height:56px; border-radius:50%; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:24px; }
+.confirm-icon.danger{ background:#fce4ec; color:#c62828; }
+.confirm-icon.info{ background:#e3f2fd; color:#1565c0; }
+.confirm-icon.success{ background:#e8f5e9; color:#2e7d32; }
+.confirm-icon.warning{ background:#fff3e0; color:#e65100; }
+#confirmTitle{ margin:0 0 8px; font-size:16px; color:#333; }
+#confirmText{ margin:0 0 20px; font-size:13px; color:#666; line-height:1.6; white-space:pre-line; }
+.confirm-actions{ display:flex; gap:10px; justify-content:center; }
+.confirm-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; z-index:1000; }
+.confirm-backdrop.show{ display:flex; }
+.btn-cancel-confirm{ padding:10px 20px; background:#f5f5f5; color:#555; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; cursor:pointer; font-weight:500; transition:.2s; }
+.btn-cancel-confirm:hover{ background:#eee; }
+
+/* ═══ Toast Notifications ═══ */
+.toast-container{ position:fixed; bottom:20px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
+.toast{ min-width:300px; max-width:450px; padding:14px 18px; border-radius:8px; background:#fff; box-shadow:0 4px 16px rgba(0,0,0,0.15); display:flex; align-items:flex-start; gap:10px; font-size:13px; border-left:4px solid #333; animation:toastIn .3s ease; line-height:1.5; }
+.toast.success{ border-left-color:#2e7d32; }
+.toast.success i{ color:#2e7d32; }
+.toast.error{ border-left-color:#c62828; }
+.toast.error i{ color:#c62828; }
+.toast.info{ border-left-color:#1565c0; }
+.toast.info i{ color:#1565c0; }
+.toast.warning{ border-left-color:#e65100; }
+.toast.warning i{ color:#e65100; }
+.toast i{ margin-top:2px; flex-shrink:0; font-size:16px; }
+.toast span{ flex:1; }
+.toast-close{ background:none; border:none; color:#aaa; cursor:pointer; font-size:14px; padding:0; margin-left:8px; transition:.2s; flex-shrink:0; }
+.toast-close:hover{ color:#333; }
+@keyframes toastIn{ from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+</style>
+</head>
+
+<body>
+<!-- header -->
+<div class="header">
+
+<button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="spesLogo.png" alt="SPES Logo">
+
+<div class="header-text">
+<h1>Special Program for the Employment of Students</h1>
+<p>SPES Beneficiaries Management Information System</p>
+</div>
+
+<div class="header-right">
+  <div class="user-info" id="userInfo">
+    <strong>Louraine A. Pecayo</strong><br>
+    Coordinator
+  </div>
+  <div class="profile-menu">
+    <div class="avatar" id="profileBtn">LP</div>
+    <div class="profile-dropdown" id="profileDropdown">
+      <button class="profile-item" onclick="goToSettings()">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+      </button>
+      <button class="profile-item" onclick="confirmLogout()">
+        <i class="fa-solid fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- main wrapper -->
+<div class="main-wrapper">
+
+<!-- top bar -->
+<div class="top-bar">
+  <div class="breadcrumb">
+    <i class="fa-solid fa-house"></i>
+    <span>Back ></span>
+  </div>
+</div>
+
+<!-- main -->
+<div class="main">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- sidebar -->
+<div class="sidebar">
+
+  <div class="sidebar-profile">
+    <div class="sidebar-avatar">LP</div>
+    <div class="sidebar-user">
+      <h4>Louraine A. Pecayo</h4>
+      <p>Coordinator</p>
+    </div>
+  </div>
+
+<div class="sidebar-menu">
+
+<a href="cDashboard.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-house"></i>
+    Dashboard
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cNewSPES.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-user-plus"></i>
+    New SPES
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<div class="submenu-wrapper">
+  <a href="cSpesRegistration.html" class="menu-item menu-submenu">
+    <div class="menu-left">
+      <i class="fa-solid fa-briefcase"></i>
+      SPES Management
+    </div>
+    <i class="fa-solid fa-chevron-right"></i>
+  </a>
+
+  <div class="submenu">
+    <a href="cSpesRegistration.html" class="submenu-item">
+      <span>SPES Registration</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="cSpesBene.html" class="submenu-item">
+      <span>SPES Beneficiaries</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="cSpesAccounts.html" class="submenu-item">
+      <span>SPES Accounts</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="cSpesAR.html" class="submenu-item">
+      <span>Accomplishment Report</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+  </div>
+</div>
+
+<a href="cDeployment.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-check-square"></i>
+    Deployment
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cAnnouncements.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-bullhorn"></i>
+    Announcements
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cDemographic.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-chart-pie"></i>
+    Demographic Data
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cTeamAcc.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-users"></i>
+    Team Accounts
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="cSettings.html" class="menu-item active">
+  <div class="menu-left">
+    <i class="fa-solid fa-gear"></i>
+    Settings
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<button class="menu-item-logout" onclick="confirmLogout()">
+  Log Out
+</button>
+
+</div>
+
+</div>
+
+<!-- main content -->
+<div class="content">
+
+<!-- tabs -->
+<div class="tabs-container">
+  <button class="tab-btn active" data-tab="profile-settings">Profile Settings</button>
+  <button class="tab-btn" data-tab="system-settings">System Settings</button>
+  <button class="tab-btn" data-tab="security-access">Security & Access</button>
+  <button class="tab-btn" data-tab="activity-logs">Activity Logs</button>
+</div>
+
+<!-- Profile Settings Tab -->
+<div class="tab-content active" id="profile-settings">
+  <div class="tab-content-wrapper">
+
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <div class="input-wrapper">
+        <input type="text" id="username" value="louraine.pecayo" class="form-input">
+        <div class="input-icon-wrapper">
+          <i class="fa-solid fa-pen input-icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Full Name</label>
+      <div class="input-wrapper">
+        <input type="text" id="fullname" value="Louraine A. Pecayo" class="form-input">
+        <div class="input-icon-wrapper">
+          <i class="fa-solid fa-pen input-icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Role</label>
+      <div class="input-wrapper">
+        <input type="text" id="role" value="Coordinator" readonly class="form-input-readonly">
+        <div class="input-icon-wrapper-readonly">
+          <i class="fa-solid fa-lock input-icon-locked"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Email Address</label>
+      <div class="input-wrapper">
+        <input type="email" id="email" value="louraine.pecayo@ccc.edu.ph" class="form-input">
+        <div class="input-icon-wrapper">
+          <i class="fa-solid fa-pen input-icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group-lg">
+      <label class="form-label">Contact Number</label>
+      <div class="input-wrapper">
+        <input type="tel" id="contact" value="+63 912 345 6789" class="form-input">
+        <div class="input-icon-wrapper">
+          <i class="fa-solid fa-pen input-icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary btn-large" onclick="updateProfile()">
+      UPDATE PROFILE
+    </button>
+
+  </div>
+</div>
+
+<!-- Security & Access Tab -->
+<div class="tab-content" id="security-access">
+  <div class="tab-content-wrapper">
+
+    <h3 class="section-title">Change Password</h3>
+
+    <div class="requirements-box">
+      <p class="requirements-title">Password Requirements:</p>
+      <ul class="requirements-list">
+        <li id="req-length" class="requirements-item">At least 8 characters long</li>
+        <li id="req-uppercase" class="requirements-item">Contains uppercase letter (A-Z)</li>
+        <li id="req-lowercase" class="requirements-item">Contains lowercase letter (a-z)</li>
+        <li id="req-number" class="requirements-item">Contains number (0-9)</li>
+        <li id="req-special" class="requirements-item-last">Contains special character (!@#$%^&*)</li>
+      </ul>
+    </div>
+
+    <div class="form-group-md">
+      <label class="form-label">Current password</label>
+      <div class="input-wrapper">
+        <input type="password" id="currentPassword" class="form-input">
+        <div class="input-icon-wrapper">
+          <i class="fa-solid fa-eye input-icon" onclick="togglePassword('currentPassword', this)"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group-sm">
+      <label class="form-label">New password</label>
+      <div class="input-wrapper">
+        <input type="password" id="newPassword" oninput="checkPasswordStrength()" class="form-input">
+        <div class="input-icon-wrapper">
+          <i class="fa-solid fa-eye input-icon" onclick="togglePassword('newPassword', this)"></i>
+        </div>
+      </div>
+    </div>
+
+    <div id="strength-indicator" class="strength-indicator">
+      <div class="strength-bars">
+        <div id="strength-bar-1" class="strength-bar"></div>
+        <div id="strength-bar-2" class="strength-bar"></div>
+        <div id="strength-bar-3" class="strength-bar"></div>
+        <div id="strength-bar-4" class="strength-bar"></div>
+      </div>
+      <p id="strength-text" class="strength-text"></p>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Confirm new password</label>
+      <div class="input-wrapper">
+        <input type="password" id="confirmPassword" class="form-input">
+        <div class="input-icon-wrapper">
+          <i class="fa-solid fa-eye input-icon" onclick="togglePassword('confirmPassword', this)"></i>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary btn-large" onclick="updatePassword()">
+      UPDATE PASSWORD
+    </button>
+
+    <hr class="section-divider">
+
+    <h3 class="section-title">Two-Factor Authentication</h3>
+    <p class="section-desc">Add an extra layer of security to your account.</p>
+    <button class="btn-primary btn-secondary" onclick="enable2FA()">
+      Enable 2FA
+    </button>
+
+  </div>
+</div>
+
+<!-- System Settings Tab -->
+<div class="tab-content" id="system-settings">
+  <div class="tab-content-wrapper">
+
+    <h3 class="section-title">Branding & Appearance</h3>
+
+    <div class="form-group">
+      <label class="form-label">System Logo</label>
+      <div class="logo-preview-wrapper">
+        <img src="spesLogo.png" alt="Current Logo" class="logo-preview">
+        <div>
+          <input type="file" id="logoUpload" accept="image/*" class="file-input-hidden" onchange="previewLogo(this)">
+          <button class="btn-primary btn-medium" onclick="document.getElementById('logoUpload').click()">
+            Change Logo
+          </button>
+          <p class="helper-text">Recommended: 200x200px, PNG or JPG</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">System Name</label>
+      <div class="input-wrapper">
+        <input type="text" id="systemName" value="Special Program for the Employment of Students" class="form-input">
+        <div class="input-icon-wrapper">
+          <i class="fa-solid fa-pen input-icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">System Subtitle</label>
+      <div class="input-wrapper">
+        <input type="text" id="systemSubtitle" value="SPES Beneficiaries Management Information System" class="form-input">
+        <div class="input-icon-wrapper">
+          <i class="fa-solid fa-pen input-icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Landing Page Banner</label>
+      <div class="banner-container">
+        <div class="banner-preview-box">
+          <img id="bannerPreview" src="" alt="Banner Preview" class="banner-image">
+          <span id="bannerPlaceholder" class="banner-placeholder">No banner uploaded</span>
+        </div>
+      </div>
+      <input type="file" id="bannerUpload" accept="image/*" class="file-input-hidden" onchange="previewBanner(this)">
+      <button class="btn-primary btn-medium btn-mr-10" onclick="document.getElementById('bannerUpload').click()">
+        Upload Banner
+      </button>
+      <button class="btn-primary btn-medium btn-gray" onclick="removeBanner()">
+        Remove Banner
+      </button>
+      <p class="helper-text-mt">Recommended: 1920x400px, JPG or PNG</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <h3 class="section-title">Footer Settings</h3>
+
+    <div class="form-group">
+      <label class="form-label">Copyright Text</label>
+      <div class="input-wrapper">
+        <input type="text" id="footerText" value="Copyright © 2026 City College of Calamba. All rights Reserve." class="form-input">
+        <div class="input-icon-wrapper">
+          <i class="fa-solid fa-pen input-icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <h3 class="section-title">Theme Colors</h3>
+
+    <div class="form-group">
+      <label class="form-label">Primary Color (Header, Footer & Buttons)</label>
+      <div class="color-picker-wrapper">
+        <input type="color" id="primaryColor" value="#242242" class="color-input">
+        <input type="text" id="primaryColorHex" value="#242242" readonly class="color-hex-input">
+        <button class="btn-primary btn-medium btn-gray" onclick="resetColors()">
+          Reset to Default
+        </button>
+      </div>
+      <p class="helper-text-mt">Changes are previewed live. Click "SAVE CHANGES" to apply permanently.</p>
+    </div>
+
+    <button class="btn-primary btn-large btn-mt-10" onclick="updateSystemSettings()">
+      SAVE CHANGES
+    </button>
+
+  </div>
+</div>
+
+<!-- Activity Logs Tab -->
+<div class="tab-content" id="activity-logs">
+  <div class="tab-content-wrapper">
+
+    <h3 class="section-title">Recent Account Activity</h3>
+
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>DATE & TIME</th>
+            <th>ACTIVITY</th>
+            <th>IP ADDRESS</th>
+            <th>DEVICE</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Feb 20, 2026 - 10:30 AM</td>
+            <td>Login Successful</td>
+            <td>192.168.1.1</td>
+            <td>Windows PC - Chrome</td>
+            <td><span class="badge badge-approved">Success</span></td>
+          </tr>
+          <tr>
+            <td>Feb 19, 2026 - 4:15 PM</td>
+            <td>Profile Updated</td>
+            <td>192.168.1.1</td>
+            <td>Windows PC - Chrome</td>
+            <td><span class="badge badge-approved">Success</span></td>
+          </tr>
+          <tr>
+            <td>Feb 19, 2026 - 9:00 AM</td>
+            <td>Login Successful</td>
+            <td>192.168.1.1</td>
+            <td>Windows PC - Chrome</td>
+            <td><span class="badge badge-approved">Success</span></td>
+          </tr>
+          <tr>
+            <td>Feb 18, 2026 - 2:45 PM</td>
+            <td>Password Changed</td>
+            <td>192.168.1.1</td>
+            <td>Windows PC - Chrome</td>
+            <td><span class="badge badge-approved">Success</span></td>
+          </tr>
+          <tr>
+            <td>Feb 18, 2026 - 10:00 AM</td>
+            <td>Login Successful</td>
+            <td>192.168.1.1</td>
+            <td>Windows PC - Chrome</td>
+            <td><span class="badge badge-approved">Success</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- footer -->
+<div class="footer">
+Copyright © 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<script>
+// Highlight active menu
+const items = document.querySelectorAll('.menu-item');
+items.forEach(item=>{
+  item.addEventListener('click',()=>{
+    items.forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+// Tab switching
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabName = btn.getAttribute('data-tab');
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabName).classList.add('active');
+  });
+});
+
+// Mobile sidebar toggle
+const burgerBtn      = document.getElementById('burgerBtn');
+const sidebar        = document.querySelector('.sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+if(burgerBtn && sidebar && sidebarOverlay){
+  burgerBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('show');
+  });
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('show');
+  });
+}
+
+// Profile dropdown
+const profileBtn      = document.getElementById('profileBtn');
+const userInfo        = document.getElementById('userInfo');
+const profileDropdown = document.getElementById('profileDropdown');
+
+if(profileBtn && profileDropdown){
+  profileBtn.addEventListener('click', function(e){ e.stopPropagation(); profileDropdown.classList.toggle('show'); });
+}
+if(userInfo && profileDropdown){
+  userInfo.addEventListener('click', function(e){ e.stopPropagation(); profileDropdown.classList.toggle('show'); });
+}
+document.addEventListener('click', function(){
+  if(profileDropdown) profileDropdown.classList.remove('show');
+});
+
+function goToSettings(){ window.location.href = 'cSettings.html'; }
+function confirmLogout(){
+  showConfirm('Logout', 'Are you sure you want to logout?', 'warning', 'Logout', 'btn-primary', function(){ window.location.href = 'login.html'; });
+}
+
+// Profile
+function updateProfile(){
+  const username = document.getElementById('username').value;
+  const fullname = document.getElementById('fullname').value;
+  const email    = document.getElementById('email').value;
+  const contact  = document.getElementById('contact').value;
+  if(!username || !fullname || !email || !contact){ showToast('Please fill in all required fields.', 'warning'); return; }
+  showToast('Profile updated successfully!', 'success');
+}
+
+// Password
+function updatePassword(){
+  const currentPassword = document.getElementById('currentPassword').value;
+  const newPassword     = document.getElementById('newPassword').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  if(!currentPassword || !newPassword || !confirmPassword){ showToast('Please fill in all password fields.', 'warning'); return; }
+  if(newPassword !== confirmPassword){ showToast('New password and confirmation do not match.', 'error'); return; }
+  const hasLength   = newPassword.length >= 8;
+  const hasUppercase = /[A-Z]/.test(newPassword);
+  const hasLowercase = /[a-z]/.test(newPassword);
+  const hasNumber   = /[0-9]/.test(newPassword);
+  const hasSpecial  = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+  if(!hasLength || !hasUppercase || !hasLowercase || !hasNumber || !hasSpecial){
+    showToast('Password does not meet all requirements.', 'error'); return;
+  }
+  showToast('Password updated successfully!', 'success');
+  document.getElementById('currentPassword').value = '';
+  document.getElementById('newPassword').value     = '';
+  document.getElementById('confirmPassword').value = '';
+  checkPasswordStrength();
+}
+
+function enable2FA(){
+  showConfirm('Two-Factor Authentication', 'Enable Two-Factor Authentication?\n\nThis will add an extra layer of security to your account.', 'info', 'Enable', 'btn-primary', function(){
+    showToast('2FA setup initiated. You will receive instructions via email.', 'success');
+  });
+}
+
+// System settings
+function previewLogo(input){
+  if(input.files && input.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      document.querySelectorAll('.header img').forEach(img => { img.src = e.target.result; });
+      showToast('Logo preview updated. Click "SAVE CHANGES" to apply.', 'info');
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function previewBanner(input){
+  if(input.files && input.files[0]){
+    const reader = new FileReader();
+    const preview     = document.getElementById('bannerPreview');
+    const placeholder = document.getElementById('bannerPlaceholder');
+    reader.onload = function(e){
+      preview.src = e.target.result;
+      preview.style.display      = 'block';
+      placeholder.style.display  = 'none';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function removeBanner(){
+  const preview     = document.getElementById('bannerPreview');
+  const placeholder = document.getElementById('bannerPlaceholder');
+  const input       = document.getElementById('bannerUpload');
+  preview.src = ''; preview.style.display = 'none';
+  placeholder.style.display = 'block';
+  input.value = '';
+}
+
+function resetColors(){
+  document.getElementById('primaryColor').value    = '#242242';
+  document.getElementById('primaryColorHex').value = '#242242';
+}
+
+function updateSystemSettings(){
+  const systemName     = document.getElementById('systemName').value;
+  const systemSubtitle = document.getElementById('systemSubtitle').value;
+  const footerText     = document.getElementById('footerText').value;
+  const primaryColor   = document.getElementById('primaryColor').value;
+  if(!systemName || !systemSubtitle || !footerText){ showToast('Please fill in all required fields.', 'warning'); return; }
+  document.querySelector('.header-text h1').textContent = systemName;
+  document.querySelector('.header-text p').textContent  = systemSubtitle;
+  document.querySelector('.footer').textContent         = footerText;
+  document.querySelectorAll('.header').forEach(el => { el.style.background = primaryColor; });
+  document.querySelectorAll('.footer').forEach(el => { el.style.background = primaryColor; });
+  document.querySelectorAll('.btn-primary').forEach(btn => {
+    if(!btn.style.background || btn.style.background !== 'rgb(136, 136, 136)') btn.style.background = primaryColor;
+  });
+  document.querySelectorAll('.tab-btn.active').forEach(el => { el.style.borderBottomColor = primaryColor; });
+  document.querySelectorAll('.page-btn.active').forEach(el => { el.style.background = primaryColor; el.style.borderColor = primaryColor; });
+  showToast('System settings updated successfully!', 'success');
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  const colorPicker = document.getElementById('primaryColor');
+  const colorHex    = document.getElementById('primaryColorHex');
+  if(colorPicker && colorHex){
+    colorPicker.addEventListener('input', function(){
+      const newColor = this.value;
+      colorHex.value = newColor;
+      document.querySelectorAll('.header').forEach(el => { el.style.background = newColor; });
+      document.querySelectorAll('.footer').forEach(el => { el.style.background = newColor; });
+      document.querySelectorAll('.btn-primary').forEach(btn => {
+        if(!btn.style.background || btn.style.background !== 'rgb(136, 136, 136)') btn.style.background = newColor;
+      });
+      document.querySelectorAll('.tab-btn.active').forEach(el => { el.style.borderBottomColor = newColor; });
+      document.querySelectorAll('.page-btn.active').forEach(el => { el.style.background = newColor; el.style.borderColor = newColor; });
+    });
+  }
+});
+
+function togglePassword(inputId, icon){
+  const input = document.getElementById(inputId);
+  if(input.type === 'password'){
+    input.type = 'text';
+    icon.classList.replace('fa-eye','fa-eye-slash');
+  } else {
+    input.type = 'password';
+    icon.classList.replace('fa-eye-slash','fa-eye');
+  }
+}
+
+function checkPasswordStrength(){
+  const password          = document.getElementById('newPassword').value;
+  const strengthIndicator = document.getElementById('strength-indicator');
+  const bars              = [1,2,3,4].map(n => document.getElementById('strength-bar-' + n));
+  const strengthText      = document.getElementById('strength-text');
+
+  bars.forEach(bar => { bar.style.background = '#e0e0e0'; });
+  if(password.length === 0){ strengthIndicator.style.display = 'none'; strengthText.textContent = ''; resetRequirements(); return; }
+  strengthIndicator.style.display = 'block';
+
+  const checks = {
+    hasLength:    password.length >= 8,
+    hasUppercase: /[A-Z]/.test(password),
+    hasLowercase: /[a-z]/.test(password),
+    hasNumber:    /[0-9]/.test(password),
+    hasSpecial:   /[!@#$%^&*(),.?":{}|<>]/.test(password)
+  };
+
+  updateRequirement(document.getElementById('req-length'),    checks.hasLength);
+  updateRequirement(document.getElementById('req-uppercase'), checks.hasUppercase);
+  updateRequirement(document.getElementById('req-lowercase'), checks.hasLowercase);
+  updateRequirement(document.getElementById('req-number'),    checks.hasNumber);
+  updateRequirement(document.getElementById('req-special'),   checks.hasSpecial);
+
+  const strength = Object.values(checks).filter(Boolean).length;
+  const levels = [
+    null,
+    { color:'#ff4444', label:'Very Weak' },
+    { color:'#ff8c00', label:'Weak' },
+    { color:'#ffd700', label:'Medium' },
+    { color:'#4caf50', label:'Strong' },
+    { color:'#00c853', label:'Very Strong' }
+  ];
+  const lvl = levels[strength];
+  if(lvl){
+    bars.slice(0, strength).forEach(bar => { bar.style.background = lvl.color; });
+    strengthText.textContent   = lvl.label;
+    strengthText.style.color   = lvl.color;
+  }
+}
+
+function updateRequirement(element, isMet){
+  element.style.color      = isMet ? '#4caf50' : '#666';
+  element.style.fontWeight = isMet ? '600' : '400';
+}
+
+function resetRequirements(){
+  ['req-length','req-uppercase','req-lowercase','req-number','req-special'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el){ el.style.color = '#666'; el.style.fontWeight = '400'; }
+  });
+}
+</script>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Confirm Modal -->
+<div class="confirm-backdrop" id="confirmModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon info" id="confirmIcon"><i class="fa-solid fa-question"></i></div>
+    <h3 id="confirmTitle">Confirm</h3>
+    <p id="confirmText">Are you sure?</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel-confirm" onclick="closeConfirmModal()">Cancel</button>
+      <button class="btn-primary" id="confirmActionBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function showToast(msg, type){
+  const container = document.getElementById('toastContainer');
+  const icons = { success:'fa-circle-check', error:'fa-circle-xmark', info:'fa-circle-info', warning:'fa-triangle-exclamation' };
+  const icon = icons[type] || icons.info;
+  const t = document.createElement('div');
+  t.className = 'toast ' + (type||'info');
+  t.innerHTML = '<i class="fa-solid '+icon+'"></i><span>'+msg+'</span><button class="toast-close" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>';
+  container.appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(),300); }, 4000);
+}
+function openConfirmModal(){ document.getElementById('confirmModal').classList.add('show'); }
+function closeConfirmModal(){ document.getElementById('confirmModal').classList.remove('show'); }
+document.getElementById('confirmModal').addEventListener('click', function(e){ if(e.target===this) closeConfirmModal(); });
+function showConfirm(title, text, iconClass, btnText, btnClass, onConfirm){
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmText').textContent = text;
+  document.getElementById('confirmIcon').className = 'confirm-icon ' + iconClass;
+  const actionBtn = document.getElementById('confirmActionBtn');
+  actionBtn.textContent = btnText;
+  actionBtn.className = btnClass || 'btn-primary';
+  actionBtn.onclick = ()=>{ closeConfirmModal(); onConfirm(); };
+  openConfirmModal();
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+plain-php-backend/.env
+plain-php-backend/storage/mail.log
+plain-php-backend/storage/local_auth_overrides.json
+plain-php-backend/storage/local_password_resets.json
+
+.DS_Store
+Thumbs.db

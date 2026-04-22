@@ -1,0 +1,5020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-SPES | Announcements</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+/* Hide scrollbars globally */
+*{
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+*::-webkit-scrollbar{ width:0; height:0; }
+
+/* Show custom scrollbar for content area */
+.content::-webkit-scrollbar{ width:1px; display:block; }
+.content::-webkit-scrollbar-track{ background:transparent; }
+.content::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.05); border-radius:1px;
+  transition:all 0.2s ease; cursor:pointer; min-height:5px; max-height:12px;
+}
+.content::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.3); width:3px; }
+.content{ scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.05) transparent; }
+
+/* Show custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar{ width:1px; display:block; }
+.sidebar::-webkit-scrollbar-track{ background:transparent; }
+.sidebar::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.04); border-radius:1px;
+  transition:all 0.2s ease; cursor:pointer; min-height:5px; max-height:10px;
+}
+.sidebar::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.25); width:2px; }
+.sidebar{ scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.04) transparent; }
+
+.table-container::-webkit-scrollbar{ width:1px; height:1px; display:block; }
+.table-container::-webkit-scrollbar-track{ background:transparent; }
+.table-container::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.05); border-radius:1px;
+  min-height:5px; min-width:5px; max-height:12px; max-width:12px; transition:all 0.2s ease;
+}
+.table-container::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.3); }
+.table-container{ position:relative; scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.05) transparent; }
+
+/* Show custom scrollbar for modals */
+.modal-body::-webkit-scrollbar{ width:3px; display:block; }
+.modal-body::-webkit-scrollbar-track{ background:transparent; }
+.modal-body::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,0.08); border-radius:3px;
+  transition:all 0.2s ease; min-height:20px;
+}
+.modal-body::-webkit-scrollbar-thumb:hover{ background:rgba(0,0,0,0.2); }
+.modal-body{ scrollbar-width:thin; scrollbar-color:rgba(0,0,0,0.08) transparent; }
+
+/* Hide sidebar scrollbar */
+.sidebar{ scrollbar-width:none !important; -ms-overflow-style:none; }
+.sidebar::-webkit-scrollbar{ display:none !important; width:0 !important; height:0 !important; }
+
+body{
+  margin:0;
+  background:#ffffff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-bottom:46px;
+}
+
+/* header */
+.header{
+  background:#242242;
+  color:white;
+  padding:12px 30px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+}
+
+.burger-btn{
+  border:none;
+  background:transparent;
+  color:#ffffff;
+  font-size:20px;
+  width:38px;
+  height:38px;
+  border-radius:6px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.burger-btn:hover{
+  background:rgba(255,255,255,0.12);
+}
+
+.header-text{ flex:1 1 auto; }
+.header-text h1{
+  margin:0;
+  font-size:16px;
+}
+
+.header-text p{
+  margin:2px 0 0;
+  font-size:11px;
+  opacity:0.9;
+  font-style:italic;
+}
+
+/* right side header */
+.header-right{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-info{
+  text-align:right;
+  font-size:12px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.user-info:hover{
+  opacity:0.8;
+}
+
+.avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e5e5e5;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.avatar:hover{
+  background:#d0d0d0;
+}
+
+/* profile dropdown */
+.profile-menu{
+  position:relative;
+}
+
+.profile-dropdown{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:8px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  min-width:150px;
+  display:none;
+  z-index:100;
+}
+
+.profile-dropdown.show{
+  display:block;
+}
+
+.profile-item{
+  padding:12px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+  border:none;
+  background:none;
+  width:100%;
+  text-align:left;
+}
+
+.profile-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.profile-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main wrapper */
+.main-wrapper{
+  flex:1;
+  padding:30px 120px 60px 120px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* breadcrumb */
+.breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:#666;
+  cursor:pointer;
+  margin-bottom:15px;
+}
+
+.breadcrumb i{
+  font-size:12px;
+}
+
+/* top bar */
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+/* 3-dot menu */
+.menu-dots{
+  position:relative;
+  margin-left:auto;
+}
+
+.dots-btn{
+  background:transparent;
+  border:none;
+  border-radius:4px;
+  padding:6px 12px;
+  cursor:pointer;
+  font-size:18px;
+  color:#666;
+  transition:.2s;
+}
+
+.dots-btn:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-menu{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:5px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  min-width:160px;
+  display:none;
+  z-index:100;
+}
+
+.dropdown-menu.show{
+  display:block;
+}
+
+.dropdown-item{
+  padding:10px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+}
+
+.dropdown-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main */
+.main{
+  display:flex;
+  gap:11px;
+  flex:1;
+  overflow:hidden;
+}
+
+/* sidebar */
+.sidebar{
+  width:235px;
+  background:#f3f3f3;
+  border-radius:5px;
+  padding:0px;
+  border:1px solid #d0d0d0;
+  flex-shrink:0;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+  max-height:calc(100vh - 160px);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-profile{
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:16px 14px;
+  border-bottom:1px solid #e1e1e1;
+  background:#ededed;
+}
+
+.sidebar-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#d9d9d9;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+  flex-shrink:0;
+}
+
+.sidebar-user h4{
+  margin:0;
+  font-size:13px;
+  color:#222;
+  font-weight:700;
+}
+
+.sidebar-user p{
+  margin:2px 0 0;
+  font-size:11px;
+  color:#666;
+  font-weight:500;
+}
+
+/* menu */
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:34px 14px;
+  border-radius:6px;
+  font-size:14.5px;
+  color:#666;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.menu-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.menu-item i{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+.menu-item:hover{
+  background:#e6e6e6;
+}
+
+.menu-item:hover .fa-chevron-right{
+  background:#bfc3c9;
+  color:#666666;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+}
+
+.submenu-wrapper > .menu-item:not(.active):hover{
+  background:#e6e6e6;
+}
+
+.sidebar-menu{
+  flex:1;
+  overflow-y:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+.sidebar-menu::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+
+.menu-item-logout{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px 20px;
+  border-radius:8px;
+  font-size:15.5px;
+  color:#222;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  text-decoration:none;
+  background:#e4e6eb;
+  border:1px solid #ced0d4;
+  width:calc(100% - 28px);
+  text-align:center;
+  margin-top:30px;
+  margin-bottom:70px;
+  margin-left:14px;
+  margin-right:14px;
+  font-weight:700;
+}
+
+.menu-item-logout:hover{
+  background:#d8dadf;
+  border-color:#bcc0c4;
+}
+
+.menu-item-logout i{
+  width:18px;
+  text-align:center;
+}
+
+.menu-item.active{
+  background:#ffffff;
+  color:rgb(40, 32, 32);
+  border-radius:0px;
+}
+
+.menu-item.active i{
+  color:rgb(32, 30, 30);
+}
+
+.menu-item.active .fa-chevron-right{
+  background:#1a1a1a;
+  color:#ffffff;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+  transform:rotate(0deg);
+}
+
+.menu-item.active.menu-submenu .fa-chevron-right{
+  transform:rotate(90deg);
+}
+
+.submenu-wrapper > .menu-item:hover .fa-chevron-right{
+  transform:rotate(90deg);
+}
+
+.submenu-wrapper{
+  position:relative;
+}
+
+.submenu{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.3s ease;
+  background:#e8e8e8;
+}
+
+.submenu-wrapper:hover .submenu{
+  max-height:300px;
+}
+
+.submenu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 14px 18px 45px;
+  font-size:12.5px;
+  color:#555;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  border-left:3px solid transparent;
+}
+
+.submenu-item:hover{
+  background:#d8d8d8;
+}
+
+.submenu-item.active{
+  background:#ffffff;
+  color:#242242;
+  border-left-color:#242242;
+  font-weight:500;
+}
+
+.submenu-item i{
+  font-size:8px;
+  color:#999;
+}
+
+.submenu-item.active i{
+  color:#242242;
+}
+
+/* main content */
+.content{
+  flex:1;
+  background:#ffffff;
+  border-radius:4px;
+  padding:0;
+  border:none;
+  position:relative;
+  overflow-y:auto;
+  overflow-x:hidden;
+  max-height:calc(100vh - 160px);
+}
+
+/* tabs */
+.tabs-wrapper{
+  display:flex;
+  align-items:center;
+  margin:0 0 15px 0;
+}
+.tabs-container{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:1;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding:0;
+  border-bottom:none;
+  border-top:none;
+}
+.tabs-container::-webkit-scrollbar{ display:none; }
+
+.tab-btn{
+  padding:12px 24px;
+  background:transparent;
+  border:1px solid #d0d0d0;
+  border-radius:1px 1px 0 0;
+  font-size:13px;
+  color:#666;
+  cursor:pointer;
+  transition:.2s;
+  font-weight:500;
+}
+
+.tab-btn:hover{
+  color:#444;
+  background:#f5f5f5;
+}
+
+.tab-btn.active{
+  color:#242242;
+  border-bottom:2px solid #242242;
+  background:#fff;
+  font-weight:600;
+}
+
+.tab-content{
+  display:none;
+  padding:0;
+}
+
+.tab-content.active{
+  display:block;
+}
+
+/* tab panel wrapper */
+.tab-panel-wrapper{
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  padding:14px;
+  position:relative;
+}
+
+/* loading bar  top of panel */
+.loading-bar{
+  position:absolute;
+  top:38px;
+  left:0;
+  right:0;
+  width:0;
+  height:2px;
+  background:#3b82f6;
+  transition:width 0.8s ease;
+  z-index:5;
+}
+
+.loading-bar.active{
+  width:100%;
+}
+
+/* btn */
+.btn-primary{
+  padding:10px 20px;
+  background:#242242;
+  color:white;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:500;
+  transition:.2s;
+}
+
+.btn-primary:hover{
+  background:#363454;
+}
+
+.refresh-btn{
+  padding:10px 12px;
+  border:1px solid #d0d0d0;
+  background:white;
+  border-radius:4px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.refresh-btn:hover{
+  background:#f5f5f5;
+}
+
+.refresh-btn:active{
+  transform:scale(0.95);
+}
+
+/* toolbar */
+.toolbar{ display:flex; align-items:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+.search-box{ flex:1; min-width:250px; position:relative; }
+.search-box input{
+  width:100%; padding:10px 40px 10px 15px;
+  border:1px solid #d0d0d0; border-radius:4px; font-size:13px;
+}
+.search-box i{
+  position:absolute; right:15px; top:50%; transform:translateY(-50%);
+  color:#888; cursor:pointer;
+}
+.filter-select{
+  padding:10px 35px 10px 15px; border:1px solid #d0d0d0; border-radius:4px;
+  font-size:13px; background:#fff; cursor:pointer; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 10px center;
+}
+
+/* table */
+.table-container{ overflow-x:auto; margin-bottom:20px; }
+.data-table{ width:100%; border-collapse:collapse; font-size:12px; }
+.data-table th{
+  background:#f8f8f8; padding:12px 10px; text-align:left;
+  font-weight:600; color:#555; border-bottom:2px solid #d0d0d0;
+  white-space:nowrap; position:relative;
+}
+.data-table td{ padding:12px 10px; border-bottom:1px solid #f0f0f0; }
+.data-table tbody tr:hover{ background:#fafafa; }
+
+/* pagination */
+.pagination{
+  display:flex; align-items:center; justify-content:flex-end;
+  margin-top:12px; gap:15px; font-size:13px; color:#666;
+  padding:8px 0 0 0; flex-shrink:0;
+}
+.pagination-controls{ display:flex; gap:5px; }
+.page-btn{
+  width:32px; height:32px; border:1px solid #d0d0d0; background:white;
+  border-radius:4px; cursor:pointer; display:flex; align-items:center;
+  justify-content:center; transition:.2s;
+  font-size:12px; color:#444; font-family:'Inter', sans-serif; font-weight:500;
+}
+.page-btn:hover{ background:#f0f0f0; }
+.page-btn.active{ background:#242242; color:white; border-color:#242242; }
+.page-btn:disabled{ opacity:0.4; cursor:not-allowed; }
+
+.btn-secondary{ padding:10px 20px; background:#f5f5f5; color:#666; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; cursor:pointer; font-weight:500; transition:.2s; text-transform:uppercase; }
+.btn-secondary:hover{ background:#e0e0e0; }
+.btn-outline{ padding:10px 20px; background:white; color:#242242; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; cursor:pointer; font-weight:500; transition:.2s; display:inline-flex; align-items:center; gap:6px; }
+.btn-outline:hover{ background:#f5f5ff; border-color:#242242; }
+
+/* quick access */
+.quick-access{
+  margin-bottom:16px;
+}
+
+.quick-access-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.quick-access-header h3{
+  margin:0;
+  font-size:14px;
+  color:#333;
+  font-weight:600;
+}
+
+.quick-access-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+}
+
+.quick-access-card{
+  border:1px solid #e0e0e0;
+  border-radius:4px;
+  padding:20px;
+  text-align:center;
+  background:#f9f9f9;
+}
+
+.quick-access-icon{
+  font-size:clamp(22px,4vw,32px);
+  color:#666;
+  margin-bottom:10px;
+  display:block;
+}
+
+.quick-access-value{
+  font-size:clamp(14px,2.2vw,16px);
+  font-weight:600;
+  color:#333;
+  margin-bottom:5px;
+}
+
+.quick-access-label{
+  font-size:clamp(11px,1.8vw,12px);
+  color:#888;
+}
+
+/* announcements */
+.announcements-container{
+  margin-top:0;
+}
+
+.announcements-header{
+  display:flex;
+  align-items:center;
+  margin-bottom:15px;
+  gap:10px;
+}
+
+.announcements-title{
+  margin:0;
+  font-size:14px;
+  color:#333;
+  font-weight:600;
+  flex:1;
+}
+
+.announcements-list{
+  border:1px solid #ededed;
+  border-radius:4px;
+  overflow:hidden;
+  position:relative;
+}
+
+.announcement-item{
+  padding:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:start;
+  border-bottom:1px solid #ededed;
+}
+
+.announcement-item:last-child{
+  border-bottom:none;
+}
+
+.announcement-item-featured{
+  background:#fafafa;
+}
+
+.announcement-content{
+  flex:1;
+}
+
+.announcement-heading{
+  margin:0 0 8px 0;
+  font-size:13px;
+  color:#333;
+  font-weight:600;
+}
+
+.announcement-text{
+  margin:0;
+  font-size:12px;
+  color:#666;
+}
+
+.announcement-actions{
+  display:flex;
+  gap:8px;
+  margin-left:15px;
+}
+
+.btn-announcement-action{
+  padding:6px 12px;
+  font-size:11px;
+  border:1px solid #d0d0d0;
+  background:#fff;
+  border-radius:4px;
+  cursor:pointer;
+  color:#666;
+  transition:.2s;
+}
+
+.btn-announcement-action:hover{
+  background:#f5f5f5;
+}
+
+.icon-margin-right{
+  margin-right:5px;
+}
+
+/* Announcement Composer */
+.ann-composer{
+  border:1px solid #d0d0d0;
+  border-radius:6px;
+  margin-bottom:20px;
+  background:#fff;
+}
+.ann-composer-title{
+  width:100%;
+  padding:12px 14px;
+  border:none;
+  border-bottom:1px solid #d0d0d0;
+  font-size:13px;
+  color:#333;
+  outline:none;
+  border-radius:6px 6px 0 0;
+  background:#fafafa;
+}
+.ann-composer-title::placeholder{
+  color:#999;
+}
+.ann-composer-desc{
+  width:100%;
+  padding:10px 14px;
+  border:none;
+  border-bottom:1px solid #d0d0d0;
+  font-size:12px;
+  color:#555;
+  outline:none;
+  background:#fff;
+  resize:none;
+  min-height:36px;
+}
+.ann-composer-desc::placeholder{
+  color:#aaa;
+}
+.ann-toolbar{
+  display:flex;
+  align-items:center;
+  gap:2px;
+  padding:6px 10px;
+  border-bottom:1px solid #eee;
+  background:#fafafa;
+  flex-wrap:wrap;
+}
+.ann-toolbar-btn{
+  width:30px;
+  height:28px;
+  border:none;
+  background:none;
+  cursor:pointer;
+  border-radius:4px;
+  color:#666;
+  font-size:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.15s;
+}
+.ann-toolbar-btn.active,.ann-toolbar-btn[style*="background: rgb(224"]{
+  color:#242242;
+}
+.ann-toolbar-btn:hover{
+  background:#e8e8e8;
+  color:#222;
+}
+.ann-toolbar-sep{
+  width:1px;
+  height:20px;
+  background:#ddd;
+  margin:0 4px;
+}
+.ann-body{
+  padding:0;
+}
+.ann-editor{
+  width:100%;
+  min-height:180px;
+  padding:14px;
+  border:none;
+  font-size:13px;
+  color:#333;
+  outline:none;
+  font-family:inherit;
+  line-height:1.6;
+  overflow-y:auto;
+  max-height:400px;
+  box-sizing:border-box;
+}
+.ann-editor:empty::before{
+  content:attr(data-placeholder);
+  color:#bbb;
+  pointer-events:none;
+}
+.ann-editor h2{
+  font-size:16px;
+  margin:8px 0;
+  color:#222;
+}
+.ann-editor h3{
+  font-size:14px;
+  margin:6px 0;
+  color:#333;
+}
+.ann-editor ul,.ann-editor ol{
+  margin:4px 0;
+  padding-left:24px;
+}
+.ann-editor li{
+  margin:2px 0;
+}
+.ann-editor a{
+  color:#1565c0;
+  text-decoration:underline;
+}
+.ann-footer{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:8px 12px;
+  border-top:1px solid #eee;
+  background:#fafafa;
+  font-size:11px;
+  color:#999;
+  flex-wrap:wrap;
+  border-radius:0 0 6px 6px;
+}
+.ann-footer i{
+  font-size:13px;
+  color:#bbb;
+}
+.ann-footer-item{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  cursor:pointer;
+  transition:.2s;
+}
+.ann-footer-item:hover{
+  color:#666;
+}
+.ann-footer-item:hover i{
+  color:#666;
+}
+
+/* Recipients & Send Options */
+.ann-options{
+  display:flex;
+  gap:12px;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+  align-items:flex-end;
+}
+.ann-option-group{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  flex:1;
+  min-width:160px;
+}
+.ann-option-label{
+  font-size:11px;
+  color:#666;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+}
+.ann-option-select{
+  padding:9px 12px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:12px;
+  color:#333;
+  background:#fff;
+  cursor:pointer;
+  outline:none;
+}
+.ann-option-select:focus{
+  border-color:#242242;
+}
+.ann-btn-publish{
+  padding:10px 24px;
+  background:#2e7d32;
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+}
+.ann-btn-publish:hover{
+  background:#1b5e20;
+}
+.ann-btn-draft{
+  padding:10px 18px;
+  background:#fff;
+  color:#555;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  transition:.2s;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+}
+.ann-btn-draft:hover{
+  background:#f5f5f5;
+}
+
+/* Announcement List */
+.ann-list-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+.ann-list-title{
+  margin:0;
+  font-size:14px;
+  color:#333;
+  font-weight:600;
+}
+.ann-list-toolbar{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.ann-search{
+  padding:7px 12px 7px 32px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:12px;
+  outline:none;
+  width:200px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23999' viewBox='0 0 512 512'%3E%3Cpath d='M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z'/%3E%3C/svg%3E") no-repeat 10px center;
+  background-size:13px;
+}
+.ann-filter-select{
+  padding:7px 10px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:12px;
+  background:#fff;
+  color:#555;
+  cursor:pointer;
+}
+.ann-table-wrapper{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  border:1px solid #e0e0e0;
+  border-radius:4px;
+}
+.ann-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+.ann-table th{
+  padding:10px 12px;
+  background:#f5f5f5;
+  color:#666;
+  font-weight:600;
+  text-align:left;
+  border-bottom:2px solid #e0e0e0;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+}
+.ann-table td{
+  padding:12px;
+  border-bottom:1px solid #f0f0f0;
+  color:#333;
+  vertical-align:top;
+}
+.ann-table tr:hover{
+  background:#fafafa;
+}
+.ann-table-title{
+  font-weight:600;
+  color:#222;
+  margin-bottom:2px;
+}
+.ann-table-desc{
+  color:#888;
+  font-size:11px;
+  max-width:300px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.ann-badge{
+  padding:3px 10px;
+  border-radius:12px;
+  font-size:10px;
+  font-weight:600;
+  display:inline-block;
+}
+.ann-badge-published{
+  background:#e8f5e9;
+  color:#2e7d32;
+}
+.ann-badge-draft{
+  background:#fff3e0;
+  color:#ef6c00;
+}
+.ann-badge-scheduled{
+  background:#e3f2fd;
+  color:#1565c0;
+}
+.ann-method-badge{
+  padding:2px 8px;
+  border-radius:3px;
+  font-size:10px;
+  font-weight:500;
+  display:inline-block;
+  margin-right:3px;
+}
+.ann-method-email{
+  background:#ede7f6;
+  color:#5e35b1;
+}
+.ann-method-sms{
+  background:#fce4ec;
+  color:#c62828;
+}
+.ann-method-system{
+  background:#e0f2f1;
+  color:#00695c;
+}
+.ann-actions-cell{
+  display:flex;
+  gap:4px;
+}
+.ann-action-btn{
+  width:28px;
+  height:28px;
+  border:1px solid #e0e0e0;
+  background:#fff;
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#888;
+  font-size:12px;
+  transition:.15s;
+}
+.ann-action-btn:hover{
+  background:#f0f0f0;
+  color:#333;
+}
+.ann-action-btn.danger:hover{
+  background:#fce4ec;
+  color:#c62828;
+  border-color:#f8bbd0;
+}
+.ann-pagination{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 0;
+  font-size:12px;
+  color:#888;
+  margin-top:8px;
+}
+.ann-page-btns{
+  display:flex;
+  gap:4px;
+}
+.ann-page-btn{
+  width:30px;
+  height:30px;
+  border:1px solid #e0e0e0;
+  background:#fff;
+  border-radius:4px;
+  cursor:pointer;
+  font-size:11px;
+  color:#666;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.15s;
+}
+.ann-page-btn:hover{
+  background:#f5f5f5;
+}
+.ann-page-btn.active{
+  background:#242242;
+  color:#fff;
+  border-color:#242242;
+}
+.ann-page-btn:disabled{
+  opacity:.4;
+  cursor:default;
+}
+
+/* Summary Cards */
+.ann-summary{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:15px;
+  margin-bottom:25px;
+}
+.ann-summary-card{
+  background:#ffffff;
+  border:1px solid #e8ecf1;
+  border-radius:10px;
+  padding:20px;
+  transition:all 0.3s ease;
+  box-shadow:0 2px 4px rgba(0,0,0,0.04);
+  position:relative;
+  overflow:hidden;
+}
+.ann-summary-card:hover{
+  box-shadow:0 8px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  transform:translateY(-4px);
+  border-color:#d0d7e2;
+}
+
+/* Colored hover per card type */
+.ann-summary-card.green:hover{ border-color:#388e3c; box-shadow:0 8px 16px rgba(56,142,60,0.18); }
+.ann-summary-card.blue:hover{ border-color:#1976d2; box-shadow:0 8px 16px rgba(25,118,210,0.18); }
+.ann-summary-card.orange:hover{ border-color:#f57c00; box-shadow:0 8px 16px rgba(245,124,0,0.18); }
+.ann-summary-card.purple:hover{ border-color:#7b1fa2; box-shadow:0 8px 16px rgba(123,31,162,0.18); }
+.ann-summary-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+.ann-summary-icon{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  border:2px solid;
+  background:transparent;
+  transition:all 0.25s ease;
+}
+.ann-summary-icon.green{ color:#388e3c; border-color:#388e3c; }
+.ann-summary-icon.blue{ color:#1976d2; border-color:#1976d2; }
+.ann-summary-icon.orange{ color:#f57c00; border-color:#f57c00; }
+.ann-summary-icon.purple{ color:#7b1fa2; border-color:#7b1fa2; }
+.ann-summary-val{
+  font-size:32px;
+  font-weight:700;
+  color:#1a1d2e;
+  margin-bottom:6px;
+  line-height:1;
+}
+.ann-summary-lbl{
+  font-size:11px;
+  color:#6b7280;
+  text-transform:uppercase;
+  letter-spacing:0.6px;
+  font-weight:600;
+}
+
+/* View Announcement Modal */
+.ann-modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  z-index:600;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s;
+}
+.ann-modal-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+.ann-modal-panel{
+  background:#fff;
+  border-radius:8px;
+  width:min(580px,92vw);
+  max-height:85vh;
+  overflow-y:auto;
+  box-shadow:0 8px 30px rgba(0,0,0,0.18);
+  transform:translateY(12px);
+  transition:transform .2s;
+}
+.ann-modal-overlay.show .ann-modal-panel{
+  transform:translateY(0);
+}
+.ann-modal-head{
+  padding:16px 20px;
+  border-bottom:1px solid #eee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.ann-modal-title{
+  margin:0;
+  font-size:14px;
+  font-weight:600;
+  color:#333;
+}
+.ann-modal-close{
+  width:30px;
+  height:30px;
+  border:none;
+  background:none;
+  cursor:pointer;
+  border-radius:4px;
+  color:#999;
+  font-size:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.15s;
+}
+.ann-modal-close:hover{
+  background:#f0f0f0;
+  color:#333;
+}
+.ann-modal-body{
+  padding:20px;
+}
+.ann-modal-footer{
+  padding:14px 20px;
+  border-top:1px solid #eee;
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+}
+.ann-view-meta{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+  font-size:11px;
+  color:#888;
+}
+.ann-view-meta-item{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.ann-view-meta-item i{
+  font-size:12px;
+  color:#aaa;
+}
+.ann-view-content{
+  font-size:13px;
+  color:#333;
+  line-height:1.7;
+  white-space:pre-wrap;
+}
+
+/* Confirm Modal */
+.confirm-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  z-index:650;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s;
+}
+.confirm-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+.confirm-panel{
+  background:#fff;
+  border-radius:8px;
+  width:min(400px,90vw);
+  padding:24px;
+  text-align:center;
+  box-shadow:0 8px 30px rgba(0,0,0,0.18);
+}
+.confirm-icon{
+  font-size:36px;
+  margin-bottom:12px;
+}
+.confirm-title{
+  font-size:15px;
+  font-weight:600;
+  color:#333;
+  margin-bottom:8px;
+}
+.confirm-msg{
+  font-size:12px;
+  color:#666;
+  margin-bottom:20px;
+  line-height:1.5;
+}
+.confirm-btns{
+  display:flex;
+  gap:8px;
+  justify-content:center;
+}
+.confirm-btn{
+  padding:9px 22px;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  border:1px solid #d0d0d0;
+  transition:.15s;
+}
+.confirm-btn-cancel{
+  background:#fff;
+  color:#555;
+}
+.confirm-btn-cancel:hover{
+  background:#f5f5f5;
+}
+.confirm-btn-ok{
+  background:#242242;
+  color:#fff;
+  border-color:#242242;
+}
+.confirm-btn-ok:hover{
+  background:#363454;
+}
+.confirm-btn-danger{
+  background:#c62828;
+  color:#fff;
+  border-color:#c62828;
+}
+.confirm-btn-danger:hover{
+  background:#a01e1e;
+}
+
+/* Toast */
+.toast-container{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:800;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.toast{
+  padding:12px 18px;
+  border-radius:6px;
+  font-size:12px;
+  color:#fff;
+  font-weight:500;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  animation:toastIn .3s ease;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  max-width:350px;
+}
+.toast-success{
+  background:#2e7d32;
+}
+.toast-error{
+  background:#c62828;
+}
+.toast-info{
+  background:#1565c0;
+}
+@keyframes toastIn{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* Form Builder Redesign */
+.fb-layout{
+  display:flex;
+  gap:0;
+  height:calc(100vh - 230px);
+  border:1px solid #e0e0e0;
+  border-radius:6px;
+  overflow:hidden;
+  background:#fff;
+}
+.fb-sidebar{
+  width:300px;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  flex-shrink:0;
+  overflow-y:auto;
+  border-right:1px solid #e0e0e0;
+}
+.fb-card{
+  border:none;
+  border-bottom:1px solid #e0e0e0;
+  border-radius:0;
+  padding:16px;
+  background:#fff;
+}
+.fb-card:last-child{
+  border-bottom:none;
+}
+.fb-card-title{
+  margin:0 0 12px 0;
+  font-size:13px;
+  color:#333;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.fb-card-title i{
+  color:#666;
+  font-size:14px;
+}
+.fb-input{
+  width:100%;
+  padding:9px 12px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:12px;
+  outline:none;
+  margin-bottom:8px;
+  box-sizing:border-box;
+}
+.fb-input:focus{
+  border-color:#242242;
+}
+.fb-select{
+  width:100%;
+  padding:9px 12px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:12px;
+  background:#fff;
+  color:#333;
+  cursor:pointer;
+  margin-bottom:8px;
+  box-sizing:border-box;
+}
+.fb-btn{
+  width:100%;
+  padding:9px;
+  background:#242242;
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  transition:.2s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.fb-btn:hover{
+  background:#363454;
+}
+.fb-btn-outline{
+  background:#fff;
+  color:#555;
+  border:1px solid #d0d0d0;
+}
+.fb-btn-outline:hover{
+  background:#f5f5f5;
+}
+.fb-btn-green{
+  background:#2e7d32;
+}
+.fb-btn-green:hover{
+  background:#1b5e20;
+}
+.fb-main{
+  flex:1;
+  border:none;
+  border-radius:0;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  background:#fff;
+}
+.fb-main-header{
+  padding:16px 20px;
+  border-bottom:1px solid #eee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-shrink:0;
+}
+.fb-main-title{
+  margin:0;
+  font-size:14px;
+  color:#333;
+  font-weight:600;
+}
+.fb-main-badge{
+  padding:3px 10px;
+  border-radius:12px;
+  font-size:10px;
+  font-weight:600;
+  background:#e3f2fd;
+  color:#1565c0;
+}
+.fb-preview{
+  flex:1;
+  overflow-y:auto;
+  padding:20px;
+}
+.fb-empty{
+  color:#aaa;
+  font-size:12px;
+  text-align:center;
+  padding:40px 20px;
+}
+.fb-empty i{
+  font-size:32px;
+  margin-bottom:12px;
+  display:block;
+  color:#ddd;
+}
+.fb-main-footer{
+  padding:14px 20px;
+  border-top:1px solid #eee;
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  flex-shrink:0;
+  flex-wrap:wrap;
+}
+.fb-footer-btn{
+  padding:9px 20px;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  border:1px solid #d0d0d0;
+  transition:.15s;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.fb-footer-btn:hover{
+  background:#f5f5f5;
+}
+.fb-footer-btn-primary{
+  background:#242242;
+  color:#fff;
+  border-color:#242242;
+}
+.fb-footer-btn-primary:hover{
+  background:#363454;
+}
+.fb-footer-btn-green{
+  background:#2e7d32;
+  color:#fff;
+  border-color:#2e7d32;
+}
+.fb-footer-btn-green:hover{
+  background:#1b5e20;
+}
+
+/* Form Builder - Section & Field styling */
+.fb-section{
+  border:1px solid #e0e0e0;
+  border-radius:6px;
+  padding:16px;
+  margin-bottom:14px;
+  background:#fafafa;
+}
+.fb-section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+}
+.fb-section-name{
+  margin:0;
+  font-size:12px;
+  color:#333;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+}
+.fb-field{
+  margin-bottom:14px;
+}
+.fb-field:last-child{
+  margin-bottom:0;
+}
+.fb-field-label{
+  display:block;
+  font-size:11px;
+  color:#555;
+  margin-bottom:6px;
+  font-weight:500;
+}
+.fb-field-row{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.fb-field-input{
+  flex:1;
+  padding:8px 10px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:12px;
+}
+.fb-field-file{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  padding:6px 10px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  background:#fff;
+  flex:1;
+}
+.fb-field-file-btn{
+  padding:4px 12px;
+  background:#e8e8e8;
+  border:1px solid #ccc;
+  border-radius:3px;
+  font-size:11px;
+  cursor:pointer;
+}
+.fb-field-file-text{
+  font-size:11px;
+  color:#aaa;
+}
+.fb-del-btn{
+  width:26px;
+  height:26px;
+  border:1px solid #e0e0e0;
+  background:#fff;
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#999;
+  font-size:11px;
+  transition:.15s;
+  flex-shrink:0;
+}
+.fb-del-btn:hover{
+  background:#fce4ec;
+  color:#c62828;
+  border-color:#f8bbd0;
+}
+
+/* Form History */
+.fb-history{
+  margin-top:0;
+}
+.fb-history-title{
+  margin:0 0 12px 0;
+  font-size:13px;
+  color:#333;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.fb-history-title i{
+  color:#666;
+}
+.fb-history-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.fb-history-item{
+  border:1px solid #e8e8e8;
+  border-radius:6px;
+  padding:12px 14px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  transition:.15s;
+  cursor:pointer;
+}
+.fb-history-item:hover{
+  border-color:#ccc;
+  background:#fafafa;
+}
+.fb-history-info h4{
+  margin:0 0 3px;
+  font-size:12px;
+  color:#333;
+  font-weight:600;
+}
+.fb-history-info p{
+  margin:0;
+  font-size:10px;
+  color:#999;
+}
+.fb-history-actions{
+  display:flex;
+  gap:4px;
+}
+.fb-history-btn{
+  width:28px;
+  height:28px;
+  border:1px solid #e0e0e0;
+  background:#fff;
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#888;
+  font-size:11px;
+  transition:.15s;
+}
+.fb-history-btn:hover{
+  background:#f0f0f0;
+  color:#333;
+}
+.fb-history-btn.publish:hover{
+  background:#e8f5e9;
+  color:#2e7d32;
+  border-color:#c8e6c9;
+}
+.fb-history-badge{
+  padding:2px 8px;
+  border-radius:10px;
+  font-size:9px;
+  font-weight:600;
+  margin-left:6px;
+}
+.fb-history-badge-active{
+  background:#e8f5e9;
+  color:#2e7d32;
+}
+.fb-history-badge-draft{
+  background:#fff3e0;
+  color:#ef6c00;
+}
+
+/* Student search */
+.student-search-box{
+  position:relative;
+  margin-bottom:8px;
+}
+.student-search-input{
+  width:100%;
+  padding:8px 12px 8px 32px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:12px;
+  outline:none;
+  box-sizing:border-box;
+}
+.student-search-input:focus{
+  border-color:#242242;
+}
+.student-search-icon{
+  position:absolute;
+  left:10px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#aaa;
+  font-size:12px;
+}
+
+/* Dropdown choices editor */
+.fb-choices-box{
+  margin-top:6px;
+  display:none;
+  border:1px solid #e0e0e0;
+  border-radius:4px;
+  padding:10px;
+  background:#fafafa;
+}
+.fb-choices-box.show{
+  display:block;
+}
+.fb-choices-title{
+  font-size:11px;
+  font-weight:600;
+  color:#666;
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.fb-choices-list{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  margin-bottom:8px;
+}
+.fb-choice-row{
+  display:flex;
+  gap:6px;
+  align-items:center;
+}
+.fb-choice-input{
+  flex:1;
+  padding:6px 8px;
+  border:1px solid #d0d0d0;
+  border-radius:3px;
+  font-size:11px;
+  outline:none;
+}
+.fb-choice-input:focus{
+  border-color:#242242;
+}
+.fb-choice-del{
+  width:22px;
+  height:22px;
+  border:none;
+  background:none;
+  cursor:pointer;
+  color:#ccc;
+  font-size:11px;
+  border-radius:3px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.15s;
+}
+.fb-choice-del:hover{
+  color:#c62828;
+  background:#fce4ec;
+}
+.fb-add-choice{
+  padding:4px 10px;
+  border:1px dashed #ccc;
+  background:none;
+  border-radius:3px;
+  font-size:11px;
+  color:#888;
+  cursor:pointer;
+  transition:.15s;
+}
+.fb-add-choice:hover{
+  border-color:#999;
+  color:#555;
+}
+
+/* Reorder buttons */
+.fb-reorder-btns{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  margin-left:4px;
+}
+.fb-reorder-btn{
+  width:20px;
+  height:18px;
+  border:1px solid #e0e0e0;
+  background:#fff;
+  border-radius:3px;
+  cursor:pointer;
+  font-size:9px;
+  color:#999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.15s;
+  padding:0;
+}
+.fb-reorder-btn:hover{
+  background:#f0f0f0;
+  color:#333;
+  border-color:#ccc;
+}
+.fb-reorder-btn:disabled{
+  opacity:.3;
+  cursor:default;
+}
+
+/* Form History Preview Modal */
+.fb-preview-modal-panel{
+  width:min(700px,92vw);
+  max-height:85vh;
+}
+.fb-preview-form-section{
+  border:1px solid #e0e0e0;
+  border-radius:6px;
+  padding:16px;
+  margin-bottom:12px;
+  background:#fafafa;
+}
+.fb-preview-form-section h4{
+  margin:0 0 12px;
+  font-size:12px;
+  color:#333;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+}
+.fb-preview-form-field{
+  margin-bottom:12px;
+}
+.fb-preview-form-field:last-child{
+  margin-bottom:0;
+}
+.fb-preview-form-field label{
+  display:block;
+  font-size:11px;
+  color:#555;
+  margin-bottom:4px;
+  font-weight:500;
+}
+.fb-preview-form-field input,.fb-preview-form-field select,.fb-preview-form-field textarea{
+  width:100%;
+  padding:8px 10px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:12px;
+  box-sizing:border-box;
+}
+
+/* footer */
+.footer{
+  background:#242242;
+  color:white;
+  text-align:center;
+  padding:10px;
+  font-size:9px;
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:400;
+}
+
+/* 1024px : Tablet landscape */
+@media (max-width:1024px){
+  .main-wrapper{
+    padding:24px 32px 60px 32px;
+  }
+  .main{
+    gap:8px;
+  }
+  .sidebar{
+    width:220px;
+  }
+  .content{
+    padding:14px;
+  }
+  .top-bar{gap:8px}
+
+  /* Form Builder footer buttons */
+  .fb-main-footer{padding:12px 16px;gap:6px}
+  .fb-footer-btn{padding:8px 14px;font-size:11px;flex:1 1 auto;min-width:0;justify-content:center;white-space:nowrap}
+
+  /* Form Builder layout */
+  .fb-sidebar{width:260px}
+}
+
+/* 768px : Tablet portrait */
+@media (max-width:768px){
+  .ann-summary{grid-template-columns:repeat(2,1fr);gap:12px}
+  .quick-access-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .tab-btn{padding:10px 18px;font-size:12px}
+  .top-bar{flex-wrap:wrap}
+  .ann-list-header{flex-direction:column;align-items:stretch;gap:10px}
+  .ann-option-group{min-width:140px}
+
+  /* Form Builder stack at 768px */
+  .fb-layout{flex-direction:column;height:auto;border:1px solid #e0e0e0;border-radius:6px}
+  .fb-sidebar{width:100%;display:contents;border-right:none}
+  .fb-card:not(.fb-history){order:1}
+  .fb-main{order:2;border-top:1px solid #e0e0e0}
+  .fb-card.fb-history{order:3;border-top:1px solid #e0e0e0}
+  .fb-main-footer{flex-wrap:wrap;gap:6px}
+  .fb-footer-btn{flex:1 1 calc(50% - 6px);min-width:0;justify-content:center;font-size:11px;padding:9px 12px;box-sizing:border-box}
+}
+
+/* 720px : Small tablet / Large phone */
+@media (max-width:720px){
+  /* Header */
+  .header{padding:10px 20px;gap:10px;flex-wrap:nowrap}
+  .header img{width:32px;height:32px}
+  .header-text{flex:1 1 auto}
+  .header-text h1{font-size:13px;line-height:1.2}
+  .header-text p{font-size:9px}
+  .header-right{display:none}
+  .burger-btn{display:flex}
+
+  /* Layout */
+  .main-wrapper{padding:20px 16px 40px 16px;overflow:visible}
+  .main{position:relative;overflow:visible}
+  .content{max-height:none}
+
+  /* Sidebar to drawer */
+  .sidebar{position:fixed;top:0;left:0;height:100vh;width:min(320px,90vw);background:#f3f3f3;transform:translateX(-110%);transition:transform .25s ease;z-index:500;border-radius:0;border:none;max-height:100vh}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-profile{display:flex;flex-shrink:0}
+  .sidebar-menu{flex:1;overflow-y:auto;padding-bottom:0}
+  .menu-item-logout{display:flex;margin-bottom:20px}
+  .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:450}
+  .sidebar-overlay.show{opacity:1;pointer-events:auto}
+
+  /* Tabs */
+  .tabs-container{gap:4px}
+  .tab-btn{white-space:nowrap;padding:10px 16px;font-size:12px;flex-shrink:0}
+  .menu-dots{flex-shrink:0}
+
+  /* Summary */
+  .ann-summary{grid-template-columns:repeat(2,1fr);gap:10px}
+  .ann-summary-val{font-size:22px}
+  .ann-summary-lbl{font-size:10px}
+  .ann-summary-icon{width:40px;height:40px;font-size:16px}
+
+  /* Composer */
+  .ann-composer-title{font-size:12px;padding:10px 12px}
+  .ann-composer-desc{font-size:11px;padding:8px 12px}
+  .ann-editor{min-height:120px;font-size:12px;padding:10px}
+  .ann-toolbar{padding:4px 8px;gap:1px}
+  .ann-toolbar-btn{width:28px;height:26px;font-size:12px}
+
+  /* Options full stack */
+  .ann-options{gap:8px}
+  .ann-btn-draft,.ann-btn-publish{padding:10px;font-size:12px}
+
+  /* Students selector */
+  #specificStudentsBox{padding:10px !important}
+  #specificStudentsBox button{font-size:10px !important;padding:3px 8px !important}
+  #studentCheckboxList{grid-template-columns:1fr !important;font-size:11px}
+  .student-search-input{font-size:11px}
+
+  /* Table */
+  .ann-list-toolbar{gap:6px}
+  .ann-search{font-size:11px}
+  .ann-filter-select{font-size:11px}
+  .ann-table{min-width:560px}
+  .ann-table th,.ann-table td{font-size:10px;padding:6px 4px;white-space:nowrap}
+  .ann-table-desc{max-width:120px}
+  .ann-actions-cell{gap:3px}
+  .ann-action-btn{width:24px;height:24px;font-size:10px}
+  .ann-page-btns{justify-content:center;flex-wrap:wrap}
+  .ann-page-btn{width:28px;height:28px;font-size:10px}
+  .refresh-btn{width:100%}
+
+  /* Bulk actions */
+  #bulkActionsBar{flex-wrap:wrap !important;gap:6px !important;padding:8px 10px !important}
+  #bulkActionsBar button{font-size:10px !important;padding:5px 10px !important}
+  #bulkActionsBar span{font-size:11px !important}
+
+  /* Form Builder */
+  .fb-card{padding:12px}
+  .fb-card-title{font-size:12px}
+  .fb-input,.fb-select{font-size:11px;padding:8px 10px}
+  .fb-btn{padding:8px;font-size:11px}
+  .fb-main-header{padding:12px 14px}
+  .fb-main-title{font-size:12px}
+  .fb-preview{padding:14px}
+  .fb-main-footer{padding:10px 14px;gap:4px;flex-wrap:wrap}
+  .fb-footer-btn{padding:8px 10px;font-size:10px;flex:1 1 calc(50% - 4px);min-width:0;justify-content:center;box-sizing:border-box}
+  .fb-section{padding:12px}
+  .fb-section-name{font-size:11px}
+  .fb-field-label{font-size:10px}
+  .fb-field-input{font-size:11px;padding:6px 8px}
+  .fb-history-item{padding:10px 12px}
+  .fb-history-info h4{font-size:11px}
+  .fb-history-info p{font-size:9px}
+  .fb-history-btn{width:26px;height:26px;font-size:10px}
+
+  /* Modals */
+  .ann-modal-panel{width:94vw;max-height:90vh;border-radius:6px}
+  .ann-modal-head{padding:14px 16px}
+  .ann-modal-title{font-size:13px}
+  .ann-modal-body{padding:14px}
+  .ann-modal-footer{padding:10px 14px}
+  .fb-preview-modal-panel{width:96vw}
+  .confirm-panel{width:92vw;padding:20px}
+  .confirm-title{font-size:14px}
+  .confirm-msg{font-size:11px}
+  .confirm-btns{flex-direction:column;gap:6px}
+  .confirm-btn{width:100%;padding:10px}
+
+  /* Edit modal flex to stack on phone */
+  .edit-form-row{flex-direction:column;gap:8px}
+
+  /* Toast */
+  .toast-container{bottom:60px;right:8px;left:8px}
+  .toast{max-width:100%;font-size:11px;padding:10px 14px}
+
+  /* Quick Access */
+  .btn-quick-access{width:100%;font-size:11px}
+  .quick-access-card{padding:14px}
+  .quick-access-icon{font-size:22px}
+  .quick-access-value{font-size:14px}
+  .quick-access-label{font-size:10px}
+
+  .p-14{padding:10px}
+}
+
+
+.ml-auto{
+  margin-left:auto;
+}
+.ml-16{
+  margin-left:16px;
+}
+.btn-quick-access{
+  padding:8px 16px;
+  font-size:12px;
+}
+.icon-gray{
+  color:#666;
+}
+.p-14{
+  padding:14px;
+}
+
+/*  Inline style replacements */
+.ic-green{ color:#2e7d32; }
+.ic-orange{ color:#ef6c00; }
+.ic-blue{ color:#1565c0; }
+.ic-dark{ color:#242242; }
+.ic-gray{ color:#666; margin-right:8px; }
+.ic-mr4{ margin-right:4px; }
+.ic-mr6{ margin-right:6px; }
+
+#scheduleDisplay{ display:none; font-size:11px; color:#666; margin-left:8px; }
+#specificStudentsBox{ display:none; margin-bottom:16px; border:1px solid #e0e0e0; border-radius:6px; padding:14px; background:#fafafa; }
+
+.students-header{ display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.students-title{ font-size:12px; font-weight:600; color:#333; }
+.students-count{ font-size:11px; color:#888; }
+.btn-student-action{ margin-left:auto; padding:4px 12px; border:1px solid #d0d0d0; background:#fff; border-radius:4px; font-size:11px; cursor:pointer; }
+.btn-student-clear{ padding:4px 12px; border:1px solid #d0d0d0; background:#fff; border-radius:4px; font-size:11px; cursor:pointer; }
+
+#studentCheckboxList{ max-height:180px; overflow-y:auto; display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:4px; }
+
+.ann-list-wrap{ margin-top:8px; }
+.pos-relative{ position:relative; }
+
+#bulkActionsBar{ display:none; padding:10px 14px; background:#f5f5f5; border:1px solid #e0e0e0; border-bottom:none; align-items:center; gap:10px; }
+.bulk-label{ font-size:12px; color:#666; font-weight:500; }
+.btn-bulk-archive{ padding:6px 14px; border:1px solid #f57c00; background:#fff; color:#f57c00; border-radius:4px; font-size:11px; cursor:pointer; font-weight:500; transition:.15s; }
+.btn-bulk-archive:hover{ background:#fff7e1; }
+.btn-bulk-clear{ padding:6px 14px; border:1px solid #999; background:#fff; color:#666; border-radius:4px; font-size:11px; cursor:pointer; margin-left:auto; }
+.btn-bulk-clear:hover{ background:#f5f5f5; }
+
+.th-checkbox{ width:30px; }
+.th-actions{ width:120px; }
+
+.fb-desc-textarea{ resize:vertical; min-height:50px; }
+.fb-add-field-mt{ margin-top:8px; }
+
+/* Edit Modal form */
+.edit-form-group{ margin-bottom:12px; }
+.edit-form-label{ font-size:11px; font-weight:600; color:#666; display:block; margin-bottom:4px; }
+.fb-input-flush{ margin-bottom:0; }
+.fb-textarea-content{ resize:vertical; min-height:120px; margin-bottom:0; }
+.edit-form-row{ display:flex; gap:10px; }
+.edit-form-col{ flex:1; }
+
+/* Schedule modal */
+.schedule-modal-panel{ width:min(420px,90vw); }
+.sched-group{ margin-bottom:16px; }
+.sched-label{ display:block; font-size:12px; color:#555; margin-bottom:6px; font-weight:500; }
+.sched-input{ width:100%; padding:10px; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; outline:none; box-sizing:border-box; }
+.sched-info{ margin-top:12px; padding:10px; background:#f0f7ff; border-radius:4px; font-size:11px; color:#1565c0; }
+
+/* Student checkbox label (JS-generated) */
+.student-cb-label{ display:flex; align-items:center; gap:6px; padding:4px 6px; font-size:12px; color:#333; cursor:pointer; border-radius:3px; transition:.15s; }
+.student-cb-label:hover{ background:#f5f5f5; }
+.student-cb-label input{ margin:0; }
+
+/* Preview btn hidden by default */
+#formPreviewEditBtn{ display:none; }
+#formPreviewPublishBtn{ display:none; }
+
+/* JS-generated inline style replacements */
+.ann-empty-row{ text-align:center; color:#aaa; padding:30px; }
+.ann-rec-label{ font-size:12px; color:#555; }
+.ann-rec-count{ font-size:10px; color:#aaa; }
+.ann-date-cell{ font-size:11px; color:#888; white-space:nowrap; }
+.ann-method-badge i{ margin-right:3px; }
+.ann-view-desc{ display:block; margin-bottom:6px; color:#888; font-size:11px; }
+.fb-textarea-preview{ min-height:60px; resize:vertical; }
+.fb-section-actions{ display:flex; align-items:center; gap:4px; }
+.fb-reorder-btns-row{ flex-direction:row; }
+.fb-empty-history{ font-size:12px; color:#aaa; text-align:center; padding:12px 0; }
+.fb-del-red{ color:#c62828; }
+.fb-preview-title{ margin:0 0 16px; font-size:16px; color:#242242; }
+.fb-preview-empty{ color:#aaa; text-align:center; padding:20px; }
+.fb-file-input{ font-size:11px; }
+.ic-red{ color:#c62828; }
+
+/* Likert Scale Builder */
+.fb-likert-box{background:#f3f6ff;border:1px solid #c5cfe8;border-radius:5px;padding:10px 11px 12px;margin-top:8px;display:none;}
+.fb-likert-box.show{display:block;}
+.fb-likert-preset{width:100%;padding:7px 10px;border:1px solid #d0d0d0;border-radius:4px;font-size:12px;background:#fff;margin-bottom:8px;cursor:pointer;}
+.fb-likert-preview-row{display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;padding:6px 4px 4px;}
+.fb-likert-preview-opt{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;min-width:52px;}
+.fb-likert-preview-opt span{font-size:9px;color:#555;text-align:center;line-height:1.2;word-break:break-word;}
+.fb-likert-preview-opt input{accent-color:#242242;width:14px;height:14px;}
+
+/* Likert in builder canvas preview */
+.fb-likert-field-row{display:flex;gap:2px;flex-wrap:nowrap;overflow-x:auto;border:1px solid #e8e8e8;border-radius:4px;padding:8px 6px;background:#fafafa;}
+.fb-likert-cell{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:58px;padding:0 2px;}
+.fb-likert-cell span{font-size:9px;color:#666;text-align:center;line-height:1.2;}
+.fb-likert-cell input{accent-color:#242242;width:15px;height:15px;}
+
+/* Likert in full preview modal */
+.fb-pv-likert{display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto;margin-top:4px;border:1px solid #e8e8e8;border-radius:4px;padding:10px 8px;background:#fafbff;}
+.fb-pv-likert-opt{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;min-width:68px;cursor:pointer;}
+.fb-pv-likert-opt label{font-size:11px;color:#555;text-align:center;cursor:pointer;line-height:1.3;}
+.fb-pv-likert-opt input{accent-color:#242242;width:16px;height:16px;cursor:pointer;}
+
+/* Form Responses Tab */
+.fr-layout{display:flex;gap:14px;min-height:420px;}
+.fr-side-panel{width:220px;flex-shrink:0;background:#f8f8f8;border:1px solid #e0e0e0;border-radius:6px;display:flex;flex-direction:column;}
+.fr-side-head{padding:11px 14px 10px;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;justify-content:space-between;}
+.fr-side-head span{font-size:12px;font-weight:600;color:#333;}
+.fr-side-add{background:none;border:none;cursor:pointer;color:#242242;font-size:13px;padding:3px 7px;border-radius:4px;transition:.15s;font-weight:600;}
+.fr-side-add:hover{background:#e0e0e0;}
+.fr-sections-list{flex:1;overflow-y:auto;padding:7px 7px 10px;}
+.fr-sec-empty{text-align:center;padding:24px 10px;color:#bbb;font-size:11px;line-height:1.6;}
+.fr-sec-item{border-radius:5px;padding:9px 8px 9px 11px;margin-bottom:5px;cursor:pointer;background:#fff;border:1px solid #e0e0e0;display:flex;align-items:center;gap:6px;transition:.15s;}
+.fr-sec-item:hover{background:#f0f4fa;border-color:#b0bcd0;}
+.fr-sec-item.active{background:#e8edf7;border-color:#242242;}
+.fr-sec-info{flex:1;min-width:0;}
+.fr-sec-name{font-size:12px;font-weight:600;color:#242242;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fr-sec-sub{font-size:10px;color:#888;margin-top:1px;}
+.fr-sec-acts{display:flex;gap:2px;flex-shrink:0;}
+.fr-sec-btn{background:none;border:none;padding:3px 5px;border-radius:3px;color:#aaa;cursor:pointer;font-size:11px;transition:.15s;}
+.fr-sec-btn:hover{background:#e0e0e0;color:#333;}
+.fr-sec-btn.del:hover{background:#fde8e8;color:#c62828;}
+.fr-main-area{flex:1;display:flex;flex-direction:column;gap:12px;min-width:0;}
+.fr-top-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.fr-search-sel{position:relative;flex:1;min-width:220px;}
+.fr-ss-trigger{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #d0d0d0;border-radius:4px;padding:9px 12px;cursor:pointer;font-size:13px;color:#333;gap:8px;user-select:none;}
+.fr-ss-trigger:hover{border-color:#242242;}
+.fr-ss-arrow{font-size:11px;color:#888;transition:transform .2s;}
+.fr-ss-arrow.open{transform:rotate(180deg);}
+.fr-ss-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid #d0d0d0;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.10);z-index:999;}
+.fr-ss-search-wrap{display:flex;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid #f0f0f0;color:#bbb;font-size:13px;}
+.fr-ss-search{border:none;outline:none;font-size:13px;width:100%;color:#333;}
+.fr-ss-list{max-height:200px;overflow-y:auto;}
+.fr-ss-option{padding:9px 12px;font-size:13px;cursor:pointer;color:#333;}
+.fr-ss-option:hover{background:#f5f7ff;}
+.fr-ss-option.fr-ss-selected{background:#eef1ff;font-weight:600;}
+.fr-ss-no-res{color:#aaa;pointer-events:none;font-style:italic;cursor:default;}
+.fr-type-badge{padding:2px 9px;border-radius:12px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:4px;}
+.fr-type-eval{background:#e8f5e9;color:#2e7d32;}
+.fr-type-reg{background:#e3f2fd;color:#1565c0;}
+.fr-pin-btn{padding:8px 13px;background:#242242;color:#fff;border:none;border-radius:4px;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:.2s;flex-shrink:0;}
+.fr-pin-btn:hover{background:#3a3870;}
+.fr-empty-state{text-align:center;padding:50px 20px;color:#ccc;}
+.fr-empty-state i{font-size:36px;margin-bottom:10px;display:block;}
+.fr-empty-state p{font-size:13px;}
+.fr-analytics-wrap{display:flex;flex-direction:column;gap:14px;}
+.fr-an-card{background:#fff;border:1px solid #ededed;border-radius:6px;padding:14px 16px;}
+.fr-an-q{font-size:13px;font-weight:600;color:#333;margin-bottom:12px;}
+.fr-an-total{font-size:11px;color:#aaa;margin-top:6px;}
+.fr-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.fr-bar-lbl{font-size:11px;color:#555;width:100px;flex-shrink:0;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fr-bar-track{flex:1;background:#f0f0f0;border-radius:3px;height:14px;overflow:hidden;}
+.fr-bar-fill{height:100%;border-radius:3px;transition:width .5s ease;}
+.fr-bar-n{font-size:11px;color:#888;width:20px;text-align:left;flex-shrink:0;}
+.fr-table-wrap{overflow-x:auto;border:1px solid #ededed;border-radius:6px;}
+.fr-tbl{width:100%;border-collapse:collapse;font-size:12px;}
+.fr-tbl th{background:#f5f5f5;padding:9px 12px;text-align:left;font-weight:600;color:#333;border-bottom:1px solid #e0e0e0;white-space:nowrap;}
+.fr-tbl td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#555;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fr-tbl tr:last-child td{border-bottom:none;}
+.fr-tbl tr:hover td{background:#fafafa;}
+.fr-tbl-num{color:#bbb;font-size:11px;text-align:center;width:30px;}
+.fr-table-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.fr-col-picker-wrap{position:relative;margin-left:auto;}
+.fr-col-picker-btn{background:#fff;border:1px solid #d0d0d0;border-radius:4px;padding:6px 12px;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;color:#555;}
+.fr-col-picker-btn:hover{border-color:#242242;color:#242242;}
+.fr-col-picker-dd{position:absolute;right:0;top:calc(100% + 4px);background:#fff;border:1px solid #d0d0d0;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.10);z-index:200;min-width:210px;}
+.fr-col-list{max-height:200px;overflow-y:auto;padding:5px 0;}
+.fr-col-item{display:flex;align-items:center;gap:8px;padding:5px 12px;font-size:12.5px;cursor:pointer;user-select:none;}
+.fr-col-item:hover{background:#f5f7ff;}.fr-col-item input{accent-color:#242242;cursor:pointer;}
+.fr-col-footer{padding:7px 10px;border-top:1px solid #f0f0f0;display:flex;gap:6px;justify-content:flex-end;}
+.fr-col-footer-btn{font-size:11px;padding:4px 10px;border-radius:4px;border:1px solid #d0d0d0;cursor:pointer;background:#fff;}
+.fr-col-footer-btn.primary{background:#242242;color:#fff;border-color:#242242;}
+.fr-row-btn{background:none;border:none;cursor:pointer;padding:3px 6px;border-radius:3px;color:#aaa;font-size:12px;}
+.fr-row-btn:hover{background:#f0f0f0;color:#242242;}
+.fr-row-btn.del:hover{background:#fde8e8;color:#c62828;}
+.fr-tbl-act{width:60px;text-align:center;}
+.fr-tbl td.fr-tbl-act{max-width:none;overflow:visible;}
+.fr-lbl{font-size:12px;color:#555;font-weight:500;margin-bottom:4px;display:block;}
+.fr-modal-input{width:100%;padding:9px 12px;border:1px solid #d0d0d0;border-radius:4px;font-size:13px;box-sizing:border-box;margin-bottom:12px;}
+.fr-modal-input:focus{outline:none;border-color:#242242;}
+.fr-modal-sel{width:100%;padding:9px 12px;border:1px solid #d0d0d0;border-radius:4px;font-size:13px;box-sizing:border-box;margin-bottom:12px;background:#fff;}
+
+/* response count pill in select */
+.fr-resp-badge{font-size:10px;font-weight:600;background:#242242;color:#fff;padding:1px 7px;border-radius:10px;margin-left:6px;}
+
+/* Form Responses: Responsive */
+@media(max-width:720px){
+  .breadcrumb{display:none;}
+
+  /* Layout */
+  .fr-layout{flex-direction:column;gap:10px;min-height:auto;}
+  .fr-side-panel{width:100%;flex-shrink:1;}
+  .fr-sections-list{max-height:180px;overflow-y:auto;}
+
+  /* Top bar */
+  .fr-top-bar{flex-direction:column;align-items:stretch;gap:8px;}
+  .fr-search-sel{min-width:0;width:100%;}
+  .fr-ss-dropdown{left:0;right:0;}
+  .fr-type-badge{align-self:flex-start;}
+  .fr-pin-btn{width:100%;justify-content:center;}
+
+  /* Table toolbar */
+  .fr-table-toolbar{flex-wrap:wrap;gap:6px;}
+  .fr-col-picker-wrap{margin-left:0;}
+  .fr-col-picker-btn{width:100%;justify-content:center;box-sizing:border-box;}
+  .fr-col-picker-dd{left:0;right:auto;min-width:200px;}
+
+  /* Analytics */
+  .fr-bar-lbl{width:80px;font-size:10px;}
+  .fr-an-card{padding:12px;}
+
+  /* Pin modal mode toggle */
+  #frPinModeNew,#frPinModeExist{font-size:12px;padding:8px 8px;}
+}
+
+@media(max-width:480px){
+  /* Layout */
+  .fr-layout{gap:8px;}
+  .fr-side-panel{max-height:160px;}
+  .fr-sections-list{max-height:110px;}
+  .fr-sec-item{padding:7px 8px;}
+
+  /* Top bar */
+  .fr-top-bar{gap:6px;}
+  .fr-ss-trigger{font-size:12px;padding:8px 10px;}
+  .fr-ss-option{font-size:12px;padding:8px 10px;}
+  .fr-pin-btn{font-size:11px;padding:8px 10px;}
+
+  /* Analytics bars */
+  .fr-an-q{font-size:12px;}
+  .fr-bar-row{gap:5px;}
+  .fr-bar-lbl{width:60px;font-size:10px;}
+  .fr-bar-n{width:16px;font-size:10px;}
+  .fr-an-card{padding:10px 12px;}
+
+  /* Table */
+  .fr-tbl{font-size:11px;}
+  .fr-tbl th,.fr-tbl td{padding:7px 8px;}
+  .fr-table-toolbar{flex-direction:column;align-items:stretch;gap:6px;}
+
+  /* Modals */
+  .fr-modal-input,.fr-modal-sel{font-size:12px;padding:8px 10px;}
+  #frPinModeNew,#frPinModeExist{font-size:11px;padding:7px 6px;gap:5px;}
+}
+
+/* Force-hide icons in alert/notif UI for consistency */
+.toast i, .confirm-icon i, .notification i{ display:none !important; }
+
+.notif-badge{display:inline-block;min-width:18px;padding:1px 6px;margin-left:6px;border-radius:999px;background:#d32f2f;color:#fff;font-size:11px;line-height:16px;text-align:center;font-weight:700;vertical-align:middle;}
+</style>
+</head>
+
+<body>
+<!-- header -->
+<div class="header">
+
+<button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="spesLogo.png" alt="SPES Logo">
+
+<div class="header-text">
+<h1>Special Program for the Employment of Students</h1>
+<p>SPES Beneficiaries Management Information System</p>
+</div>
+
+<div class="header-right">
+  <div class="user-info" id="userInfo">
+    <strong>Louraine A. Pecayo</strong><br>
+    Coordinator
+  </div>
+  <div class="profile-menu">
+    <div class="avatar" id="profileBtn">LP</div>
+    <div class="profile-dropdown" id="profileDropdown">
+      <button class="profile-item" onclick="goToSettings()">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+      </button>
+      <button class="profile-item" onclick="confirmLogout()">
+        <i class="fa-solid fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- main wrapper -->
+<div class="main-wrapper">
+
+<!-- top bar -->
+<div class="top-bar">
+  <div class="breadcrumb">
+    <i class="fa-solid fa-house"></i>
+    <span>Back ></span>
+  </div>
+</div>
+
+<!-- main -->
+<div class="main">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- sidebar -->
+<div class="sidebar">
+
+  <div class="sidebar-profile">
+    <div class="sidebar-avatar">LP</div>
+    <div class="sidebar-user">
+      <h4>Louraine A. Pecayo</h4>
+      <p>Coordinator</p>
+    </div>
+  </div>
+
+<div class="sidebar-menu">
+
+<a href="eDashboard.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-house"></i>
+    Dashboard
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="eNewSPES.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-user-plus"></i>
+    New SPES
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<div class="submenu-wrapper">
+  <a href="eSpesRegistration.html" class="menu-item menu-submenu">
+    <div class="menu-left">
+      <i class="fa-solid fa-briefcase"></i>
+      SPES Management
+    </div>
+    <i class="fa-solid fa-chevron-right"></i>
+  </a>
+  <div class="submenu">
+    <a href="eSpesRegistration.html" class="submenu-item">
+      <span>SPES Registration</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="eSpesBene.html" class="submenu-item">
+      <span>SPES Beneficiaries</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="eSpesAccounts.html" class="submenu-item">
+      <span>SPES Accounts</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="eSpesAR.html" class="submenu-item">
+      <span>Accomplishment Report</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+  </div>
+</div>
+
+<a href="eDeployment.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-check-square"></i>
+    Deployment
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="eAnnouncements.html" class="menu-item active">
+  <div class="menu-left">
+    <i class="fa-solid fa-bullhorn"></i>
+    Announcements
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="eDemographic.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-chart-pie"></i>
+    Demographic Data
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="eTeamAcc.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-users"></i>
+    Team Accounts
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="eSettings.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-gear"></i>
+    Settings
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<button class="menu-item-logout" onclick="confirmLogout()">
+  Log Out
+</button>
+
+</div>
+</div>
+
+<!-- main content -->
+<div class="content">
+
+<!-- tabs + 3-dot menu -->
+<div class="tabs-wrapper">
+<div class="tabs-container">
+  <button class="tab-btn active" data-tab="announcement">Announcement</button>
+  <button class="tab-btn" data-tab="form-builder">Form Builder</button>
+  <button class="tab-btn" data-tab="form-responses">Form Responses</button>
+</div>
+
+  <div class="menu-dots">
+    <button class="dots-btn" id="menuDotsBtn">
+      <i class="fa-solid fa-ellipsis"></i>
+    </button>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="dropdown-item" onclick="exportAnnouncements()">
+        <i class="fa-solid fa-file-export"></i>
+        Export to Excel
+      </div>
+      <div class="dropdown-item" onclick="archiveAll()">
+        <i class="fa-solid fa-archive"></i>
+        Archive Old
+      </div>
+      <div class="dropdown-item" id="menuFormHistory" onclick="openFormHistoryModal()" style="display:none">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        Form History
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Announcement Tab -->
+<div class="tab-content active" id="announcement">
+  <div class="tab-panel-wrapper">
+
+    <!-- Announcement Composer -->
+    <div class="ann-composer" id="annComposer">
+      <input type="text" class="ann-composer-title" id="annTitle" placeholder="Add a title for your announcement">
+      <textarea class="ann-composer-desc" id="annDesc" placeholder="Add a short description..." rows="1"></textarea>
+      <div class="ann-toolbar">
+        <button class="ann-toolbar-btn" title="Heading" onclick="execFormat('heading')" id="tbHeading"><b>H</b></button>
+        <button class="ann-toolbar-btn" title="Bold (Ctrl+B)" onclick="execFormat('bold')" id="tbBold"><b>B</b></button>
+        <button class="ann-toolbar-btn" title="Italic (Ctrl+I)" onclick="execFormat('italic')" id="tbItalic"><i>I</i></button>
+        <button class="ann-toolbar-btn" title="Underline (Ctrl+U)" onclick="execFormat('underline')" id="tbUnderline"><i class="fa-solid fa-underline"></i></button>
+        <div class="ann-toolbar-sep"></div>
+        <button class="ann-toolbar-btn" title="Bullet List" onclick="execFormat('ul')"><i class="fa-solid fa-list-ul"></i></button>
+        <button class="ann-toolbar-btn" title="Numbered List" onclick="execFormat('ol')"><i class="fa-solid fa-list-ol"></i></button>
+        <div class="ann-toolbar-sep"></div>
+        <button class="ann-toolbar-btn" title="Attach File" onclick="attachFile()"><i class="fa-solid fa-paperclip"></i></button>
+        <button class="ann-toolbar-btn" title="Insert Link" onclick="execFormat('link')"><i class="fa-solid fa-link"></i></button>
+        <button class="ann-toolbar-btn" title="Undo" onclick="execFormat('undo')"><i class="fa-solid fa-rotate-left"></i></button>
+        <button class="ann-toolbar-btn" title="Redo" onclick="execFormat('redo')"><i class="fa-solid fa-rotate-right"></i></button>
+      </div>
+      <div class="ann-body">
+        <div class="ann-editor" id="annContent" contenteditable="true" data-placeholder="Write your announcement here..."></div>
+      </div>
+      <div class="ann-footer">
+        <div class="ann-footer-item" onclick="attachFile()">
+          <i class="fa-solid fa-image"></i>
+          <span>Paste, drop, or click to add files</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Options: Recipients, Method, Send -->
+    <div class="ann-options">
+      <div class="ann-option-group">
+        <span class="ann-option-label">Recipients</span>
+        <select class="ann-option-select" id="annRecipients">
+          <option value="all">All Students</option>
+          <option value="batch1">Batch 1 Only</option>
+          <option value="batch2">Batch 2 Only</option>
+          <option value="batch3">Batch 3 Only</option>
+          <option value="specific">Specific Students...</option>
+        </select>
+      </div>
+      <div class="ann-option-group">
+        <span class="ann-option-label">Send Via</span>
+        <select class="ann-option-select" id="annMethod">
+          <option value="system">System Only</option>
+          <option value="email">Email</option>
+          <option value="sms">SMS</option>
+          <option value="email-sms">Email & SMS</option>
+        </select>
+      </div>
+      <div class="ann-option-group">
+        <span class="ann-option-label">Schedule</span>
+        <select class="ann-option-select" id="annSchedule">
+          <option value="now">Send Immediately</option>
+          <option value="scheduled">Schedule for Later...</option>
+        </select>
+        <span id="scheduleDisplay"></span>
+      </div>
+      <button class="ann-btn-draft" onclick="saveDraft()">
+        <i class="fa-solid fa-floppy-disk"></i> Save Draft
+      </button>
+      <button class="ann-btn-publish" onclick="publishAnnouncement()">
+        <i class="fa-solid fa-paper-plane"></i> Publish
+      </button>
+    </div>
+
+    <!-- Specific Students Selector (hidden by default) -->
+    <div id="specificStudentsBox">
+      <div class="students-header">
+        <span class="students-title">Select Students</span>
+        <span class="students-count" id="selectedStudentCount">0 selected</span>
+        <button onclick="selectAllStudents()" class="btn-student-action">Select All</button>
+        <button onclick="deselectAllStudents()" class="btn-student-clear">Clear</button>
+      </div>
+      <div class="student-search-box">
+        <i class="fa-solid fa-magnifying-glass student-search-icon"></i>
+        <input type="text" class="student-search-input" id="studentSearchInput" placeholder="Search student name...">
+      </div>
+      <div id="studentCheckboxList"></div>
+    </div>
+
+    <!-- Announcement List -->
+    <div class="ann-list-wrap">
+      <div class="ann-list-header">
+        <h3 class="ann-list-title">All Announcements</h3>
+        <div class="ann-list-toolbar">
+          <input type="text" class="ann-search" id="annSearchInput" placeholder="Search announcements...">
+          <select class="ann-filter-select" id="annStatusFilter">
+            <option value="all">All Status</option>
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+          <button class="refresh-btn" id="refreshBtn">
+            <i class="fa-solid fa-rotate-right icon-gray"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="pos-relative">
+      <div class="loading-bar" id="loadingBar"></div>
+      
+      <!-- Bulk Actions Bar -->
+      <div id="bulkActionsBar">
+        <span class="bulk-label"><span id="selectedCount">0</span> selected</span>
+        <button type="button" onclick="bulkArchive()" class="btn-bulk-archive">Archive Selected</button>
+        <button type="button" onclick="deselectAll()" class="btn-bulk-clear">Clear Selection</button>
+      </div>
+      
+      <div class="ann-table-wrapper">
+      <table class="ann-table" id="annTable">
+        <thead>
+          <tr>
+            <th class="th-checkbox"><input type="checkbox" id="annSelectAll"></th>
+            <th>Title & Description</th>
+            <th>Status</th>
+            <th>Method</th>
+            <th>Recipients</th>
+            <th>Date</th>
+            <th class="th-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="annTableBody"></tbody>
+      </table>
+      </div>
+      </div>
+
+      <div class="ann-pagination" id="annPagination">
+        <span id="annResultsInfo">Showing 0 results</span>
+        <div class="ann-page-btns" id="annPageBtns"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Form Builder Tab  -->
+<div class="tab-content" id="form-builder">
+  <div class="tab-panel-wrapper p-14">
+    <div class="fb-layout">
+
+      <!-- Left: Builder to History -->
+      <div class="fb-sidebar">
+
+        <!-- Form Title -->
+        <div class="fb-card">
+          <h3 class="fb-card-title"><i class="fa-solid fa-heading"></i> Form Title</h3>
+          <input type="text" id="fbTitleInput" class="fb-input" placeholder="e.g. SPES Registration Form 2026">
+          <textarea id="fbDescInput" class="fb-input fb-desc-textarea" placeholder="Form description (optional)"></textarea>
+        </div>
+
+        <!-- Add Section -->
+        <div class="fb-card">
+          <h3 class="fb-card-title"><i class="fa-solid fa-layer-group"></i> Add Section</h3>
+          <input type="text" id="fbSectionInput" class="fb-input" placeholder="e.g. Personal Information">
+          <button class="fb-btn" onclick="fbAddSection()"><i class="fa-solid fa-plus"></i> Add Section</button>
+        </div>
+
+        <!-- Add Field -->
+        <div class="fb-card">
+          <h3 class="fb-card-title"><i class="fa-solid fa-input-text"></i> Add Field</h3>
+          <select id="fbSectionSelect" class="fb-select">
+            <option value="">Select a Section</option>
+          </select>
+          <input type="text" id="fbFieldInput" class="fb-input" placeholder="e.g. Full Name">
+          <select id="fbFieldType" class="fb-select" onchange="toggleChoicesEditor()">
+            <option value="text">Text Input</option>
+            <option value="textarea">Text Area</option>
+            <option value="number">Number</option>
+            <option value="date">Date</option>
+            <option value="select">Dropdown Select</option>
+            <option value="likert">Likert Scale</option>
+            <option value="file">Photo/File Upload</option>
+            <option value="pdf">PDF Upload</option>
+          </select>
+          <div class="fb-choices-box" id="fbChoicesBox">
+            <div class="fb-choices-title"><i class="fa-solid fa-list"></i> Dropdown Choices</div>
+            <div class="fb-choices-list" id="fbChoicesList">
+              <div class="fb-choice-row"><input type="text" class="fb-choice-input" placeholder="Option 1" value="Option 1"><button class="fb-choice-del" onclick="removeChoice(this)" title="Remove"><i class="fa-solid fa-xmark"></i></button></div>
+              <div class="fb-choice-row"><input type="text" class="fb-choice-input" placeholder="Option 2" value="Option 2"><button class="fb-choice-del" onclick="removeChoice(this)" title="Remove"><i class="fa-solid fa-xmark"></i></button></div>
+            </div>
+            <button class="fb-add-choice" onclick="addChoice()"><i class="fa-solid fa-plus ic-mr4"></i> Add choice</button>
+          </div>
+
+          <!-- Likert Scale Editor -->
+          <div class="fb-likert-box" id="fbLikertBox">
+            <div class="fb-choices-title"><i class="fa-solid fa-sliders"></i> Likert Scale Options</div>
+            <select class="fb-likert-preset" id="fbLikertPreset" onchange="fbLikertPresetChange()">
+              <option value="agreement">Agreement &nbsp;(Strongly Agree → Strongly Disagree)</option>
+              <option value="satisfaction">Satisfaction &nbsp;(Very Satisfied → Very Dissatisfied)</option>
+              <option value="quality">Quality &nbsp;(Excellent → Poor)</option>
+              <option value="frequency">Frequency &nbsp;(Always → Never)</option>
+              <option value="custom">Custom Labels</option>
+            </select>
+            <div class="fb-likert-preview-row" id="fbLikertPreviewRow"></div>
+            <div class="fb-choices-list" id="fbLikertCustomList" style="display:none;margin-top:4px"></div>
+            <button class="fb-add-choice" id="fbLikertAddBtn" onclick="fbLikertAddCustom()" style="display:none"><i class="fa-solid fa-plus ic-mr4"></i> Add label</button>
+          </div>
+          <button class="fb-btn fb-add-field-mt" onclick="fbAddField()"><i class="fa-solid fa-plus"></i> Add Field</button>
+        </div>
+
+      </div>
+
+      <!-- Right: Preview -->
+      <div class="fb-main">
+        <div class="fb-main-header">
+          <h3 class="fb-main-title" id="fbDisplayTitle">Form Preview</h3>
+          <span class="fb-main-badge" id="fbFieldCount">0 fields</span>
+        </div>
+        <div class="fb-preview" id="fbPreview">
+          <div class="fb-empty">
+            <i class="fa-solid fa-file-circle-plus"></i>
+            <p>Create sections and add fields to preview your form here</p>
+          </div>
+        </div>
+        <div class="fb-main-footer">
+          <button type="button" class="fb-footer-btn" onclick="fbClearForm()"><i class="fa-solid fa-trash"></i> Clear</button>
+          <button type="button" class="fb-footer-btn" onclick="fbPreviewFullForm()"><i class="fa-solid fa-eye"></i> Preview</button>
+          <button type="button" class="fb-footer-btn" onclick="fbSaveAsDraft()"><i class="fa-solid fa-floppy-disk"></i> Save Draft</button>
+          <button type="button" class="fb-footer-btn fb-footer-btn-green" onclick="fbPublishForm()"><i class="fa-solid fa-upload"></i> Publish to Portal</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Form Responses Tab -->
+<div class="tab-content" id="form-responses">
+  <div class="tab-panel-wrapper p-14">
+
+    <div class="fr-layout">
+
+      <!-- Left: Saved Sections Sidebar -->
+      <div class="fr-side-panel">
+        <div class="fr-side-head">
+          <span><i class="fa-solid fa-table-list" style="margin-right:5px;color:#888"></i>Saved Sections</span>
+          <button class="fr-side-add" title="New Section" onclick="openFrPinModal()">+ New</button>
+        </div>
+        <div class="fr-sections-list" id="frSectionsList">
+          <div class="fr-sec-empty"><i class="fa-solid fa-inbox" style="font-size:20px;color:#ddd;display:block;margin-bottom:6px"></i>No saved sections yet.<br>Select a form and pin its responses.</div>
+        </div>
+      </div>
+
+      <!-- Right: Main view -->
+      <div class="fr-main-area">
+        <div class="fr-top-bar">
+          <div class="fr-search-sel" id="frSearchSel">
+            <div class="fr-ss-trigger" id="frSsTrigger" onclick="frSsToggle()">
+              <span id="frSsLabel">— Select a Form —</span>
+              <i class="fa-solid fa-chevron-down fr-ss-arrow" id="frSsArrow"></i>
+            </div>
+            <div class="fr-ss-dropdown" id="frSsDropdown" style="display:none">
+              <div class="fr-ss-search-wrap">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" class="fr-ss-search" id="frSsSearch" placeholder="Search form..." oninput="frSsFilter(this.value)">
+              </div>
+              <div class="fr-ss-list" id="frSsList"></div>
+            </div>
+          </div>
+          <span id="frTypeBadge" style="display:none"></span>
+          <button class="fr-pin-btn" id="frPinBtn" style="display:none" onclick="openFrPinModal()"><i class="fa-solid fa-thumbtack"></i> Pin to Section</button>
+        </div>
+
+        <!-- Empty state -->
+        <div class="fr-empty-state" id="frEmptyState">
+          <i class="fa-solid fa-chart-bar"></i>
+          <p>Select a form above to view its responses and analytics.</p>
+        </div>
+
+        <!-- Analytics view (evaluation/rating forms) -->
+        <div id="frAnalyticsView" style="display:none">
+          <div class="fr-analytics-wrap" id="frAnalyticsContent"></div>
+        </div>
+
+        <!-- Table view (registration/general forms) -->
+        <div id="frTableView" style="display:none">
+          <div class="fr-table-toolbar">
+            <span id="frTableCount" style="font-size:12px;color:#888"></span>
+            <div class="fr-col-picker-wrap" id="frColPickerWrap">
+              <button class="fr-col-picker-btn" onclick="frToggleColPicker(event)"><i class="fa-solid fa-table-columns"></i> Columns</button>
+              <div class="fr-col-picker-dd" id="frColPickerDd" style="display:none">
+                <div class="fr-col-list" id="frColCheckList"></div>
+                <div class="fr-col-footer">
+                  <button class="fr-col-footer-btn" onclick="frColCheckAll(false)">None</button>
+                  <button class="fr-col-footer-btn" onclick="frColCheckAll(true)">All</button>
+                  <button class="fr-col-footer-btn primary" onclick="frApplyCols()">Apply</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fr-table-wrap">
+            <table class="fr-tbl" id="frResponseTable"></table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</div><
+
+<!--  FR: Pin to Section Modal -->
+<div class="ann-modal-overlay" id="frPinModal">
+  <div class="ann-modal-panel" style="width:min(420px,92vw)">
+    <div class="ann-modal-head">
+      <h3 class="ann-modal-title"><i class="fa-solid fa-thumbtack" style="margin-right:8px;color:#666"></i>Save as Section</h3>
+      <button class="ann-modal-close" onclick="closeModal('frPinModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ann-modal-body" style="padding:16px">
+
+      <!-- Mode toggle -->
+      <div style="display:flex;gap:0;border:1px solid #d0d0d0;border-radius:4px;overflow:hidden;margin-bottom:14px">
+        <label id="frPinModeNew" style="flex:1;display:flex;align-items:center;gap:7px;padding:8px 12px;cursor:pointer;font-size:12.5px;background:#242242;color:#fff;">
+          <input type="radio" name="frPinMode" value="new" checked style="accent-color:#fff"> New Section
+        </label>
+        <label id="frPinModeExist" style="flex:1;display:flex;align-items:center;gap:7px;padding:8px 12px;cursor:pointer;font-size:12.5px;background:#fff;color:#333;">
+          <input type="radio" name="frPinMode" value="existing" style="accent-color:#242242"> Update Existing
+        </label>
+      </div>
+
+      <!-- New section fields -->
+      <div id="frPinNewFields">
+        <label class="fr-lbl">Section Name</label>
+        <input type="text" class="fr-modal-input" id="frPinNameInput" placeholder="e.g. Batch 1 Registrations 2026">
+      </div>
+
+      <!-- Existing section picker -->
+      <div id="frPinExistFields" style="display:none">
+        <label class="fr-lbl">Choose Section to Update</label>
+        <select class="fr-modal-sel" id="frPinExistSel"></select>
+      </div>
+      <label class="fr-lbl">Form</label>
+      <select class="fr-modal-sel" id="frPinFormSel"></select>
+      <div id="frPinInfo" style="font-size:11px;color:#888;margin-top:-8px;margin-bottom:10px"></div>
+      <div id="frPinColWrap" style="display:none">
+        <label class="fr-lbl">Columns to Include <span style="font-size:10px;color:#aaa">(uncheck to hide)</span></label>
+        <div class="fr-col-list" id="frPinColList" style="border:1px solid #ededed;border-radius:4px;max-height:150px;"></div>
+        <div style="display:flex;gap:6px;margin-top:5px">
+          <button class="fr-col-footer-btn" onclick="frPinColAll(true)">All</button>
+          <button class="fr-col-footer-btn" onclick="frPinColAll(false)">None</button>
+        </div>
+      </div>
+    </div>
+    <div class="ann-modal-footer">
+      <button class="fb-footer-btn" onclick="closeModal('frPinModal')">Cancel</button>
+      <button class="fb-footer-btn fb-footer-btn-green" onclick="saveFrSection()"><i class="fa-solid fa-check"></i> Save Section</button>
+    </div>
+  </div>
+</div>
+
+<!--  FR: Row Edit Modal  -->
+<div class="ann-modal-overlay" id="frRowEditModal">
+  <div class="ann-modal-panel" style="width:min(500px,92vw)">
+    <div class="ann-modal-head">
+      <h3 class="ann-modal-title"><i class="fa-solid fa-pen-to-square" style="margin-right:8px;color:#666"></i>Edit Response</h3>
+      <button class="ann-modal-close" onclick="closeModal('frRowEditModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ann-modal-body" style="padding:16px;max-height:65vh;overflow-y:auto" id="frRowEditBody"></div>
+    <div class="ann-modal-footer">
+      <button class="fb-footer-btn" onclick="closeModal('frRowEditModal')">Cancel</button>
+      <button class="fb-footer-btn fb-footer-btn-green" onclick="frSaveRowEdit()"><i class="fa-solid fa-check"></i> Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!--  FR: Edit Section Modal  -->
+<div class="ann-modal-overlay" id="frEditModal">
+  <div class="ann-modal-panel" style="width:min(360px,92vw)">
+    <div class="ann-modal-head">
+      <h3 class="ann-modal-title"><i class="fa-solid fa-pen" style="margin-right:8px;color:#666"></i>Rename Section</h3>
+      <button class="ann-modal-close" onclick="closeModal('frEditModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ann-modal-body" style="padding:16px">
+      <label class="fr-lbl">Section Name</label>
+      <input type="text" class="fr-modal-input" id="frEditNameInput" placeholder="Section name">
+      <input type="hidden" id="frEditIdInput">
+    </div>
+    <div class="ann-modal-footer">
+      <button class="fb-footer-btn" onclick="closeModal('frEditModal')">Cancel</button>
+      <button class="fb-footer-btn fb-footer-btn-green" onclick="frSaveEdit()"><i class="fa-solid fa-check"></i> Save</button>
+    </div>
+  </div>
+</div>
+
+<!--  Form History Modal  -->
+<div class="ann-modal-overlay" id="formHistoryModal">
+  <div class="ann-modal-panel" style="width:min(640px,92vw)">
+    <div class="ann-modal-head">
+      <h3 class="ann-modal-title"><i class="fa-solid fa-clock-rotate-left" style="margin-right:8px;color:#666"></i>Form History</h3>
+      <button class="ann-modal-close" onclick="closeModal('formHistoryModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ann-modal-body" style="padding:16px;max-height:70vh;overflow-y:auto">
+      <div class="fb-history-list" id="fbHistoryListModal"></div>
+    </div>
+    <div class="ann-modal-footer">
+      <button class="fb-footer-btn" onclick="closeModal('formHistoryModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!--  View Announcement Modal  -->
+<div class="ann-modal-overlay" id="viewAnnModal">
+  <div class="ann-modal-panel">
+    <div class="ann-modal-head">
+      <h3 class="ann-modal-title" id="viewAnnTitle">Announcement</h3>
+      <button class="ann-modal-close" onclick="closeModal('viewAnnModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ann-modal-body">
+      <div class="ann-view-meta" id="viewAnnMeta"></div>
+      <div class="ann-view-content" id="viewAnnContent"></div>
+    </div>
+    <div class="ann-modal-footer">
+      <button class="fb-footer-btn" onclick="closeModal('viewAnnModal')">Close</button>
+      <button class="fb-footer-btn fb-footer-btn-primary" onclick="resendAnnouncement()"><i class="fa-solid fa-paper-plane"></i> Resend</button>
+    </div>
+  </div>
+</div>
+
+<!--  Edit Announcement Modal  -->
+<div class="ann-modal-overlay" id="editAnnModal">
+  <div class="ann-modal-panel">
+    <div class="ann-modal-head">
+      <h3 class="ann-modal-title"><i class="fa-solid fa-pen-to-square ic-gray"></i> Edit Announcement</h3>
+      <button class="ann-modal-close" onclick="closeModal('editAnnModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ann-modal-body">
+      <div class="edit-form-group">
+        <label class="edit-form-label">TITLE</label>
+        <input type="text" id="editAnnTitle" class="fb-input fb-input-flush">
+      </div>
+      <div class="edit-form-group">
+        <label class="edit-form-label">DESCRIPTION</label>
+        <input type="text" id="editAnnDesc" class="fb-input fb-input-flush">
+      </div>
+      <div class="edit-form-group">
+        <label class="edit-form-label">CONTENT</label>
+        <textarea id="editAnnContent" class="fb-input fb-textarea-content"></textarea>
+      </div>
+      <div class="edit-form-row">
+        <div class="edit-form-col">
+          <label class="edit-form-label">RECIPIENTS</label>
+          <select id="editAnnRecipients" class="fb-select fb-input-flush">
+            <option value="all">All Students</option>
+            <option value="batch1">Batch 1</option>
+            <option value="batch2">Batch 2</option>
+            <option value="batch3">Batch 3</option>
+          </select>
+        </div>
+        <div class="edit-form-col">
+          <label class="edit-form-label">METHOD</label>
+          <select id="editAnnMethod" class="fb-select fb-input-flush">
+            <option value="system">System Only</option>
+            <option value="email">Email</option>
+            <option value="sms">SMS</option>
+            <option value="email-sms">Email & SMS</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="ann-modal-footer">
+      <button class="fb-footer-btn" onclick="closeModal('editAnnModal')">Cancel</button>
+      <button class="fb-footer-btn fb-footer-btn-primary" onclick="saveEditAnnouncement()"><i class="fa-solid fa-check"></i> Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!--  Confirm Modal  -->
+<div class="confirm-overlay" id="confirmModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon" id="confirmIcon"><i class="fa-solid fa-circle-question ic-dark"></i></div>
+    <div class="confirm-title" id="confirmTitle">Confirm</div>
+    <div class="confirm-msg" id="confirmMsg">Are you sure?</div>
+    <div class="confirm-btns">
+      <button type="button" class="confirm-btn confirm-btn-cancel" onclick="closeModal('confirmModal')">Cancel</button>
+      <button type="button" class="confirm-btn confirm-btn-ok" id="confirmOkBtn" onclick="confirmAction()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!--  Schedule Modal  -->
+<div class="ann-modal-overlay" id="scheduleModal">
+  <div class="ann-modal-panel schedule-modal-panel">
+    <div class="ann-modal-head">
+      <h3 class="ann-modal-title"><i class="fa-solid fa-calendar-days ic-gray"></i> Schedule Announcement</h3>
+      <button class="ann-modal-close" onclick="closeScheduleModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ann-modal-body">
+      <div class="sched-group">
+        <label class="sched-label">Select Date</label>
+        <input type="date" id="scheduleDate" class="sched-input">
+      </div>
+      <div>
+        <label class="sched-label">Select Time</label>
+        <input type="time" id="scheduleTime" value="09:00" class="sched-input">
+      </div>
+      <div class="sched-info">
+        <i class="fa-solid fa-info-circle ic-mr6"></i>
+        The announcement will be automatically sent at the scheduled date and time.
+      </div>
+    </div>
+    <div class="ann-modal-footer">
+      <button type="button" class="fb-footer-btn" onclick="closeScheduleModal()">Cancel</button>
+      <button type="button" class="fb-footer-btn fb-footer-btn-primary" onclick="saveSchedule()"><i class="fa-solid fa-check"></i> Set Schedule</button>
+    </div>
+  </div>
+</div>
+
+<!--  Form Preview Modal  -->
+<div class="ann-modal-overlay" id="formPreviewModal">
+  <div class="ann-modal-panel fb-preview-modal-panel">
+    <div class="ann-modal-head">
+      <h3 class="ann-modal-title" id="formPreviewTitle"><i class="fa-solid fa-eye ic-gray"></i> Form Preview</h3>
+      <button class="ann-modal-close" onclick="closeModal('formPreviewModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ann-modal-body" id="formPreviewBody"></div>
+    <div class="ann-modal-footer">
+      <button class="fb-footer-btn" onclick="closeModal('formPreviewModal')">Close</button>
+      <button class="fb-footer-btn" id="formPreviewEditBtn" onclick="loadFormToEditor()"><i class="fa-solid fa-pen"></i> Edit & Reuse</button>
+      <button class="fb-footer-btn fb-footer-btn-green" id="formPreviewPublishBtn" onclick="publishFromPreview()"><i class="fa-solid fa-upload"></i> Publish</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- footer -->
+<div class="footer">
+Copyright &copy; 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<script>
+(function(){
+'use strict';
+
+//  DATA 
+const studentNames=[
+  'Juan Dela Cruz','Maria Santos','Pedro Reyes','Ana Garcia','Jose Mendoza',
+  'Carmela Ramos','Miguel Torres','Sofia Villanueva','David Aquino','Isabella Flores',
+  'Gabriel Pascual','Angelica Bautista','Rafael Navarro','Patricia Lim','Emmanuel Cruz',
+  'Jasmine Tan','Antonio Rivera','Christina Gomez','Lorenzo Diaz','Samantha Castillo',
+  'Alejandro Hernandez','Nicole Morales','Marco Aguilar','Andrea Salazar','Nicolas Valdez',
+  'Bianca Mercado','Ricardo Fernandez','Stephanie Abad','Fernando Lopez','Catherine Perez'
+];
+
+// Sample announcements
+let announcements = [
+  {id:1,title:'SPES 2026 Orientation Schedule',desc:'Mandatory orientation for all new SPES beneficiaries',content:'All SPES 2026 beneficiaries are required to attend the orientation on March 10, 2026 at the City Hall Auditorium, 9:00 AM. Please bring the following documents:\n\n- Valid ID\n- SPES Registration Form\n- Certificate of Employment\n\nAbsence will result in forfeiture of your slot.',status:'published',method:'email-sms',recipients:'all',recipientCount:300,date:'2026-02-28',author:'Louraine Pecayo'},
+  {id:2,title:'Document Submission Deadline Extended',desc:'Extension of deadline for required documents',content:'The deadline for submitting required documents has been extended to March 15, 2026. Please submit the following:\n\n1. Birth Certificate (PSA)\n2. Income Tax Return\n3. Certificate of Enrollment\n\nLate submissions will NOT be accepted after the extended deadline.',status:'published',method:'email',recipients:'all',recipientCount:300,date:'2026-02-25',author:'Louraine Pecayo'},
+  {id:3,title:'Batch 1 Assignment Updates',desc:'New assignment details for Batch 1 students',content:'Batch 1 students assigned to City Hall Departments are required to report on March 3, 2026. Report to the HR Office at 8:00 AM for your department assignment briefing.',status:'published',method:'system',recipients:'batch1',recipientCount:100,date:'2026-02-24',author:'Louraine Pecayo'},
+  {id:4,title:'Monthly Stipend Release Notice',desc:'Schedule for stipend release this month',content:'The March 2026 stipend will be released on March 28, 2026 via bank transfer. Please ensure your bank details are updated in the system.\n\nFor GCash recipients, allow 1-2 business days for processing.',status:'published',method:'sms',recipients:'all',recipientCount:300,date:'2026-02-20',author:'Louraine Pecayo'},
+  {id:5,title:'Safety Orientation Webinar',desc:'Online safety briefing for all beneficiaries',content:'A mandatory safety orientation webinar will be conducted via Zoom on March 5, 2026 at 2:00 PM.\n\nZoom Link: https://zoom.us/spes2026safety\nMeeting ID: 123 456 7890\nPassword: SPES2026',status:'published',method:'email',recipients:'all',recipientCount:300,date:'2026-02-18',author:'Louraine Pecayo'},
+  {id:6,title:'Evaluation Form Reminder',desc:'Complete your end-of-month evaluation',content:'Please complete the monthly evaluation form before March 31, 2026. The form is available in the SPES portal under Forms section.\n\nFailure to submit may affect your monthly report.',status:'draft',method:'system',recipients:'all',recipientCount:0,date:'2026-02-15',author:'Louraine Pecayo'},
+  {id:7,title:'Batch 2 Schedule Change',desc:'Updated work schedule for Batch 2',content:'Due to the holiday on March 25, Batch 2 work schedule has been adjusted. Please check the updated schedule in the Work Schedule section of the AR module.',status:'draft',method:'email-sms',recipients:'batch2',recipientCount:0,date:'2026-02-12',author:'Louraine Pecayo'},
+  {id:8,title:'ID Photo Requirements',desc:'Guidelines for SPES ID photo submission',content:'All beneficiaries must submit a 2x2 ID photo (white background, formal attire) through the portal by March 8, 2026.',status:'published',method:'email',recipients:'all',recipientCount:300,date:'2026-02-10',author:'Louraine Pecayo'},
+  {id:9,title:'Holiday Notice: EDSA People Power Anniversary',desc:'No work day on February 25',content:'Please be reminded that February 25, 2026 (Wednesday) is a non-working holiday in observance of the EDSA People Power Anniversary. No work is expected on this date.',status:'published',method:'email-sms',recipients:'all',recipientCount:300,date:'2026-02-08',author:'Louraine Pecayo'},
+  {id:10,title:'Emergency Contact Update',desc:'Update your emergency contact information',content:'All SPES beneficiaries are required to update their emergency contact information in the portal. This is important for safety purposes.',status:'draft',method:'system',recipients:'all',recipientCount:0,date:'2026-02-05',author:'Louraine Pecayo'}
+];
+
+// Form history
+let formHistory = [
+  {id:1,title:'SPES Registration Form 2026',desc:'Standard registration form for new SPES applicants',date:'2026-01-15',status:'active',sections:3,fields:12,sectionData:[
+    {name:'Personal Information',fields:[{name:'Full Name',type:'text'},{name:'Date of Birth',type:'date'},{name:'Address',type:'textarea'},{name:'Contact Number',type:'text'}]},
+    {name:'Educational Background',fields:[{name:'School Name',type:'text'},{name:'Year Level',type:'select',options:['1st Year','2nd Year','3rd Year','4th Year']},{name:'Course',type:'text'},{name:'Student ID',type:'text'}]},
+    {name:'Documents',fields:[{name:'Birth Certificate',type:'pdf'},{name:'School Certificate',type:'pdf'},{name:'ID Photo',type:'file'},{name:'ITR',type:'pdf'}]}
+  ]},
+  {id:2,title:'Monthly Evaluation Form',desc:'End-of-month performance evaluation form',date:'2026-01-20',status:'active',sections:2,fields:8,sectionData:[
+    {name:'Performance Rating',fields:[{name:'Work Quality',type:'select',options:['Excellent','Very Good','Good','Fair','Poor']},{name:'Attendance',type:'select',options:['Excellent','Very Good','Good','Fair','Poor']},{name:'Punctuality',type:'select',options:['Always On Time','Usually On Time','Sometimes Late','Often Late']},{name:'Cooperation',type:'select',options:['Excellent','Very Good','Good','Fair','Poor']}]},
+    {name:'Comments',fields:[{name:'Supervisor Comments',type:'textarea'},{name:'Self-Assessment',type:'textarea'},{name:'Goals for Next Month',type:'textarea'},{name:'Evaluation Date',type:'date'}]}
+  ]},
+  {id:3,title:'Exit Interview Form',desc:'Form for exiting SPES beneficiaries',date:'2026-02-01',status:'active',sections:4,fields:15,sectionData:[
+    {name:'Basic Info',fields:[{name:'Name',type:'text'},{name:'Department',type:'text'},{name:'Duration of Service',type:'text'}]},
+    {name:'Experience Rating',fields:[{name:'Overall Experience',type:'select',options:['Very Satisfied','Satisfied','Neutral','Dissatisfied','Very Dissatisfied']},{name:'Skills Gained',type:'textarea'},{name:'Supervisor Support',type:'select',options:['Excellent','Good','Fair','Poor']},{name:'Work Environment',type:'select',options:['Excellent','Good','Fair','Poor']}]},
+    {name:'Feedback',fields:[{name:'What went well',type:'textarea'},{name:'Areas for improvement',type:'textarea'},{name:'Recommendations',type:'textarea'},{name:'Would you recommend SPES?',type:'select',options:['Yes','No','Maybe']}]},
+    {name:'Attachments',fields:[{name:'Clearance Form',type:'pdf'},{name:'Certificate',type:'file'},{name:'Final Report',type:'pdf'},{name:'Exit Date',type:'date'}]}
+  ]},
+  {id:4,title:'Incident Report Form',desc:'For reporting workplace incidents',date:'2025-12-10',status:'active',sections:3,fields:10,sectionData:[
+    {name:'Incident Details',fields:[{name:'Incident Date',type:'date'},{name:'Location',type:'text'},{name:'Type of Incident',type:'select',options:['Injury','Property Damage','Near Miss','Other']},{name:'Description',type:'textarea'}]},
+    {name:'People Involved',fields:[{name:'Reporter Name',type:'text'},{name:'Witness Names',type:'textarea'},{name:'Supervisor Notified',type:'select',options:['Yes','No']}]},
+    {name:'Documentation',fields:[{name:'Photos/Evidence',type:'file'},{name:'Medical Report',type:'pdf'},{name:'Additional Notes',type:'textarea'}]}
+  ]},
+  {id:5,title:'Document Checklist 2026',desc:'Required document checklist for SPES applicants',date:'2026-01-10',status:'active',sections:1,fields:6,sectionData:[
+    {name:'Required Documents',fields:[{name:'Birth Certificate (PSA)',type:'pdf'},{name:'School Certificate',type:'pdf'},{name:'Income Tax Return',type:'pdf'},{name:'District Certificate',type:'pdf'},{name:'2x2 ID Photo',type:'file'},{name:'Valid ID',type:'file'}]}
+  ]}
+];
+
+// Expose to second script block (FR functions live outside this IIFE)
+window.formHistory = formHistory;
+
+let fbSections = [];
+let annCurrentPage = 1;
+const annPageSize = 5;
+let annFilteredList = [...announcements];
+let editingAnnId = null;
+let pendingConfirmAction = null;
+
+// aanoucment tab
+function updateSummary(){
+  const totalEl = document.getElementById('annTotalCount');
+  const publishedEl = document.getElementById('annPublishedCount');
+  const draftEl = document.getElementById('annDraftCount');
+  const recipientEl = document.getElementById('annRecipientCount');
+  if(!totalEl && !publishedEl && !draftEl && !recipientEl) return;
+
+  if(totalEl) totalEl.textContent = announcements.length;
+  if(publishedEl) publishedEl.textContent = announcements.filter(a=>a.status==='published').length;
+  if(draftEl) draftEl.textContent = announcements.filter(a=>a.status==='draft').length;
+  const totalR = announcements.reduce((s,a)=>s+a.recipientCount,0);
+  if(recipientEl) recipientEl.textContent = totalR;
+}
+
+// WYSIWYG editor commands
+window.execFormat = function(type){
+  const editor = document.getElementById('annContent');
+  editor.focus();
+  switch(type){
+    case 'bold': document.execCommand('bold',false,null); break;
+    case 'italic': document.execCommand('italic',false,null); break;
+    case 'underline': document.execCommand('underline',false,null); break;
+    case 'heading':
+      const sel = window.getSelection();
+      if(sel.rangeCount){
+        const block = sel.anchorNode.parentElement.closest('h2');
+        if(block){ document.execCommand('formatBlock',false,'P'); }
+        else { document.execCommand('formatBlock',false,'H2'); }
+      }
+      break;
+    case 'ul': document.execCommand('insertUnorderedList',false,null); break;
+    case 'ol': document.execCommand('insertOrderedList',false,null); break;
+    case 'link':
+      const url = prompt('Enter URL:','https://');
+      if(url) document.execCommand('createLink',false,url);
+      break;
+    case 'undo': document.execCommand('undo',false,null); break;
+    case 'redo': document.execCommand('redo',false,null); break;
+  }
+  updateToolbarState();
+};
+
+function updateToolbarState(){
+  const bold = document.queryCommandState('bold');
+  const italic = document.queryCommandState('italic');
+  const underline = document.queryCommandState('underline');
+  document.getElementById('tbBold').style.background = bold?'#e0e0e0':'';
+  document.getElementById('tbItalic').style.background = italic?'#e0e0e0':'';
+  document.getElementById('tbUnderline').style.background = underline?'#e0e0e0':'';
+}
+
+// track toolbar active state
+document.addEventListener('selectionchange',function(){
+  const editor = document.getElementById('annContent');
+  if(editor && editor.contains(document.activeElement) || editor===document.activeElement) updateToolbarState();
+});
+
+function getEditorContent(){
+  return document.getElementById('annContent').innerHTML.trim();
+}
+function getEditorText(){
+  return document.getElementById('annContent').innerText.trim();
+}
+
+window.attachFile = function(){
+  const input = document.createElement('input');
+  input.type='file';
+  input.accept='image/*,.pdf,.doc,.docx';
+  input.onchange = e=>{
+    const file = e.target.files[0];
+    if(file) showToast('File attached: '+file.name,'success');
+  };
+  input.click();
+};
+
+// Recipients toggle
+document.getElementById('annRecipients').addEventListener('change',function(){
+  document.getElementById('specificStudentsBox').style.display = this.value==='specific'?'block':'none';
+  if(this.value==='specific'){
+    document.getElementById('studentSearchInput').value='';
+    renderStudentCheckboxes();
+  }
+});
+
+// Schedule toggle - open modal
+document.getElementById('annSchedule').addEventListener('change',function(){
+  if(this.value==='scheduled'){
+    // Set default to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate()+1);
+    document.getElementById('scheduleDate').value = tomorrow.toISOString().split('T')[0];
+    document.getElementById('scheduleDate').min = new Date().toISOString().split('T')[0];
+    document.getElementById('scheduleTime').value = '09:00';
+    openModal('scheduleModal');
+  } else {
+    document.getElementById('scheduleDisplay').style.display='none';
+  }
+});
+
+window.closeScheduleModal = function(){
+  // If user closes without saving, revert to "Send Immediately"
+  if(!document.getElementById('scheduleDisplay').style.display || document.getElementById('scheduleDisplay').style.display==='none'){
+    document.getElementById('annSchedule').value='now';
+  }
+  closeModal('scheduleModal');
+};
+
+window.saveSchedule = function(){
+  const date = document.getElementById('scheduleDate').value;
+  const time = document.getElementById('scheduleTime').value;
+  if(!date || !time){
+    showToast('Please select both date and time','error');
+    return;
+  }
+  // Format display
+  const d = new Date(date+'T00:00:00');
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const dateStr = months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
+  const display = document.getElementById('scheduleDisplay');
+  display.textContent = `📅 ${dateStr} at ${time}`;
+  display.style.display='inline';
+  closeModal('scheduleModal');
+  showToast('Schedule set successfully','success');
+};
+
+function renderStudentCheckboxes(filter){
+  const container = document.getElementById('studentCheckboxList');
+  const q = (filter||'').toLowerCase();
+  // save checked state
+  const checked = new Set();
+  document.querySelectorAll('.student-cb:checked').forEach(cb=>checked.add(cb.dataset.name));
+  container.innerHTML='';
+  studentNames.forEach((name,i)=>{
+    if(q && !name.toLowerCase().includes(q)) return;
+    const label = document.createElement('label');
+    label.className='student-cb-label';
+    const isChecked = checked.has(name)?'checked':'';
+    label.innerHTML=`<input type="checkbox" class="student-cb" data-name="${name}" ${isChecked}> ${name}`;
+    container.appendChild(label);
+  });
+  updateSelectedCount();
+}
+
+// Student search
+document.getElementById('studentSearchInput').addEventListener('input',function(){
+  renderStudentCheckboxes(this.value);
+});
+
+window.selectAllStudents = function(){
+  document.querySelectorAll('.student-cb').forEach(cb=>cb.checked=true);
+  updateSelectedCount();
+};
+window.deselectAllStudents = function(){
+  document.querySelectorAll('.student-cb').forEach(cb=>cb.checked=false);
+  updateSelectedCount();
+};
+
+document.addEventListener('change',function(e){
+  if(e.target.classList.contains('student-cb')) updateSelectedCount();
+});
+
+function updateSelectedCount(){
+  const count = document.querySelectorAll('.student-cb:checked').length;
+  document.getElementById('selectedStudentCount').textContent = count+' selected';
+}
+
+// Publish
+window.publishAnnouncement = function(){
+  const title = document.getElementById('annTitle').value.trim();
+  const content = getEditorContent();
+  if(!title){ showToast('Please add a title','error'); return; }
+  if(!getEditorText()){ showToast('Please add content','error'); return; }
+
+  const desc = document.getElementById('annDesc').value.trim();
+  const rec = document.getElementById('annRecipients').value;
+  const method = document.getElementById('annMethod').value;
+  let recipientCount = 300;
+  if(rec==='batch1'||rec==='batch2'||rec==='batch3') recipientCount=100;
+  if(rec==='specific') recipientCount=document.querySelectorAll('.student-cb:checked').length;
+
+  const methodLabels = {system:'System',email:'Email',sms:'SMS','email-sms':'Email & SMS'};
+  const recLabels = {all:'All Students',batch1:'Batch 1',batch2:'Batch 2',batch3:'Batch 3',specific:'Selected Students'}[a.recipients]||a.recipients;
+  const display = document.getElementById('scheduleDisplay');
+  display.textContent = `📅 ${dateStr} at ${time}`;
+  display.style.display='inline';
+  closeModal('scheduleModal');
+  showToast('Schedule set successfully','success');
+};
+
+// Save Draft
+window.saveDraft = function(){
+  const title = document.getElementById('annTitle').value.trim();
+  if(!title){ showToast('Please add a title','error'); return; }
+  const ann = {
+    id: Date.now(),
+    title,
+    desc: document.getElementById('annDesc').value.trim()||'No description',
+    content: getEditorContent(),
+    status:'draft',
+    method: document.getElementById('annMethod').value,
+    recipients: document.getElementById('annRecipients').value,
+    recipientCount: 0,
+    date: new Date().toISOString().split('T')[0],
+    author:'Louraine Pecayo'
+  };
+  announcements.unshift(ann);
+  clearComposer();
+  applyAnnFilters();
+  updateSummary();
+  showToast('Draft saved','info');
+};
+
+function clearComposer(){
+  document.getElementById('annTitle').value='';
+  document.getElementById('annDesc').value='';
+  document.getElementById('annContent').innerHTML='';
+  document.getElementById('annRecipients').value='all';
+  document.getElementById('annMethod').value='system';
+  document.getElementById('annSchedule').value='now';
+  document.getElementById('scheduleDisplay').style.display='none';
+  document.getElementById('specificStudentsBox').style.display='none';
+  document.getElementById('studentSearchInput').value='';
+}
+
+//  Table Rendering 
+function applyAnnFilters(){
+  const search = document.getElementById('annSearchInput').value.toLowerCase();
+  const status = document.getElementById('annStatusFilter').value;
+  annFilteredList = announcements.filter(a=>{
+    if(status!=='all' && a.status!==status) return false;
+    if(search && !a.title.toLowerCase().includes(search) && !a.desc.toLowerCase().includes(search)) return false;
+    return true;
+  });
+  annCurrentPage=1;
+
+  // Clear selections when filter changes
+  document.getElementById('annSelectAll').checked=false;
+  deselectAll();
+  renderAnnTable();
+}
+
+function renderAnnTable(){
+  const tbody = document.getElementById('annTableBody');
+  const totalPages = Math.max(1, Math.ceil(annFilteredList.length/annPageSize));
+  if(annCurrentPage>totalPages) annCurrentPage=totalPages;
+  const start = (annCurrentPage-1)*annPageSize;
+  const page = annFilteredList.slice(start, start+annPageSize);
+
+  tbody.innerHTML='';
+  if(page.length===0){
+    tbody.innerHTML='<tr><td colspan="7" class="ann-empty-row">No announcements found</td></tr>';
+  } else {
+    page.forEach(a=>{
+      const statusBadge = a.status==='published'
+        ?'<span class="ann-badge ann-badge-published">Published</span>'
+        :'<span class="ann-badge ann-badge-draft">Draft</span>';
+      
+      const methodBadges = getMethodBadges(a.method);
+      const recLabel = {all:'All Students',batch1:'Batch 1',batch2:'Batch 2',batch3:'Batch 3',specific:'Selected Students'}[a.recipients]||a.recipients;
+      const dateStr = formatDate(a.date);
+
+      const tr = document.createElement('tr');
+      tr.innerHTML=`
+        <td><input type="checkbox" class="ann-row-cb" data-id="${a.id}"></td>
+        <td>
+          <div class="ann-table-title">${a.title}</div>
+          <div class="ann-table-desc">${a.desc}</div>
+        </td>
+        <td>${statusBadge}</td>
+        <td>${methodBadges}</td>
+        <td><span class="ann-rec-label">${recLabel}</span><br><span class="ann-rec-count">${a.recipientCount} recipients</span></td>
+        <td class="ann-date-cell">${dateStr}</td>
+        <td>
+          <div class="ann-actions-cell">
+            <button class="ann-action-btn" title="View" onclick="viewAnn(${a.id})"><i class="fa-solid fa-eye"></i></button>
+            <button class="ann-action-btn" title="Edit" onclick="editAnn(${a.id})"><i class="fa-solid fa-pen"></i></button>
+            <button class="ann-action-btn" title="Resend" onclick="resendAnn(${a.id})"><i class="fa-solid fa-paper-plane"></i></button>
+            <button class="ann-action-btn danger" title="Delete" onclick="deleteAnn(${a.id})"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Pagination
+  document.getElementById('annResultsInfo').textContent=`Showing ${page.length===0?0:start+1}-${Math.min(start+annPageSize,annFilteredList.length)} of ${annFilteredList.length}`;
+  renderAnnPagination(totalPages);
+}
+
+function getMethodBadges(method){
+  const badges=[];
+  if(method==='email'||method==='email-sms') badges.push('<span class="ann-method-badge ann-method-email"><i class="fa-solid fa-envelope"></i>Email</span>');
+  if(method==='sms'||method==='email-sms') badges.push('<span class="ann-method-badge ann-method-sms"><i class="fa-solid fa-comment-sms"></i>SMS</span>');
+  if(method==='system') badges.push('<span class="ann-method-badge ann-method-system"><i class="fa-solid fa-desktop"></i>System</span>');
+  return badges.join('');
+}
+
+function formatDate(dateStr){
+  const d=new Date(dateStr+'T00:00:00');
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
+}
+
+function renderAnnPagination(totalPages){
+  const container = document.getElementById('annPageBtns');
+  container.innerHTML='';
+  if(totalPages<=1) return;
+
+  const prev = document.createElement('button');
+  prev.className='ann-page-btn';
+  prev.innerHTML='<i class="fa-solid fa-chevron-left"></i>';
+  prev.disabled=annCurrentPage===1;
+  prev.onclick=()=>{ annCurrentPage--; renderAnnTable(); };
+  container.appendChild(prev);
+
+  for(let i=1;i<=totalPages;i++){
+    const btn = document.createElement('button');
+    btn.className='ann-page-btn'+(i===annCurrentPage?' active':'');
+    btn.textContent=i;
+    btn.onclick=()=>{ annCurrentPage=i; renderAnnTable(); };
+    container.appendChild(btn);
+  }
+
+  const next = document.createElement('button');
+  next.className='ann-page-btn';
+  next.innerHTML='<i class="fa-solid fa-chevron-right"></i>';
+  next.disabled=annCurrentPage===totalPages;
+  next.onclick=()=>{ annCurrentPage++; renderAnnTable(); };
+  container.appendChild(next);
+}
+
+// Select all checkbox
+document.getElementById('annSelectAll').addEventListener('change',function(){
+  document.querySelectorAll('.ann-row-cb').forEach(cb=>cb.checked=this.checked);
+  updateBulkActionsBar();
+});
+
+// Update bulk actions bar when individual checkboxes change
+document.addEventListener('change',function(e){
+  if(e.target.classList.contains('ann-row-cb')){
+    updateBulkActionsBar();
+    // Update "select all" state
+    const allCbs = document.querySelectorAll('.ann-row-cb');
+    const checkedCbs = document.querySelectorAll('.ann-row-cb:checked');
+    document.getElementById('annSelectAll').checked = allCbs.length>0 && allCbs.length===checkedCbs.length;
+  }
+});
+
+function updateBulkActionsBar(){
+  const checked = document.querySelectorAll('.ann-row-cb:checked');
+  const bar = document.getElementById('bulkActionsBar');
+  const count = document.getElementById('selectedCount');
+  if(checked.length>0){
+    bar.style.display='flex';
+    count.textContent = checked.length;
+  } else {
+    bar.style.display='none';
+  }
+}
+
+window.deselectAll = function(){
+  document.querySelectorAll('.ann-row-cb').forEach(cb=>cb.checked=false);
+  document.getElementById('annSelectAll').checked=false;
+  updateBulkActionsBar();
+};
+
+window.bulkArchive = function(){
+  const checked = document.querySelectorAll('.ann-row-cb:checked');
+  if(checked.length===0){ showToast('No announcements selected','error'); return; }
+  const ids = Array.from(checked).map(cb=>parseInt(cb.dataset.id));
+  showConfirm('Archive Announcements',
+    `Archive <strong>${ids.length}</strong> selected announcement${ids.length>1?'s':''}?`,
+    'publish',
+    ()=>{
+      // In a real system, you'd mark them as archived. Here we'll just delete them.
+      announcements = announcements.filter(a=>!ids.includes(a.id));
+      applyAnnFilters();
+      updateSummary();
+      updateBulkActionsBar();
+      showToast(ids.length+' announcement'+(ids.length>1?'s':'')+' archived','success');
+    }
+  );
+};
+
+// Search & filter listeners
+document.getElementById('annSearchInput').addEventListener('input', applyAnnFilters);
+document.getElementById('annStatusFilter').addEventListener('change', applyAnnFilters);
+
+// View / Edit / Delete / Resend 
+window.viewAnn = function(id){
+  const a = announcements.find(x=>x.id===id);
+  if(!a) return;
+  document.getElementById('viewAnnTitle').textContent=a.title;
+  const methodLabels={system:'System',email:'Email',sms:'SMS','email-sms':'Email & SMS'};
+  const recLabels={all:'All Students',batch1:'Batch 1',batch2:'Batch 2',batch3:'Batch 3',specific:'Selected Students'};
+  document.getElementById('viewAnnMeta').innerHTML=`
+    <div class="ann-view-meta-item"><i class="fa-solid fa-calendar"></i>${formatDate(a.date)}</div>
+    <div class="ann-view-meta-item"><i class="fa-solid fa-user"></i>${a.author}</div>
+    <div class="ann-view-meta-item"><i class="fa-solid fa-users"></i>${recLabels[a.recipients]} (${a.recipientCount})</div>
+    <div class="ann-view-meta-item"><i class="fa-solid fa-paper-plane"></i>${methodLabels[a.method]}</div>
+    <div class="ann-view-meta-item">${a.status==='published'?'<span class="ann-badge ann-badge-published">Published</span>':'<span class="ann-badge ann-badge-draft">Draft</span>'}</div>`;
+  document.getElementById('viewAnnContent').innerHTML = '<strong class="ann-view-desc">'+a.desc+'</strong>'+(a.content||'');
+  openModal('viewAnnModal');
+};
+
+window.editAnn = function(id){
+  const a = announcements.find(x=>x.id===id);
+  if(!a) return;
+  editingAnnId = id;
+  document.getElementById('editAnnTitle').value=a.title;
+  document.getElementById('editAnnDesc').value=a.desc;
+  document.getElementById('editAnnContent').value=a.content||'';
+  document.getElementById('editAnnRecipients').value=a.recipients==='specific'?'all':a.recipients;
+  document.getElementById('editAnnMethod').value=a.method;
+  openModal('editAnnModal');
+};
+
+window.saveEditAnnouncement = function(){
+  const a = announcements.find(x=>x.id===editingAnnId);
+  if(!a) return;
+  a.title=document.getElementById('editAnnTitle').value.trim();
+  a.desc=document.getElementById('editAnnDesc').value.trim();
+  a.content=document.getElementById('editAnnContent').value.trim();
+  a.recipients=document.getElementById('editAnnRecipients').value;
+  a.method=document.getElementById('editAnnMethod').value;
+  closeModal('editAnnModal');
+  applyAnnFilters();
+  showToast('Announcement updated','success');
+};
+
+window.deleteAnn = function(id){
+  const a = announcements.find(x=>x.id===id);
+  if(!a) return;
+  showConfirm('Delete Announcement',
+    `Are you sure you want to delete "<strong>${a.title}</strong>"? This action cannot be undone.`,
+    'danger',
+    ()=>{
+      announcements=announcements.filter(x=>x.id!==id);
+      applyAnnFilters();
+      updateSummary();
+      showToast('Announcement deleted','info');
+    }
+  );
+};
+
+window.resendAnn = function(id){
+  const a = announcements.find(x=>x.id===id);
+  if(!a) return;
+  if(a.status==='draft'){
+    showToast('Cannot resend a draft. Publish it first.','error'); return;
+  }
+  const methodLabels={system:'System',email:'Email',sms:'SMS','email-sms':'Email & SMS'};
+  showConfirm('Resend Announcement',
+    `Resend "<strong>${a.title}</strong>" via <strong>${methodLabels[a.method]}</strong> to ${a.recipientCount} recipients?`,
+    'publish',
+    ()=>{
+      showToast('Announcement resent to '+a.recipientCount+' students','success');
+    }
+  );
+};
+
+window.resendAnnouncement = function(){
+  closeModal('viewAnnModal');
+  showToast('Announcement resent','success');
+};
+
+//  FORM BUILDER 
+window.fbAddSection = function(){
+  const name = document.getElementById('fbSectionInput').value.trim();
+  if(!name){ showToast('Enter a section name','error'); return; }
+  fbSections.push({ name, fields:[] });
+  document.getElementById('fbSectionInput').value='';
+  updateFbSectionDropdown();
+  renderFbPreview();
+};
+
+window.fbAddField = function(){
+  const secIdx = document.getElementById('fbSectionSelect').value;
+  const name = document.getElementById('fbFieldInput').value.trim();
+  const type = document.getElementById('fbFieldType').value;
+  if(secIdx===''){ showToast('Select a section first','error'); return; }
+  if(!name){ showToast('Enter a field name','error'); return; }
+  const field = { name, type };
+  if(type==='select'){
+    const inputs = document.querySelectorAll('#fbChoicesList .fb-choice-input');
+    const opts = [];
+    inputs.forEach(inp=>{ if(inp.value.trim()) opts.push(inp.value.trim()); });
+    if(opts.length<2){ showToast('Add at least 2 choices','error'); return; }
+    field.options = opts;
+  } else if(type==='likert'){
+    const preset = document.getElementById('fbLikertPreset').value;
+    if(preset==='custom'){
+      const inputs = document.querySelectorAll('#fbLikertCustomList .fb-choice-input');
+      const opts = [];
+      inputs.forEach(inp=>{ if(inp.value.trim()) opts.push(inp.value.trim()); });
+      if(opts.length<2){ showToast('Add at least 2 labels','error'); return; }
+      field.options = opts;
+    } else {
+      field.options = FB_LIKERT_PRESETS[preset];
+    }
+    field.likertPreset = preset;
+  }
+  fbSections[parseInt(secIdx)].fields.push(field);
+  document.getElementById('fbFieldInput').value='';
+  renderFbPreview();
+};
+
+// Dropdown choices editor
+const FB_LIKERT_PRESETS = {
+  agreement:   ['Strongly Agree','Agree','Neutral','Disagree','Strongly Disagree'],
+  satisfaction:['Very Satisfied','Satisfied','Neutral','Dissatisfied','Very Dissatisfied'],
+  quality:     ['Excellent','Very Good','Good','Fair','Poor'],
+  frequency:   ['Always','Often','Sometimes','Rarely','Never']
+};
+
+window.toggleChoicesEditor = function(){
+  const type = document.getElementById('fbFieldType').value;
+  const box = document.getElementById('fbChoicesBox');
+  const likertBox = document.getElementById('fbLikertBox');
+  if(type==='select'){ box.classList.add('show'); likertBox.classList.remove('show'); }
+  else if(type==='likert'){ box.classList.remove('show'); likertBox.classList.add('show'); fbLikertPresetChange(); }
+  else { box.classList.remove('show'); likertBox.classList.remove('show'); }
+};
+
+window.fbLikertPresetChange = function(){
+  const preset = document.getElementById('fbLikertPreset').value;
+  const previewRow = document.getElementById('fbLikertPreviewRow');
+  const customList = document.getElementById('fbLikertCustomList');
+  const addBtn = document.getElementById('fbLikertAddBtn');
+  if(preset==='custom'){
+    previewRow.style.display='none';
+    customList.style.display='';
+    addBtn.style.display='';
+    if(customList.children.length===0) fbLikertAddCustom(2);
+  } else {
+    previewRow.style.display='';
+    customList.style.display='none';
+    addBtn.style.display='none';
+    const opts = FB_LIKERT_PRESETS[preset]||[];
+    previewRow.innerHTML=opts.map(o=>`<div class="fb-likert-preview-opt"><input type="radio" disabled><span>${o}</span></div>`).join('');
+  }
+};
+
+window.fbLikertAddCustom = function(count){
+  const list = document.getElementById('fbLikertCustomList');
+  const times = count||1;
+  for(let i=0;i<times;i++){
+    const n = list.children.length+1;
+    const row = document.createElement('div');
+    row.className='fb-choice-row';
+    row.innerHTML=`<input type="text" class="fb-choice-input" placeholder="Label ${n}"><button class="fb-choice-del" onclick="fbLikertRemoveCustom(this)" title="Remove"><i class="fa-solid fa-xmark"></i></button>`;
+    list.appendChild(row);
+  }
+};
+
+window.fbLikertRemoveCustom = function(btn){
+  const list = document.getElementById('fbLikertCustomList');
+  if(list.children.length<=1){ showToast('At least one label required','error'); return; }
+  btn.closest('.fb-choice-row').remove();
+};
+
+window.addChoice = function(){
+  const list = document.getElementById('fbChoicesList');
+  const n = list.children.length+1;
+  const row = document.createElement('div');
+  row.className='fb-choice-row';
+  row.innerHTML=`<input type="text" class="fb-choice-input" placeholder="Option ${n}"><button class="fb-choice-del" onclick="removeChoice(this)" title="Remove"><i class="fa-solid fa-xmark"></i></button>`;
+  list.appendChild(row);
+  row.querySelector('input').focus();
+};
+
+window.removeChoice = function(btn){
+  const list = document.getElementById('fbChoicesList');
+  if(list.children.length<=1){ showToast('At least one choice required','error'); return; }
+  btn.closest('.fb-choice-row').remove();
+};
+
+function updateFbSectionDropdown(){
+  const sel = document.getElementById('fbSectionSelect');
+  sel.innerHTML='<option value="">Select a Section</option>';
+  fbSections.forEach((s,i)=>{
+    sel.innerHTML+=`<option value="${i}">${s.name}</option>`;
+  });
+}
+
+function renderFbPreview(){
+  const container = document.getElementById('fbPreview');
+  const title = document.getElementById('fbTitleInput').value.trim();
+  document.getElementById('fbDisplayTitle').textContent = title||'Form Preview';
+  
+  let totalFields=0;
+  fbSections.forEach(s=>totalFields+=s.fields.length);
+  document.getElementById('fbFieldCount').textContent=totalFields+' field'+(totalFields!==1?'s':'');
+
+  if(fbSections.length===0){
+    container.innerHTML='<div class="fb-empty"><i class="fa-solid fa-file-circle-plus"></i><p>Create sections and add fields to preview your form here</p></div>';
+    return;
+  }
+
+  container.innerHTML='';
+  fbSections.forEach((sec,si)=>{
+    const div = document.createElement('div');
+    div.className='fb-section';
+    let fieldsHtml='';
+    sec.fields.forEach((f,fi)=>{
+      let inputHtml='';
+      if(f.type==='text') inputHtml=`<input type="text" placeholder="Enter ${f.name}" class="fb-field-input">`;
+      else if(f.type==='textarea') inputHtml=`<textarea placeholder="Enter ${f.name}" class="fb-field-input fb-textarea-preview"></textarea>`;
+      else if(f.type==='number') inputHtml=`<input type="number" placeholder="0" class="fb-field-input">`;
+      else if(f.type==='date') inputHtml=`<input type="date" class="fb-field-input">`;
+      else if(f.type==='select'){
+        let optsHtml='<option>Select...</option>';
+        if(f.options&&f.options.length) f.options.forEach(o=>optsHtml+=`<option>${o}</option>`);
+        inputHtml=`<select>${optsHtml}</select>`;
+      }
+      else if(f.type==='likert'){
+        const cells=(f.options||[]).map(o=>`<div class="fb-likert-cell"><input type="radio" name="prev_${si}_${fi}" disabled><span>${o}</span></div>`).join('');
+        inputHtml=`<div class="fb-likert-field-row">${cells}</div>`;
+      }
+      else if(f.type==='file') inputHtml=`<div class="fb-field-file"><input type="file" class="fb-file-input"></div>`;
+      else if(f.type==='pdf') inputHtml=`<div class="fb-field-file"><input type="file" accept=".pdf" class="fb-file-input"></div>`;
+
+      const upDisabled = fi===0?'disabled':'';
+      const downDisabled = fi===sec.fields.length-1?'disabled':'';
+
+      fieldsHtml+=`<div class="fb-field">
+        <label class="fb-field-label">${f.name}</label>
+        <div class="fb-field-row">${inputHtml}
+          <div class="fb-reorder-btns">
+            <button class="fb-reorder-btn" onclick="fbMoveField(${si},${fi},-1)" title="Move up" ${upDisabled}><i class="fa-solid fa-chevron-up"></i></button>
+            <button class="fb-reorder-btn" onclick="fbMoveField(${si},${fi},1)" title="Move down" ${downDisabled}><i class="fa-solid fa-chevron-down"></i></button>
+          </div>
+          <button class="fb-del-btn" onclick="fbDeleteField(${si},${fi})" title="Delete field"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </div>`;
+    });
+
+    const secUp = si===0?'disabled':'';
+    const secDown = si===fbSections.length-1?'disabled':'';
+
+    div.innerHTML=`<div class="fb-section-head">
+      <h4 class="fb-section-name">${sec.name}</h4>
+      <div class="fb-section-actions">
+        <div class="fb-reorder-btns fb-reorder-btns-row">
+          <button class="fb-reorder-btn" onclick="fbMoveSection(${si},-1)" title="Move up" ${secUp}><i class="fa-solid fa-chevron-up"></i></button>
+          <button class="fb-reorder-btn" onclick="fbMoveSection(${si},1)" title="Move down" ${secDown}><i class="fa-solid fa-chevron-down"></i></button>
+        </div>
+        <button class="fb-del-btn" onclick="fbDeleteSection(${si})" title="Delete section"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>${fieldsHtml}`;
+    container.appendChild(div);
+  });
+}
+
+// Reorder helpers
+window.fbMoveSection = function(i, dir){
+  const j = i+dir;
+  if(j<0||j>=fbSections.length) return;
+  [fbSections[i], fbSections[j]] = [fbSections[j], fbSections[i]];
+  updateFbSectionDropdown();
+  renderFbPreview();
+};
+
+window.fbMoveField = function(si, fi, dir){
+  const fields = fbSections[si].fields;
+  const j = fi+dir;
+  if(j<0||j>=fields.length) return;
+  [fields[fi], fields[j]] = [fields[j], fields[fi]];
+  renderFbPreview();
+};
+
+window.fbDeleteSection = function(i){
+  fbSections.splice(i,1);
+  updateFbSectionDropdown();
+  renderFbPreview();
+};
+
+window.fbDeleteField = function(si,fi){
+  fbSections[si].fields.splice(fi,1);
+  renderFbPreview();
+};
+
+window.fbClearForm = function(){
+  if(fbSections.length===0){ showToast('Nothing to clear','info'); return; }
+  showConfirm('Clear Form','Clear all sections and fields from the form builder?','danger',()=>{
+    fbSections=[];
+    document.getElementById('fbTitleInput').value='';
+    document.getElementById('fbDescInput').value='';
+    updateFbSectionDropdown();
+    renderFbPreview();
+    showToast('Form cleared','info');
+  });
+};
+
+window.fbSaveAsDraft = function(){
+  const title = document.getElementById('fbTitleInput').value.trim();
+  if(!title){ showToast('Add a form title first','error'); return; }
+  let totalFields=0;
+  fbSections.forEach(s=>totalFields+=s.fields.length);
+  
+  showConfirm('Publish Form',
+    `Publish "<strong>${title}</strong>" with ${fbSections.length} section(s) and ${totalFields} field(s) to the student portal?`,
+    'publish',
+    ()=>{
+      const entry = {
+        id: Date.now(),
+        title,
+        desc: document.getElementById('fbDescInput').value.trim()||'No description',
+        date: new Date().toISOString().split('T')[0],
+        status:'draft',
+        sections: fbSections.length,
+        fields: totalFields,
+        sectionData: JSON.parse(JSON.stringify(fbSections))
+      };
+      formHistory.unshift(entry);
+      renderFormHistory();
+      fbSections=[];
+      document.getElementById('fbTitleInput').value='';
+      document.getElementById('fbDescInput').value='';
+      updateFbSectionDropdown();
+      renderFbPreview();
+      showToast('Form saved as draft','info');
+    }
+  );
+};
+
+window.fbPublishForm = function(){
+  const title = document.getElementById('fbTitleInput').value.trim();
+  if(!title){ showToast('Add a form title first','error'); return; }
+  if(fbSections.length===0){ showToast('Add at least one section','error'); return; }
+  let totalFields=0;
+  fbSections.forEach(s=>totalFields+=s.fields.length);
+  
+  showConfirm('Publish Form',
+    `Publish "<strong>${title}</strong>" with ${fbSections.length} section(s) and ${totalFields} field(s) to the student portal?`,
+    'publish',
+    ()=>{
+      const entry = {
+        id: Date.now(),
+        title,
+        desc: document.getElementById('fbDescInput').value.trim()||'No description',
+        date: new Date().toISOString().split('T')[0],
+        status:'active',
+        sections: fbSections.length,
+        fields: totalFields,
+        sectionData: JSON.parse(JSON.stringify(fbSections))
+      };
+      formHistory.unshift(entry);
+      renderFormHistory();
+      fbSections=[];
+      document.getElementById('fbTitleInput').value='';
+      document.getElementById('fbDescInput').value='';
+      updateFbSectionDropdown();
+      renderFbPreview();
+      showToast('Form published to student portal!','success');
+    }
+  );
+};
+
+window.openFormHistoryModal = function(){
+  renderFormHistory();
+  openModal('formHistoryModal');
+};
+
+function renderFormHistory(){
+  const container = document.getElementById('fbHistoryListModal');
+  if(!container) return;
+  container.innerHTML='';
+  if(formHistory.length===0){
+    container.innerHTML='<p class="fb-empty-history">No saved forms yet</p>';
+    return;
+  }
+  formHistory.forEach(f=>{
+    const badge = f.status==='active'
+      ?'<span class="fb-history-badge fb-history-badge-active">Active</span>'
+      :'<span class="fb-history-badge fb-history-badge-draft">Draft</span>';
+    const div = document.createElement('div');
+    div.className='fb-history-item';
+    div.innerHTML=`
+      <div class="fb-history-info">
+        <h4>${f.title}${badge}</h4>
+        <p>${f.sections} sections · ${f.fields} fields · ${formatDate(f.date)}</p>
+      </div>
+      <div class="fb-history-actions">
+        <button class="fb-history-btn" title="Preview" onclick="fbPreviewHistory(${f.id})"><i class="fa-solid fa-eye"></i></button>
+        <button class="fb-history-btn" title="Load & Edit" onclick="fbLoadHistory(${f.id})"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button class="fb-history-btn publish" title="Re-publish" onclick="fbRepublish(${f.id})"><i class="fa-solid fa-upload"></i></button>
+        <button class="fb-history-btn" title="Duplicate" onclick="fbDuplicate(${f.id})"><i class="fa-solid fa-copy"></i></button>
+        <button class="fb-history-btn fb-del-red" title="Delete" onclick="fbDeleteHistory(${f.id})"><i class="fa-solid fa-trash"></i></button>
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+window.fbRepublish = function(id){
+  const f = formHistory.find(x=>x.id===id);
+  if(!f) return;
+  showConfirm('Re-publish Form',`Re-publish "<strong>${f.title}</strong>" to the student portal?`,'publish',()=>{
+    f.status='active';
+    f.date = new Date().toISOString().split('T')[0];
+    renderFormHistory();
+    showToast(f.title+' re-published to portal','success');
+  });
+};
+
+window.fbDuplicate = function(id){
+  const f = formHistory.find(x=>x.id===id);
+  if(!f) return;
+  const copy = {...f, id:Date.now(), title:f.title+' (Copy)', status:'draft', date:new Date().toISOString().split('T')[0]};
+  if(f.sectionData) copy.sectionData = JSON.parse(JSON.stringify(f.sectionData));
+  formHistory.unshift(copy);
+  renderFormHistory();
+  showToast('Form duplicated','info');
+};
+
+window.fbDeleteHistory = function(id){
+  const f = formHistory.find(x=>x.id===id);
+  if(!f) return;
+  showConfirm('Delete Form','Delete "<strong>'+f.title+'</strong>" from history?','danger',()=>{
+    formHistory=formHistory.filter(x=>x.id!==id);
+    renderFormHistory();
+    showToast('Form deleted from history','info');
+  });
+};
+
+//  Form Preview (Full Modal) 
+let previewFromHistory = null;
+
+function renderFormPreviewContent(sectionsData, title){
+  let html=`<h3 class="fb-preview-title">${title||'Untitled Form'}</h3>`;
+  if(!sectionsData||sectionsData.length===0){
+    html+='<p class="fb-preview-empty">No sections to preview</p>';
+    return html;
+  }
+  sectionsData.forEach(sec=>{
+    html+='<div class="fb-preview-form-section">';
+    html+=`<h4>${sec.name}</h4>`;
+    sec.fields.forEach(f=>{
+      html+='<div class="fb-preview-form-field">';
+      html+=`<label>${f.name}</label>`;
+      if(f.type==='text') html+=`<input type="text" placeholder="Enter ${f.name}" class="fb-field-input">`;
+      else if(f.type==='textarea') html+=`<textarea rows="3" placeholder="Enter ${f.name}"></textarea>`;
+      else if(f.type==='number') html+=`<input type="number" placeholder="0">`;
+      else if(f.type==='date') html+=`<input type="date">`;
+      else if(f.type==='select'){
+        let opts='<option>Select...</option>';
+        if(f.options) f.options.forEach(o=>opts+=`<option>${o}</option>`);
+        html+=`<select>${opts}</select>`;
+      }
+      else if(f.type==='likert'){
+        const uid=`pv_lk_${Math.random().toString(36).slice(2,7)}`;
+        const opts=(f.options||[]).map(o=>`<div class="fb-pv-likert-opt"><input type="radio" name="${uid}"><label>${o}</label></div>`).join('');
+        html+=`<div class="fb-pv-likert">${opts}</div>`;
+      }
+      else if(f.type==='file') html+=`<div class="fb-field-file"><input type="file" class="fb-file-input"></div>`;
+      else if(f.type==='pdf') html+=`<div class="fb-field-file"><input type="file" accept=".pdf" class="fb-file-input"></div>`;
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+  return html;
+}
+
+window.fbPreviewFullForm = function(){
+  previewFromHistory = null;
+  document.getElementById('formPreviewTitle').innerHTML='<i class="fa-solid fa-eye ic-gray"></i> Form Preview';
+  document.getElementById('formPreviewBody').innerHTML = renderFormPreviewContent(fbSections, document.getElementById('fbTitleInput').value.trim());
+  document.getElementById('formPreviewEditBtn').style.display='none';
+  document.getElementById('formPreviewPublishBtn').style.display='none';
+  openModal('formPreviewModal');
+};
+
+window.fbPreviewHistory = function(id){
+  const f = formHistory.find(x=>x.id===id);
+  if(!f) return;
+  previewFromHistory = id;
+  document.getElementById('formPreviewTitle').innerHTML='<i class="fa-solid fa-eye ic-gray"></i> '+f.title;
+  document.getElementById('formPreviewBody').innerHTML = renderFormPreviewContent(f.sectionData, f.title);
+  document.getElementById('formPreviewEditBtn').style.display='inline-flex';
+  document.getElementById('formPreviewPublishBtn').style.display=f.status==='draft'?'inline-flex':'none';
+  openModal('formPreviewModal');
+};
+
+window.loadFormToEditor = function(){
+  if(!previewFromHistory) return;
+  const f = formHistory.find(x=>x.id===previewFromHistory);
+  if(!f||!f.sectionData) return;
+  fbSections = JSON.parse(JSON.stringify(f.sectionData));
+  document.getElementById('fbTitleInput').value = f.title;
+  document.getElementById('fbDescInput').value = f.desc||'';
+  updateFbSectionDropdown();
+  renderFbPreview();
+  closeModal('formPreviewModal');
+
+  // Switch to form builder tab
+  document.querySelectorAll('.content-tab').forEach(t=>t.style.display='none');
+  document.getElementById('formBuilderTab').style.display='block';
+  document.querySelectorAll('.main-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.main-tab[data-tab="formBuilder"]').classList.add('active');
+  showToast('Form loaded into builder. Edit and save/publish.','info');
+};
+
+window.fbLoadHistory = function(id){
+  const f = formHistory.find(x=>x.id===id);
+  if(!f||!f.sectionData){ showToast('No form data stored','error'); return; }
+  showConfirm('Load Form','Load "<strong>'+f.title+'</strong>" into the editor? Current form data will be replaced.','publish',()=>{
+    fbSections = JSON.parse(JSON.stringify(f.sectionData));
+    document.getElementById('fbTitleInput').value = f.title;
+    document.getElementById('fbDescInput').value = f.desc||'';
+    updateFbSectionDropdown();
+    renderFbPreview();
+    showToast('Form loaded into builder','info');
+  });
+};
+
+window.publishFromPreview = function(){
+  if(!previewFromHistory) return;
+  const f = formHistory.find(x=>x.id===previewFromHistory);
+  if(!f) return;
+  showConfirm('Publish Form','Publish "<strong>'+f.title+'</strong>" to the student portal?','publish',()=>{
+    f.status='active';
+    f.date = new Date().toISOString().split('T')[0];
+    renderFormHistory();
+    closeModal('formPreviewModal');
+    showToast(f.title+' published to portal','success');
+  });
+};
+
+// Update title in preview when typing
+document.getElementById('fbTitleInput').addEventListener('input', function(){
+  document.getElementById('fbDisplayTitle').textContent = this.value.trim()||'Form Preview';
+});
+
+//  MODALS / TOAST / CONFIRM 
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+window.closeModal = function(id){ document.getElementById(id).classList.remove('show'); };
+
+// Close on backdrop click
+document.querySelectorAll('.ann-modal-overlay').forEach(overlay=>{
+  overlay.addEventListener('click',function(e){
+    if(e.target===this) this.classList.remove('show');
+  });
+});
+document.getElementById('confirmModal').addEventListener('click',function(e){
+  if(e.target===this) this.classList.remove('show');
+});
+
+function showToast(msg,type){
+  const container=document.getElementById('toastContainer');
+  const toast=document.createElement('div');
+  toast.className='toast toast-'+type;
+  const icons={success:'fa-circle-check',error:'fa-circle-xmark',info:'fa-circle-info'};
+  toast.innerHTML=`<i class="fa-solid ${icons[type]||'fa-circle-info'}"></i>${msg}`;
+  container.appendChild(toast);
+  setTimeout(()=>{toast.style.opacity='0';toast.style.transition='opacity .3s';setTimeout(()=>toast.remove(),300)},3500);
+}
+
+function showConfirm(title,msg,type,callback){
+  pendingConfirmAction=callback;
+  document.getElementById('confirmTitle').textContent=title;
+  document.getElementById('confirmMsg').innerHTML=msg;
+  const okBtn=document.getElementById('confirmOkBtn');
+  okBtn.className='confirm-btn';
+  if(type==='danger') okBtn.className='confirm-btn confirm-btn-danger';
+  else okBtn.className='confirm-btn confirm-btn-ok';
+
+  const icon=document.getElementById('confirmIcon');
+  if(type==='danger') icon.innerHTML='<i class="fa-solid fa-triangle-exclamation ic-red"></i>';
+  else if(type==='publish') icon.innerHTML='<i class="fa-solid fa-paper-plane ic-green"></i>';
+  else icon.innerHTML='<i class="fa-solid fa-circle-question ic-dark"></i>';
+  
+  openModal('confirmModal');
+}
+
+window.confirmAction = function(){
+  closeModal('confirmModal');
+  if(pendingConfirmAction) pendingConfirmAction();
+  pendingConfirmAction=null;
+};
+
+// 3-dot menu functions 
+window.exportAnnouncements = function(){
+  showToast('Exporting announcements...','info');
+  document.getElementById('dropdownMenu').classList.remove('show');
+};
+window.archiveAll = function(){
+  showConfirm('Archive Old','Archive all announcements older than 30 days?','danger',()=>{
+    showToast('Old announcements archived','success');
+  });
+  document.getElementById('dropdownMenu').classList.remove('show');
+};
+
+//  INIT 
+updateSummary();
+applyAnnFilters();
+renderFormHistory();
+renderFbPreview();
+
+// Refresh button
+document.getElementById('refreshBtn').addEventListener('click',()=>{
+  const bar=document.getElementById('loadingBar');
+  bar.classList.add('active');
+  setTimeout(()=>{
+    bar.classList.remove('active');
+    document.getElementById('annSearchInput').value='';
+    document.getElementById('annStatusFilter').value='all';
+    applyAnnFilters();
+    updateSummary();
+  },800);
+});
+
+})();
+</script>
+
+<script>
+// Tab switching
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+function updateDropdownForTab(tabName){
+  const fhItem = document.getElementById('menuFormHistory');
+  if(fhItem) fhItem.style.display = tabName==='form-builder' ? '' : 'none';
+}
+
+// --- Mock response data keyed by formHistory id ---
+const frMockResponses = {
+  /*  Form 1: SPES Registration Form 2026 (20 responses, table view)  */
+  1: [
+    {id:1,  submittedAt:'2026-01-22','Full Name':'Ana Marie Santos',    'Date of Birth':'2005-03-12','Address':'District 1, Batangas City',        'Contact Number':'09123456789','School Name':'Batangas State University',  'Year Level':'2nd Year','Course':'Education',           'Student ID':'2025-00123','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:2,  submittedAt:'2026-01-23','Full Name':'Juan dela Cruz',       'Date of Birth':'2004-08-25','Address':'Balagtas, Batangas',            'Contact Number':'09234567890','School Name':'DLSUD Dasmariñas',           'Year Level':'3rd Year','Course':'Information Technology','Student ID':'2024-00456','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:3,  submittedAt:'2026-01-24','Full Name':'Maria Lourdes Reyes',  'Date of Birth':'2006-01-07','Address':'San Jose, Batangas',            'Contact Number':'09345678901','School Name':'Lipa City Colleges',         'Year Level':'1st Year','Course':'Nursing',             'Student ID':'2026-00789','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:4,  submittedAt:'2026-01-24','Full Name':'Carlo Manalo',         'Date of Birth':'2003-11-19','Address':'Padre Garcia, Batangas',        'Contact Number':'09456789012','School Name':'STI College Batangas',       'Year Level':'4th Year','Course':'Computer Science',    'Student ID':'2023-01011','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:5,  submittedAt:'2026-01-25','Full Name':'Kristine Villanueva',  'Date of Birth':'2005-06-30','Address':'Ibaan, Batangas',               'Contact Number':'09567890123','School Name':'Batangas State University',  'Year Level':'2nd Year','Course':'Accountancy',         'Student ID':'2025-01213','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:6,  submittedAt:'2026-01-26','Full Name':'Ryan Mercado',         'Date of Birth':'2004-04-14','Address':'Nasugbu, Batangas',               'Contact Number':'09678901234','School Name':'Manuel S. Enverga Univ.',   'Year Level':'3rd Year','Course':'Business Administration','Student ID':'2024-01415','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:7,  submittedAt:'2026-01-27','Full Name':'Lovely Pascual',       'Date of Birth':'2005-09-22','Address':'Lemery, Batangas',              'Contact Number':'09789012345','School Name':'DLSUD Dasmariñas',           'Year Level':'1st Year','Course':'Tourism Management',  'Student ID':'2026-01617','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:8,  submittedAt:'2026-01-28','Full Name':'Jose Miguel Torres',   'Date of Birth':'2003-07-03','Address':'Taal, Batangas',                'Contact Number':'09890123456','School Name':'Far Eastern University',    'Year Level':'4th Year','Course':'Engineering',         'Student ID':'2023-01819','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:9,  submittedAt:'2026-01-29','Full Name':'Patricia Aguilar',     'Date of Birth':'2005-11-05','Address':'San Luis, Batangas',            'Contact Number':'09901234567','School Name':'Batangas State University',  'Year Level':'2nd Year','Course':'Psychology',          'Student ID':'2025-02021','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:10, submittedAt:'2026-01-29','Full Name':'Marco Antonio Reyes',  'Date of Birth':'2004-02-17','Address':'Bauan, Batangas',               'Contact Number':'09012345678','School Name':'Polytechnic Univ. Phil.',   'Year Level':'3rd Year','Course':'Electronics Eng.',    'Student ID':'2024-02223','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:11, submittedAt:'2026-01-30','Full Name':'Cecilia Fontanilla',   'Date of Birth':'2006-04-28','Address':'Lipa City, Batangas',           'Contact Number':'09123450001','School Name':'Lipa City Colleges',         'Year Level':'1st Year','Course':'Medical Technology',  'Student ID':'2026-02425','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:12, submittedAt:'2026-01-30','Full Name':'Dennis Castillo',      'Date of Birth':'2003-09-14','Address':'Taysan, Batangas',              'Contact Number':'09234560002','School Name':'STI College Batangas',       'Year Level':'4th Year','Course':'Hospitality Mgmt.',   'Student ID':'2023-02627','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:13, submittedAt:'2026-01-31','Full Name':'Hazel Dimaculangan',   'Date of Birth':'2005-07-19','Address':'Laurel, Batangas',              'Contact Number':'09345670003','School Name':'Batangas State University',  'Year Level':'2nd Year','Course':'Architecture',        'Student ID':'2025-02829','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:14, submittedAt:'2026-02-01','Full Name':'Francis Bautista',     'Date of Birth':'2004-12-03','Address':'Cuenca, Batangas',              'Contact Number':'09456780004','School Name':'DLSUD Dasmariñas',           'Year Level':'3rd Year','Course':'Fine Arts',           'Student ID':'2024-03031','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:15, submittedAt:'2026-02-01','Full Name':'Marilou Santiago',     'Date of Birth':'2005-05-08','Address':'Rosario, Batangas',             'Contact Number':'09567890005','School Name':'Manuel S. Enverga Univ.',   'Year Level':'2nd Year','Course':'Social Work',         'Student ID':'2025-03233','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:16, submittedAt:'2026-02-02','Full Name':'Aldrich Fernan',       'Date of Birth':'2003-03-22','Address':'Malvar, Batangas',              'Contact Number':'09678900006','School Name':'Polytechnic Univ. Phil.',   'Year Level':'4th Year','Course':'Civil Engineering',   'Student ID':'2023-03435','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:17, submittedAt:'2026-02-02','Full Name':'Shine Marie Alvarez',  'Date of Birth':'2006-08-11','Address':'San Nicolas, Batangas',         'Contact Number':'09789010007','School Name':'Lipa City Colleges',         'Year Level':'1st Year','Course':'Business Administration','Student ID':'2026-03637','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:18, submittedAt:'2026-02-03','Full Name':'Emmanuel Cruz',        'Date of Birth':'2004-06-27','Address':'San Pascual, Batangas',         'Contact Number':'09890120008','School Name':'Batangas State University',  'Year Level':'3rd Year','Course':'Marine Engineering',  'Student ID':'2024-03839','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:19, submittedAt:'2026-02-03','Full Name':'Vanessa Coronel',      'Date of Birth':'2005-10-16','Address':'San Juan, Batangas',            'Contact Number':'09901230009','School Name':'DLSUD Dasmariñas',           'Year Level':'2nd Year','Course':'Criminology',         'Student ID':'2025-04041','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'},
+    {id:20, submittedAt:'2026-02-04','Full Name':'Adrian Marasigan',     'Date of Birth':'2003-01-30','Address':'Mabini, Batangas',              'Contact Number':'09012340010','School Name':'Far Eastern University',    'Year Level':'4th Year','Course':'Mathematics',         'Student ID':'2023-04243','Birth Certificate':'✔ Uploaded','School Certificate':'✔ Uploaded','ID Photo':'✔ Uploaded','ITR':'✔ Uploaded'}
+  ],
+  /*  Form 2: Monthly Evaluation Form (25 responses, analytics view)  */
+  2: [
+    {id:1,  submittedAt:'2026-02-10','Work Quality':'Excellent',  'Attendance':'Very Good', 'Punctuality':'Always On Time', 'Cooperation':'Excellent',  'Evaluation Date':'2026-02-10'},
+    {id:2,  submittedAt:'2026-02-10','Work Quality':'Very Good',  'Attendance':'Excellent', 'Punctuality':'Always On Time', 'Cooperation':'Very Good',  'Evaluation Date':'2026-02-10'},
+    {id:3,  submittedAt:'2026-02-10','Work Quality':'Excellent',  'Attendance':'Good',      'Punctuality':'Usually On Time','Cooperation':'Excellent',  'Evaluation Date':'2026-02-10'},
+    {id:4,  submittedAt:'2026-02-11','Work Quality':'Good',       'Attendance':'Very Good', 'Punctuality':'Sometimes Late', 'Cooperation':'Good',       'Evaluation Date':'2026-02-11'},
+    {id:5,  submittedAt:'2026-02-11','Work Quality':'Very Good',  'Attendance':'Excellent', 'Punctuality':'Always On Time', 'Cooperation':'Very Good',  'Evaluation Date':'2026-02-11'},
+    {id:6,  submittedAt:'2026-02-11','Work Quality':'Excellent',  'Attendance':'Very Good', 'Punctuality':'Always On Time', 'Cooperation':'Excellent',  'Evaluation Date':'2026-02-11'},
+    {id:7,  submittedAt:'2026-02-12','Work Quality':'Fair',       'Attendance':'Good',      'Punctuality':'Often Late',     'Cooperation':'Fair',       'Evaluation Date':'2026-02-12'},
+    {id:8,  submittedAt:'2026-02-12','Work Quality':'Very Good',  'Attendance':'Excellent', 'Punctuality':'Always On Time', 'Cooperation':'Very Good',  'Evaluation Date':'2026-02-12'},
+    {id:9,  submittedAt:'2026-02-12','Work Quality':'Excellent',  'Attendance':'Very Good', 'Punctuality':'Usually On Time','Cooperation':'Excellent',  'Evaluation Date':'2026-02-12'},
+    {id:10, submittedAt:'2026-02-13','Work Quality':'Good',       'Attendance':'Good',      'Punctuality':'Usually On Time','Cooperation':'Good',       'Evaluation Date':'2026-02-13'},
+    {id:11, submittedAt:'2026-02-13','Work Quality':'Very Good',  'Attendance':'Very Good', 'Punctuality':'Always On Time', 'Cooperation':'Very Good',  'Evaluation Date':'2026-02-13'},
+    {id:12, submittedAt:'2026-02-14','Work Quality':'Excellent',  'Attendance':'Excellent', 'Punctuality':'Always On Time', 'Cooperation':'Excellent',  'Evaluation Date':'2026-02-14'},
+    {id:13, submittedAt:'2026-02-14','Work Quality':'Very Good',  'Attendance':'Good',      'Punctuality':'Usually On Time','Cooperation':'Very Good',  'Evaluation Date':'2026-02-14'},
+    {id:14, submittedAt:'2026-02-14','Work Quality':'Good',       'Attendance':'Very Good', 'Punctuality':'Sometimes Late', 'Cooperation':'Good',       'Evaluation Date':'2026-02-14'},
+    {id:15, submittedAt:'2026-02-15','Work Quality':'Excellent',  'Attendance':'Excellent', 'Punctuality':'Always On Time', 'Cooperation':'Excellent',  'Evaluation Date':'2026-02-15'},
+    {id:16, submittedAt:'2026-02-15','Work Quality':'Poor',       'Attendance':'Fair',      'Punctuality':'Often Late',     'Cooperation':'Poor',       'Evaluation Date':'2026-02-15'},
+    {id:17, submittedAt:'2026-02-15','Work Quality':'Very Good',  'Attendance':'Very Good', 'Punctuality':'Always On Time', 'Cooperation':'Excellent',  'Evaluation Date':'2026-02-15'},
+    {id:18, submittedAt:'2026-02-16','Work Quality':'Excellent',  'Attendance':'Excellent', 'Punctuality':'Always On Time', 'Cooperation':'Very Good',  'Evaluation Date':'2026-02-16'},
+    {id:19, submittedAt:'2026-02-16','Work Quality':'Good',       'Attendance':'Good',      'Punctuality':'Sometimes Late', 'Cooperation':'Good',       'Evaluation Date':'2026-02-16'},
+    {id:20, submittedAt:'2026-02-16','Work Quality':'Very Good',  'Attendance':'Excellent', 'Punctuality':'Usually On Time','Cooperation':'Very Good',  'Evaluation Date':'2026-02-16'},
+    {id:21, submittedAt:'2026-02-17','Work Quality':'Excellent',  'Attendance':'Very Good', 'Punctuality':'Always On Time', 'Cooperation':'Excellent',  'Evaluation Date':'2026-02-17'},
+    {id:22, submittedAt:'2026-02-17','Work Quality':'Fair',       'Attendance':'Good',      'Punctuality':'Often Late',     'Cooperation':'Fair',       'Evaluation Date':'2026-02-17'},
+    {id:23, submittedAt:'2026-02-17','Work Quality':'Very Good',  'Attendance':'Very Good', 'Punctuality':'Always On Time', 'Cooperation':'Very Good',  'Evaluation Date':'2026-02-17'},
+    {id:24, submittedAt:'2026-02-18','Work Quality':'Excellent',  'Attendance':'Excellent', 'Punctuality':'Always On Time', 'Cooperation':'Excellent',  'Evaluation Date':'2026-02-18'},
+    {id:25, submittedAt:'2026-02-18','Work Quality':'Good',       'Attendance':'Very Good', 'Punctuality':'Usually On Time','Cooperation':'Good',       'Evaluation Date':'2026-02-18'}
+  ],
+  /*  Form 3: Exit Interview Form (15 responses, analytics view � has rating selects)  */
+  3: [
+    {id:1,  submittedAt:'2026-02-20','Name':'Bea Soriano',        'Department':'Finance',    'Duration of Service':'6 months','Overall Experience':'Very Satisfied','Supervisor Support':'Excellent','Work Environment':'Good',     'Would you recommend SPES?':'Yes',   'Exit Date':'2026-02-20'},
+    {id:2,  submittedAt:'2026-02-20','Name':'Mark Tomas',         'Department':'HR',         'Duration of Service':'4 months','Overall Experience':'Satisfied',    'Supervisor Support':'Good',     'Work Environment':'Excellent', 'Would you recommend SPES?':'Yes',   'Exit Date':'2026-02-20'},
+    {id:3,  submittedAt:'2026-02-21','Name':'Rina Lopez',         'Department':'IT',         'Duration of Service':'5 months','Overall Experience':'Neutral',      'Supervisor Support':'Fair',     'Work Environment':'Good',     'Would you recommend SPES?':'Maybe', 'Exit Date':'2026-02-21'},
+    {id:4,  submittedAt:'2026-02-21','Name':'Dino Catriz',        'Department':'Operations', 'Duration of Service':'6 months','Overall Experience':'Very Satisfied','Supervisor Support':'Excellent','Work Environment':'Excellent', 'Would you recommend SPES?':'Yes',   'Exit Date':'2026-02-21'},
+    {id:5,  submittedAt:'2026-02-22','Name':'Sheila Ramos',       'Department':'Finance',    'Duration of Service':'3 months','Overall Experience':'Satisfied',    'Supervisor Support':'Good',     'Work Environment':'Good',     'Would you recommend SPES?':'Yes',   'Exit Date':'2026-02-22'},
+    {id:6,  submittedAt:'2026-02-22','Name':'Paolo Andrade',      'Department':'Admin',      'Duration of Service':'6 months','Overall Experience':'Very Satisfied','Supervisor Support':'Excellent','Work Environment':'Excellent', 'Would you recommend SPES?':'Yes',   'Exit Date':'2026-02-22'},
+    {id:7,  submittedAt:'2026-02-23','Name':'Jasmine Ocampo',     'Department':'IT',         'Duration of Service':'5 months','Overall Experience':'Satisfied',    'Supervisor Support':'Good',     'Work Environment':'Good',     'Would you recommend SPES?':'Yes',   'Exit Date':'2026-02-23'},
+    {id:8,  submittedAt:'2026-02-23','Name':'Renato dela Vega',   'Department':'Operations', 'Duration of Service':'4 months','Overall Experience':'Neutral',      'Supervisor Support':'Fair',     'Work Environment':'Fair',     'Would you recommend SPES?':'Maybe', 'Exit Date':'2026-02-23'},
+    {id:9,  submittedAt:'2026-02-24','Name':'Claire Buenaventura','Department':'Finance',    'Duration of Service':'6 months','Overall Experience':'Very Satisfied','Supervisor Support':'Excellent','Work Environment':'Excellent', 'Would you recommend SPES?':'Yes',   'Exit Date':'2026-02-24'},
+    {id:10, submittedAt:'2026-02-24','Name':'Arturo Macalino',    'Department':'HR',         'Duration of Service':'3 months','Overall Experience':'Dissatisfied', 'Supervisor Support':'Poor',     'Work Environment':'Fair',     'Would you recommend SPES?':'No',    'Exit Date':'2026-02-24'},
+    {id:11, submittedAt:'2026-02-25','Name':'Fatima Aguinaldo',   'Department':'Admin',      'Duration of Service':'6 months','Overall Experience':'Very Satisfied','Supervisor Support':'Excellent','Work Environment':'Good',     'Would you recommend SPES?':'Yes',   'Exit Date':'2026-02-25'},
+    {id:12, submittedAt:'2026-02-25','Name':'Victor Robles',      'Department':'IT',         'Duration of Service':'5 months','Overall Experience':'Satisfied',    'Supervisor Support':'Good',     'Work Environment':'Good',     'Would you recommend SPES?':'Yes',   'Exit Date':'2026-02-25'},
+    {id:13, submittedAt:'2026-02-26','Name':'Joy Mendiola',       'Department':'Operations', 'Duration of Service':'4 months','Overall Experience':'Neutral',      'Supervisor Support':'Good',     'Work Environment':'Fair',     'Would you recommend SPES?':'Maybe', 'Exit Date':'2026-02-26'},
+    {id:14, submittedAt:'2026-02-26','Name':'Noel Cabanero',      'Department':'Finance',    'Duration of Service':'6 months','Overall Experience':'Satisfied',    'Supervisor Support':'Good',     'Work Environment':'Good',     'Would you recommend SPES?':'Yes',   'Exit Date':'2026-02-26'},
+    {id:15, submittedAt:'2026-02-27','Name':'Ailyn Sarmiento',    'Department':'Admin',      'Duration of Service':'6 months','Overall Experience':'Very Satisfied','Supervisor Support':'Excellent','Work Environment':'Excellent', 'Would you recommend SPES?':'Yes',   'Exit Date':'2026-02-27'}
+  ],
+  /*  Form 4: Incident Report Form (10 responses, table view)  */
+  4: [
+    {id:1,  submittedAt:'2025-11-14','Incident Date':'2025-11-13','Location':'Office Building A, Room 203',       'Type of Incident':'Near Miss',        'Reporter Name':'Ramon Sta. Cruz',  'Supervisor Notified':'Yes', 'Description':'Loose electrical wire near server rack — reported before anyone was harmed.'},
+    {id:2,  submittedAt:'2025-11-28','Incident Date':'2025-11-27','Location':'Parking Area — Slot B12',           'Type of Incident':'Property Damage',  'Reporter Name':'Luisa Vergara',    'Supervisor Notified':'Yes', 'Description':'Side mirror of motorcycle found broken upon end of shift.'},
+    {id:3,  submittedAt:'2025-12-05','Incident Date':'2025-12-04','Location':'Canteen — 1st Floor',               'Type of Incident':'Injury',           'Reporter Name':'Efren Macapagal',  'Supervisor Notified':'Yes', 'Description':'Slipped on wet floor near the beverage station; minor bruise on left knee.'},
+    {id:4,  submittedAt:'2025-12-15','Incident Date':'2025-12-14','Location':'Office Building A, Room 101',       'Type of Incident':'Other',            'Reporter Name':'Melissa Torres',   'Supervisor Notified':'No',  'Description':'Wallet missing from unlocked personal drawer. No witnesses reported.'},
+    {id:5,  submittedAt:'2025-12-20','Incident Date':'2025-12-19','Location':'Parking Area',                      'Type of Incident':'Property Damage',  'Reporter Name':'Nico Caluag',      'Supervisor Notified':'Yes', 'Description':'Vehicle scratch found on driver-side door. No CCTV coverage in that zone.'},
+    {id:6,  submittedAt:'2026-01-07','Incident Date':'2026-01-06','Location':'Records Room — 2nd Floor',          'Type of Incident':'Near Miss',        'Reporter Name':'Analiza Reyes',    'Supervisor Notified':'Yes', 'Description':'Heavy filing cabinet almost tipped over during retrieval; no injury but safety hazard flagged.'},
+    {id:7,  submittedAt:'2026-01-15','Incident Date':'2026-01-14','Location':'Conference Room B',                 'Type of Incident':'Other',            'Reporter Name':'David Salaveria',  'Supervisor Notified':'Yes', 'Description':'Projector and laptop charger reported missing after an overnight event.'},
+    {id:8,  submittedAt:'2026-01-22','Incident Date':'2026-01-21','Location':'Main Staircase — Ground Floor',     'Type of Incident':'Injury',           'Reporter Name':'Tess Magnaye',     'Supervisor Notified':'Yes', 'Description':'Tripped on uneven flooring at the bottom stair; sprained right ankle. First aid administered.'},
+    {id:9,  submittedAt:'2026-02-03','Incident Date':'2026-02-02','Location':'IT Server Room',                    'Type of Incident':'Near Miss',        'Reporter Name':'Eugene Dizon',     'Supervisor Notified':'Yes', 'Description':'Power surge caused brief equipment shutdown; surge protectors absorbed the load without damage.'},
+    {id:10, submittedAt:'2026-02-18','Incident Date':'2026-02-17','Location':'Office Building C — Storage Area',  'Type of Incident':'Property Damage',  'Reporter Name':'Glenda Panaligan', 'Supervisor Notified':'Yes', 'Description':'Water leak from ceiling damaged stacked supplies and printed documents.'}
+  ],
+  /*  Form 5: Document Checklist 2026 (8 responses, table view — all files)  */
+  5: [
+    {id:1,  submittedAt:'2026-01-22','Birth Certificate (PSA)':'✔ Uploaded','School Certificate':'✔ Uploaded','Income Tax Return':'✔ Uploaded','District Certificate':'✔ Uploaded','2x2 ID Photo':'✔ Uploaded','Valid ID':'✔ Uploaded'},
+    {id:2,  submittedAt:'2026-01-23','Birth Certificate (PSA)':'✔ Uploaded','School Certificate':'✔ Uploaded','Income Tax Return':'✔ Uploaded','District Certificate':'✔ Uploaded','2x2 ID Photo':'✔ Uploaded','Valid ID':'✔ Uploaded'},
+    {id:3,  submittedAt:'2026-01-24','Birth Certificate (PSA)':'✔ Uploaded','School Certificate':'✔ Uploaded','Income Tax Return':'— Missing',  'District Certificate':'✔ Uploaded','2x2 ID Photo':'✔ Uploaded','Valid ID':'✔ Uploaded'},
+    {id:4,  submittedAt:'2026-01-24','Birth Certificate (PSA)':'✔ Uploaded','School Certificate':'— Missing',  'Income Tax Return':'✔ Uploaded','District Certificate':'✔ Uploaded','2x2 ID Photo':'✔ Uploaded','Valid ID':'✔ Uploaded'},
+    {id:5,  submittedAt:'2026-01-25','Birth Certificate (PSA)':'✔ Uploaded','School Certificate':'✔ Uploaded','Income Tax Return':'✔ Uploaded','District Certificate':'— Missing',  '2x2 ID Photo':'✔ Uploaded','Valid ID':'✔ Uploaded'},
+    {id:6,  submittedAt:'2026-01-26','Birth Certificate (PSA)':'✔ Uploaded','School Certificate':'✔ Uploaded','Income Tax Return':'✔ Uploaded','District Certificate':'✔ Uploaded','2x2 ID Photo':'✔ Uploaded','Valid ID':'✔ Uploaded'},
+    {id:7,  submittedAt:'2026-01-27','Birth Certificate (PSA)':'✔ Uploaded','School Certificate':'✔ Uploaded','Income Tax Return':'✔ Uploaded','District Certificate':'✔ Uploaded','2x2 ID Photo':'— Missing',  'Valid ID':'✔ Uploaded'},
+    {id:8,  submittedAt:'2026-01-28','Birth Certificate (PSA)':'✔ Uploaded','School Certificate':'✔ Uploaded','Income Tax Return':'✔ Uploaded','District Certificate':'✔ Uploaded','2x2 ID Photo':'✔ Uploaded','Valid ID':'✔ Uploaded'}
+  ]
+};
+
+const FR_RATING_WORDS = ['excellent','very good','good','fair','poor','satisfied','dissatisfied','always','usually','sometimes','often','never'];
+const FR_HIDDEN_KEYS = ['id','submittedAt','Full Name','Name','Reporter Name'];
+
+let frSavedSections = [
+  {id:101, name:'Batch 1 Registrations 2026',       formId:1, createdAt:'2026-02-04'},
+  {id:102, name:'February Evaluation — Dept. A',    formId:2, createdAt:'2026-02-18'},
+  {id:103, name:'February Evaluation — Dept. B',    formId:2, createdAt:'2026-02-18'},
+  {id:104, name:'Exit Interviews — Feb 2026',        formId:3, createdAt:'2026-02-28'},
+  {id:105, name:'Incident Reports Q4 2025',          formId:4, createdAt:'2026-01-05'},
+  {id:106, name:'Documents Submitted — Batch 1',    formId:5, createdAt:'2026-01-29'}
+];
+let frActiveSectionId = null;
+let frCurrentFormId = null;
+let frSsValue = null;
+let frEditingId = null;
+let frVisibleColumns = {};
+let frEditingRowFormId = null;
+let frEditingRowId = null;
+
+function frDetectType(formId){
+  const form = formHistory.find(f=>f.id===formId);
+  if(!form||!form.sectionData) return 'registration';
+  let ratingCount=0, selectCount=0;
+  form.sectionData.forEach(sec=>{
+    sec.fields.forEach(f=>{
+      if(f.type==='likert'){
+        selectCount++; ratingCount++; // Likert is always a rating field
+      } else if(f.type==='select'){
+        selectCount++;
+        if(f.options && f.options.some(o=>FR_RATING_WORDS.includes(o.toLowerCase()))){
+          ratingCount++;
+        }
+      }
+    });
+  });
+  return (selectCount>0 && ratingCount/selectCount>=0.5) ? 'evaluation' : 'registration';
+}
+
+function frGetAllFields(formId){
+  const form = formHistory.find(f=>f.id===formId);
+  if(!form||!form.sectionData) return [];
+  const fields=[];
+  form.sectionData.forEach(sec=>sec.fields.forEach(f=>fields.push(f)));
+  return fields;
+}
+
+function frInitSelector(){
+  const list = document.getElementById('frSsList');
+  if(!list) return;
+  list.innerHTML='';
+  const active = formHistory.filter(f=>f.status==='active');
+  if(active.length===0){
+    list.innerHTML='<div class="fr-ss-option fr-ss-no-res">No active forms</div>';
+    return;
+  }
+  active.forEach(f=>{
+    const count = (frMockResponses[f.id]||[]).length;
+    const label = f.title+' \u2022 '+count+' response'+(count!==1?'s':'');
+    const div = document.createElement('div');
+    div.className='fr-ss-option'+(frSsValue===f.id?' fr-ss-selected':'');
+    div.dataset.id=f.id;
+    div.dataset.label=label;
+    div.textContent=label;
+    div.onclick=()=>frSsSelect(f.id, label);
+    list.appendChild(div);
+  });
+  const noRes=document.createElement('div');
+  noRes.className='fr-ss-option fr-ss-no-res';
+  noRes.id='frSsNoRes';
+  noRes.style.display='none';
+  noRes.textContent='No results found';
+  list.appendChild(noRes);
+}
+
+function frSsToggle(){
+  const dd=document.getElementById('frSsDropdown');
+  const arrow=document.getElementById('frSsArrow');
+  const isOpen=dd.style.display!=='none';
+  dd.style.display=isOpen?'none':'';
+  arrow.classList.toggle('open',!isOpen);
+  if(!isOpen){
+    frInitSelector();
+    const inp=document.getElementById('frSsSearch');
+    if(inp){inp.value='';frSsFilter('');setTimeout(()=>inp.focus(),50);}
+  }
+}
+
+function frSsFilter(q){
+  const opts=document.querySelectorAll('#frSsList .fr-ss-option:not(.fr-ss-no-res)');
+  const lower=q.toLowerCase();
+  let vis=0;
+  opts.forEach(o=>{ const m=o.dataset.label.toLowerCase().includes(lower); o.style.display=m?'':'none'; if(m)vis++; });
+  const noRes=document.getElementById('frSsNoRes');
+  if(noRes) noRes.style.display=vis===0?'':'none';
+}
+
+function frSsSelect(id, label){
+  frSsValue=id;
+  const lbl=document.getElementById('frSsLabel');
+  if(lbl) lbl.textContent=label;
+  const dd=document.getElementById('frSsDropdown');
+  if(dd) dd.style.display='none';
+  const arrow=document.getElementById('frSsArrow');
+  if(arrow) arrow.classList.remove('open');
+  document.querySelectorAll('#frSsList .fr-ss-option').forEach(o=>o.classList.toggle('fr-ss-selected',parseInt(o.dataset.id)===id));
+  frOnFormSelect();
+}
+
+function frOnFormSelect(){
+  const id=frSsValue?parseInt(frSsValue):null;
+  if(!id){
+    document.getElementById('frEmptyState').style.display='';
+    document.getElementById('frAnalyticsView').style.display='none';
+    document.getElementById('frTableView').style.display='none';
+    document.getElementById('frTypeBadge').style.display='none';
+    document.getElementById('frPinBtn').style.display='none';
+    frCurrentFormId=null;
+    return;
+  }
+  frCurrentFormId=id;
+  frActiveSectionId=null;
+  frRenderSections();
+  const type=frDetectType(id);
+  const badge=document.getElementById('frTypeBadge');
+  if(type==='evaluation'){
+    badge.className='fr-type-badge fr-type-eval';
+    badge.innerHTML='<i class="fa-solid fa-chart-bar"></i> Evaluation / Likert';
+  } else {
+    badge.className='fr-type-badge fr-type-reg';
+    badge.innerHTML='<i class="fa-solid fa-table"></i> Registration / General';
+  }
+  badge.style.display='';
+  document.getElementById('frPinBtn').style.display='';
+  document.getElementById('frEmptyState').style.display='none';
+  if(type==='evaluation'){
+    document.getElementById('frAnalyticsView').style.display='';
+    document.getElementById('frTableView').style.display='none';
+    frRenderAnalytics(id);
+  } else {
+    document.getElementById('frAnalyticsView').style.display='none';
+    document.getElementById('frTableView').style.display='';
+    frRenderTable(id);
+  }
+}
+
+const FR_COLORS=['#4caf50','#8bc34a','#ffc107','#ff9800','#f44336','#42a5f5','#ab47bc','#26c6da'];
+
+function frRenderAnalytics(formId){
+  const responses=frMockResponses[formId]||[];
+  const fields=frGetAllFields(formId).filter(f=>f.type==='select'||f.type==='likert');
+  const wrap=document.getElementById('frAnalyticsContent');
+  if(!wrap) return;
+  if(responses.length===0){wrap.innerHTML='<div class="fr-empty-state"><i class="fa-solid fa-inbox"></i><p>No responses yet.</p></div>';return;}
+  let html='';
+  fields.forEach(field=>{
+    const opts=field.options||[];
+    const counts={};
+    opts.forEach(o=>counts[o]=0);
+    responses.forEach(r=>{ if(r[field.name]&&counts[r[field.name]]!==undefined) counts[r[field.name]]++; });
+    const max=Math.max(...Object.values(counts),1);
+    html+='<div class="fr-an-card">';
+    html+=`<div class="fr-an-q">${field.name}</div>`;
+    opts.forEach((opt,i)=>{
+      const n=counts[opt]||0;
+      const pct=Math.round(n/max*100);
+      const color=FR_COLORS[i%FR_COLORS.length];
+      html+=`<div class="fr-bar-row"><span class="fr-bar-lbl">${opt}</span><div class="fr-bar-track"><div class="fr-bar-fill" style="width:${pct}%;background:${color}"></div></div><span class="fr-bar-n">${n}</span></div>`;
+    });
+    html+=`<div class="fr-an-total">${responses.length} total responses</div>`;
+    html+='</div>';
+  });
+  wrap.innerHTML=html||'<div class="fr-empty-state"><i class="fa-solid fa-circle-info"></i><p>No rating/select fields found in this form.</p></div>';
+}
+
+function frRenderTable(formId){
+  const responses=frMockResponses[formId]||[];
+  const tbl=document.getElementById('frResponseTable');
+  const cnt=document.getElementById('frTableCount');
+  if(!tbl) return;
+  if(responses.length===0){
+    tbl.innerHTML='<tr><td class="fr-tbl-num" colspan="99" style="padding:30px;color:#aaa;text-align:center">No responses yet.</td></tr>';
+    if(cnt) cnt.textContent='';
+    return;
+  }
+  const allKeys=Object.keys(responses[0]).filter(k=>!FR_HIDDEN_KEYS.includes(k));
+  const vis=frVisibleColumns[formId];
+  const keys=vis&&vis.length?allKeys.filter(k=>vis.includes(k)):allKeys;
+  if(cnt) cnt.textContent=responses.length+' response'+(responses.length!==1?'s':'');
+  let html='<thead><tr><th class="fr-tbl-num">#</th><th>Submitted</th>';
+  keys.forEach(k=>html+=`<th>${k}</th>`);
+  html+='<th class="fr-tbl-act">Actions</th></tr></thead><tbody>';
+  responses.forEach((r,i)=>{
+    html+=`<tr><td class="fr-tbl-num">${i+1}</td><td>${r.submittedAt||''}</td>`;
+    keys.forEach(k=>html+=`<td title="${r[k]||''}">${r[k]||'—'}</td>`);
+    html+=`<td class="fr-tbl-act"><button class="fr-row-btn" title="Edit" onclick="frEditRow(${formId},${r.id})"><i class="fa-solid fa-pen"></i></button><button class="fr-row-btn del" title="Delete" onclick="frDeleteRow(${formId},${r.id})"><i class="fa-solid fa-trash"></i></button></td>`;
+    html+='</tr>';
+  });
+  html+='</tbody>';
+  tbl.innerHTML=html;
+}
+
+function frToggleColPicker(e){
+  e.stopPropagation();
+  const dd=document.getElementById('frColPickerDd');
+  if(!dd) return;
+  if(dd.style.display!=='none'){dd.style.display='none';return;}
+  const list=document.getElementById('frColCheckList');
+  list.innerHTML='';
+  if(!frCurrentFormId) return;
+  const responses=frMockResponses[frCurrentFormId]||[];
+  if(!responses.length) return;
+  const allKeys=Object.keys(responses[0]).filter(k=>!FR_HIDDEN_KEYS.includes(k));
+  const vis=frVisibleColumns[frCurrentFormId];
+  allKeys.forEach(k=>{
+    const checked=(vis?vis.includes(k):true);
+    const lbl=document.createElement('label');
+    lbl.className='fr-col-item';
+    lbl.innerHTML=`<input type="checkbox" value="${k}"${checked?' checked':''}><span>${k}</span>`;
+    list.appendChild(lbl);
+  });
+  dd.style.display='';
+}
+
+function frColCheckAll(state){
+  document.querySelectorAll('#frColCheckList input[type=checkbox]').forEach(cb=>cb.checked=state);
+}
+
+function frApplyCols(){
+  const checked=[...document.querySelectorAll('#frColCheckList input:checked')].map(cb=>cb.value);
+  if(!frCurrentFormId) return;
+  frVisibleColumns[frCurrentFormId]=checked.length?checked:null;
+  document.getElementById('frColPickerDd').style.display='none';
+  frRenderTable(frCurrentFormId);
+}
+
+function frPinColAll(state){
+  document.querySelectorAll('#frPinColList input[type=checkbox]').forEach(cb=>cb.checked=state);
+}
+
+function frEditRow(formId,rowId){
+  const rows=frMockResponses[formId]||[];
+  const row=rows.find(r=>r.id===rowId);
+  if(!row) return;
+  frEditingRowFormId=formId;
+  frEditingRowId=rowId;
+  const body=document.getElementById('frRowEditBody');
+  const FR_SKIP=['id','Full Name'];
+  const editKeys=Object.keys(row).filter(k=>!FR_SKIP.includes(k));
+  let html='';
+  editKeys.forEach(k=>{
+    const val=(row[k]||'').toString().replace(/"/g,'&quot;');
+    html+=`<label class="fr-lbl">${k}</label><input class="fr-modal-input" data-field="${k}" value="${val}" placeholder="${k}">`;
+  });
+  body.innerHTML=html;
+  openModal('frRowEditModal');
+}
+
+function frSaveRowEdit(){
+  const rows=frMockResponses[frEditingRowFormId]||[];
+  const row=rows.find(r=>r.id===frEditingRowId);
+  if(!row){closeModal('frRowEditModal');return;}
+  document.querySelectorAll('#frRowEditBody input[data-field]').forEach(inp=>{
+    row[inp.dataset.field]=inp.value;
+  });
+  closeModal('frRowEditModal');
+  frRenderTable(frEditingRowFormId);
+  showToast('Response updated','success');
+}
+
+window.frDeleteRow = function(formId,rowId){
+  const rows=frMockResponses[formId]||[];
+  const row=rows.find(r=>r.id===rowId);
+  if(!row) return;
+  showConfirm('Delete Response','Delete this response entry? This cannot be undone.','danger',()=>{
+    frMockResponses[formId]=frMockResponses[formId].filter(r=>r.id!==rowId);
+    frRenderTable(formId);
+    showToast('Response deleted','info');
+  });
+};
+
+function frRenderSections(){
+  const list=document.getElementById('frSectionsList');
+  if(!list) return;
+  if(frSavedSections.length===0){
+    list.innerHTML='<div class="fr-sec-empty"><i class="fa-solid fa-inbox" style="font-size:20px;color:#ddd;display:block;margin-bottom:6px"></i>No saved sections yet.<br>Select a form and pin its responses.</div>';
+    return;
+  }
+  list.innerHTML='';
+  frSavedSections.forEach(sec=>{
+    const form=formHistory.find(f=>f.id===sec.formId);
+    const item=document.createElement('div');
+    item.className='fr-sec-item'+(frActiveSectionId===sec.id?' active':'');
+    item.innerHTML=`
+      <div class="fr-sec-info" onclick="frOpenSection(${sec.id})">
+        <div class="fr-sec-name">${sec.name}</div>
+        <div class="fr-sec-sub">${form?form.title:'Unknown form'}</div>
+      </div>
+      <div class="fr-sec-acts">
+        <button class="fr-sec-btn" title="Edit" onclick="frOpenEdit(${sec.id})"><i class="fa-solid fa-pen"></i></button>
+        <button class="fr-sec-btn del" title="Delete" onclick="frDeleteSection(${sec.id})"><i class="fa-solid fa-trash"></i></button>
+      </div>`;
+    list.appendChild(item);
+  });
+}
+
+function frOpenSection(sectionId){
+  const sec=frSavedSections.find(s=>s.id===sectionId);
+  if(!sec) return;
+  frActiveSectionId=sectionId;
+  frCurrentFormId=sec.formId;
+  frSsValue=sec.formId;
+  if(sec.columns) frVisibleColumns[sec.formId]=sec.columns;
+  const form=formHistory.find(f=>f.id===sec.formId);
+  const count=(frMockResponses[sec.formId]||[]).length;
+  const lbl=document.getElementById('frSsLabel');
+  if(lbl&&form) lbl.textContent=form.title+' \u2022 '+count+' response'+(count!==1?'s':'');
+  document.querySelectorAll('#frSsList .fr-ss-option').forEach(o=>o.classList.toggle('fr-ss-selected',parseInt(o.dataset.id)===sec.formId));
+  frRenderSections();
+  frOnFormSelect();
+}
+
+window.openFrPinModal = function(){
+  // Reset mode toggle
+  document.querySelectorAll('input[name=frPinMode]').forEach(r=>r.checked=(r.value==='new'));
+  document.getElementById('frPinNewFields').style.display='';
+  document.getElementById('frPinExistFields').style.display='none';
+  document.getElementById('frPinModeNew').style.background='#242240';
+  document.getElementById('frPinModeNew').style.color='#fff';
+  document.getElementById('frPinModeExist').style.background='#fff';
+  document.getElementById('frPinModeExist').style.color='#333';
+  document.querySelectorAll('input[name=frPinMode]').forEach(radio=>{
+    radio.onchange=function(){
+      const isNew=this.value==='new';
+      document.getElementById('frPinNewFields').style.display=isNew?'':'';
+      document.getElementById('frPinExistFields').style.display=isNew?'none':'';
+      document.getElementById('frPinModeNew').style.background=isNew?'#242242':'#fff';
+      document.getElementById('frPinModeNew').style.color=isNew?'#fff':'#333';
+      document.getElementById('frPinModeExist').style.background=isNew?'#fff':'#242242';
+      document.getElementById('frPinModeExist').style.color=isNew?'#333':'#fff';
+      
+      // Populate existing section dropdown
+      if(!isNew){
+        const s=document.getElementById('frPinExistSel');
+        s.innerHTML='';
+        frSavedSections.forEach(sec=>{
+          const opt=document.createElement('option');
+          opt.value=sec.id;
+          const form=formHistory.find(f=>f.id===sec.formId);
+          opt.textContent=sec.name+(form?' ('+form.title+')':'');
+          s.appendChild(opt);
+        });
+        if(!frSavedSections.length) s.innerHTML='<option value="">No saved sections</option>';
+      }
+    };
+  });
+  const formSel=document.getElementById('frPinFormSel');
+  formSel.innerHTML='';
+  formHistory.filter(f=>f.status==='active').forEach(f=>{
+    const opt=document.createElement('option');
+    opt.value=f.id; opt.textContent=f.title;
+    if(f.id===frCurrentFormId) opt.selected=true;
+    formSel.appendChild(opt);
+  });
+  frUpdatePinInfo();
+  formSel.onchange=frUpdatePinInfo;
+  document.getElementById('frPinNameInput').value='';
+  openModal('frPinModal');
+};
+
+function frUpdatePinInfo(){
+  const id=parseInt(document.getElementById('frPinFormSel').value);
+  const info=document.getElementById('frPinInfo');
+  if(!id||!info) return;
+  const r=frMockResponses[id]||[];
+  const type=frDetectType(id);
+  info.textContent=r.length+' response'+(r.length!==1?'s':'')+' · '+(type==='evaluation'?'Evaluation / Likert':'Registration / General');
+  const colWrap=document.getElementById('frPinColWrap');
+  const list=document.getElementById('frPinColList');
+  if(!colWrap||!list) return;
+  if(type==='evaluation'){colWrap.style.display='none';return;}
+  colWrap.style.display='';
+  list.innerHTML='';
+  if(!r.length) return;
+  const allKeys=Object.keys(r[0]).filter(k=>!FR_HIDDEN_KEYS.includes(k));
+  const vis=frVisibleColumns[id];
+  allKeys.forEach(k=>{
+    const checked=(vis?vis.includes(k):true);
+    const lbl=document.createElement('label');
+    lbl.className='fr-col-item';
+    lbl.innerHTML=`<input type="checkbox" name="pincol" value="${k}"${checked?' checked':''}><span>${k}</span>`;
+    list.appendChild(lbl);
+  });
+}
+
+window.saveFrSection = function(){
+  const mode=document.querySelector('input[name=frPinMode]:checked')?.value||'new';
+  const formId=parseInt(document.getElementById('frPinFormSel').value);
+  if(!formId){showToast('Select a form','error');return;}
+  const colChecks=[...document.querySelectorAll('#frPinColList input[name=pincol]:checked')].map(cb=>cb.value);
+  const columns=colChecks.length?colChecks:null;
+  if(columns) frVisibleColumns[formId]=columns;
+  if(mode==='existing'){
+    const existId=parseInt(document.getElementById('frPinExistSel').value);
+    const sec=frSavedSections.find(s=>s.id===existId);
+    if(!sec){showToast('Select an existing section','error');return;}
+    sec.formId=formId;
+    if(columns) sec.columns=columns;
+    frRenderSections();
+    closeModal('frPinModal');
+    showToast('Section "'+sec.name+'" updated','success');
+    return;
+  }
+  const name=document.getElementById('frPinNameInput').value.trim();
+  if(!name){showToast('Enter a section name','error');return;}
+  frSavedSections.unshift({id:Date.now(),name,formId,columns,createdAt:new Date().toISOString().split('T')[0]});
+  frRenderSections();
+  closeModal('frPinModal');
+  showToast('Section "'+name+'" saved','success');
+};
+
+window.frOpenEdit = function(id){
+  const sec=frSavedSections.find(s=>s.id===id);
+  if(!sec) return;
+  document.getElementById('frEditNameInput').value=sec.name;
+  document.getElementById('frEditIdInput').value=id;
+  frEditingId=id;
+  openModal('frEditModal');
+};
+
+window.frSaveEdit = function(){
+  const name=document.getElementById('frEditNameInput').value.trim();
+  if(!name){showToast('Enter a section name','error');return;}
+  const sec=frSavedSections.find(s=>s.id===frEditingId);
+  if(sec){sec.name=name;frRenderSections();}
+  closeModal('frEditModal');
+  showToast('Section renamed','success');
+};
+
+window.frDeleteSection = function(id){
+  const sec=frSavedSections.find(s=>s.id===id);
+  if(!sec) return;
+  showConfirm('Delete Section','Delete section "<strong>'+sec.name+'</strong>"? This will not delete the form or its responses.','danger',()=>{
+    frSavedSections=frSavedSections.filter(s=>s.id!==id);
+    if(frActiveSectionId===id) frActiveSectionId=null;
+    frRenderSections();
+    showToast('Section deleted','info');
+  });
+};
+
+// Initialize Form Responses tab when it becomes active
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#frSearchSel')){
+    const dd=document.getElementById('frSsDropdown');
+    if(dd&&dd.style.display!=='none'){
+      dd.style.display='none';
+      const arrow=document.getElementById('frSsArrow');
+      if(arrow) arrow.classList.remove('open');
+    }
+  }
+  if(!e.target.closest('#frColPickerWrap')){
+    const dd=document.getElementById('frColPickerDd');
+    if(dd&&dd.style.display!=='none') dd.style.display='none';
+  }
+});
+
+const _origUpdateTab = updateDropdownForTab;
+tabBtns.forEach(btn=>{
+  if(btn.getAttribute('data-tab')==='form-responses'){
+    btn.addEventListener('click',()=>{
+      frInitSelector();
+      frRenderSections();
+      // Auto-load first active form if nothing selected yet
+      if(!frCurrentFormId){
+        const first = formHistory.find(f=>f.status==='active');
+        if(first){
+          const cnt=(frMockResponses[first.id]||[]).length;
+          frSsSelect(first.id, first.title+' \u2022 '+cnt+' response'+(cnt!==1?'s':''));
+        }
+      }
+    });
+  }
+});
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabName = btn.getAttribute('data-tab');
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabName).classList.add('active');
+    updateDropdownForTab(tabName);
+  });
+});
+updateDropdownForTab('announcement');
+
+// Active menu & sidebar
+const items = document.querySelectorAll('.menu-item');
+const spesManagementParentMenu = document.querySelector('.menu-item.menu-submenu');
+
+function syncSpesManagementActiveState(){
+  if(!spesManagementParentMenu) return;
+  if(document.querySelector('.submenu-item.active')){
+    spesManagementParentMenu.classList.add('active');
+  }
+}
+
+items.forEach(item=>{
+  item.addEventListener('click',()=>{
+    items.forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+syncSpesManagementActiveState();
+
+// Mobile sidebar
+const burgerBtn = document.getElementById('burgerBtn');
+const sidebar = document.querySelector('.sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+if(burgerBtn && sidebar && sidebarOverlay){
+  burgerBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('show');
+  });
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('show');
+  });
+}
+
+// 3-dot menu
+const menuDotsBtn = document.getElementById('menuDotsBtn');
+const dropdownMenu = document.getElementById('dropdownMenu');
+
+if(menuDotsBtn){
+  menuDotsBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    dropdownMenu.classList.toggle('show');
+  });
+}
+
+const profileBtn = document.getElementById('profileBtn');
+const userInfo = document.getElementById('userInfo');
+const profileDropdown = document.getElementById('profileDropdown');
+
+if(profileBtn && profileDropdown){
+  profileBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    profileDropdown.classList.toggle('show');
+  });
+}
+
+if(userInfo && profileDropdown){
+  userInfo.addEventListener('click', function(e){
+    e.stopPropagation();
+    profileDropdown.classList.toggle('show');
+  });
+}
+
+document.addEventListener('click', function(){
+  if(dropdownMenu) dropdownMenu.classList.remove('show');
+  if(profileDropdown) profileDropdown.classList.remove('show');
+});
+
+function goToSettings(){
+  window.location.href = 'cSettings.html';
+}
+
+function confirmLogout(){
+  const onConfirm = function(){ window.location.href = '../login.html'; };
+  if(typeof showConfirm === 'function'){
+    try {
+      showConfirm('Logout', 'Are you sure you want to logout?', 'warning', onConfirm);
+      return;
+    } catch(_err){ }
+  }
+  if(confirm('Are you sure you want to logout?')) onConfirm();
+}
+</script>
+
+</body>
+</html>
+

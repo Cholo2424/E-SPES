@@ -1,0 +1,2033 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-SPES | Dashboard</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+body{
+  margin:0;
+  background:#ffffff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-bottom:46px;
+}
+
+/* header */
+.header{
+  background:#242242;
+  color:white;
+  padding:12px 30px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+}
+
+.burger-btn{
+  border:none;
+  background:transparent;
+  color:#ffffff;
+  font-size:20px;
+  width:38px;
+  height:38px;
+  border-radius:6px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.burger-btn:hover{
+  background:rgba(255,255,255,0.12);
+}
+
+.header-text h1{
+  margin:0;
+  font-size:16px;
+}
+
+.header-text p{
+  margin:2px 0 0;
+  font-size:11px;
+  opacity:0.9;
+  font-style:italic;
+}
+
+.header-text{
+  flex:1 1 auto;
+}
+
+/* right side header */
+.header-right{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-info{
+  text-align:right;
+  font-size:12px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.user-info:hover{
+  opacity:0.8;
+}
+
+.avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e5e5e5;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.avatar:hover{
+  background:#d0d0d0;
+}
+
+/* profile dropdown */
+.profile-menu{
+  position:relative;
+}
+
+.profile-dropdown{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:8px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  min-width:150px;
+  display:none;
+  z-index:100;
+}
+
+.profile-dropdown.show{
+  display:block;
+}
+
+.profile-item{
+  padding:12px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+  border:none;
+  background:none;
+  width:100%;
+  text-align:left;
+}
+
+.profile-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.profile-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main wrapper */
+.main-wrapper{
+  flex:1;
+  padding:30px 120px 60px 120px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* breadcrumb */
+.breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:#666;
+  cursor:pointer;
+  margin-bottom:15px;
+}
+
+.breadcrumb i{
+  font-size:12px;
+}
+
+/* top bar with breadcrumb and menu */
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+/* 3-dot menu */
+.menu-dots{
+  position:relative;
+  margin-left:auto;
+}
+
+.dots-btn{
+  background:transparent;
+  border:none;
+  border-radius:4px;
+  padding:6px 12px;
+  cursor:pointer;
+  font-size:18px;
+  color:#666;
+  transition:.2s;
+}
+
+.dots-btn:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-menu{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:5px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  min-width:160px;
+  display:none;
+  z-index:100;
+}
+
+.dropdown-menu.show{
+  display:block;
+}
+
+.dropdown-item{
+  padding:10px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+}
+
+.dropdown-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.dropdown-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/* main*/
+.main{
+  display:flex;
+  gap:11px;
+  flex:1;
+  overflow:hidden;
+}
+
+/* sidebar */
+.sidebar{
+  width:235px; 
+  background:#f3f3f3;
+  border-radius:5px;
+  padding:0px;
+  border:1px solid #d0d0d0;
+  flex-shrink:0;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+  max-height:calc(100vh - 160px);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-profile{
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:16px 14px;
+  border-bottom:1px solid #e1e1e1;
+  background:#ededed;
+}
+
+.sidebar-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#d9d9d9;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+  flex-shrink:0;
+}
+
+.sidebar-user h4{
+  margin:0;
+  font-size:13px;
+  color:#222;
+  font-weight:700;
+}
+
+.sidebar-user p{
+  margin:2px 0 0;
+  font-size:11px;
+  color:#666;
+  font-weight:500;
+}
+
+/* menu */
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:34px 14px;
+  border-radius:6px;
+  font-size:14.5px;
+  color:#666;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.menu-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.menu-item i{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+/* hover */
+.menu-item:hover{
+  background:#e6e6e6;
+}
+
+.menu-item:hover .fa-chevron-right{
+  background:#bfc3c9;
+  color:#666666;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+}
+
+/* keep parent highlighted when hovering submenu */
+.submenu-wrapper > .menu-item:not(.active):hover{
+  background:#e6e6e6;
+}
+
+/* sidebar menu container */
+.sidebar-menu{
+  flex:1;
+  overflow-y:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+.sidebar-menu::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+
+/* logout menu item */
+.menu-item-logout{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px 20px;
+  border-radius:8px;
+  font-size:15.5px;
+  color:#222;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  text-decoration:none;
+  background:#e4e6eb;
+  border:1px solid #ced0d4;
+  width:calc(100% - 28px);
+  text-align:center;
+  margin-top:30px;
+  margin-bottom:70px;
+  margin-left:14px;
+  margin-right:14px;
+  font-weight:700;
+}
+
+.menu-item-logout:hover{
+  background:#d8dadf;
+  border-color:#bcc0c4;
+}
+
+.menu-item-logout i{
+  width:18px;
+  text-align:center;
+}
+
+/* active */
+.menu-item.active{
+  background:#ffffff;
+  color:rgb(40, 32, 32);
+  border-radius: 0px;
+}
+
+.menu-item.active i{
+  color:rgb(32, 30, 30);
+}
+
+/* arrow rotate for active */
+.menu-item.active .fa-chevron-right{
+  background:#1a1a1a;
+  color:#ffffff;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+  transform:rotate(0deg);
+}
+
+/* arrow down for active SPES Management */
+.menu-item.active.menu-submenu .fa-chevron-right{
+  transform:rotate(90deg);
+}
+
+/* arrow down when hovering SPES Management or submenu */
+.submenu-wrapper > .menu-item:hover .fa-chevron-right{
+  transform:rotate(90deg);
+}
+
+/* submenu styles */
+.submenu-wrapper{
+  position:relative;
+}
+
+.submenu{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.3s ease;
+  background:#e8e8e8;
+}
+
+.submenu-wrapper:hover .submenu{
+  max-height:300px;
+}
+
+.submenu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 14px 18px 45px;
+  font-size:12.5px;
+  color:#555;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  border-left:3px solid transparent;
+}
+
+.submenu-item:hover{
+  background:#d8d8d8;
+}
+
+.submenu-item.active{
+  background:#ffffff;
+  color:#242242;
+  border-left-color:#242242;
+  font-weight:500;
+}
+
+.submenu-item i{
+  font-size:8px;
+  color:#999;
+}
+
+.submenu-item.active i{
+  color:#242242;
+}
+
+/* main content*/
+.content{
+  flex:1;
+  background:#ffffff;
+  border-radius:4px;
+  padding:20px;
+  border:1px solid #d0d0d0;
+  position:relative;
+  overflow-y:auto;
+  overflow-x:hidden;
+  max-height:calc(100vh - 160px);
+}
+
+.loading-bar{
+  position:absolute;
+  top:0;
+  left:0;
+  width:0;
+  height:2px;
+  background:#3b82f6;
+  transition:width 0.8s ease;
+  z-index:10;
+}
+
+.loading-bar.active{
+  width:100%;
+}
+
+/* Dashboard Title */
+.dashboard-header{
+  margin-bottom:25px;
+}
+
+.dashboard-header h2{
+  margin:0 0 5px;
+  font-size:22px;
+  color:#222;
+}
+
+.dashboard-header p{
+  margin:0;
+  font-size:13px;
+  color:#666;
+}
+
+/* Stats Cards */
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.stat-card{
+  background:#ffffff;
+  border:1px solid #e8ecf1;
+  border-radius:10px;
+  padding:20px;
+  transition:all 0.3s ease;
+  box-shadow:0 2px 4px rgba(0,0,0,0.04);
+  position:relative;
+  overflow:hidden;
+}
+
+.stat-card:hover{
+  box-shadow:0 8px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  transform:translateY(-4px);
+  border-color:#d0d7e2;
+}
+
+/* Colored hover per card type */
+.stat-card.green:hover{ border-color:#388e3c; box-shadow:0 8px 16px rgba(56,142,60,0.18); }
+.stat-card.red:hover{ border-color:#d32f2f; box-shadow:0 8px 16px rgba(211,47,47,0.18); }
+.stat-card.orange:hover{ border-color:#f57c00; box-shadow:0 8px 16px rgba(245,124,0,0.18); }
+.stat-card.purple:hover{ border-color:#7b1fa2; box-shadow:0 8px 16px rgba(123,31,162,0.18); }
+.stat-card.blue:hover{ border-color:#1976d2; box-shadow:0 8px 16px rgba(25,118,210,0.18); }
+
+.stat-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:12px;
+}
+
+.stat-icon{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  border:2px solid;
+  background:transparent;
+  transition:all 0.25s ease;
+}
+
+.stat-icon.blue{
+  color:#1976d2;
+  border-color:#1976d2;
+}
+
+.stat-icon.green{
+  color:#388e3c;
+  border-color:#388e3c;
+}
+
+.stat-icon.orange{
+  color:#f57c00;
+  border-color:#f57c00;
+}
+
+.stat-icon.purple{
+  color:#7b1fa2;
+  border-color:#7b1fa2;
+}
+
+.stat-icon.red{
+  color:#d32f2f;
+  border-color:#d32f2f;
+}
+
+.stat-value{
+  font-size:32px;
+  font-weight:700;
+  color:#1a1d2e;
+  margin-bottom:6px;
+  line-height:1;
+}
+
+.stat-label{
+  font-size:11px;
+  color:#6b7280;
+  text-transform:uppercase;
+  letter-spacing:0.6px;
+  font-weight:600;
+}
+
+.stat-trend{
+  font-size:11px;
+  color:#388e3c;
+  margin-top:5px;
+}
+
+.stat-trend i{
+  font-size:10px;
+}
+
+/* Recent Activity Section */
+.section-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+  margin-top:30px;
+}
+
+.section-header:first-of-type{
+  margin-top:0;
+}
+
+.section-header h3{
+  margin:0;
+  font-size:16px;
+  color:#222;
+  font-weight:600;
+}
+
+.view-all-link{
+  font-size:12px;
+  color:#242242;
+  text-decoration:none;
+  font-weight:500;
+}
+
+.view-all-link:hover{
+  text-decoration:underline;
+}
+
+/* Announcements List */
+.announcements-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.announcement-card{
+  background:#f8f9fa;
+  border:1px solid #e5e5e5;
+  border-radius:6px;
+  padding:15px;
+  transition:.2s;
+  cursor:pointer;
+}
+
+.announcement-card:hover{
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  border-color:#d0d0d0;
+}
+
+.announcement-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:8px;
+}
+
+.announcement-title{
+  font-size:14px;
+  font-weight:600;
+  color:#222;
+  margin:0;
+}
+
+.announcement-date{
+  font-size:11px;
+  color:#666;
+  white-space:nowrap;
+  margin-left:10px;
+}
+
+.announcement-content{
+  font-size:12px;
+  color:#555;
+  line-height:1.5;
+  margin:0;
+}
+
+.announcement-badge{
+  display:inline-block;
+  padding:3px 8px;
+  border-radius:3px;
+  font-size:10px;
+  font-weight:500;
+  margin-top:8px;
+}
+
+.announcement-badge.urgent{
+  background:#ffebee;
+  color:#d32f2f;
+}
+
+.announcement-badge.info{
+  background:#e3f2fd;
+  color:#1976d2;
+}
+
+.announcement-badge.update{
+  background:#e8f5e9;
+  color:#388e3c;
+}
+
+/* toolbar */
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+.search-box{
+  flex:1;
+  min-width:250px;
+  position:relative;
+}
+
+.search-box input{
+  width:100%;
+  padding:10px 40px 10px 15px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+}
+
+.search-box i{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#888;
+  cursor:pointer;
+}
+
+.filter-select{
+  padding:10px 35px 10px 15px;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:13px;
+  background:#fff;
+  cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+}
+
+.btn-primary{
+  padding:10px 20px;
+  background:#242242;
+  color:white;
+  border:none;
+  border-radius:4px;
+  font-size:13px;
+  cursor:pointer;
+  font-weight:500;
+  transition:.2s;
+}
+
+.btn-primary:hover{
+  background:#363454;
+}
+
+.refresh-btn{
+  padding:10px 12px;
+  border:1px solid #d0d0d0;
+  background:white;
+  border-radius:4px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.refresh-btn:hover{
+  background:#f5f5f5;
+}
+
+.refresh-btn:active{
+  transform:scale(0.95);
+}
+
+/* table */
+.table-container{
+  overflow-x:auto;
+  margin-bottom:20px;
+}
+
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
+.data-table th{
+  background:#f8f8f8;
+  padding:12px 10px;
+  text-align:left;
+  font-weight:600;
+  color:#555;
+  border-bottom:2px solid #d0d0d0;
+  white-space:nowrap;
+  position:relative;
+}
+
+.data-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #f0f0f0;
+}
+
+.data-table tbody tr:hover{
+  background:#fafafa;
+}
+
+.applicant-name{
+  font-weight:500;
+  color:#333;
+  display:block;
+  margin-bottom:2px;
+}
+
+.applicant-email{
+  color:#888;
+  font-size:11px;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:3px;
+  font-size:11px;
+  font-weight:500;
+}
+
+.badge-online{
+  background:#e8f4f8;
+  color:#0288d1;
+}
+
+.badge-walkin{
+  background:#fff3e0;
+  color:#f57c00;
+}
+
+.badge-pending{
+  background:#f5f5f5;
+  color:#666;
+}
+
+.badge-approved{
+  background:#000;
+  color:#fff;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.action-btn{
+  width:28px;
+  height:28px;
+  border-radius:4px;
+  border:1px solid #d0d0d0;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.action-btn:hover{
+  background:#f0f0f0;
+}
+
+.action-btn i{
+  font-size:11px;
+  color:#666;
+}
+
+.status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#4caf50;
+  display:inline-block;
+}
+
+/* pagination */
+.pagination{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  margin-top:12px;
+  gap:15px;
+  font-size:13px;
+  color:#666;
+}
+
+.pagination-controls{
+  display:flex;
+  gap:5px;
+}
+
+.page-btn{
+  width:32px;
+  height:32px;
+  border:1px solid #d0d0d0;
+  background:white;
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
+}
+
+.page-btn:hover{
+  background:#f0f0f0;
+}
+
+.page-btn.active{
+  background:#242242;
+  color:white;
+  border-color:#242242;
+}
+
+/* footer*/
+.footer{
+  background:#242242;
+  color:white;
+  text-align:center;
+  padding:10px;
+  font-size:9px;
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:400;
+}
+
+@media (max-width: 720px){
+  .header{
+    padding:10px 20px;
+    gap:10px;
+    flex-wrap:nowrap;
+  }
+
+  .header img{
+    width:32px;
+    height:32px;
+  }
+
+  .header-text{
+    flex:1 1 auto;
+  }
+
+  .header-text h1{
+    font-size:13px;
+    line-height:1.2;
+  }
+
+  .header-text p{
+    font-size:9px;
+  }
+
+  .header-right{
+    display:none;
+  }
+
+  .burger-btn{
+    display:flex;
+  }
+
+  .main-wrapper{
+    padding:20px 16px 40px 16px;
+    overflow:visible;
+  }
+
+  .main{
+    position:relative;
+    overflow:visible;
+  }
+
+  .content{
+    max-height:none;
+  }
+
+  .sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    width:320px;
+    background:#f3f3f3;
+    transform:translateX(-110%);
+    transition:transform 0.25s ease;
+    z-index:500;
+    border-radius:0;
+    border:none;
+    max-height:100vh;
+  }
+
+  .sidebar-profile{
+    display:flex;
+    flex-shrink:0;
+  }
+
+  .sidebar-menu{
+    flex:1;
+    overflow-y:auto;
+    padding-bottom:0;
+  }
+
+  .menu-item-logout{
+    display:flex;
+    margin-bottom:20px;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .sidebar-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:450;
+  }
+
+  .sidebar-overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .footer{
+    padding:8px;
+    font-size:9px;
+  }
+}
+
+/* Hide scrollbars globally */
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+/* Show custom scrollbar for content area */
+.content::-webkit-scrollbar {
+  width: 1px;
+  display: block;
+}
+.content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 5px;
+  max-height: 12px;
+}
+.content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+  width: 3px;
+  cursor: pointer;
+}
+.content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.05) transparent;
+}
+/* Show custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 1px;
+  display: block;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 5px;
+  max-height: 10px;
+}
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+  width: 2px;
+  cursor: pointer;
+}
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.04) transparent;
+}
+.table-container::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+  display: block;
+}
+.table-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+.table-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 1px;
+  min-height: 5px;
+  min-width: 5px;
+  max-height: 12px;
+  max-width: 12px;
+  transition: all 0.2s ease;
+}
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+.table-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.05) transparent;
+}
+/* Hide sidebar scrollbar */
+.sidebar{
+  scrollbar-width:none !important;
+  -ms-overflow-style:none;
+}
+.sidebar::-webkit-scrollbar{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+}
+@media (max-width: 1024px){
+  .main-wrapper{
+    padding:24px 32px 60px 32px;
+  }
+  .main{
+    gap:8px;
+  }
+  .sidebar{
+    width:220px;
+  }
+  .content{
+    padding:14px;
+  }
+  .top-bar{
+    gap:8px;
+  }
+  .quick-access{
+    grid-template-columns:repeat(2, 1fr);
+  }
+}
+@media (max-width: 720px){
+  .header{
+    padding:10px 20px;
+    gap:10px;
+    flex-wrap:nowrap;
+  }
+  .header img{
+    width:32px;
+    height:32px;
+  }
+  .header-text{
+    flex:1 1 auto;
+  }
+  .header-text h1{
+    font-size:13px;
+    line-height:1.2;
+  }
+  .header-text p{
+    font-size:9px;
+  }
+  .header-right{
+    display:none;
+  }
+  .burger-btn{
+    display:flex;
+  }
+  .main-wrapper{
+    padding:20px 16px 40px 16px;
+    overflow:visible;
+  }
+  .main{
+    position:relative;
+    overflow:visible;
+  }
+  .content{
+    max-height:none;
+  }
+  .quick-access{
+    grid-template-columns:repeat(2, 1fr);
+    gap:8px;
+  }
+  .quick-btn{
+    padding:12px;
+    font-size:11px;
+  }
+  .quick-btn i{
+    width:28px;
+    height:28px;
+    font-size:12px;
+  }
+  .sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    width:min(320px,90vw);
+    background:#f3f3f3;
+    transform:translateX(-110%);
+    transition:transform 0.25s ease;
+    z-index:500;
+    border-radius:0;
+    border:none;
+    max-height:100vh;
+  }
+  .sidebar-profile{
+    display:flex;
+    flex-shrink:0;
+  }
+  .sidebar-menu{
+    flex:1;
+    overflow-y:auto;
+    padding-bottom:0;
+  }
+  .menu-item-logout{
+    display:flex;
+    margin-bottom:20px;
+  }
+  .sidebar.open{
+    transform:translateX(0);
+  }
+  .sidebar-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:450;
+  }
+  .sidebar-overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+  .footer{
+    padding:8px;
+    font-size:9px;
+  }
+}
+@media(max-width:720px){.breadcrumb{display:none;}}
+
+/* Force-hide icons in alert/notif UI for consistency */
+.toast i, .confirm-icon i, .notification i{ display:none !important; }
+
+.notif-badge{display:inline-block;min-width:18px;padding:1px 6px;margin-left:6px;border-radius:999px;background:#d32f2f;color:#fff;font-size:11px;line-height:16px;text-align:center;font-weight:700;vertical-align:middle;}
+</style>
+</head>
+
+<body>
+<!-- header -->
+<div class="header">
+
+<button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<img src="spesLogo.png" alt="SPES Logo">
+
+<div class="header-text">
+<h1>Special Program for the Employment of Students</h1>
+<p>SPES Beneficiaries Management Information System</p>
+</div>
+
+<div class="header-right">
+  <div class="user-info" id="userInfo">
+    <strong>Louraine A. Pecayo</strong><br>
+    Head Department
+  </div>
+  <div class="profile-menu">
+    <div class="avatar" id="profileBtn">LP</div>
+    <div class="profile-dropdown" id="profileDropdown">
+      <button class="profile-item" onclick="goToSettings()">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+      </button>
+      <button class="profile-item" onclick="confirmLogout()">
+        <i class="fa-solid fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- main wrapper -->
+<div class="main-wrapper">
+
+<!-- top bar -->
+<div class="top-bar">
+  <!-- breadcrumb -->
+  <div class="breadcrumb">
+    <i class="fa-solid fa-house"></i>
+    <span>Back ></span>
+  </div>
+  
+  <!-- 3-dot menu -->
+  <div class="menu-dots">
+    <button class="dots-btn" id="menuDotsBtn">
+      <i class="fa-solid fa-ellipsis"></i>
+    </button>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="dropdown-item" onclick="importExcel()">
+        <i class="fa-solid fa-file-import"></i>
+        Import Excel
+      </div>
+      <div class="dropdown-item" onclick="exportExcel()">
+        <i class="fa-solid fa-file-export"></i>
+        Export to Excel
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- main -->
+<div class="main">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- sidebar -->
+<div class="sidebar">
+
+  <div class="sidebar-profile">
+    <div class="sidebar-avatar">LP</div>
+    <div class="sidebar-user">
+      <h4>Louraine A. Pecayo</h4>
+      <p>Head Department</p>
+    </div>
+  </div>
+
+<div class="sidebar-menu">
+
+<a href="aDashboard.html" class="menu-item active">
+  <div class="menu-left">
+    <i class="fa-solid fa-house"></i>
+    Dashboard
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="aNewSpes.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-user-plus"></i>
+    New SPES
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<div class="submenu-wrapper">
+  <a href="aSpesRegistration.html" class="menu-item menu-submenu">
+    <div class="menu-left">
+      <i class="fa-solid fa-briefcase"></i>
+      SPES Management
+    </div>
+    <i class="fa-solid fa-chevron-right"></i>
+  </a>
+  <div class="submenu">
+    <a href="aSpesRegistration.html" class="submenu-item">
+      <span>SPES Registration</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="aSpesBene.html" class="submenu-item">
+      <span>SPES Beneficiaries</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="aSpesAccounts.html" class="submenu-item">
+      <span>SPES Accounts</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+    <a href="aSpesAR.html" class="submenu-item">
+      <span>Accomplishment Report</span>
+      <i class="fa-solid fa-circle"></i>
+    </a>
+  </div>
+</div>
+
+<a href="aDeployment.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-check-square"></i>
+    Deployment
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="aTeamAcc.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-users"></i>
+    Team Accounts
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<a href="aSettings.html" class="menu-item">
+  <div class="menu-left">
+    <i class="fa-solid fa-gear"></i>
+    Settings
+  </div>
+  <i class="fa-solid fa-chevron-right"></i>
+</a>
+
+<button class="menu-item-logout" onclick="confirmLogout()">
+  Log Out
+</button>
+
+</div>
+
+</div>
+
+<!-- main content -->
+<div class="content">
+
+<!-- Dashboard Header -->
+<div class="dashboard-header">
+  <h2>Dashboard Overview</h2>
+  <p>Welcome back, Louraine! Here's what's happening with SPES today.</p>
+</div>
+
+<!-- Statistics Cards -->
+<div class="stats-grid">
+  <div class="stat-card green">
+    <div class="stat-header">
+      <div>
+        <div class="stat-value" id="statTotalBeneficiaries">0</div>
+        <div class="stat-label">Total SPES Beneficiary 2026</div>
+      </div>
+      <div class="stat-icon green">
+        <i class="fa-solid fa-users"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-card red">
+    <div class="stat-header">
+      <div>
+        <div class="stat-value" id="statFlaggedAccounts">0</div>
+        <div class="stat-label">Flagged Accounts</div>
+      </div>
+      <div class="stat-icon red">
+        <i class="fa-solid fa-flag"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-card orange">
+    <div class="stat-header">
+      <div>
+        <div class="stat-value" id="statLockedAccounts">0</div>
+        <div class="stat-label">Locked Accounts</div>
+      </div>
+      <div class="stat-icon orange">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-card purple">
+    <div class="stat-header">
+      <div>
+        <div class="stat-value" id="statPendingAR">0</div>
+        <div class="stat-label">Pending AR Submission</div>
+      </div>
+      <div class="stat-icon purple">
+        <i class="fa-solid fa-file-circle-exclamation"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-card blue">
+    <div class="stat-header">
+      <div>
+        <div class="stat-value" id="statPendingApplications">0</div>
+        <div class="stat-label">Pending Applications</div>
+      </div>
+      <div class="stat-icon blue">
+        <i class="fa-solid fa-clock"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Applications Section -->
+<div class="section-header">
+  <h3>Recent Applications</h3>
+  <a href="aSpesRegistration.html" class="view-all-link">View All <i class="fa-solid fa-arrow-right"></i></a>
+</div>
+
+<!-- Recent Applications Table -->
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>NAME</th>
+        <th>DISTRICT</th>
+        <th>SCHOOL</th>
+        <th>DATE</th>
+        <th>SOURCE</th>
+        <th>STATUS</th>
+        <th>ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody id="recentApplicationsBody">
+      <tr>
+        <td>
+          <span class="applicant-name">PECAYO, JHEWEL LOURAINE ALCA</span>
+          <span class="applicant-email">lourajhewelpecayo@gmail.com</span>
+        </td>
+        <td>MAKILING</td>
+        <td>CITY COLLEGE OF CALAMBA</td>
+        <td>2-17-2026</td>
+        <td><span class="badge badge-online">Online</span></td>
+        <td><span class="badge badge-pending">Pending</span></td>
+        <td>
+          <div class="actions">
+            <button class="action-btn" title="View Details"><i class="fa-solid fa-eye"></i></button>
+            <button class="action-btn" title="Approve"><i class="fa-solid fa-check"></i></button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="applicant-name">SANTOS, MARIA CLARA REYES</span>
+          <span class="applicant-email">mariaclara.santos@gmail.com</span>
+        </td>
+        <td>BANADERO</td>
+        <td>LAGUNA STATE POLYTECHNIC UNIVERSITY</td>
+        <td>2-17-2026</td>
+        <td><span class="badge badge-walkin">Walk-in</span></td>
+        <td><span class="badge badge-pending">Pending</span></td>
+        <td>
+          <div class="actions">
+            <button class="action-btn" title="View Details"><i class="fa-solid fa-eye"></i></button>
+            <button class="action-btn" title="Approve"><i class="fa-solid fa-check"></i></button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="applicant-name">DELA CRUZ, JUAN MIGUEL BAUTISTA</span>
+          <span class="applicant-email">juanmiguel.dc@yahoo.com</span>
+        </td>
+        <td>REAL</td>
+        <td>PAMANTASAN NG CALAMBA</td>
+        <td>2-16-2026</td>
+        <td><span class="badge badge-online">Online</span></td>
+        <td><span class="badge badge-approved">Approved</span></td>
+        <td>
+          <div class="actions">
+            <button class="action-btn" title="View Details"><i class="fa-solid fa-eye"></i></button>
+            <button class="action-btn" title="View Certificate"><i class="fa-solid fa-file-pdf"></i></button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="applicant-name">REYES, ANNA MARIE LOPEZ</span>
+          <span class="applicant-email">annamarie.reyes@gmail.com</span>
+        </td>
+        <td>PARIAN</td>
+        <td>UNIVERSITY OF PERPETUAL HELP</td>
+        <td>2-16-2026</td>
+        <td><span class="badge badge-online">Online</span></td>
+        <td><span class="badge badge-approved">Approved</span></td>
+        <td>
+          <div class="actions">
+            <button class="action-btn" title="View Details"><i class="fa-solid fa-eye"></i></button>
+            <button class="action-btn" title="View Certificate"><i class="fa-solid fa-file-pdf"></i></button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="applicant-name">GARCIA, JOHN PAULO MENDOZA</span>
+          <span class="applicant-email">johnpaulo.garcia@outlook.com</span>
+        </td>
+        <td>CANLUBANG</td>
+        <td>CITY COLLEGE OF CALAMBA</td>
+        <td>2-15-2026</td>
+        <td><span class="badge badge-walkin">Walk-in</span></td>
+        <td><span class="badge badge-pending">Pending</span></td>
+        <td>
+          <div class="actions">
+            <button class="action-btn" title="View Details"><i class="fa-solid fa-eye"></i></button>
+            <button class="action-btn" title="Approve"><i class="fa-solid fa-check"></i></button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Recent Announcements Section -->
+<div class="section-header">
+  <h3>Recent Announcements</h3>
+  <a href="aAnnouncements.html" class="view-all-link">View All <i class="fa-solid fa-arrow-right"></i></a>
+</div>
+
+<div class="announcements-list">
+  <div class="announcement-card">
+    <div class="announcement-header">
+      <h4 class="announcement-title">SPES Application Deadline Extended</h4>
+      <span class="announcement-date"><i class="fa-solid fa-calendar"></i> Feb 15, 2026</span>
+    </div>
+    <p class="announcement-content">
+      The deadline for SPES applications has been extended to February 28, 2026. All interested applicants are encouraged to submit their requirements before the new deadline.
+    </p>
+    <span class="announcement-badge urgent">Urgent</span>
+  </div>
+
+  <div class="announcement-card">
+    <div class="announcement-header">
+      <h4 class="announcement-title">Schedule of Interview for Batch 1 Applicants</h4>
+      <span class="announcement-date"><i class="fa-solid fa-calendar"></i> Feb 12, 2026</span>
+    </div>
+    <p class="announcement-content">
+      All applicants from Batch 1 are scheduled for interview on February 20-22, 2026 at the City Hall Main Office. Please bring your complete documents.
+    </p>
+    <span class="announcement-badge info">Information</span>
+  </div>
+
+  <div class="announcement-card">
+    <div class="announcement-header">
+      <h4 class="announcement-title">New Requirements Added for 2026 SPES Program</h4>
+      <span class="announcement-date"><i class="fa-solid fa-calendar"></i> Feb 10, 2026</span>
+    </div>
+    <p class="announcement-content">
+      Additional documents now required: District Certificate of Residency and Certificate of Good Moral Character from school. Please ensure all requirements are complete.
+    </p>
+    <span class="announcement-badge update">Update</span>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- footer -->
+<div class="footer">
+Copyright Â© 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<script>
+// Highlight active menu dynamically
+const items = document.querySelectorAll('.menu-item');
+const spesManagementParentMenu = document.querySelector('.menu-item.menu-submenu');
+
+function syncSpesManagementActiveState(){
+  if(!spesManagementParentMenu) return;
+  if(document.querySelector('.submenu-item.active')){
+    spesManagementParentMenu.classList.add('active');
+  }
+}
+
+items.forEach(item=>{
+  item.addEventListener('click',()=>{
+    items.forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+syncSpesManagementActiveState();
+
+const refreshBtn = document.getElementById('refreshBtn');
+const loadingBar = document.getElementById('loadingBar');
+
+if(refreshBtn && loadingBar){
+  refreshBtn.addEventListener('click', () => {
+    loadingBar.classList.add('active');
+
+    if(typeof window.loadDashboardData === 'function'){
+      window.loadDashboardData();
+    }
+    
+    setTimeout(() => {
+      loadingBar.classList.remove('active');
+    }, 800);
+  });
+}
+
+// Mobile sidebar toggle
+const burgerBtn = document.getElementById('burgerBtn');
+const sidebar = document.querySelector('.sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+if(burgerBtn && sidebar && sidebarOverlay){
+  burgerBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('show');
+  });
+
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('show');
+  });
+}
+</script>
+
+<script>
+// 3-dot menu toggle
+const menuDotsBtn = document.getElementById('menuDotsBtn');
+const dropdownMenu = document.getElementById('dropdownMenu');
+
+if(menuDotsBtn){
+  menuDotsBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    dropdownMenu.classList.toggle('show');
+  });
+}
+
+// Profile dropdown toggle
+const profileBtn = document.getElementById('profileBtn');
+const userInfo = document.getElementById('userInfo');
+const profileDropdown = document.getElementById('profileDropdown');
+
+if(profileBtn && profileDropdown){
+  profileBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    profileDropdown.classList.toggle('show');
+  });
+}
+
+if(userInfo && profileDropdown){
+  userInfo.addEventListener('click', function(e){
+    e.stopPropagation();
+    profileDropdown.classList.toggle('show');
+  });
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(){
+  if(dropdownMenu){
+    dropdownMenu.classList.remove('show');
+  }
+  if(profileDropdown){
+    profileDropdown.classList.remove('show');
+  }
+});
+
+// Settings function
+function goToSettings(){
+  window.location.href = 'aSettings.html';
+}
+
+// Logout confirmation
+function confirmLogout(){
+  const onConfirm = function(){ window.location.href = 'login.html'; };
+  if(typeof showConfirm === 'function'){
+    try {
+      showConfirm('Logout', 'Are you sure you want to logout?', 'warning', 'Logout', 'btn-primary', onConfirm);
+      return;
+    } catch(_err){
+      try {
+        showConfirm('Logout', 'Are you sure you want to logout?', 'warning', onConfirm);
+        return;
+      } catch(_err2){ }
+    }
+  }
+  if(confirm('Are you sure you want to logout?')) onConfirm();
+}
+
+// Import Excel function
+function importExcel(){
+  // Create file input
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.xlsx, .xls, .csv';
+  input.onchange = function(e){
+    const file = e.target.files[0];
+    if(file){
+      alert('File selected: ' + file.name + '\nImport functionality to be implemented.');
+      // Add your import logic here
+    }
+  };
+  input.click();
+  dropdownMenu.classList.remove('show');
+}
+
+// Export Excel function
+function exportExcel(){
+  const table = document.querySelector('.data-table');
+  if(!table){
+    alert('No table data to export.');
+    return;
+  }
+  
+  // Simple CSV export
+  let csv = [];
+  const rows = table.querySelectorAll('tr');
+  
+  for(let row of rows){
+    let cols = row.querySelectorAll('th, td');
+    let csvRow = [];
+    for(let col of cols){
+      csvRow.push('"' + col.innerText.replace(/"/g, '""') + '"');
+    }
+    csv.push(csvRow.join(','));
+  }
+  
+  // Download
+  const csvContent = csv.join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'spes_data_' + new Date().getTime() + '.csv';
+  a.click();
+  window.URL.revokeObjectURL(url);
+  
+  dropdownMenu.classList.remove('show');
+}
+</script>
+
+<script>
+(function(){
+  const API_BASES = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://127.0.0.1:8001',
+    'http://localhost:8001'
+  ];
+
+  function setText(id, value){
+    const el = document.getElementById(id);
+    if(el) el.textContent = String(value);
+  }
+
+  function toDisplayDate(value){
+    if(!value) return '-';
+    const raw = String(value).trim();
+    const m = raw.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if(m) return `${m[1]}-${m[2]}-${m[3]}`;
+    return raw;
+  }
+
+  function toName(row){
+    const last = (row.last_name || '').trim();
+    const first = (row.first_name || '').trim();
+    const middle = (row.middle_name || '').trim();
+    const middleInitial = middle ? ` ${middle.charAt(0)}.` : '';
+    const full = `${last}, ${first}${middleInitial}`.replace(/^,\s*/, '').trim();
+    return full || 'N/A';
+  }
+
+  async function fetchJson(path){
+    let lastErr = null;
+    for(const base of API_BASES){
+      try {
+        const res = await fetch(`${base}${path}`, { headers: { 'Accept': 'application/json' } });
+        const payload = await res.json().catch(() => ({}));
+        if(!res.ok){
+          if(res.status === 404){
+            lastErr = new Error('API not found on ' + base);
+            continue;
+          }
+          throw new Error(payload.message || payload.error || `Request failed (${res.status})`);
+        }
+        return payload;
+      } catch(err){
+        lastErr = err;
+      }
+    }
+    throw lastErr || new Error('Unable to reach API');
+  }
+
+  function renderRecentApplications(rows){
+    const tbody = document.getElementById('recentApplicationsBody');
+    if(!tbody) return;
+
+    if(!rows.length){
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888;padding:18px;">No recent applications.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = rows.map(r => {
+      const source = (r.source || 'Walk-in');
+      const sourceClass = source.toLowerCase() === 'online' ? 'badge-online' : 'badge-walkin';
+      const statusRaw = (r.status || 'Pending');
+      const status = String(statusRaw);
+      const statusClass = status.toLowerCase() === 'approved' ? 'badge-approved' : status.toLowerCase() === 'rejected' ? 'badge-rejected' : 'badge-pending';
+      return `
+      <tr>
+        <td>
+          <span class="applicant-name">${toName(r)}</span>
+          <span class="applicant-email">${r.email || '-'}</span>
+        </td>
+        <td>${r.district || '-'}</td>
+        <td>${r.college_school || '-'}</td>
+        <td>${toDisplayDate(r.created_at)}</td>
+        <td><span class="badge ${sourceClass}">${source}</span></td>
+        <td><span class="badge ${statusClass}">${status}</span></td>
+        <td>
+          <div class="actions">
+            <button class="action-btn" title="View Details"><i class="fa-solid fa-eye"></i></button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  async function loadDashboardData(){
+    try {
+      const [applicantsPayload, approvedPayload, deploymentPayload] = await Promise.all([
+        fetchJson('/api/spes-management/applicants?per_page=300&fields=summary'),
+        fetchJson('/api/spes-management/records?status=approved&per_page=300'),
+        fetchJson('/api/deployment/records?status=approved&per_page=300')
+      ]);
+
+      const applicants = Array.isArray(applicantsPayload.data) ? applicantsPayload.data : [];
+      const approvedRecords = Array.isArray(approvedPayload.data) ? approvedPayload.data : [];
+      const deploymentRecords = Array.isArray(deploymentPayload.data) ? deploymentPayload.data : [];
+
+      const pending = applicants.filter(a => String(a.status || '').toLowerCase() === 'pending').length;
+      const rejected = applicants.filter(a => String(a.status || '').toLowerCase() === 'rejected').length;
+      const flagged = applicants.filter(a => Number(a.flagged || 0) === 1 || (a.flag_reason && String(a.flag_reason).trim() !== '') || (Array.isArray(a.flags) && a.flags.length > 0)).length;
+
+      setText('statTotalBeneficiaries', approvedRecords.length);
+      setText('statFlaggedAccounts', flagged);
+      setText('statLockedAccounts', rejected);
+      setText('statPendingApplications', pending);
+      setText('statPendingAR', Math.max(0, approvedRecords.length - deploymentRecords.length));
+
+      renderRecentApplications(applicants.slice(0, 5));
+    } catch(err){
+      console.error('Dashboard load failed:', err);
+      renderRecentApplications([]);
+    }
+  }
+
+  window.loadDashboardData = loadDashboardData;
+  loadDashboardData();
+})();
+</script>
+
+<!-- Add notification icon with badge -->
+<div class="notification">
+  <i class="fa fa-bell"></i>
+  <span class="badge">3</span>
+</div>
+
+<style>
+.notification {
+  position: relative;
+  display: inline-block;
+}
+
+.notification .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+.notification i {
+  display: none;
+}
+
+/* Force-hide icons in alert/notif UI for consistency */
+.toast i, .confirm-icon i, .notification i{ display:none !important; }
+
+.notif-badge{display:inline-block;min-width:18px;padding:1px 6px;margin-left:6px;border-radius:999px;background:#d32f2f;color:#fff;font-size:11px;line-height:16px;text-align:center;font-weight:700;vertical-align:middle;}
+</style>
+
+</body>
+</html>
+
+
+
+
+

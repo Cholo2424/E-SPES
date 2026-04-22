@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-SPES | Assignment</title>
+
+<link rel="icon" type="image/png" href="spesLogo.png">
+<link rel="shortcut icon" type="image/png" href="spesLogo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+body{
+  margin:0;
+  background:#ffffff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-bottom:46px;
+}
+
+/*  Header  */
+.header{
+  background:#242242;
+  color:white;
+  padding:12px 30px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+}
+
+.burger-btn{
+  border:none;
+  background:transparent;
+  color:#ffffff;
+  font-size:20px;
+  width:38px;
+  height:38px;
+  border-radius:6px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.burger-btn:hover{
+  background:rgba(255,255,255,0.12);
+}
+
+.header-text h1{
+  margin:0;
+  font-size:16px;
+}
+
+.header-text{
+  flex:1 1 auto;
+}
+
+.header-right{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-info{
+  text-align:right;
+  font-size:12px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.user-info:hover{
+  opacity:0.8;
+}
+
+.avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e5e5e5;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.avatar:hover{
+  background:#d0d0d0;
+}
+
+/*  Profile dropdown  */
+.profile-menu{
+  position:relative;
+}
+
+.profile-dropdown{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:8px;
+  background:white;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  min-width:150px;
+  display:none;
+  z-index:100;
+}
+
+.profile-dropdown.show{
+  display:block;
+}
+
+.profile-item{
+  padding:12px 15px;
+  font-size:13px;
+  color:#555;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+  border:none;
+  background:none;
+  width:100%;
+  text-align:left;
+}
+
+.profile-item:hover{
+  background:#f5f5f5;
+  color:#242242;
+}
+
+.profile-item i{
+  width:16px;
+  font-size:13px;
+}
+
+/*  Main wrapper  */
+.main-wrapper{
+  flex:1;
+  padding:30px 120px 60px 120px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+.breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:#666;
+  cursor:pointer;
+  margin-bottom:15px;
+}
+
+.breadcrumb i{
+  font-size:12px;
+}
+
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+/*  Main layout  */
+.main{
+  display:flex;
+  gap:11px;
+  flex:1;
+  overflow:hidden;
+}
+
+/*  Sidebar  */
+.sidebar{
+  width:235px;
+  background:#f3f3f3;
+  border-radius:5px;
+  padding:0;
+  border:1px solid #d0d0d0;
+  flex-shrink:0;
+  position:sticky;
+  top:0;
+  align-self:flex-start;
+  max-height:calc(100vh - 160px);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-profile{
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:16px 14px;
+  border-bottom:1px solid #e1e1e1;
+  background:#ededed;
+}
+
+.sidebar-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#d9d9d9;
+  color:#242242;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+  flex-shrink:0;
+}
+
+.sidebar-user h4{
+  margin:0;
+  font-size:13px;
+  color:#222;
+  font-weight:700;
+}
+
+.sidebar-user p{
+  margin:2px 0 0;
+  font-size:11px;
+  color:#666;
+  font-weight:500;
+}
+
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:34px 14px;
+  border-radius:6px;
+  font-size:14.5px;
+  color:#666;
+  cursor:pointer;
+  transition:.2s;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.menu-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.menu-item i{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+.menu-item:hover{
+  background:#e6e6e6;
+}
+
+.menu-item:hover .fa-chevron-right{
+  background:#bfc3c9;
+  color:#666666;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+}
+
+.sidebar-menu{
+  flex:1;
+  overflow-y:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+.sidebar-menu::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+
+.menu-item-logout{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px 20px;
+  border-radius:8px;
+  font-size:15.5px;
+  color:#222;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  text-decoration:none;
+  background:#e4e6eb;
+  border:1px solid #ced0d4;
+  width:calc(100% - 28px);
+  text-align:center;
+  margin-top:30px;
+  margin-bottom:70px;
+  margin-left:14px;
+  margin-right:14px;
+  font-weight:700;
+}
+
+.menu-item-logout:hover{
+  background:#d8dadf;
+  border-color:#bcc0c4;
+}
+
+.menu-item-logout i{
+  width:18px;
+  text-align:center;
+}
+
+.menu-item.active{
+  background:#ffffff;
+  color:rgb(40,32,32);
+  border-radius:0;
+}
+
+.menu-item.active i{
+  color:rgb(32,30,30);
+}
+
+.menu-item.active .fa-chevron-right{
+  background:#1a1a1a;
+  color:#ffffff;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:10px;
+}
+
+/*  Content  */
+.content{
+  flex:1;
+  background:#ffffff;
+  border-radius:4px;
+  padding:20px;
+  border:1px solid #d0d0d0;
+  position:relative;
+  overflow-y:auto;
+  overflow-x:hidden;
+  max-height:calc(100vh - 160px);
+}
+
+/*  Page header  */
+.page-header{
+  margin-bottom:24px;
+}
+
+.page-header h2{
+  margin:0 0 5px;
+  font-size:22px;
+  color:#222;
+}
+
+.page-header p{
+  margin:0;
+  font-size:13px;
+  color:#666;
+}
+
+/*  Section header (matches dashboard)  */
+.section-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+  margin-top:28px;
+}
+
+.section-header:first-of-type{
+  margin-top:0;
+}
+
+.section-header h3{
+  margin:0;
+  font-size:15px;
+  color:#222;
+  font-weight:600;
+}
+
+/*  Current assignment card  */
+.assign-card{
+  background:#ffffff;
+  border:1px solid #e8ecf1;
+  border-radius:10px;
+  padding:22px 24px;
+  box-shadow:0 2px 4px rgba(0,0,0,0.04);
+  transition:all 0.3s ease;
+}
+
+.assign-card:hover{
+  box-shadow:0 8px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  border-color:#d0d7e2;
+}
+
+.assign-details{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px 32px;
+}
+
+.assign-row{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.assign-icon{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  flex-shrink:0;
+  background:transparent;
+  border:1.5px solid;
+  color:#242242;
+  border-color:#242242;
+  transition:all 0.25s ease;
+}
+
+.assign-icon.blue{ color:#1976d2; border-color:#1976d2; }
+.assign-icon.green{ color:#388e3c; border-color:#388e3c; }
+.assign-icon.orange{ color:#f57c00; border-color:#f57c00; }
+.assign-icon.purple{ color:#7b1fa2; border-color:#7b1fa2; }
+.assign-icon.red{ color:#d32f2f; border-color:#d32f2f; }
+
+.assign-label{
+  font-size:10px;
+  font-weight:700;
+  color:#9ca3af;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+  display:block;
+  margin-bottom:2px;
+}
+
+.assign-value{
+  font-size:13px;
+  font-weight:600;
+  color:#1a1d2e;
+}
+
+.assign-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px solid #f0f0f0;
+}
+
+.btn-view{
+  padding:9px 22px;
+  background:#fff;
+  color:#333;
+  border:1px solid #ccc;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+  letter-spacing:.5px;
+}
+
+.btn-view:hover{
+  background:#f5f5f5;
+  border-color:#999;
+}
+
+.btn-submit-ar{
+  padding:9px 22px;
+  background:#242242;
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+  letter-spacing:.5px;
+}
+
+.btn-submit-ar:hover{
+  background:#363454;
+}
+
+.btn-already-submitted{
+  padding:9px 22px;
+  background:#c8c8c8;
+  color:#777;
+  border:none;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:600;
+  cursor:not-allowed;
+  letter-spacing:.5px;
+  pointer-events:none;
+}
+
+/*  History table (matches data-table style)  */
+.table-container{
+  overflow-x:auto;
+}
+
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
+.data-table th{
+  background:#f8f8f8;
+  padding:12px 10px;
+  text-align:left;
+  font-weight:600;
+  color:#555;
+  border-bottom:2px solid #d0d0d0;
+  white-space:nowrap;
+}
+
+.data-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #f0f0f0;
+  vertical-align:middle;
+}
+
+.data-table tbody tr:hover td{
+  background:#fafafa;
+}
+
+.data-table tbody tr:last-child td{
+  border-bottom:none;
+}
+
+.history-year{
+  font-size:15px;
+  font-weight:700;
+  color:#1a1d2e;
+}
+
+.dept-name{
+  font-weight:600;
+  color:#333;
+  font-size:12px;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:2px;
+}
+
+.dept-sub{
+  font-size:10px;
+  color:#9ca3af;
+  text-transform:uppercase;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  justify-content:flex-end;
+}
+
+.action-btn{
+  width:28px;
+  height:28px;
+  border-radius:4px;
+  border:1px solid #d0d0d0;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.action-btn:hover{
+  background:#f0f0f0;
+}
+
+.action-btn i{
+  font-size:11px;
+  color:#666;
+}
+
+/* -- View Assignment Modal -- */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:900;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.2s ease;
+}
+
+.modal-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.modal-box{
+  background:#fff;
+  border-radius:8px;
+  width:min(480px,92vw);
+  box-shadow:0 10px 40px rgba(0,0,0,0.2);
+  overflow:hidden;
+  transform:translateY(-12px);
+  transition:transform 0.2s ease;
+}
+
+.modal-overlay.show .modal-box{
+  transform:translateY(0);
+}
+
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px;
+  border-bottom:1px solid #e8e8e8;
+}
+
+.modal-title{
+  font-size:13px;
+  font-weight:700;
+  color:#1a1d2e;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+
+.modal-close{
+  width:26px;
+  height:26px;
+  border:none;
+  background:transparent;
+  border-radius:4px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#888;
+  font-size:14px;
+  transition:.2s;
+}
+
+.modal-close:hover{
+  background:#f0f0f0;
+  color:#333;
+}
+
+.modal-body{
+  padding:20px 18px;
+}
+
+.modal-section-label{
+  font-size:11px;
+  font-weight:700;
+  color:#9ca3af;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+  margin-bottom:14px;
+}
+
+.modal-field{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.modal-field i{
+  width:18px;
+  color:#6b7280;
+  font-size:13px;
+  margin-top:1px;
+  flex-shrink:0;
+}
+
+.modal-field-label{
+  font-size:10px;
+  font-weight:700;
+  color:#9ca3af;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  display:block;
+  margin-bottom:2px;
+}
+
+.modal-field-value{
+  font-size:13px;
+  font-weight:600;
+  color:#1a1d2e;
+}
+
+.modal-info-box{
+  background:#e8f4fd;
+  border:1px solid #b3d9f5;
+  border-radius:6px;
+  padding:12px 14px;
+  margin-top:16px;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+
+.modal-info-box i{
+  color:#0288d1;
+  font-size:14px;
+  margin-top:1px;
+  flex-shrink:0;
+}
+
+.modal-info-text{
+  font-size:11px;
+  color:#0277bd;
+  line-height:1.5;
+}
+
+.modal-info-text strong{
+  display:block;
+  margin-bottom:2px;
+  font-size:11px;
+}
+
+.modal-footer{
+  padding:14px 18px;
+  border-top:1px solid #f0f0f0;
+  display:flex;
+  justify-content:flex-end;
+}
+
+.btn-cancel{
+  padding:9px 28px;
+  background:#f0f0f0;
+  color:#444;
+  border:none;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+  letter-spacing:.5px;
+}
+
+.btn-cancel:hover{
+  background:#e2e2e2;
+}
+
+/* -- AR Days Modal -- */
+.modal-box.wide{
+  width:min(560px,94vw);
+}
+
+.ar-day-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  max-height:380px;
+  overflow-y:auto;
+  padding-right:4px;
+}
+
+.ar-day-list::-webkit-scrollbar{width:3px;display:block;}
+.ar-day-list::-webkit-scrollbar-track{background:transparent;}
+.ar-day-list::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12);border-radius:2px;}
+
+.ar-day-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 12px;
+  border:1px solid #e8ecf1;
+  border-radius:6px;
+  transition:.2s;
+  cursor:pointer;
+}
+
+.ar-day-row:hover{
+  border-color:#d0d7e2;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+
+.ar-day-row.missed{
+  cursor:default;
+}
+
+.ar-day-row.missed{
+  border-color:#f5c6cb;
+  background:#fff5f5;
+}
+
+.ar-day-tag{
+  background:#242242;
+  color:#fff;
+  padding:4px 10px;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:700;
+  white-space:nowrap;
+  letter-spacing:.5px;
+}
+
+.ar-day-row.missed .ar-day-tag{
+  background:#d32f2f;
+}
+
+.ar-day-date{
+  font-size:10px;
+  color:#9ca3af;
+  white-space:nowrap;
+  min-width:130px;
+}
+
+.ar-day-tasks{
+  flex:1;
+  font-size:11px;
+  color:#555;
+  line-height:1.5;
+}
+
+.ar-day-tasks ul{
+  margin:0;
+  padding-left:14px;
+}
+
+.ar-day-tasks li{
+  margin-bottom:1px;
+}
+
+.ar-day-tasks .missed-text{
+  color:#d32f2f;
+  font-weight:600;
+}
+
+.ar-view-btn{
+  padding:5px 14px;
+  background:#fff;
+  color:#333;
+  border:1px solid #d0d0d0;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
+  white-space:nowrap;
+}
+
+.ar-view-btn:hover{
+  background:#f5f5f5;
+  border-color:#999;
+}
+
+/* -- Day Detail Modal -- */
+.day-detail-title{
+  font-size:13px;
+  font-weight:700;
+  color:#1a1d2e;
+}
+
+.day-detail-title span{
+  font-weight:400;
+  color:#666;
+}
+
+.day-photos{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  max-height:420px;
+  overflow-y:auto;
+  padding-right:4px;
+}
+
+.day-photos::-webkit-scrollbar{width:3px;display:block;}
+.day-photos::-webkit-scrollbar-track{background:transparent;}
+.day-photos::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12);border-radius:2px;}
+
+.day-photo-card{
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.day-photo-img{
+  width:100%;
+  height:140px;
+  background:#f0f0f0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#ccc;
+  font-size:36px;
+  border-radius:8px;
+}
+
+.day-photo-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.day-photo-tasks li{
+  margin-bottom:1px;
+}
+
+/*  Footer  */
+.footer{
+  background:#242242;
+  color:white;
+  text-align:center;
+  padding:10px;
+  font-size:9px;
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:400;
+}
+
+/*  Scrollbars (matches dashboard exactly)  */
+::-webkit-scrollbar{display:none;}
+html{-ms-overflow-style:none;scrollbar-width:none;}
+
+.content::-webkit-scrollbar{width:1px;display:block;}
+.content::-webkit-scrollbar-track{background:transparent;}
+.content::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.05);border-radius:1px;min-height:5px;max-height:12px;}
+.content::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.3);}
+.content{scrollbar-width:thin;scrollbar-color:rgba(0,0,0,0.05) transparent;}
+
+.sidebar::-webkit-scrollbar{width:1px;display:block;}
+.sidebar::-webkit-scrollbar-track{background:transparent;}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.04);border-radius:1px;min-height:5px;max-height:10px;}
+.sidebar::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.25);}
+.sidebar{scrollbar-width:thin;scrollbar-color:rgba(0,0,0,0.04) transparent;}
+/* override hide for sidebar */
+.sidebar{scrollbar-width:none !important;-ms-overflow-style:none;}
+.sidebar::-webkit-scrollbar{display:none !important;width:0 !important;}
+
+.table-container::-webkit-scrollbar{width:1px;height:1px;display:block;}
+.table-container::-webkit-scrollbar-track{background:transparent;}
+.table-container::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.05);border-radius:1px;min-height:5px;min-width:5px;}
+.table-container::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,0.3);}
+.table-container{scrollbar-width:thin;scrollbar-color:rgba(0,0,0,0.05) transparent;}
+
+/*  Responsive (matches dashboard exactly)  */
+@media(max-width:1024px){
+  .main-wrapper{padding:24px 32px 60px 32px;}
+  .main{gap:8px;}
+  .sidebar{width:220px;}
+  .content{padding:14px;}
+  .top-bar{gap:8px;}
+  .assign-details{grid-template-columns:1fr;}
+}
+
+@media(max-width:720px){
+  .header{padding:10px 20px;gap:10px;flex-wrap:nowrap;}
+  .header img{width:32px;height:32px;}
+  .header-text{flex:1 1 auto;}
+  .header-text h1{font-size:13px;line-height:1.2;}
+  .header-right{display:none;}
+  .burger-btn{display:flex;}
+  .main-wrapper{padding:20px 16px 40px 16px;overflow:visible;}
+  .main{position:relative;overflow:visible;}
+  .content{max-height:none;padding:14px 12px;}
+  .breadcrumb{display:none;}
+
+  /* assignment card */
+  .page-header{margin-bottom:16px;}
+  .page-header h2{font-size:18px;}
+  .page-header p{font-size:12px;}
+  .section-header h3{font-size:13px;}
+  .assign-card{padding:16px;}
+  .assign-details{grid-template-columns:1fr;gap:10px 0;}
+  .assign-row{gap:8px;}
+  .assign-icon{width:26px;height:26px;font-size:11px;}
+  .assign-label{font-size:9px;}
+  .assign-value{font-size:12px;}
+  .assign-actions{flex-direction:column;gap:8px;margin-top:16px;padding-top:14px;}
+  .btn-view,.btn-submit-ar,.btn-already-submitted{width:100%;text-align:center;padding:10px;font-size:12px;}
+
+  /* history table */
+  .table-container{margin-bottom:12px;}
+  .data-table{font-size:11px;}
+  .data-table th{padding:10px 8px;font-size:10px;}
+  .data-table td{padding:10px 8px;}
+  .history-year{font-size:13px;}
+  .dept-name{font-size:11px;}
+  .dept-sub{font-size:9px;}
+
+  /* modals */
+  .modal-box{width:96vw;}
+  .modal-box.wide{width:96vw;max-height:88vh;}
+  .modal-body{padding:14px;overflow-y:auto;max-height:calc(88vh - 120px);}
+  .modal-header,.modal-footer{padding:12px 14px;}
+  .modal-field{gap:8px;margin-bottom:10px;}
+  .modal-field-value{font-size:12px;}
+  .ar-day-row{gap:8px;padding:8px 10px;}
+  .ar-day-date{min-width:unset;white-space:normal;font-size:9px;}
+  .ar-day-tasks{font-size:10px;}
+  .day-detail-title{font-size:12px;}
+  .day-photo-img{height:120px;}
+
+  .sidebar{
+    position:fixed;top:0;left:0;height:100vh;
+    width:min(320px,90vw);background:#f3f3f3;
+    transform:translateX(-110%);transition:transform 0.25s ease;
+    z-index:500;border-radius:0;border:none;max-height:100vh;
+  }
+  .sidebar-profile{display:flex;flex-shrink:0;}
+  .sidebar-menu{flex:1;overflow-y:auto;padding-bottom:0;}
+  .menu-item-logout{display:flex;margin-bottom:20px;}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.35);
+    opacity:0;pointer-events:none;transition:opacity 0.2s ease;z-index:450;
+  }
+  .sidebar-overlay.show{opacity:1;pointer-events:auto;}
+  .footer{padding:8px;font-size:9px;}
+}
+
+@media(max-width:480px){
+  .main-wrapper{padding:10px 8px 50px 8px;}
+  .content{padding:10px 8px;}
+  .page-header h2{font-size:16px;}
+  .page-header p{font-size:11px;}
+  .assign-card{padding:12px;}
+  .assign-row{gap:6px;}
+  .assign-icon{width:24px;height:24px;font-size:10px;}
+  .assign-label{font-size:8px;}
+  .assign-value{font-size:11px;}
+  .assign-actions{gap:6px;margin-top:12px;padding-top:12px;}
+  .btn-view,.btn-submit-ar,.btn-already-submitted{font-size:11px;padding:9px;}
+  .data-table{font-size:10px;}
+  .data-table th{padding:8px 6px;font-size:9px;}
+  .data-table td{padding:8px 6px;}
+  .action-btn{width:26px;height:26px;}
+  .modal-body{padding:12px;max-height:calc(90vh - 110px);}
+  .modal-field-value{font-size:11px;}
+  .day-photo-img{height:100px;}
+}
+
+@media(max-width:360px){
+  .content{padding:8px 6px;}
+  .assign-card{padding:10px;}
+  .assign-icon{width:22px;height:22px;font-size:9px;}
+  .assign-value{font-size:10px;}
+  .btn-view,.btn-submit-ar,.btn-already-submitted{font-size:10px;padding:8px;}
+  .data-table{font-size:9px;}
+  .data-table th,.data-table td{padding:7px 5px;}
+  .history-year{font-size:12px;}
+  .modal-body{padding:10px;}
+}
+
+/* --- Confirm Modal --- */
+.confirm-panel{ width:min(420px,90vw); background:#fff; border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,0.2); text-align:center; padding:30px 24px 24px; border:1px solid #d0d0d0; }
+.confirm-icon{ width:56px; height:56px; border-radius:50%; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:24px; }
+.confirm-icon.danger{ background:#fce4ec; color:#c62828; }
+.confirm-icon.info{ background:#e3f2fd; color:#1565c0; }
+.confirm-icon.success{ background:#e8f5e9; color:#2e7d32; }
+.confirm-icon.warning{ background:#fff3e0; color:#e65100; }
+#confirmTitle{ margin:0 0 8px; font-size:16px; color:#333; }
+#confirmText{ margin:0 0 20px; font-size:13px; color:#666; line-height:1.6; white-space:pre-line; }
+.confirm-actions{ display:flex; gap:10px; justify-content:center; }
+.confirm-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; z-index:1000; }
+.confirm-backdrop.show{ display:flex; }
+.btn-cancel-confirm{ padding:10px 20px; background:#f5f5f5; color:#555; border:1px solid #d0d0d0; border-radius:4px; font-size:13px; cursor:pointer; font-weight:500; transition:.2s; }
+.btn-cancel-confirm:hover{ background:#eee; }
+.btn-confirm-action{ padding:10px 20px; background:#242242; color:#fff; border:none; border-radius:4px; font-size:13px; cursor:pointer; font-weight:600; transition:.2s; }
+.btn-confirm-action:hover{ background:#363454; }
+
+/* --- Toast Notifications --- */
+.toast-container{ position:fixed; bottom:20px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
+.toast{ min-width:300px; max-width:450px; padding:14px 18px; border-radius:8px; background:#fff; box-shadow:0 4px 16px rgba(0,0,0,0.15); display:flex; align-items:flex-start; gap:10px; font-size:13px; border-left:4px solid #333; animation:toastIn .3s ease; line-height:1.5; }
+.toast.success{ border-left-color:#2e7d32; }
+.toast.success i{ color:#2e7d32; }
+.toast.error{ border-left-color:#c62828; }
+.toast.error i{ color:#c62828; }
+.toast.info{ border-left-color:#1565c0; }
+.toast.info i{ color:#1565c0; }
+.toast.warning{ border-left-color:#e65100; }
+.toast.warning i{ color:#e65100; }
+.toast i{ margin-top:2px; flex-shrink:0; font-size:16px; }
+.toast span{ flex:1; }
+.toast-close{ background:none; border:none; color:#aaa; cursor:pointer; font-size:14px; padding:0; margin-left:8px; transition:.2s; flex-shrink:0; }
+.toast-close:hover{ color:#333; }
+@keyframes toastIn{ from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+
+/* Force-hide icons in alert/notif UI for consistency */
+.toast i, .confirm-icon i, .notification i{ display:none !important; }
+
+.notif-badge{display:inline-block;min-width:18px;padding:1px 6px;margin-left:6px;border-radius:999px;background:#d32f2f;color:#fff;font-size:11px;line-height:16px;text-align:center;font-weight:700;vertical-align:middle;}
+</style>
+</head>
+
+<body>
+
+<!-- header -->
+<div class="header">
+  <button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <img src="spesLogo.png" alt="SPES Logo">
+  <div class="header-text">
+    <h1>Special Program for the Employment of Students</h1>
+  </div>
+  <div class="header-right">
+    <div class="user-info" id="userInfo">
+      <strong>Andrie N. Bangcat</strong><br>
+      SPES Beneficiary
+    </div>
+    <div class="profile-menu">
+      <div class="avatar" id="profileBtn">AB</div>
+      <div class="profile-dropdown" id="profileDropdown">
+        <button class="profile-item" onclick="goToSettings()">
+          <i class="fa-solid fa-gear"></i> Settings
+        </button>
+        <button class="profile-item" onclick="confirmLogout()">
+          <i class="fa-solid fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- main wrapper -->
+<div class="main-wrapper">
+
+  <!-- top bar -->
+  <div class="top-bar">
+    <div class="breadcrumb" onclick="history.back()">
+      <i class="fa-solid fa-house"></i>
+      <span>Back ></span>
+    </div>
+  </div>
+
+  <!-- main -->
+  <div class="main">
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-profile">
+        <div class="sidebar-avatar">AB</div>
+        <div class="sidebar-user">
+          <h4>Andrie N. Bangcat</h4>
+          <p>SPES Beneficiary</p>
+        </div>
+      </div>
+
+      <div class="sidebar-menu">
+        <a href="sbDashboard.html" class="menu-item">
+          <div class="menu-left">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+          </div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+
+        <a href="sbAssignment.html" class="menu-item active">
+          <div class="menu-left">
+            <i class="fa-solid fa-clipboard-list"></i>
+            Assignment
+          </div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+
+        <a href="sbAR.html" class="menu-item">
+          <div class="menu-left">
+            <i class="fa-solid fa-file-alt"></i>
+            Accomplishment Report
+          </div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+
+        <a href="sbHistory.html" class="menu-item">
+          <div class="menu-left">
+            <i class="fa-solid fa-history"></i>
+            SPES History
+          </div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+
+        <a href="sbNotif.html" class="menu-item">
+          <div class="menu-left">
+            <i class="fa-solid fa-bell"></i>
+            Notification
+          <span class="notif-badge">3</span></div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+
+        <a href="sbSettings.html" class="menu-item">
+          <div class="menu-left">
+            <i class="fa-solid fa-gear"></i>
+            Settings
+          </div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+
+        <button class="menu-item-logout" onclick="confirmLogout()">
+          Log Out
+        </button>
+      </div>
+    </div>
+
+    <!-- content -->
+    <div class="content">
+
+      <!-- Page header -->
+      <div class="page-header">
+        <h2>My Assignment</h2>
+        <p>View your current deployment details and assignment history.</p>
+      </div>
+
+      <!-- Current Assignment -->
+      <div class="section-header" style="margin-top:0;">
+        <h3>Current Assignment</h3>
+      </div>
+
+      <div class="assign-card">
+        <div class="assign-details">
+          <div class="assign-row">
+            <div class="assign-icon blue"><i class="fa-solid fa-building-columns"></i></div>
+            <div class="assign-text">
+              <span class="assign-label">Department</span>
+              <span class="assign-value">District Makiling Health Center</span>
+            </div>
+          </div>
+          <div class="assign-row">
+            <div class="assign-icon purple"><i class="fa-solid fa-layer-group"></i></div>
+            <div class="assign-text">
+              <span class="assign-label">Batch</span>
+              <span class="assign-value">3</span>
+            </div>
+          </div>
+          <div class="assign-row">
+            <div class="assign-icon green"><i class="fa-solid fa-calendar-days"></i></div>
+            <div class="assign-text">
+              <span class="assign-label">Duration</span>
+              <span class="assign-value">May 12 &ndash; May 17, 2026</span>
+            </div>
+          </div>
+          <div class="assign-row">
+            <div class="assign-icon orange"><i class="fa-solid fa-clock"></i></div>
+            <div class="assign-text">
+              <span class="assign-label">Schedule</span>
+              <span class="assign-value">Monday&ndash;Friday, 8:00 AM &ndash; 5:00 PM</span>
+            </div>
+          </div>
+          <div class="assign-row">
+            <div class="assign-icon red"><i class="fa-solid fa-user-tie"></i></div>
+            <div class="assign-text">
+              <span class="assign-label">Supervisor</span>
+              <span class="assign-value">Mr. Roberto Garcia (0917-123-4567)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="assign-actions">
+          <button class="btn-view" onclick="viewAssignment()">VIEW</button>
+          <button class="btn-submit-ar" id="submitArBtn" onclick="submitAR()">SUBMIT AR</button>
+        </div>
+      </div>
+
+      <!-- Assignment History -->
+      <div class="section-header">
+        <h3>Assignment History</h3>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Department</th>
+              <th>Batch</th>
+              <th>Duration</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Current assignment (2026) � submit button visible since not yet completed -->
+            <tr>
+              <td><span class="history-year">2026</span></td>
+              <td>
+                <span class="dept-name">N/A</span>
+                <span class="dept-sub">N/A</span>
+              </td>
+              <td>1</td>
+              <td>May 12 &ndash; May 17, 2026</td>
+              <td>
+                <div class="actions">
+                  <button class="action-btn" title="Submit AR" onclick="submitAR()"><i class="fa-solid fa-upload"></i></button>
+                  <button class="action-btn" title="View Details" onclick="openArModal('2026')"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </td>
+            </tr>
+            <!-- Completed assignments � submit button hidden -->
+            <tr>
+              <td><span class="history-year">2025</span></td>
+              <td>
+                <span class="dept-name">Health Center</span>
+                <span class="dept-sub">District Makiling</span>
+              </td>
+              <td>1</td>
+              <td>May 12 &ndash; May 17, 2025</td>
+              <td>
+                <div class="actions">
+                  <button class="action-btn" title="View Details" onclick="openArModal('2025')"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="history-year">2024</span></td>
+              <td>
+                <span class="dept-name">BESU</span>
+                <span class="dept-sub">District Makiling</span>
+              </td>
+              <td>1</td>
+              <td>May 12 &ndash; May 17, 2024</td>
+              <td>
+                <div class="actions">
+                  <button class="action-btn" title="View Details" onclick="openArModal('2024')"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="history-year">2023</span></td>
+              <td>
+                <span class="dept-name">DepEd Enumerator</span>
+                <span class="dept-sub">District Makiling</span>
+              </td>
+              <td>1</td>
+              <td>May 12 &ndash; May 17, 2023</td>
+              <td>
+                <div class="actions">
+                  <button class="action-btn" title="View Details" onclick="openArModal('2023')"><i class="fa-solid fa-eye"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div><!-- end .content -->
+  </div><!-- end .main -->
+</div><!-- end .main-wrapper -->
+
+<!-- View Assignment Modal (kept for VIEW button in current assignment card) -->
+<div class="modal-overlay" id="viewModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title" id="viewModalTitle">DISTRICT MAKILING HEALTH CENTER &ndash; 2026</span>
+      <button class="modal-close" onclick="closeViewModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section-label">Assignment Details</div>
+      <div class="modal-field">
+        <i class="fa-solid fa-building-columns"></i>
+        <div>
+          <span class="modal-field-label">Department</span>
+          <span class="modal-field-value">District Makiling Health Center</span>
+        </div>
+      </div>
+      <div class="modal-field">
+        <i class="fa-solid fa-layer-group"></i>
+        <div>
+          <span class="modal-field-label">Batch</span>
+          <span class="modal-field-value">3</span>
+        </div>
+      </div>
+      <div class="modal-field">
+        <i class="fa-solid fa-calendar-days"></i>
+        <div>
+          <span class="modal-field-label">Duration</span>
+          <span class="modal-field-value">May 12 &ndash; May 17, 2026</span>
+        </div>
+      </div>
+      <div class="modal-field">
+        <i class="fa-solid fa-clock"></i>
+        <div>
+          <span class="modal-field-label">Schedule</span>
+          <span class="modal-field-value">Monday&ndash;Friday, 8:00 AM &ndash; 5:00 PM</span>
+        </div>
+      </div>
+      <div class="modal-field">
+        <i class="fa-solid fa-user-tie"></i>
+        <div>
+          <span class="modal-field-label">Supervisor</span>
+          <span class="modal-field-value">Mr. Roberto Garcia (0917-123-4567)</span>
+        </div>
+      </div>
+      <div class="modal-info-box">
+        <i class="fa-solid fa-circle-info"></i>
+        <div class="modal-info-text">
+          <strong>Current Assignment: You are currently assigned here. Remember to submit your AR daily.</strong>
+          Monday to Friday: 8:00 AM&ndash;5:00 PM
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeViewModal()">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+<!-- AR Days Modal (eye icon) -->
+<div class="modal-overlay" id="arModal">
+  <div class="modal-box wide">
+    <div class="modal-header">
+      <span class="modal-title" id="arModalTitle">DISTRICT MAKILING HEALTH CENTER &ndash; 2026</span>
+      <button class="modal-close" onclick="closeArModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="ar-day-list" id="arDayList">
+        <!-- filled by JS -->
+      </div>
+      <div class="modal-info-box" style="margin-top:16px;">
+        <i class="fa-solid fa-circle-info"></i>
+        <div class="modal-info-text">
+          <strong>Current Assignment: You are currently assigned here. Remember to submit your AR daily.</strong>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="gap:10px;">
+      <button class="btn-view" onclick="viewAssignment()">VIEW</button>
+      <button class="btn-submit-ar" onclick="submitAR()">SUBMIT AR</button>
+    </div>
+  </div>
+</div>
+
+<!-- Day Detail Modal (view a single day) -->
+<div class="modal-overlay" id="dayModal">
+  <div class="modal-box wide">
+    <div class="modal-header">
+      <span class="day-detail-title" id="dayModalTitle">Day 6 &ndash; <span>Monday, February 8, 2026</span></span>
+      <button class="modal-close" onclick="closeDayModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="day-photos" id="dayPhotoList">
+        <!-- filled by JS -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeDayModal()">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+<div class="footer">
+  Copyright &copy; 2026 City College of Calamba. All rights Reserve.
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Confirm Modal -->
+<div class="confirm-backdrop" id="confirmModal">
+  <div class="confirm-panel">
+    <div class="confirm-icon info" id="confirmIcon"><i class="fa-solid fa-question"></i></div>
+    <h3 id="confirmTitle">Confirm</h3>
+    <p id="confirmText">Are you sure?</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel-confirm" onclick="closeConfirmModal()">Cancel</button>
+      <button class="btn-confirm-action" id="confirmActionBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Mobile sidebar toggle
+const burgerBtn = document.getElementById('burgerBtn');
+const sidebar = document.querySelector('.sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+if(burgerBtn && sidebar && sidebarOverlay){
+  burgerBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('show');
+  });
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('show');
+  });
+}
+
+// Profile dropdown toggle
+const profileBtn = document.getElementById('profileBtn');
+const userInfo = document.getElementById('userInfo');
+const profileDropdown = document.getElementById('profileDropdown');
+
+if(profileBtn && profileDropdown){
+  profileBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    profileDropdown.classList.toggle('show');
+  });
+}
+
+if(userInfo && profileDropdown){
+  userInfo.addEventListener('click', function(e){
+    e.stopPropagation();
+    profileDropdown.classList.toggle('show');
+  });
+}
+
+document.addEventListener('click', function(){
+  if(profileDropdown) profileDropdown.classList.remove('show');
+});
+
+function goToSettings(){
+  window.location.href = 'sbSettings.html';
+}
+
+function confirmLogout(){
+  showConfirm('Logout', 'Are you sure you want to logout?', 'warning', 'Logout', function(){ window.location.href = '../login.html'; });
+}
+
+// AR submission state  set to true when student has already submitted
+let arSubmitted = false;
+
+function submitAR(){
+  if(arSubmitted) return;
+  window.location.href = 'sbAR.html?openCamera=1';
+}
+
+function setArSubmittedState(){
+  const btn = document.getElementById('submitArBtn');
+  if(!btn) return;
+  if(arSubmitted){
+    btn.className = 'btn-already-submitted';
+    btn.textContent = 'ALREADY SUBMITTED';
+    btn.onclick = null;
+  } else {
+    btn.className = 'btn-submit-ar';
+    btn.textContent = 'SUBMIT AR';
+    btn.onclick = submitAR;
+  }
+}
+
+setArSubmittedState();
+
+// Sample AR data per year
+const arData = {
+  '2026': {
+    dept: 'DISTRICT MAKILING HEALTH CENTER',
+    days: [
+      { day:6, date:'Monday, February 8, 2026', time:'10:56:08 AM', tasks:['Book organization and shelving','Assist library visitors/Manage borrowing records','Summer reading program support','Print Details...'], photos:[
+        { time:'Monday, February 8, 10:34:00 AM', tasks:['Book organization and shelving','Assist library visitors/Manage borrowing records','Summer reading program support','Print Details...'] },
+        { time:'Monday, February 8, 8:50:08 AM', tasks:['Book organization and shelving','Assist library visitors/Manage borrowing records','Summer reading program support','Print Details...'] },
+        { time:'Monday, February 8, 8:50:08 AM', tasks:['Book organization and shelving','Assist library visitors/Manage borrowing records','Summer reading program support','Print Details...'] }
+      ]},
+      { day:5, date:'Monday, February 8, 2026', time:'10:56:08 AM', missed:true, tasks:['Not Available. You did not submit Accomplishment Report.'] },
+      { day:4, date:'Monday, February 8, 2026', time:'10:56:08 AM', tasks:['Book organization and shelving','Assist library visitors/Manage borrowing records','Summer reading program support','Print Details...'], photos:[
+        { time:'Monday, February 8, 10:34:00 AM', tasks:['Book organization and shelving','Assist library visitors/Manage borrowing records','Summer reading program support','Print Details...'] }
+      ]},
+      { day:3, date:'Monday, February 8, 2026', time:'10:56:08 AM', tasks:['Book organization and shelving','Assist library visitors/Manage borrowing records','Summer reading program support','Print Details...'], photos:[] },
+      { day:2, date:'Monday, February 8, 2026', time:'10:56:08 AM', tasks:['Book organization and shelving','Assist library visitors/Manage borrowing records','Summer reading program support','Print Details...'], photos:[] },
+      { day:1, date:'Monday, February 8, 2026', time:'10:56:08 AM', tasks:['Book organization and shelving','Assist library visitors/Manage borrowing records','Summer reading program support','Print Details...'], photos:[] }
+    ]
+  },
+  '2025': { dept:'HEALTH CENTER', days:[] },
+  '2024': { dept:'BESU', days:[] },
+  '2023': { dept:'DEPED ENUMERATOR', days:[] }
+};
+
+let currentArYear = null;
+
+// VIEW button on current assignment card
+function viewAssignment(){
+  closeArModal();
+  document.getElementById('viewModal').classList.add('show');
+}
+
+function closeViewModal(){
+  document.getElementById('viewModal').classList.remove('show');
+}
+
+// AR Days modal (eye icon in table)
+function openArModal(year){
+  currentArYear = year;
+  const data = arData[year];
+  const title = data ? data.dept + ' \u2013 ' + year : 'Assignment \u2013 ' + year;
+  document.getElementById('arModalTitle').textContent = title;
+
+  const list = document.getElementById('arDayList');
+  list.innerHTML = '';
+
+  if(!data || !data.days.length){
+    list.innerHTML = '<div style="text-align:center;padding:30px;color:#bbb;font-size:13px;">No AR records found for ' + year + '.</div>';
+  } else {
+    data.days.forEach(function(d){
+      const row = document.createElement('div');
+      row.className = 'ar-day-row' + (d.missed ? ' missed' : '');
+      if(!d.missed){
+        row.setAttribute('onclick', 'openDayDetail(' + d.day + ')');
+      }
+
+      const tag = '<div class="ar-day-tag">DAY ' + d.day + '</div>';
+      const date = '<div class="ar-day-date">' + d.date + ', ' + d.time + '</div>';
+
+      let tasksHtml;
+      if(d.missed){
+        tasksHtml = '<div class="ar-day-tasks"><span class="missed-text">' + d.tasks[0] + '</span></div>';
+      } else {
+        tasksHtml = '<div class="ar-day-tasks"><ul>' + d.tasks.map(function(t){ return '<li>' + t + '</li>'; }).join('') + '</ul></div>';
+      }
+
+      const viewBtn = d.missed ? '' : '<button class="ar-view-btn">View</button>';
+
+      row.innerHTML = tag + date + tasksHtml + viewBtn;
+      list.appendChild(row);
+    });
+  }
+
+  document.getElementById('arModal').classList.add('show');
+}
+
+function closeArModal(){
+  document.getElementById('arModal').classList.remove('show');
+}
+
+// Day Detail modal
+function openDayDetail(dayNum){
+  const data = arData[currentArYear];
+  if(!data) return;
+  const dayData = data.days.find(function(d){ return d.day === dayNum; });
+  if(!dayData) return;
+
+  document.getElementById('dayModalTitle').innerHTML = 'Day ' + dayNum + ' - <span>' + dayData.date + '</span>';
+
+  const container = document.getElementById('dayPhotoList');
+  container.innerHTML = '';
+
+  const photos = dayData.photos || [];
+  if(!photos.length){
+    container.innerHTML = '<div style="text-align:center;padding:30px;color:#bbb;font-size:13px;">No photo records for this day.</div>';
+  } else {
+    photos.forEach(function(p){
+      const card = document.createElement('div');
+      card.className = 'day-photo-card';
+      card.innerHTML = '<div class="day-photo-img"><i class="fa-solid fa-image"></i></div>';
+      container.appendChild(card);
+    });
+  }
+
+  document.getElementById('dayModal').classList.add('show');
+}
+
+function closeDayModal(){
+  document.getElementById('dayModal').classList.remove('show');
+}
+
+// Close modals on overlay click
+['viewModal','arModal','dayModal'].forEach(function(id){
+  document.getElementById(id).addEventListener('click', function(e){
+    if(e.target === this) this.classList.remove('show');
+  });
+});
+
+// Escape key closes topmost modal
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){
+    if(document.getElementById('dayModal').classList.contains('show')) closeDayModal();
+    else if(document.getElementById('arModal').classList.contains('show')) closeArModal();
+    else if(document.getElementById('viewModal').classList.contains('show')) closeViewModal();
+  }
+});
+
+function exportCSV(){
+  const table = document.querySelector('.data-table');
+  if(!table){ alert('No data to export.'); return; }
+  const rows = [];
+  table.querySelectorAll('tr').forEach(row => {
+    const cols = [...row.querySelectorAll('th, td')].map(c => '"' + c.innerText.replace(/"/g,'""') + '"');
+    rows.push(cols.join(','));
+  });
+  const blob = new Blob([rows.join('\n')], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'my_assignment.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Toast & Confirm
+function showToast(msg, type){
+  var container = document.getElementById('toastContainer');
+  var icons = { success:'fa-circle-check', error:'fa-circle-xmark', info:'fa-circle-info', warning:'fa-triangle-exclamation' };
+  var icon = icons[type] || icons.info;
+  var t = document.createElement('div');
+  t.className = 'toast ' + (type||'info');
+  t.innerHTML = '<i class="fa-solid '+icon+'"></i><span>'+msg+'</span><button class="toast-close" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>';
+  container.appendChild(t);
+  setTimeout(function(){ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(function(){ t.remove(); },300); }, 4000);
+}
+function openConfirmModal(){ document.getElementById('confirmModal').classList.add('show'); }
+function closeConfirmModal(){ document.getElementById('confirmModal').classList.remove('show'); }
+document.getElementById('confirmModal').addEventListener('click', function(e){ if(e.target===this) closeConfirmModal(); });
+function showConfirm(title, text, iconClass, btnText, onConfirm){
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmText').textContent = text;
+  document.getElementById('confirmIcon').className = 'confirm-icon ' + iconClass;
+  var actionBtn = document.getElementById('confirmActionBtn');
+  actionBtn.textContent = btnText;
+  actionBtn.onclick = function(){ closeConfirmModal(); onConfirm(); };
+  openConfirmModal();
+}
+</script>
+
+</body>
+</html>
+
+
+
