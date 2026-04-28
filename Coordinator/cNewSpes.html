@@ -2833,7 +2833,7 @@ html {
     </div>
     <div class="modal-footer">
       <button class="btn-secondary" onclick="closeAddApplicantModal()">CANCEL</button>
-      <button class="btn-primary" onclick="submitApplicant()">ADD APPLICANT</button>
+      <button class="btn-primary" id="submitApplicantBtn" onclick="submitApplicant()">ADD APPLICANT</button>
     </div>
   </div>
 </div>
@@ -3869,6 +3869,7 @@ function closeAddApplicantModal(){
   if(modal) modal.classList.remove('show');
   document.getElementById('addApplicantForm').reset();
   updateModalFullAddress();
+  updateSubmitApplicantState();
 }
 
 function closeAddApplicantModalOnBackdrop(event){
@@ -4131,10 +4132,27 @@ function viewPDF(fileName){
 // Auto-calculate age from date of birth in modal
 const modalDob = document.getElementById('modalDob');
 const modalAge = document.getElementById('modalAge');
+const submitApplicantBtn = document.getElementById('submitApplicantBtn');
+
+function isModalAgeValid(){
+  const age = parseInt((modalAge && modalAge.value) || '', 10);
+  return Number.isFinite(age) && age >= 17 && age <= 30;
+}
+
+function updateSubmitApplicantState(){
+  if(!submitApplicantBtn) return;
+  const hasDob = !!(modalDob && modalDob.value);
+  const shouldDisable = hasDob && !isModalAgeValid();
+  submitApplicantBtn.disabled = shouldDisable;
+  submitApplicantBtn.style.opacity = shouldDisable ? '0.6' : '';
+  submitApplicantBtn.style.cursor = shouldDisable ? 'not-allowed' : '';
+}
+
 if(modalDob && modalAge){
   modalDob.addEventListener('change', function(){
     if(!this.value){
       modalAge.value = '';
+      updateSubmitApplicantState();
       return;
     }
     const dob = new Date(this.value);
@@ -4149,11 +4167,25 @@ if(modalDob && modalAge){
     } else {
       modalAge.value = '';
     }
+
+    updateSubmitApplicantState();
+    if(modalAge.value !== '' && !isModalAgeValid()){
+      showToast('The age entered is not valid for requirements. Allowed age is 17 to 30.', 'warning');
+    }
   });
 }
 
+updateSubmitApplicantState();
+
 async function submitApplicant(){
   const form = document.getElementById('addApplicantForm');
+
+  if(!isModalAgeValid()){
+    showToast('The age entered is not valid for requirements. Allowed age is 17 to 30.', 'warning');
+    updateSubmitApplicantState();
+    return;
+  }
+
   if(!form.checkValidity()){
     form.reportValidity();
     return;
